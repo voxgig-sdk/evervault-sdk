@@ -1,0 +1,364 @@
+# Entity: payment
+
+main: kit: entity: payment: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "apple_pay"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "business"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "category_code"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "configuration"
+      req: true
+      type: "`$ARRAY`"
+    }
+    {
+      name: "created_at"
+      op: {
+        list: {
+          req: false
+          type: "`$INTEGER`"
+        }
+      }
+      req: true
+      type: "`$INTEGER`"
+    }
+    {
+      name: "data"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "default"
+      req: true
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "description"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "id"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "name"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "network_token"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "short_name"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "type"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "updated_at"
+      req: false
+      type: "`$INTEGER`"
+    }
+    {
+      name: "website"
+      req: true
+      type: "`$STRING`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "payment"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                example: 0
+                kind: "query"
+                name: "page"
+                orig: "page"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                example: 50
+                kind: "query"
+                name: "page_size"
+                orig: "page_size"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                kind: "query"
+                name: "q"
+                orig: "q"
+                reqd: false
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/payments/merchants"
+          parts: [
+            "payments"
+            "merchants"
+          ]
+          select: {
+            "$action": "merchant"
+            exist: [
+              "page"
+              "page_size"
+              "q"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          args: {
+            query: [
+              {
+                example: 0
+                kind: "query"
+                name: "page"
+                orig: "page"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                example: 50
+                kind: "query"
+                name: "page_size"
+                orig: "page_size"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/payments/acquirers"
+          parts: [
+            "payments"
+            "acquirers"
+          ]
+          select: {
+            "$action": "acquirer"
+            exist: [
+              "page"
+              "page_size"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "3ds_session_id"
+                orig: "3ds_session_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/payments/3ds-sessions/{3ds_session_id}/messages"
+          parts: [
+            "payments"
+            "3ds-sessions"
+            "{3ds_session_id}"
+            "messages"
+          ]
+          select: {
+            exist: [
+              "3ds_session_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    remove: {
+      name: "remove"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "acquirer_id"
+                orig: "acquirer_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "DELETE"
+          orig: "/payments/acquirers/{acquirer_id}"
+          parts: [
+            "payments"
+            "acquirers"
+            "{acquirer_id}"
+          ]
+          select: {
+            exist: [
+              "acquirer_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "card_id"
+                orig: "card_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "DELETE"
+          orig: "/payments/cards/{card_id}"
+          parts: [
+            "payments"
+            "cards"
+            "{card_id}"
+          ]
+          select: {
+            exist: [
+              "card_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "merchant_id"
+                orig: "merchant_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "DELETE"
+          orig: "/payments/merchants/{merchant_id}"
+          parts: [
+            "payments"
+            "merchants"
+            "{merchant_id}"
+          ]
+          select: {
+            exist: [
+              "merchant_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "network_token_id"
+                orig: "network_token_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "DELETE"
+          orig: "/payments/network-tokens/{network_token_id}"
+          parts: [
+            "payments"
+            "network-tokens"
+            "{network_token_id}"
+          ]
+          select: {
+            exist: [
+              "network_token_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "3ds_session"
+      ]
+      [
+        "acquirer"
+      ]
+      [
+        "card"
+      ]
+      [
+        "merchant"
+      ]
+      [
+        "network_token"
+      ]
+    ]
+  }
+
+
+
+}

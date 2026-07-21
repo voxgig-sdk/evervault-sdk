@@ -1,0 +1,218 @@
+# Entity: three_ds_session
+
+main: kit: entity: three_ds_session: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "access_control_server"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "acquirer"
+      op: {
+        create: {
+          req: false
+          type: "`$ANY`"
+        }
+      }
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "are"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "authentication"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "card"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "challenge"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "cre"
+      req: false
+      type: [
+        "`$ONE`"
+        [
+          "`$NULL`"
+          "`$OBJECT`"
+        ]
+      ]
+    }
+    {
+      name: "created_at"
+      req: true
+      type: "`$INTEGER`"
+    }
+    {
+      name: "cryptogram"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "customer"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "directory_server"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "eci"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "failure_reason"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "id"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "initiator"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "merchant"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "next_action"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "payment"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "preferred_version"
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "rreq"
+      req: false
+      type: [
+        "`$ONE`"
+        [
+          "`$NULL`"
+          "`$OBJECT`"
+        ]
+      ]
+    }
+    {
+      name: "status"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "three_ds_server"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "updated_at"
+      req: false
+      type: "`$INTEGER`"
+    }
+    {
+      name: "version"
+      req: true
+      type: "`$STRING`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "three_ds_session"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          method: "POST"
+          orig: "/payments/3ds-sessions"
+          parts: [
+            "payments"
+            "3ds-sessions"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "3ds_session_id"
+                orig: "3ds_session_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/payments/3ds-sessions/{3ds_session_id}"
+          parts: [
+            "payments"
+            "3ds-sessions"
+            "{3ds_session_id}"
+          ]
+          select: {
+            exist: [
+              "3ds_session_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "3ds_session"
+      ]
+    ]
+  }
+
+
+
+}

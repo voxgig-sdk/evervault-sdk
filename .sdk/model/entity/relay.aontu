@@ -1,0 +1,138 @@
+# Entity: relay
+
+main: kit: entity: relay: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "app"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "authentication"
+      req: false
+      type: [
+        "`$ONE`"
+        [
+          "`$STRING`"
+          "`$NULL`"
+        ]
+      ]
+    }
+    {
+      name: "created_at"
+      req: false
+      type: "`$INTEGER`"
+    }
+    {
+      name: "destination_domain"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "encrypt_empty_string"
+      req: false
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "evervault_domain"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "route"
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "updated_at"
+      req: false
+      type: "`$INTEGER`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "relay"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/relays/{id}"
+          parts: [
+            "relays"
+            "{id}"
+          ]
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    update: {
+      name: "update"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "PATCH"
+          orig: "/relays/{id}"
+          parts: [
+            "relays"
+            "{id}"
+          ]
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

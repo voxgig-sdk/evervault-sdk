@@ -1,0 +1,79 @@
+# Entity: card_art
+
+main: kit: entity: card_art: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "data"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "height"
+      req: true
+      type: "`$INTEGER`"
+    }
+    {
+      name: "type"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "width"
+      req: true
+      type: "`$INTEGER`"
+    }
+  ]
+
+  name: "card_art"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "network_token_id"
+                orig: "network_token_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/payments/network-tokens/{network_token_id}/card-art"
+          parts: [
+            "payments"
+            "network-tokens"
+            "{network_token_id}"
+            "card-art"
+          ]
+          select: {
+            exist: [
+              "network_token_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "network_token"
+      ]
+    ]
+  }
+
+
+
+}

@@ -1,0 +1,178 @@
+# Entity: merchant
+
+main: kit: entity: merchant: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "apple_pay"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "business"
+      op: {
+        create: {
+          req: true
+          type: "`$OBJECT`"
+        }
+      }
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "category_code"
+      op: {
+        create: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "created_at"
+      req: true
+      type: "`$INTEGER`"
+    }
+    {
+      name: "id"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "name"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "network_token"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "short_name"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "updated_at"
+      req: false
+      type: "`$INTEGER`"
+    }
+    {
+      name: "website"
+      req: true
+      type: "`$STRING`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "merchant"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          method: "POST"
+          orig: "/payments/merchants"
+          parts: [
+            "payments"
+            "merchants"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "merchant_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/payments/merchants/{merchant_id}"
+          parts: [
+            "payments"
+            "merchants"
+            "{id}"
+          ]
+          rename: {
+            param: {
+              merchant_id: "id"
+            }
+          }
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    update: {
+      name: "update"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "merchant_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "PATCH"
+          orig: "/payments/merchants/{merchant_id}"
+          parts: [
+            "payments"
+            "merchants"
+            "{id}"
+          ]
+          rename: {
+            param: {
+              merchant_id: "id"
+            }
+          }
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

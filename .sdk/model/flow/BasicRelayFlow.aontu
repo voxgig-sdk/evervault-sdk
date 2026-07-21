@@ -1,0 +1,51 @@
+# BasicRelayFlow
+
+main: kit: flow: BasicRelayFlow:
+{
+  entity: "relay",
+  kind: "basic",
+  name: "BasicRelayFlow",
+  step: [
+    {
+      input: {
+        ref: "relay_ref01",
+        srcdatavar: "relay_ref01_data",
+        suffix: "_up0",
+        textfield: "app"
+      }
+
+      op: "update",
+      spec: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-relay_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      input: {
+        ref: "relay_ref01",
+        srcdatavar: "relay_ref01_data",
+        suffix: "_dt0"
+      }
+
+      match: {
+        id: "relay01"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-relay_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicRelayFlow"
+}

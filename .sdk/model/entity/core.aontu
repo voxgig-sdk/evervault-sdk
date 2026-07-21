@@ -1,0 +1,317 @@
+# Entity: core
+
+main: kit: entity: core: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "app"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "authentication"
+      req: false
+      type: [
+        "`$ONE`"
+        [
+          "`$STRING`"
+          "`$NULL`"
+        ]
+      ]
+    }
+    {
+      name: "category"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "created_at"
+      req: false
+      type: "`$INTEGER`"
+    }
+    {
+      name: "custom_domain"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "destination_domain"
+      op: {
+        list: {
+          req: false
+          type: "`$STRING`"
+        }
+      }
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "encrypt_empty_string"
+      req: false
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "encrypted_at"
+      req: false
+      type: "`$INTEGER`"
+    }
+    {
+      name: "evervault_domain"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "fingerprint"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "metadata"
+      req: false
+      type: "`$ANY`"
+    }
+    {
+      name: "phone_number"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "relay"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "role"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "route"
+      op: {
+        list: {
+          req: false
+          type: "`$ARRAY`"
+        }
+      }
+      req: true
+      type: "`$ARRAY`"
+    }
+    {
+      name: "status"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "token"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "type"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "updated_at"
+      req: false
+      type: "`$INTEGER`"
+    }
+    {
+      name: "validation_record"
+      req: false
+      type: "`$STRING`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "core"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          method: "POST"
+          orig: "/decrypt"
+          parts: [
+            "decrypt"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          method: "POST"
+          orig: "/encrypt"
+          parts: [
+            "encrypt"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          method: "POST"
+          orig: "/inspect"
+          parts: [
+            "inspect"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          method: "POST"
+          orig: "/relays"
+          parts: [
+            "relays"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "relay_id"
+                orig: "relay_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/relays/{relay_id}/custom-domains"
+          parts: [
+            "relays"
+            "{relay_id}"
+            "custom-domains"
+          ]
+          select: {
+            exist: [
+              "relay_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          method: "GET"
+          orig: "/relays"
+          parts: [
+            "relays"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    remove: {
+      name: "remove"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "id"
+                reqd: true
+                type: "`$STRING`"
+              }
+              {
+                kind: "param"
+                name: "relay_id"
+                orig: "relay_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "DELETE"
+          orig: "/relays/{relay_id}/custom-domains/{id}"
+          parts: [
+            "relays"
+            "{relay_id}"
+            "custom-domains"
+            "{id}"
+          ]
+          select: {
+            exist: [
+              "id"
+              "relay_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "DELETE"
+          orig: "/relays/{id}"
+          parts: [
+            "relays"
+            "{id}"
+          ]
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "relay"
+      ]
+    ]
+  }
+
+
+
+}

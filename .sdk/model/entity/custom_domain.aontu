@@ -1,0 +1,147 @@
+# Entity: custom_domain
+
+main: kit: entity: custom_domain: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "created_at"
+      req: false
+      type: "`$INTEGER`"
+    }
+    {
+      name: "custom_domain"
+      op: {
+        create: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "relay"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "status"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "updated_at"
+      req: false
+      type: "`$INTEGER`"
+    }
+    {
+      name: "validation_record"
+      req: false
+      type: "`$STRING`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "custom_domain"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "relay_id"
+                orig: "relay_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "POST"
+          orig: "/relays/{relay_id}/custom-domains"
+          parts: [
+            "relays"
+            "{relay_id}"
+            "custom-domains"
+          ]
+          select: {
+            exist: [
+              "relay_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "id"
+                reqd: true
+                type: "`$STRING`"
+              }
+              {
+                kind: "param"
+                name: "relay_id"
+                orig: "relay_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/relays/{relay_id}/custom-domains/{id}"
+          parts: [
+            "relays"
+            "{relay_id}"
+            "custom-domains"
+            "{id}"
+          ]
+          select: {
+            exist: [
+              "id"
+              "relay_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "relay"
+      ]
+    ]
+  }
+
+
+
+}

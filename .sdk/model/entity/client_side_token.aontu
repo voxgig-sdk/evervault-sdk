@@ -1,0 +1,47 @@
+# Entity: client_side_token
+
+main: kit: entity: client_side_token: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "action"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "expiry"
+      req: false
+      type: "`$INTEGER`"
+    }
+    {
+      name: "payload"
+      req: false
+      type: "`$OBJECT`"
+    }
+  ]
+
+  name: "client_side_token"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          method: "POST"
+          orig: "/client-side-tokens"
+          parts: [
+            "client-side-tokens"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

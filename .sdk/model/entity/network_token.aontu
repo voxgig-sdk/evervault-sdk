@@ -1,0 +1,173 @@
+# Entity: network_token
+
+main: kit: entity: network_token: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "card"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "created_at"
+      req: true
+      type: "`$INTEGER`"
+    }
+    {
+      name: "expiry"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "id"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "merchant"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "number"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "payment_account_reference"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "status"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "token_requestor_identifier"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "token_service_provider"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "update_type"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "updated_at"
+      req: false
+      type: "`$INTEGER`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "network_token"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "network_token_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "POST"
+          orig: "/payments/network-tokens/{network_token_id}/simulate"
+          parts: [
+            "payments"
+            "network-tokens"
+            "{id}"
+            "simulate"
+          ]
+          rename: {
+            param: {
+              network_token_id: "id"
+            }
+          }
+          select: {
+            "$action": "simulate"
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          method: "POST"
+          orig: "/payments/network-tokens"
+          parts: [
+            "payments"
+            "network-tokens"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "network_token_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/payments/network-tokens/{network_token_id}"
+          parts: [
+            "payments"
+            "network-tokens"
+            "{id}"
+          ]
+          rename: {
+            param: {
+              network_token_id: "id"
+            }
+          }
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

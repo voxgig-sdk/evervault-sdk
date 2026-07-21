@@ -1,0 +1,136 @@
+# Entity: webhook_endpoint
+
+main: kit: entity: webhook_endpoint: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "created_at"
+      req: false
+      type: "`$INTEGER`"
+    }
+    {
+      name: "event"
+      op: {
+        update: {
+          req: true
+          type: "`$ARRAY`"
+        }
+      }
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "updated_at"
+      req: false
+      type: [
+        "`$ONE`"
+        [
+          "`$INTEGER`"
+          "`$NULL`"
+        ]
+      ]
+    }
+    {
+      name: "url"
+      req: false
+      type: "`$STRING`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "webhook_endpoint"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                example: "webhook_endpoint_eead1d640d7c"
+                kind: "param"
+                name: "id"
+                orig: "webhook_endpoint_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/webhook-endpoints/{webhook_endpoint_id}"
+          parts: [
+            "webhook-endpoints"
+            "{id}"
+          ]
+          rename: {
+            param: {
+              webhook_endpoint_id: "id"
+            }
+          }
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    update: {
+      name: "update"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                example: "webhook_endpoint_eead1d640d7c"
+                kind: "param"
+                name: "id"
+                orig: "webhook_endpoint_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "PATCH"
+          orig: "/webhook-endpoints/{webhook_endpoint_id}"
+          parts: [
+            "webhook-endpoints"
+            "{id}"
+          ]
+          rename: {
+            param: {
+              webhook_endpoint_id: "id"
+            }
+          }
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

@@ -1,0 +1,65 @@
+{
+  "existing": {
+    "network_token": {
+      "NETWORK_TOKEN00": {
+        "card": {},
+        "created_at": "s79",
+        "expiry": {},
+        "id": "NETWORK_TOKEN00",
+        "merchant": "s7c",
+        "number": "s7d",
+        "payment_account_reference": "s7e",
+        "status": "s7f",
+        "token_requestor_identifier": "s80",
+        "token_service_provider": "s81",
+        "update_type": "s82",
+        "updated_at": "s83"
+      },
+      "NETWORK_TOKEN01": {
+        "card": {},
+        "created_at": "sf1",
+        "expiry": {},
+        "id": "NETWORK_TOKEN01",
+        "merchant": "sf4",
+        "number": "sf5",
+        "payment_account_reference": "sf6",
+        "status": "sf7",
+        "token_requestor_identifier": "sf8",
+        "token_service_provider": "sf9",
+        "update_type": "sfa",
+        "updated_at": "sfb"
+      },
+      "NETWORK_TOKEN02": {
+        "card": {},
+        "created_at": "s169",
+        "expiry": {},
+        "id": "NETWORK_TOKEN02",
+        "merchant": "s16c",
+        "number": "s16d",
+        "payment_account_reference": "s16e",
+        "status": "s16f",
+        "token_requestor_identifier": "s170",
+        "token_service_provider": "s171",
+        "update_type": "s172",
+        "updated_at": "s173"
+      }
+    }
+  },
+  "new": {
+    "network_token": {
+      "network_token_ref01": {
+        "card": {},
+        "created_at": "s1e1",
+        "expiry": {},
+        "merchant": "s1e4",
+        "number": "s1e5",
+        "payment_account_reference": "s1e6",
+        "status": "s1e7",
+        "token_requestor_identifier": "s1e8",
+        "token_service_provider": "s1e9",
+        "update_type": "s1ea",
+        "updated_at": "s1eb"
+      }
+    }
+  }
+}

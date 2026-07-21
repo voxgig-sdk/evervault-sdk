@@ -1,0 +1,53 @@
+{
+  "existing": {
+    "relay": {
+      "RELAY00": {
+        "app": "s5a",
+        "authentication": "s5b",
+        "created_at": "s5c",
+        "destination_domain": "s5d",
+        "encrypt_empty_string": true,
+        "evervault_domain": "s5f",
+        "id": "RELAY00",
+        "route": [],
+        "updated_at": "s62"
+      },
+      "RELAY01": {
+        "app": "sb4",
+        "authentication": "sb5",
+        "created_at": "sb6",
+        "destination_domain": "sb7",
+        "encrypt_empty_string": true,
+        "evervault_domain": "sb9",
+        "id": "RELAY01",
+        "route": [],
+        "updated_at": "sbc"
+      },
+      "RELAY02": {
+        "app": "s10e",
+        "authentication": "s10f",
+        "created_at": "s110",
+        "destination_domain": "s111",
+        "encrypt_empty_string": true,
+        "evervault_domain": "s113",
+        "id": "RELAY02",
+        "route": [],
+        "updated_at": "s116"
+      }
+    }
+  },
+  "new": {
+    "relay": {
+      "relay_ref01": {
+        "app": "s168",
+        "authentication": "s169",
+        "created_at": "s16a",
+        "destination_domain": "s16b",
+        "encrypt_empty_string": true,
+        "evervault_domain": "s16d",
+        "route": [],
+        "updated_at": "s170"
+      }
+    }
+  }
+}

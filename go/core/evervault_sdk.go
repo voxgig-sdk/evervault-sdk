@@ -1,0 +1,401 @@
+package core
+
+import (
+	"fmt"
+
+	vs "github.com/voxgig-sdk/evervault-sdk/go/utility/struct"
+)
+
+type EvervaultSDK struct {
+	Mode     string
+	options  map[string]any
+	utility  *Utility
+	Features []Feature
+	rootctx  *Context
+}
+
+func NewEvervaultSDK(options map[string]any) *EvervaultSDK {
+	sdk := &EvervaultSDK{
+		Mode:     "live",
+		Features: []Feature{},
+	}
+
+	sdk.utility = NewUtility()
+
+	config := MakeConfig()
+
+	sdk.rootctx = sdk.utility.MakeContext(map[string]any{
+		"client":  sdk,
+		"utility": sdk.utility,
+		"config":  config,
+		"options": options,
+		"shared":  map[string]any{},
+	}, nil)
+
+	sdk.options = sdk.utility.MakeOptions(sdk.rootctx)
+
+	if vs.GetPath([]any{"feature", "test", "active"}, sdk.options) == true {
+		sdk.Mode = "test"
+	}
+
+	sdk.rootctx.Options = sdk.options
+
+	// Add features in the resolved order (MakeOptions puts an explicit array
+	// order first, else defaults to test-first). Ordering matters: the `test`
+	// feature installs the base mock transport and the transport features
+	// (retry/cache/netsim/proxy/ratelimit) wrap whatever is current, so `test`
+	// must be added before them to sit at the base of the chain.
+	featureOpts := ToMapAny(vs.GetProp(sdk.options, "feature"))
+	if featureOpts != nil {
+		if fo, ok := vs.GetPath([]any{"__derived__", "featureorder"}, sdk.options).([]any); ok {
+			for _, n := range fo {
+				fname, _ := n.(string)
+				fopts := ToMapAny(featureOpts[fname])
+				if fopts != nil {
+					if active, ok := fopts["active"]; ok {
+						if ab, ok := active.(bool); ok && ab {
+							sdk.utility.FeatureAdd(sdk.rootctx, makeFeature(fname))
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// Add extension features.
+	if extend := vs.GetProp(sdk.options, "extend"); extend != nil {
+		if extList, ok := extend.([]any); ok {
+			for _, f := range extList {
+				if feat, ok := f.(Feature); ok {
+					sdk.utility.FeatureAdd(sdk.rootctx, feat)
+				}
+			}
+		}
+	}
+
+	// Initialize features.
+	for _, f := range sdk.Features {
+		sdk.utility.FeatureInit(sdk.rootctx, f)
+	}
+
+	sdk.utility.FeatureHook(sdk.rootctx, "PostConstruct")
+
+	return sdk
+}
+
+func (sdk *EvervaultSDK) OptionsMap() map[string]any {
+	out := vs.Clone(sdk.options)
+	if om, ok := out.(map[string]any); ok {
+		return om
+	}
+	return map[string]any{}
+}
+
+func (sdk *EvervaultSDK) GetUtility() *Utility {
+	return CopyUtility(sdk.utility)
+}
+
+func (sdk *EvervaultSDK) GetRootCtx() *Context {
+	return sdk.rootctx
+}
+
+func (sdk *EvervaultSDK) Prepare(fetchargs map[string]any) (map[string]any, error) {
+	utility := sdk.utility
+
+	if fetchargs == nil {
+		fetchargs = map[string]any{}
+	}
+
+	var ctrl map[string]any
+	if c := vs.GetProp(fetchargs, "ctrl"); c != nil {
+		if cm, ok := c.(map[string]any); ok {
+			ctrl = cm
+		}
+	}
+	if ctrl == nil {
+		ctrl = map[string]any{}
+	}
+
+	ctx := utility.MakeContext(map[string]any{
+		"opname": "prepare",
+		"ctrl":   ctrl,
+	}, sdk.rootctx)
+
+	options := sdk.options
+
+	path, _ := vs.GetProp(fetchargs, "path").(string)
+	method, _ := vs.GetProp(fetchargs, "method").(string)
+	if method == "" {
+		method = "GET"
+	}
+
+	params := ToMapAny(vs.GetProp(fetchargs, "params"))
+	if params == nil {
+		params = map[string]any{}
+	}
+	query := ToMapAny(vs.GetProp(fetchargs, "query"))
+	if query == nil {
+		query = map[string]any{}
+	}
+
+	headers := utility.PrepareHeaders(ctx)
+
+	base, _ := vs.GetProp(options, "base").(string)
+	prefix, _ := vs.GetProp(options, "prefix").(string)
+	suffix, _ := vs.GetProp(options, "suffix").(string)
+
+	ctx.Spec = NewSpec(map[string]any{
+		"base":    base,
+		"prefix":  prefix,
+		"suffix":  suffix,
+		"path":    path,
+		"method":  method,
+		"params":  params,
+		"query":   query,
+		"headers": headers,
+		"body":    vs.GetProp(fetchargs, "body"),
+		"step":    "start",
+	})
+
+	// Merge user-provided headers.
+	if uh := vs.GetProp(fetchargs, "headers"); uh != nil {
+		if uhm, ok := uh.(map[string]any); ok {
+			for k, v := range uhm {
+				ctx.Spec.Headers[k] = v
+			}
+		}
+	}
+
+	_, err := utility.PrepareAuth(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return utility.MakeFetchDef(ctx)
+}
+
+func (sdk *EvervaultSDK) Direct(fetchargs map[string]any) (map[string]any, error) {
+	utility := sdk.utility
+
+	fetchdef, err := sdk.Prepare(fetchargs)
+	if err != nil {
+		return map[string]any{"ok": false, "err": err}, nil
+	}
+
+	if fetchargs == nil {
+		fetchargs = map[string]any{}
+	}
+
+	var ctrl map[string]any
+	if c := vs.GetProp(fetchargs, "ctrl"); c != nil {
+		if cm, ok := c.(map[string]any); ok {
+			ctrl = cm
+		}
+	}
+	if ctrl == nil {
+		ctrl = map[string]any{}
+	}
+
+	ctx := utility.MakeContext(map[string]any{
+		"opname": "direct",
+		"ctrl":   ctrl,
+	}, sdk.rootctx)
+
+	url, _ := fetchdef["url"].(string)
+	fetched, fetchErr := utility.Fetcher(ctx, url, fetchdef)
+
+	if fetchErr != nil {
+		return map[string]any{"ok": false, "err": fetchErr}, nil
+	}
+
+	if fetched == nil {
+		return map[string]any{
+			"ok":  false,
+			"err": ctx.MakeError("direct_no_response", "response: undefined"),
+		}, nil
+	}
+
+	if fm, ok := fetched.(map[string]any); ok {
+		status := ToInt(vs.GetProp(fm, "status"))
+		headers := vs.GetProp(fm, "headers")
+
+		// No-body responses (204, 304) and explicit zero content-length
+		// must skip JSON parsing — calling json() on an empty body errors.
+		var contentLength string
+		if hm, ok := headers.(map[string]any); ok {
+			if cl, ok := hm["content-length"]; ok {
+				contentLength = fmt.Sprintf("%v", cl)
+			}
+		}
+		noBody := status == 204 || status == 304 || contentLength == "0"
+
+		var jsonData any
+		if !noBody {
+			if jf := vs.GetProp(fm, "json"); jf != nil {
+				if f, ok := jf.(func() any); ok {
+					// f() returns nil on parse error in our fetcher.
+					jsonData = f()
+				}
+			}
+		}
+
+		return map[string]any{
+			"ok":      status >= 200 && status < 300,
+			"status":  status,
+			"headers": headers,
+			"data":    jsonData,
+		}, nil
+	}
+
+	return map[string]any{"ok": false, "err": ctx.MakeError("direct_invalid", "invalid response type")}, nil
+}
+
+
+// Acquirer returns a Acquirer entity bound to this client.
+// Idiomatic usage: client.Acquirer(nil).List(nil, nil) or
+// client.Acquirer(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *EvervaultSDK) Acquirer(data map[string]any) EvervaultEntity {
+	return NewAcquirerEntityFunc(sdk, data)
+}
+
+
+// BinLookup returns a BinLookup entity bound to this client.
+// Idiomatic usage: client.BinLookup(nil).List(nil, nil) or
+// client.BinLookup(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *EvervaultSDK) BinLookup(data map[string]any) EvervaultEntity {
+	return NewBinLookupEntityFunc(sdk, data)
+}
+
+
+// Card returns a Card entity bound to this client.
+// Idiomatic usage: client.Card(nil).List(nil, nil) or
+// client.Card(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *EvervaultSDK) Card(data map[string]any) EvervaultEntity {
+	return NewCardEntityFunc(sdk, data)
+}
+
+
+// CardArt returns a CardArt entity bound to this client.
+// Idiomatic usage: client.CardArt(nil).List(nil, nil) or
+// client.CardArt(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *EvervaultSDK) CardArt(data map[string]any) EvervaultEntity {
+	return NewCardArtEntityFunc(sdk, data)
+}
+
+
+// ClientSideToken returns a ClientSideToken entity bound to this client.
+// Idiomatic usage: client.ClientSideToken(nil).List(nil, nil) or
+// client.ClientSideToken(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *EvervaultSDK) ClientSideToken(data map[string]any) EvervaultEntity {
+	return NewClientSideTokenEntityFunc(sdk, data)
+}
+
+
+// Core returns a Core entity bound to this client.
+// Idiomatic usage: client.Core(nil).List(nil, nil) or
+// client.Core(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *EvervaultSDK) Core(data map[string]any) EvervaultEntity {
+	return NewCoreEntityFunc(sdk, data)
+}
+
+
+// CustomDomain returns a CustomDomain entity bound to this client.
+// Idiomatic usage: client.CustomDomain(nil).List(nil, nil) or
+// client.CustomDomain(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *EvervaultSDK) CustomDomain(data map[string]any) EvervaultEntity {
+	return NewCustomDomainEntityFunc(sdk, data)
+}
+
+
+// FunctionRun returns a FunctionRun entity bound to this client.
+// Idiomatic usage: client.FunctionRun(nil).List(nil, nil) or
+// client.FunctionRun(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *EvervaultSDK) FunctionRun(data map[string]any) EvervaultEntity {
+	return NewFunctionRunEntityFunc(sdk, data)
+}
+
+
+// Merchant returns a Merchant entity bound to this client.
+// Idiomatic usage: client.Merchant(nil).List(nil, nil) or
+// client.Merchant(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *EvervaultSDK) Merchant(data map[string]any) EvervaultEntity {
+	return NewMerchantEntityFunc(sdk, data)
+}
+
+
+// NetworkToken returns a NetworkToken entity bound to this client.
+// Idiomatic usage: client.NetworkToken(nil).List(nil, nil) or
+// client.NetworkToken(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *EvervaultSDK) NetworkToken(data map[string]any) EvervaultEntity {
+	return NewNetworkTokenEntityFunc(sdk, data)
+}
+
+
+// NetworkTokenCryptogram returns a NetworkTokenCryptogram entity bound to this client.
+// Idiomatic usage: client.NetworkTokenCryptogram(nil).List(nil, nil) or
+// client.NetworkTokenCryptogram(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *EvervaultSDK) NetworkTokenCryptogram(data map[string]any) EvervaultEntity {
+	return NewNetworkTokenCryptogramEntityFunc(sdk, data)
+}
+
+
+// Payment returns a Payment entity bound to this client.
+// Idiomatic usage: client.Payment(nil).List(nil, nil) or
+// client.Payment(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *EvervaultSDK) Payment(data map[string]any) EvervaultEntity {
+	return NewPaymentEntityFunc(sdk, data)
+}
+
+
+// Relay returns a Relay entity bound to this client.
+// Idiomatic usage: client.Relay(nil).List(nil, nil) or
+// client.Relay(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *EvervaultSDK) Relay(data map[string]any) EvervaultEntity {
+	return NewRelayEntityFunc(sdk, data)
+}
+
+
+// ThreeDsSession returns a ThreeDsSession entity bound to this client.
+// Idiomatic usage: client.ThreeDsSession(nil).List(nil, nil) or
+// client.ThreeDsSession(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *EvervaultSDK) ThreeDsSession(data map[string]any) EvervaultEntity {
+	return NewThreeDsSessionEntityFunc(sdk, data)
+}
+
+
+// Webhook returns a Webhook entity bound to this client.
+// Idiomatic usage: client.Webhook(nil).List(nil, nil) or
+// client.Webhook(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *EvervaultSDK) Webhook(data map[string]any) EvervaultEntity {
+	return NewWebhookEntityFunc(sdk, data)
+}
+
+
+// WebhookEndpoint returns a WebhookEndpoint entity bound to this client.
+// Idiomatic usage: client.WebhookEndpoint(nil).List(nil, nil) or
+// client.WebhookEndpoint(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *EvervaultSDK) WebhookEndpoint(data map[string]any) EvervaultEntity {
+	return NewWebhookEndpointEntityFunc(sdk, data)
+}
+
+
+
+func TestSDK(testopts map[string]any, sdkopts map[string]any) *EvervaultSDK {
+	if sdkopts == nil {
+		sdkopts = map[string]any{}
+	}
+	sdkopts = vs.Clone(sdkopts).(map[string]any)
+
+	if testopts == nil {
+		testopts = map[string]any{}
+	}
+	testopts = vs.Clone(testopts).(map[string]any)
+	testopts["active"] = true
+
+	vs.SetPath(sdkopts, []any{"feature", "test"}, testopts)
+
+	sdk := NewEvervaultSDK(sdkopts)
+	sdk.Mode = "test"
+
+	return sdk
+}

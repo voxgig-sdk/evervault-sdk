@@ -1,0 +1,40 @@
+{
+  "existing": {
+    "card_art": {
+      "CARD_ART00": {
+        "data": "s28",
+        "height": "s29",
+        "type": "s2a",
+        "width": "s2b",
+        "network_token_id": "NETWORK_TOKEN01",
+        "id": "CARD_ART00"
+      },
+      "CARD_ART01": {
+        "data": "s50",
+        "height": "s51",
+        "type": "s52",
+        "width": "s53",
+        "network_token_id": "NETWORK_TOKEN01",
+        "id": "CARD_ART01"
+      },
+      "CARD_ART02": {
+        "data": "s78",
+        "height": "s79",
+        "type": "s7a",
+        "width": "s7b",
+        "network_token_id": "NETWORK_TOKEN01",
+        "id": "CARD_ART02"
+      }
+    }
+  },
+  "new": {
+    "card_art": {
+      "card_art_ref01": {
+        "data": "sa0",
+        "height": "sa1",
+        "type": "sa2",
+        "width": "sa3"
+      }
+    }
+  }
+}

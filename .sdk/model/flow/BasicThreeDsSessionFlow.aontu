@@ -1,0 +1,40 @@
+# BasicThreeDsSessionFlow
+
+main: kit: flow: BasicThreeDsSessionFlow:
+{
+  entity: "three_ds_session",
+  kind: "basic",
+  name: "BasicThreeDsSessionFlow",
+  step: [
+    {
+      input: {
+        ref: "three_ds_session_ref01"
+      }
+
+      op: "create"
+    }
+
+    {
+      input: {
+        ref: "three_ds_session_ref01",
+        srcdatavar: "three_ds_session_ref01_data",
+        suffix: "_dt0"
+      }
+
+      match: {
+        id: "three_ds_session01"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-three_ds_session_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicThreeDsSessionFlow"
+}

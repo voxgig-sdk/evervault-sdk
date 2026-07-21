@@ -1,0 +1,57 @@
+{
+  "existing": {
+    "merchant": {
+      "MERCHANT00": {
+        "apple_pay": {},
+        "business": {},
+        "category_code": "s66",
+        "created_at": "s67",
+        "id": "MERCHANT00",
+        "name": "s69",
+        "network_token": {},
+        "short_name": "s6b",
+        "updated_at": "s6c",
+        "website": "s6d"
+      },
+      "MERCHANT01": {
+        "apple_pay": {},
+        "business": {},
+        "category_code": "sca",
+        "created_at": "scb",
+        "id": "MERCHANT01",
+        "name": "scd",
+        "network_token": {},
+        "short_name": "scf",
+        "updated_at": "sd0",
+        "website": "sd1"
+      },
+      "MERCHANT02": {
+        "apple_pay": {},
+        "business": {},
+        "category_code": "s12e",
+        "created_at": "s12f",
+        "id": "MERCHANT02",
+        "name": "s131",
+        "network_token": {},
+        "short_name": "s133",
+        "updated_at": "s134",
+        "website": "s135"
+      }
+    }
+  },
+  "new": {
+    "merchant": {
+      "merchant_ref01": {
+        "apple_pay": {},
+        "business": {},
+        "category_code": "s192",
+        "created_at": "s193",
+        "name": "s195",
+        "network_token": {},
+        "short_name": "s197",
+        "updated_at": "s198",
+        "website": "s199"
+      }
+    }
+  }
+}

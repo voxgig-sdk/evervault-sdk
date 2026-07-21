@@ -1,0 +1,237 @@
+# Entity: card
+
+main: kit: entity: card: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "address"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "automatic_update"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "bin"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "brand"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "card"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "cardholder"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "country"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "created_at"
+      req: true
+      type: "`$INTEGER`"
+    }
+    {
+      name: "currency"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "expiry"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "extension"
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "funding"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "issuer"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "last_four"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "number"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "replacement"
+      req: false
+      type: [
+        "`$ONE`"
+        [
+          "`$STRING`"
+          "`$NULL`"
+        ]
+      ]
+    }
+    {
+      name: "segment"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "status"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "updated_at"
+      req: false
+      type: [
+        "`$ONE`"
+        [
+          "`$INTEGER`"
+          "`$NULL`"
+        ]
+      ]
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "card"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "card_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "POST"
+          orig: "/payments/cards/{card_id}/simulate"
+          parts: [
+            "payments"
+            "cards"
+            "{id}"
+            "simulate"
+          ]
+          rename: {
+            param: {
+              card_id: "id"
+            }
+          }
+          select: {
+            "$action": "simulate"
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          method: "POST"
+          orig: "/insights/cards"
+          parts: [
+            "insights"
+            "cards"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          method: "POST"
+          orig: "/payments/cards"
+          parts: [
+            "payments"
+            "cards"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "card_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/payments/cards/{card_id}"
+          parts: [
+            "payments"
+            "cards"
+            "{id}"
+          ]
+          rename: {
+            param: {
+              card_id: "id"
+            }
+          }
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

@@ -1,0 +1,40 @@
+# BasicCardFlow
+
+main: kit: flow: BasicCardFlow:
+{
+  entity: "card",
+  kind: "basic",
+  name: "BasicCardFlow",
+  step: [
+    {
+      input: {
+        ref: "card_ref01"
+      }
+
+      op: "create"
+    }
+
+    {
+      input: {
+        ref: "card_ref01",
+        srcdatavar: "card_ref01_data",
+        suffix: "_dt0"
+      }
+
+      match: {
+        id: "card01"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-card_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicCardFlow"
+}

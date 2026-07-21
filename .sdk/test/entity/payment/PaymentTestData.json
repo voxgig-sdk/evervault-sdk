@@ -1,0 +1,92 @@
+{
+  "existing": {
+    "payment": {
+      "PAYMENT00": {
+        "apple_pay": {},
+        "business": {},
+        "category_code": "s98",
+        "configuration": [],
+        "created_at": "s9a",
+        "data": {},
+        "default": true,
+        "description": "s9d",
+        "id": "PAYMENT00",
+        "name": "s9f",
+        "network_token": {},
+        "short_name": "sa1",
+        "type": "sa2",
+        "updated_at": "sa3",
+        "website": "sa4",
+        "3ds_session_id": "3DS_SESSION01",
+        "acquirer_id": "ACQUIRER01",
+        "card_id": "CARD01",
+        "merchant_id": "MERCHANT01",
+        "network_token_id": "NETWORK_TOKEN01"
+      },
+      "PAYMENT01": {
+        "apple_pay": {},
+        "business": {},
+        "category_code": "s12e",
+        "configuration": [],
+        "created_at": "s130",
+        "data": {},
+        "default": true,
+        "description": "s133",
+        "id": "PAYMENT01",
+        "name": "s135",
+        "network_token": {},
+        "short_name": "s137",
+        "type": "s138",
+        "updated_at": "s139",
+        "website": "s13a",
+        "3ds_session_id": "3DS_SESSION01",
+        "acquirer_id": "ACQUIRER01",
+        "card_id": "CARD01",
+        "merchant_id": "MERCHANT01",
+        "network_token_id": "NETWORK_TOKEN01"
+      },
+      "PAYMENT02": {
+        "apple_pay": {},
+        "business": {},
+        "category_code": "s1c4",
+        "configuration": [],
+        "created_at": "s1c6",
+        "data": {},
+        "default": true,
+        "description": "s1c9",
+        "id": "PAYMENT02",
+        "name": "s1cb",
+        "network_token": {},
+        "short_name": "s1cd",
+        "type": "s1ce",
+        "updated_at": "s1cf",
+        "website": "s1d0",
+        "3ds_session_id": "3DS_SESSION01",
+        "acquirer_id": "ACQUIRER01",
+        "card_id": "CARD01",
+        "merchant_id": "MERCHANT01",
+        "network_token_id": "NETWORK_TOKEN01"
+      }
+    }
+  },
+  "new": {
+    "payment": {
+      "payment_ref01": {
+        "apple_pay": {},
+        "business": {},
+        "category_code": "s25a",
+        "configuration": [],
+        "created_at": "s25c",
+        "data": {},
+        "default": true,
+        "description": "s25f",
+        "name": "s261",
+        "network_token": {},
+        "short_name": "s263",
+        "type": "s264",
+        "updated_at": "s265",
+        "website": "s266"
+      }
+    }
+  }
+}

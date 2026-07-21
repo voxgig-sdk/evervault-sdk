@@ -1,0 +1,33 @@
+# API Information
+
+
+main: {
+  kit: {
+    info: {
+      contact: {
+        email: "support@evervault.com"
+        name: "Evervault Support Team"
+        url: "https://evervault.com"
+      }
+      description: "The Evervault API allows developers to interact programmatically with their Evervault apps using HTTP requests."
+      security: {
+        in: "header"
+        name: "Authorization"
+        prefix: "Basic"
+        scheme: "ApiKey"
+        type: "http"
+      }
+      servers: [
+        {
+          description: "The Evervault API server"
+          url: "https://api.evervault.com"
+        }
+      ]
+      summary: "The Evervault API allows developers to interact programmatically with their Evervault apps using HTTP requests."
+      title: "Evervault API"
+      version: "0.0.1"
+      website: "https://evervault.com"
+    }
+  }
+}
+

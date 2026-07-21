@@ -1,0 +1,33 @@
+{
+  "existing": {
+    "client_side_token": {
+      "CLIENT_SIDE_TOKEN00": {
+        "action": "s1e",
+        "expiry": "s1f",
+        "payload": {},
+        "id": "CLIENT_SIDE_TOKEN00"
+      },
+      "CLIENT_SIDE_TOKEN01": {
+        "action": "s3c",
+        "expiry": "s3d",
+        "payload": {},
+        "id": "CLIENT_SIDE_TOKEN01"
+      },
+      "CLIENT_SIDE_TOKEN02": {
+        "action": "s5a",
+        "expiry": "s5b",
+        "payload": {},
+        "id": "CLIENT_SIDE_TOKEN02"
+      }
+    }
+  },
+  "new": {
+    "client_side_token": {
+      "client_side_token_ref01": {
+        "action": "s78",
+        "expiry": "s79",
+        "payload": {}
+      }
+    }
+  }
+}

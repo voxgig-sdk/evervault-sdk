@@ -1,0 +1,38 @@
+# Entity: bin_lookup
+
+main: kit: entity: bin_lookup: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "number"
+      req: true
+      type: "`$STRING`"
+    }
+  ]
+
+  name: "bin_lookup"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          method: "POST"
+          orig: "/payments/bin-lookups"
+          parts: [
+            "payments"
+            "bin-lookups"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

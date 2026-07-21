@@ -1,0 +1,18 @@
+# Flows
+
+@"BasicAcquirerFlow.aontu"
+@"BasicBinLookupFlow.aontu"
+@"BasicCardArtFlow.aontu"
+@"BasicCardFlow.aontu"
+@"BasicClientSideTokenFlow.aontu"
+@"BasicCoreFlow.aontu"
+@"BasicCustomDomainFlow.aontu"
+@"BasicFunctionRunFlow.aontu"
+@"BasicMerchantFlow.aontu"
+@"BasicNetworkTokenCryptogramFlow.aontu"
+@"BasicNetworkTokenFlow.aontu"
+@"BasicPaymentFlow.aontu"
+@"BasicRelayFlow.aontu"
+@"BasicThreeDsSessionFlow.aontu"
+@"BasicWebhookEndpointFlow.aontu"
+@"BasicWebhookFlow.aontu"

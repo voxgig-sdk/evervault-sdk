@@ -1,0 +1,104 @@
+# Entity: function_run
+
+main: kit: entity: function_run: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "async"
+      req: false
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "created_at"
+      req: false
+      type: "`$INTEGER`"
+    }
+    {
+      name: "error"
+      req: false
+      type: [
+        "`$ONE`"
+        [
+          "`$OBJECT`"
+          "`$NULL`"
+        ]
+      ]
+    }
+    {
+      name: "id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "payload"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "result"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "status"
+      req: false
+      type: "`$STRING`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "function_run"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "function_name"
+                orig: "function_name"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "POST"
+          orig: "/functions/{function_name}/runs"
+          parts: [
+            "functions"
+            "{function_name}"
+            "runs"
+          ]
+          select: {
+            exist: [
+              "function_name"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "function"
+      ]
+    ]
+  }
+
+
+
+}

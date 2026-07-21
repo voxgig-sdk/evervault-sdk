@@ -1,0 +1,18 @@
+# BasicBinLookupFlow
+
+main: kit: flow: BasicBinLookupFlow:
+{
+  entity: "bin_lookup",
+  kind: "basic",
+  name: "BasicBinLookupFlow",
+  step: [
+    {
+      input: {
+        ref: "bin_lookup_ref01"
+      }
+
+      op: "create"
+    }
+  ],
+  "key$": "BasicBinLookupFlow"
+}

@@ -1,0 +1,164 @@
+# Entity: webhook
+
+main: kit: entity: webhook: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "created_at"
+      req: false
+      type: "`$INTEGER`"
+    }
+    {
+      name: "event"
+      op: {
+        list: {
+          req: false
+          type: "`$ARRAY`"
+        }
+      }
+      req: true
+      type: "`$ARRAY`"
+    }
+    {
+      name: "id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "updated_at"
+      req: false
+      type: [
+        "`$ONE`"
+        [
+          "`$INTEGER`"
+          "`$NULL`"
+        ]
+      ]
+    }
+    {
+      name: "url"
+      op: {
+        list: {
+          req: false
+          type: "`$STRING`"
+        }
+      }
+      req: true
+      type: "`$STRING`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "webhook"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          method: "POST"
+          orig: "/webhook-endpoints"
+          parts: [
+            "webhook-endpoints"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                example: 10
+                kind: "query"
+                name: "limit"
+                orig: "limit"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                example: "webhook_endpoint_wd7c640d1daee"
+                kind: "query"
+                name: "starting_after"
+                orig: "starting_after"
+                reqd: false
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/webhook-endpoints"
+          parts: [
+            "webhook-endpoints"
+          ]
+          select: {
+            exist: [
+              "limit"
+              "starting_after"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    remove: {
+      name: "remove"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                example: "webhook_endpoint_eead1d640d7c"
+                kind: "param"
+                name: "webhook_endpoint_id"
+                orig: "webhook_endpoint_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "DELETE"
+          orig: "/webhook-endpoints/{webhook_endpoint_id}"
+          parts: [
+            "webhook-endpoints"
+            "{webhook_endpoint_id}"
+          ]
+          select: {
+            exist: [
+              "webhook_endpoint_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "webhook_endpoint"
+      ]
+    ]
+  }
+
+
+
+}

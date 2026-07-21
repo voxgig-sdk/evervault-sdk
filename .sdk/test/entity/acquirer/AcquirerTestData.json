@@ -1,0 +1,37 @@
+{
+  "existing": {
+    "acquirer": {
+      "ACQUIRER00": {
+        "configuration": [],
+        "default": false,
+        "description": "s34",
+        "id": "ACQUIRER00",
+        "name": "s36"
+      },
+      "ACQUIRER01": {
+        "configuration": [],
+        "default": false,
+        "description": "s66",
+        "id": "ACQUIRER01",
+        "name": "s68"
+      },
+      "ACQUIRER02": {
+        "configuration": [],
+        "default": false,
+        "description": "s98",
+        "id": "ACQUIRER02",
+        "name": "s9a"
+      }
+    }
+  },
+  "new": {
+    "acquirer": {
+      "acquirer_ref01": {
+        "configuration": [],
+        "default": false,
+        "description": "sca",
+        "name": "scc"
+      }
+    }
+  }
+}

@@ -1,0 +1,59 @@
+# BasicAcquirerFlow
+
+main: kit: flow: BasicAcquirerFlow:
+{
+  entity: "acquirer",
+  kind: "basic",
+  name: "BasicAcquirerFlow",
+  step: [
+    {
+      input: {
+        ref: "acquirer_ref01"
+      }
+
+      op: "create"
+    }
+
+    {
+      input: {
+        ref: "acquirer_ref01",
+        srcdatavar: "acquirer_ref01_data",
+        suffix: "_up0",
+        textfield: "description"
+      }
+
+      op: "update",
+      spec: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-acquirer_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      input: {
+        ref: "acquirer_ref01",
+        srcdatavar: "acquirer_ref01_data",
+        suffix: "_dt0"
+      }
+
+      match: {
+        id: "acquirer01"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-acquirer_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicAcquirerFlow"
+}
