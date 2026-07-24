@@ -224,114 +224,146 @@ class EvervaultSDK {
 
 
   // Entity access: `client.Acquirer().list()` / `client.Acquirer().load({ id })`.
-  Acquirer(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Acquirer(entopts?: Record<string, any>) {
     const self = this
-    return new AcquirerEntity(self,data)
+    return new AcquirerEntity(self, entopts)
   }
 
 
   // Entity access: `client.BinLookup().list()` / `client.BinLookup().load({ id })`.
-  BinLookup(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  BinLookup(entopts?: Record<string, any>) {
     const self = this
-    return new BinLookupEntity(self,data)
+    return new BinLookupEntity(self, entopts)
   }
 
 
   // Entity access: `client.Card().list()` / `client.Card().load({ id })`.
-  Card(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Card(entopts?: Record<string, any>) {
     const self = this
-    return new CardEntity(self,data)
+    return new CardEntity(self, entopts)
   }
 
 
   // Entity access: `client.CardArt().list()` / `client.CardArt().load({ id })`.
-  CardArt(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  CardArt(entopts?: Record<string, any>) {
     const self = this
-    return new CardArtEntity(self,data)
+    return new CardArtEntity(self, entopts)
   }
 
 
   // Entity access: `client.ClientSideToken().list()` / `client.ClientSideToken().load({ id })`.
-  ClientSideToken(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  ClientSideToken(entopts?: Record<string, any>) {
     const self = this
-    return new ClientSideTokenEntity(self,data)
+    return new ClientSideTokenEntity(self, entopts)
   }
 
 
   // Entity access: `client.Core().list()` / `client.Core().load({ id })`.
-  Core(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Core(entopts?: Record<string, any>) {
     const self = this
-    return new CoreEntity(self,data)
+    return new CoreEntity(self, entopts)
   }
 
 
   // Entity access: `client.CustomDomain().list()` / `client.CustomDomain().load({ id })`.
-  CustomDomain(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  CustomDomain(entopts?: Record<string, any>) {
     const self = this
-    return new CustomDomainEntity(self,data)
+    return new CustomDomainEntity(self, entopts)
   }
 
 
   // Entity access: `client.FunctionRun().list()` / `client.FunctionRun().load({ id })`.
-  FunctionRun(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  FunctionRun(entopts?: Record<string, any>) {
     const self = this
-    return new FunctionRunEntity(self,data)
+    return new FunctionRunEntity(self, entopts)
   }
 
 
   // Entity access: `client.Merchant().list()` / `client.Merchant().load({ id })`.
-  Merchant(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Merchant(entopts?: Record<string, any>) {
     const self = this
-    return new MerchantEntity(self,data)
+    return new MerchantEntity(self, entopts)
   }
 
 
   // Entity access: `client.NetworkToken().list()` / `client.NetworkToken().load({ id })`.
-  NetworkToken(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  NetworkToken(entopts?: Record<string, any>) {
     const self = this
-    return new NetworkTokenEntity(self,data)
+    return new NetworkTokenEntity(self, entopts)
   }
 
 
   // Entity access: `client.NetworkTokenCryptogram().list()` / `client.NetworkTokenCryptogram().load({ id })`.
-  NetworkTokenCryptogram(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  NetworkTokenCryptogram(entopts?: Record<string, any>) {
     const self = this
-    return new NetworkTokenCryptogramEntity(self,data)
+    return new NetworkTokenCryptogramEntity(self, entopts)
   }
 
 
   // Entity access: `client.Payment().list()` / `client.Payment().load({ id })`.
-  Payment(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Payment(entopts?: Record<string, any>) {
     const self = this
-    return new PaymentEntity(self,data)
+    return new PaymentEntity(self, entopts)
   }
 
 
   // Entity access: `client.Relay().list()` / `client.Relay().load({ id })`.
-  Relay(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Relay(entopts?: Record<string, any>) {
     const self = this
-    return new RelayEntity(self,data)
+    return new RelayEntity(self, entopts)
   }
 
 
   // Entity access: `client.ThreeDsSession().list()` / `client.ThreeDsSession().load({ id })`.
-  ThreeDsSession(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  ThreeDsSession(entopts?: Record<string, any>) {
     const self = this
-    return new ThreeDsSessionEntity(self,data)
+    return new ThreeDsSessionEntity(self, entopts)
   }
 
 
   // Entity access: `client.Webhook().list()` / `client.Webhook().load({ id })`.
-  Webhook(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Webhook(entopts?: Record<string, any>) {
     const self = this
-    return new WebhookEntity(self,data)
+    return new WebhookEntity(self, entopts)
   }
 
 
   // Entity access: `client.WebhookEndpoint().list()` / `client.WebhookEndpoint().load({ id })`.
-  WebhookEndpoint(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  WebhookEndpoint(entopts?: Record<string, any>) {
     const self = this
-    return new WebhookEndpointEntity(self,data)
+    return new WebhookEndpointEntity(self, entopts)
   }
 
 

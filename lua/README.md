@@ -64,7 +64,7 @@ Entity operations return `(value, err)`. Check `err` before using
 the value:
 
 ```lua
-local acquirer, err = client:Acquirer():load({ id = "example_id" })
+local merchant, err = client:Merchant():load({ id = "example_id" })
 if err then error(err) end
 ```
 
@@ -122,7 +122,7 @@ Create a mock client for unit testing — no server required:
 ```lua
 local client = sdk.test()
 
-local result, err = client:Acquirer():load({ id = "test01" })
+local result, err = client:Merchant():load({ id = "test01" })
 -- result is the returned data; err is set on failure
 ```
 
@@ -655,10 +655,10 @@ Create an instance: `local card = client:Card(nil)`
 | `issuer` | `string` |  |
 | `last_four` | `string` |  |
 | `number` | `string` |  |
-| `replacement` | `any` |  |
+| `replacement` | `string|nil` |  |
 | `segment` | `string` |  |
 | `status` | `string` |  |
-| `updated_at` | `any` |  |
+| `updated_at` | `number|nil` |  |
 
 #### Example: Load
 
@@ -751,7 +751,7 @@ Create an instance: `local core = client:Core(nil)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `app` | `string` |  |
-| `authentication` | `any` |  |
+| `authentication` | `string|nil` |  |
 | `category` | `string` |  |
 | `created_at` | `number` |  |
 | `custom_domain` | `string` |  |
@@ -843,7 +843,7 @@ Create an instance: `local function_run = client:FunctionRun(nil)`
 | --- | --- | --- |
 | `async` | `boolean` |  |
 | `created_at` | `number` |  |
-| `error` | `any` |  |
+| `error` | `table|nil` |  |
 | `id` | `string` |  |
 | `payload` | `table` |  |
 | `result` | `table` |  |
@@ -1035,7 +1035,7 @@ Create an instance: `local relay = client:Relay(nil)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `app` | `string` |  |
-| `authentication` | `any` |  |
+| `authentication` | `string|nil` |  |
 | `created_at` | `number` |  |
 | `destination_domain` | `string` |  |
 | `encrypt_empty_string` | `boolean` |  |
@@ -1072,7 +1072,7 @@ Create an instance: `local three_ds_session = client:ThreeDsSession(nil)`
 | `authentication` | `table` |  |
 | `card` | `table` |  |
 | `challenge` | `table` |  |
-| `cre` | `any` |  |
+| `cre` | `nil|table` |  |
 | `created_at` | `number` |  |
 | `cryptogram` | `string` |  |
 | `customer` | `table` |  |
@@ -1085,7 +1085,7 @@ Create an instance: `local three_ds_session = client:ThreeDsSession(nil)`
 | `next_action` | `table` |  |
 | `payment` | `table` |  |
 | `preferred_version` | `table` |  |
-| `rreq` | `any` |  |
+| `rreq` | `nil|table` |  |
 | `status` | `string` |  |
 | `three_ds_server` | `table` |  |
 | `updated_at` | `number` |  |
@@ -1134,7 +1134,7 @@ Create an instance: `local webhook = client:Webhook(nil)`
 | `created_at` | `number` |  |
 | `event` | `table` |  |
 | `id` | `string` |  |
-| `updated_at` | `any` |  |
+| `updated_at` | `number|nil` |  |
 | `url` | `string` |  |
 
 #### Example: List
@@ -1171,7 +1171,7 @@ Create an instance: `local webhook_endpoint = client:WebhookEndpoint(nil)`
 | `created_at` | `number` |  |
 | `event` | `table` |  |
 | `id` | `string` |  |
-| `updated_at` | `any` |  |
+| `updated_at` | `number|nil` |  |
 | `url` | `string` |  |
 
 #### Example: Load
@@ -1257,11 +1257,11 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```lua
-local acquirer = client:Acquirer()
-acquirer:load({ id = "example_id" })
+local merchant = client:Merchant()
+merchant:load({ id = "example_id" })
 
--- acquirer:data_get() now returns the acquirer data from the last load
--- acquirer:match_get() returns the last match criteria
+-- merchant:data_get() now returns the merchant data from the last load
+-- merchant:match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

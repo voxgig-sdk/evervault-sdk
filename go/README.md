@@ -83,12 +83,12 @@ Every entity operation returns `(value, error)`. Check `err` before
 using the value — there is no exception to catch:
 
 ```go
-acquirer, err := client.Acquirer(nil).Load(map[string]any{"id": "example_id"}, nil)
+merchant, err := client.Merchant(nil).Load(map[string]any{"id": "example_id"}, nil)
 if err != nil {
     // handle err
     return
 }
-_ = acquirer
+_ = merchant
 ```
 
 `Direct` follows the same `(value, error)` convention:
@@ -152,13 +152,13 @@ Create a mock client for unit testing — no server required:
 ```go
 client := sdk.Test()
 
-acquirer, err := client.Acquirer(nil).Load(
+merchant, err := client.Merchant(nil).Load(
     map[string]any{"id": "test01"}, nil,
 )
 if err != nil {
     panic(err)
 }
-fmt.Println(acquirer) // the returned mock data
+fmt.Println(merchant) // the returned mock data
 ```
 
 ### Use a custom fetch function
@@ -1384,11 +1384,11 @@ Entity instances are stateful. After a successful `Load`, the entity
 stores the returned data and match criteria internally.
 
 ```go
-acquirer := client.Acquirer(nil)
-acquirer.Load(map[string]any{"id": "example_id"}, nil)
+merchant := client.Merchant(nil)
+merchant.Load(map[string]any{"id": "example_id"}, nil)
 
-// acquirer.Data() now returns the acquirer data from the last load
-// acquirer.Match() returns the last match criteria
+// merchant.Data() now returns the merchant data from the last load
+// merchant.Match() returns the last match criteria
 ```
 
 Call `Make()` to create a fresh instance with the same configuration

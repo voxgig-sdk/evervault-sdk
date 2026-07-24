@@ -76,8 +76,8 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const acquirer = await client.Acquirer().load({ id: "example_id" })
-  console.log(acquirer)
+  const merchant = await client.Merchant().load({ id: "example_id" })
+  console.log(merchant)
 } catch (err) {
   console.error('load failed:', err)
 }
@@ -143,9 +143,9 @@ Create a mock client for unit testing — no server required:
 ```ts
 const client = EvervaultSDK.test()
 
-const acquirer = await client.Acquirer().load({ id: 'test01' })
-// acquirer is a bare entity populated with mock response data
-console.log(acquirer)
+const merchant = await client.Merchant().load({ id: 'test01' })
+// merchant is a bare entity populated with mock response data
+console.log(merchant)
 ```
 
 You can also use the instance method:
@@ -160,7 +160,7 @@ const testClient = client.tester()
 Entity instances remember their last match and data:
 
 ```ts
-const entity = client.Acquirer()
+const entity = client.Merchant()
 
 // First call runs the operation and stores its result
 await entity.load({ id: 'example' })
@@ -725,10 +725,10 @@ Create an instance: `const card = client.Card()`
 | `issuer` | `string` |  |
 | `last_four` | `string` |  |
 | `number` | `string` |  |
-| `replacement` | `any` |  |
+| `replacement` | `string | null` |  |
 | `segment` | `string` |  |
 | `status` | `string` |  |
-| `updated_at` | `any` |  |
+| `updated_at` | `number | null` |  |
 
 #### Example: Load
 
@@ -821,7 +821,7 @@ Create an instance: `const core = client.Core()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `app` | `string` |  |
-| `authentication` | `any` |  |
+| `authentication` | `string | null` |  |
 | `category` | `string` |  |
 | `created_at` | `number` |  |
 | `custom_domain` | `string` |  |
@@ -913,7 +913,7 @@ Create an instance: `const function_run = client.FunctionRun()`
 | --- | --- | --- |
 | `async` | `boolean` |  |
 | `created_at` | `number` |  |
-| `error` | `any` |  |
+| `error` | `Record<string, any> | null` |  |
 | `id` | `string` |  |
 | `payload` | `Record<string, any>` |  |
 | `result` | `Record<string, any>` |  |
@@ -1105,7 +1105,7 @@ Create an instance: `const relay = client.Relay()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `app` | `string` |  |
-| `authentication` | `any` |  |
+| `authentication` | `string | null` |  |
 | `created_at` | `number` |  |
 | `destination_domain` | `string` |  |
 | `encrypt_empty_string` | `boolean` |  |
@@ -1142,7 +1142,7 @@ Create an instance: `const three_ds_session = client.ThreeDsSession()`
 | `authentication` | `Record<string, any>` |  |
 | `card` | `Record<string, any>` |  |
 | `challenge` | `Record<string, any>` |  |
-| `cre` | `any` |  |
+| `cre` | `null | Record<string, any>` |  |
 | `created_at` | `number` |  |
 | `cryptogram` | `string` |  |
 | `customer` | `Record<string, any>` |  |
@@ -1155,7 +1155,7 @@ Create an instance: `const three_ds_session = client.ThreeDsSession()`
 | `next_action` | `Record<string, any>` |  |
 | `payment` | `Record<string, any>` |  |
 | `preferred_version` | `any[]` |  |
-| `rreq` | `any` |  |
+| `rreq` | `null | Record<string, any>` |  |
 | `status` | `string` |  |
 | `three_ds_server` | `Record<string, any>` |  |
 | `updated_at` | `number` |  |
@@ -1204,7 +1204,7 @@ Create an instance: `const webhook = client.Webhook()`
 | `created_at` | `number` |  |
 | `event` | `any[]` |  |
 | `id` | `string` |  |
-| `updated_at` | `any` |  |
+| `updated_at` | `number | null` |  |
 | `url` | `string` |  |
 
 #### Example: List
@@ -1241,7 +1241,7 @@ Create an instance: `const webhook_endpoint = client.WebhookEndpoint()`
 | `created_at` | `number` |  |
 | `event` | `any[]` |  |
 | `id` | `string` |  |
-| `updated_at` | `any` |  |
+| `updated_at` | `number | null` |  |
 | `url` | `string` |  |
 
 #### Example: Load
@@ -1320,11 +1320,11 @@ stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const acquirer = client.Acquirer()
-await acquirer.load({ id: "example_id" })
+const merchant = client.Merchant()
+await merchant.load({ id: "example_id" })
 
-// acquirer.data() now returns the acquirer data from the last `load`
-// acquirer.match() returns { id: "example_id" }
+// merchant.data() now returns the merchant data from the last `load`
+// merchant.match() returns { id: "example_id" }
 ```
 
 Call `make()` to create a fresh instance with the same configuration

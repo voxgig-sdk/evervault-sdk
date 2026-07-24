@@ -453,10 +453,10 @@ const card = client.Card()
 | `issuer` | `string` | No |  |
 | `last_four` | `string` | Yes |  |
 | `number` | `string` | Yes |  |
-| `replacement` | `any` | No |  |
+| `replacement` | `string | null` | No |  |
 | `segment` | `string` | No |  |
 | `status` | `string` | No |  |
-| `updated_at` | `any` | No |  |
+| `updated_at` | `number | null` | No |  |
 
 ### Operations
 
@@ -630,7 +630,7 @@ const core = client.Core()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `app` | `string` | No |  |
-| `authentication` | `any` | No |  |
+| `authentication` | `string | null` | No |  |
 | `category` | `string` | No |  |
 | `created_at` | `number` | No |  |
 | `custom_domain` | `string` | No |  |
@@ -825,7 +825,7 @@ const function_run = client.FunctionRun()
 | --- | --- | --- | --- |
 | `async` | `boolean` | No |  |
 | `created_at` | `number` | No |  |
-| `error` | `any` | No |  |
+| `error` | `Record<string, any> | null` | No |  |
 | `id` | `string` | No |  |
 | `payload` | `Record<string, any>` | Yes |  |
 | `result` | `Record<string, any>` | No |  |
@@ -1205,7 +1205,7 @@ const relay = client.Relay()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `app` | `string` | No |  |
-| `authentication` | `any` | No |  |
+| `authentication` | `string | null` | No |  |
 | `created_at` | `number` | No |  |
 | `destination_domain` | `string` | No |  |
 | `encrypt_empty_string` | `boolean` | No |  |
@@ -1279,7 +1279,7 @@ const three_ds_session = client.ThreeDsSession()
 | `authentication` | `Record<string, any>` | Yes |  |
 | `card` | `Record<string, any>` | Yes |  |
 | `challenge` | `Record<string, any>` | Yes |  |
-| `cre` | `any` | No |  |
+| `cre` | `null | Record<string, any>` | No |  |
 | `created_at` | `number` | Yes |  |
 | `cryptogram` | `string` | No |  |
 | `customer` | `Record<string, any>` | No |  |
@@ -1292,7 +1292,7 @@ const three_ds_session = client.ThreeDsSession()
 | `next_action` | `Record<string, any>` | Yes |  |
 | `payment` | `Record<string, any>` | No |  |
 | `preferred_version` | `any[]` | No |  |
-| `rreq` | `any` | No |  |
+| `rreq` | `null | Record<string, any>` | No |  |
 | `status` | `string` | Yes |  |
 | `three_ds_server` | `Record<string, any>` | No |  |
 | `updated_at` | `number` | No |  |
@@ -1397,7 +1397,7 @@ const webhook = client.Webhook()
 | `created_at` | `number` | No |  |
 | `event` | `any[]` | Yes |  |
 | `id` | `string` | No |  |
-| `updated_at` | `any` | No |  |
+| `updated_at` | `number | null` | No |  |
 | `url` | `string` | Yes |  |
 
 ### Field Usage by Operation
@@ -1480,7 +1480,7 @@ const webhook_endpoint = client.WebhookEndpoint()
 | `created_at` | `number` | No |  |
 | `event` | `any[]` | No |  |
 | `id` | `string` | No |  |
-| `updated_at` | `any` | No |  |
+| `updated_at` | `number | null` | No |  |
 | `url` | `string` | No |  |
 
 ### Field Usage by Operation

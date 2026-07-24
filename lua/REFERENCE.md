@@ -311,10 +311,10 @@ local card = client:Card(nil)
 | `issuer` | `string` | No |  |
 | `last_four` | `string` | Yes |  |
 | `number` | `string` | Yes |  |
-| `replacement` | `any` | No |  |
+| `replacement` | `string|nil` | No |  |
 | `segment` | `string` | No |  |
 | `status` | `string` | No |  |
-| `updated_at` | `any` | No |  |
+| `updated_at` | `number|nil` | No |  |
 
 ### Operations
 
@@ -494,7 +494,7 @@ local core = client:Core(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `app` | `string` | No |  |
-| `authentication` | `any` | No |  |
+| `authentication` | `string|nil` | No |  |
 | `category` | `string` | No |  |
 | `created_at` | `number` | No |  |
 | `custom_domain` | `string` | No |  |
@@ -693,7 +693,7 @@ local function_run = client:FunctionRun(nil)
 | --- | --- | --- | --- |
 | `async` | `boolean` | No |  |
 | `created_at` | `number` | No |  |
-| `error` | `any` | No |  |
+| `error` | `table|nil` | No |  |
 | `id` | `string` | No |  |
 | `payload` | `table` | Yes |  |
 | `result` | `table` | No |  |
@@ -1083,7 +1083,7 @@ local relay = client:Relay(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `app` | `string` | No |  |
-| `authentication` | `any` | No |  |
+| `authentication` | `string|nil` | No |  |
 | `created_at` | `number` | No |  |
 | `destination_domain` | `string` | No |  |
 | `encrypt_empty_string` | `boolean` | No |  |
@@ -1159,7 +1159,7 @@ local three_ds_session = client:ThreeDsSession(nil)
 | `authentication` | `table` | Yes |  |
 | `card` | `table` | Yes |  |
 | `challenge` | `table` | Yes |  |
-| `cre` | `any` | No |  |
+| `cre` | `nil|table` | No |  |
 | `created_at` | `number` | Yes |  |
 | `cryptogram` | `string` | No |  |
 | `customer` | `table` | No |  |
@@ -1172,7 +1172,7 @@ local three_ds_session = client:ThreeDsSession(nil)
 | `next_action` | `table` | Yes |  |
 | `payment` | `table` | No |  |
 | `preferred_version` | `table` | No |  |
-| `rreq` | `any` | No |  |
+| `rreq` | `nil|table` | No |  |
 | `status` | `string` | Yes |  |
 | `three_ds_server` | `table` | No |  |
 | `updated_at` | `number` | No |  |
@@ -1279,7 +1279,7 @@ local webhook = client:Webhook(nil)
 | `created_at` | `number` | No |  |
 | `event` | `table` | Yes |  |
 | `id` | `string` | No |  |
-| `updated_at` | `any` | No |  |
+| `updated_at` | `number|nil` | No |  |
 | `url` | `string` | Yes |  |
 
 ### Field Usage by Operation
@@ -1364,7 +1364,7 @@ local webhook_endpoint = client:WebhookEndpoint(nil)
 | `created_at` | `number` | No |  |
 | `event` | `table` | No |  |
 | `id` | `string` | No |  |
-| `updated_at` | `any` | No |  |
+| `updated_at` | `number|nil` | No |  |
 | `url` | `string` | No |  |
 
 ### Field Usage by Operation

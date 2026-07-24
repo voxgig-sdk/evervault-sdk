@@ -306,10 +306,10 @@ card = client.Card()
 | `issuer` | `str` | No |  |
 | `last_four` | `str` | Yes |  |
 | `number` | `str` | Yes |  |
-| `replacement` | `Any` | No |  |
+| `replacement` | `str | None` | No |  |
 | `segment` | `str` | No |  |
 | `status` | `str` | No |  |
-| `updated_at` | `Any` | No |  |
+| `updated_at` | `int | None` | No |  |
 
 ### Operations
 
@@ -486,7 +486,7 @@ core = client.Core()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `app` | `str` | No |  |
-| `authentication` | `Any` | No |  |
+| `authentication` | `str | None` | No |  |
 | `category` | `str` | No |  |
 | `created_at` | `int` | No |  |
 | `custom_domain` | `str` | No |  |
@@ -685,7 +685,7 @@ function_run = client.FunctionRun()
 | --- | --- | --- | --- |
 | `async` | `bool` | No |  |
 | `created_at` | `int` | No |  |
-| `error` | `Any` | No |  |
+| `error` | `dict | None` | No |  |
 | `id` | `str` | No |  |
 | `payload` | `dict` | Yes |  |
 | `result` | `dict` | No |  |
@@ -1072,7 +1072,7 @@ relay = client.Relay()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `app` | `str` | No |  |
-| `authentication` | `Any` | No |  |
+| `authentication` | `str | None` | No |  |
 | `created_at` | `int` | No |  |
 | `destination_domain` | `str` | No |  |
 | `encrypt_empty_string` | `bool` | No |  |
@@ -1147,7 +1147,7 @@ three_ds_session = client.ThreeDsSession()
 | `authentication` | `dict` | Yes |  |
 | `card` | `dict` | Yes |  |
 | `challenge` | `dict` | Yes |  |
-| `cre` | `Any` | No |  |
+| `cre` | `None | dict` | No |  |
 | `created_at` | `int` | Yes |  |
 | `cryptogram` | `str` | No |  |
 | `customer` | `dict` | No |  |
@@ -1160,7 +1160,7 @@ three_ds_session = client.ThreeDsSession()
 | `next_action` | `dict` | Yes |  |
 | `payment` | `dict` | No |  |
 | `preferred_version` | `list` | No |  |
-| `rreq` | `Any` | No |  |
+| `rreq` | `None | dict` | No |  |
 | `status` | `str` | Yes |  |
 | `three_ds_server` | `dict` | No |  |
 | `updated_at` | `int` | No |  |
@@ -1266,7 +1266,7 @@ webhook = client.Webhook()
 | `created_at` | `int` | No |  |
 | `event` | `list` | Yes |  |
 | `id` | `str` | No |  |
-| `updated_at` | `Any` | No |  |
+| `updated_at` | `int | None` | No |  |
 | `url` | `str` | Yes |  |
 
 ### Field Usage by Operation
@@ -1352,7 +1352,7 @@ webhook_endpoint = client.WebhookEndpoint()
 | `created_at` | `int` | No |  |
 | `event` | `list` | No |  |
 | `id` | `str` | No |  |
-| `updated_at` | `Any` | No |  |
+| `updated_at` | `int | None` | No |  |
 | `url` | `str` | No |  |
 
 ### Field Usage by Operation

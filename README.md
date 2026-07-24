@@ -37,17 +37,17 @@ network, and no credentials:
 
 ```ts
 const client = EvervaultSDK.test()
-const acquirer = await client.Acquirer().load({ id: 'test01' })
-// acquirer is a bare Acquirer populated with mock data
-console.log(acquirer)
+const merchant = await client.Merchant().load({ id: 'test01' })
+// merchant is a bare Merchant populated with mock data
+console.log(merchant)
 ```
 
 ### Python
 
 ```python
 client = EvervaultSDK.test()
-acquirer = client.Acquirer().load({"id": "test01"})
-print(acquirer)
+merchant = client.Merchant().load({"id": "test01"})
+print(merchant)
 ```
 
 ### PHP
@@ -55,16 +55,16 @@ print(acquirer)
 ```php
 // Seed fixture data so offline calls resolve without a live server.
 $client = EvervaultSDK::test([
-    "entity" => ["acquirer" => ["test01" => ["id" => "test01"]]],
+    "entity" => ["merchant" => ["test01" => ["id" => "test01"]]],
 ]);
-$acquirer = $client->Acquirer()->load(["id" => "test01"]);
+$merchant = $client->Merchant()->load(["id" => "test01"]);
 ```
 
 ### Golang
 
 ```go
 client := sdk.Test()
-result, err := client.Acquirer(nil).Load(
+result, err := client.Merchant(nil).Load(
     map[string]any{"id": "test01"}, nil,
 )
 ```
@@ -74,16 +74,16 @@ result, err := client.Acquirer(nil).Load(
 ```ruby
 # Seed fixture data so offline calls resolve without a live server.
 client = EvervaultSDK.test({
-  "entity" => { "acquirer" => { "test01" => { "id" => "test01" } } },
+  "entity" => { "merchant" => { "test01" => { "id" => "test01" } } },
 })
-acquirer = client.Acquirer.load({ "id" => "test01" })
+merchant = client.Merchant.load({ "id" => "test01" })
 ```
 
 ### Lua
 
 ```lua
 local client = sdk.test()
-local result, err = client:Acquirer():load({ id = "test01" })
+local result, err = client:Merchant():load({ id = "test01" })
 ```
 
 ## Packages

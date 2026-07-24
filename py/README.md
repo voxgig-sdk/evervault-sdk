@@ -70,8 +70,8 @@ Entity operations raise on failure, so wrap them in `try` / `except`:
 
 ```python
 try:
-    acquirer = client.Acquirer().load({"id": "example_id"})
-    print(acquirer)
+    merchant = client.Merchant().load({"id": "example_id"})
+    print(merchant)
 except Exception as err:
     print(f"load failed: {err}")
 ```
@@ -138,8 +138,8 @@ Create a mock client for unit testing — no server required:
 client = EvervaultSDK.test()
 
 # Entity ops return the bare record and raise on error.
-acquirer = client.Acquirer().load({"id": "test01"})
-# acquirer contains the mock response record
+merchant = client.Merchant().load({"id": "test01"})
+# merchant contains the mock response record
 ```
 
 ### Use a custom fetch function
@@ -668,10 +668,10 @@ Create an instance: `card = client.Card()`
 | `issuer` | `str` |  |
 | `last_four` | `str` |  |
 | `number` | `str` |  |
-| `replacement` | `Any` |  |
+| `replacement` | `str | None` |  |
 | `segment` | `str` |  |
 | `status` | `str` |  |
-| `updated_at` | `Any` |  |
+| `updated_at` | `int | None` |  |
 
 #### Example: Load
 
@@ -764,7 +764,7 @@ Create an instance: `core = client.Core()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `app` | `str` |  |
-| `authentication` | `Any` |  |
+| `authentication` | `str | None` |  |
 | `category` | `str` |  |
 | `created_at` | `int` |  |
 | `custom_domain` | `str` |  |
@@ -856,7 +856,7 @@ Create an instance: `function_run = client.FunctionRun()`
 | --- | --- | --- |
 | `async` | `bool` |  |
 | `created_at` | `int` |  |
-| `error` | `Any` |  |
+| `error` | `dict | None` |  |
 | `id` | `str` |  |
 | `payload` | `dict` |  |
 | `result` | `dict` |  |
@@ -1048,7 +1048,7 @@ Create an instance: `relay = client.Relay()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `app` | `str` |  |
-| `authentication` | `Any` |  |
+| `authentication` | `str | None` |  |
 | `created_at` | `int` |  |
 | `destination_domain` | `str` |  |
 | `encrypt_empty_string` | `bool` |  |
@@ -1085,7 +1085,7 @@ Create an instance: `three_ds_session = client.ThreeDsSession()`
 | `authentication` | `dict` |  |
 | `card` | `dict` |  |
 | `challenge` | `dict` |  |
-| `cre` | `Any` |  |
+| `cre` | `None | dict` |  |
 | `created_at` | `int` |  |
 | `cryptogram` | `str` |  |
 | `customer` | `dict` |  |
@@ -1098,7 +1098,7 @@ Create an instance: `three_ds_session = client.ThreeDsSession()`
 | `next_action` | `dict` |  |
 | `payment` | `dict` |  |
 | `preferred_version` | `list` |  |
-| `rreq` | `Any` |  |
+| `rreq` | `None | dict` |  |
 | `status` | `str` |  |
 | `three_ds_server` | `dict` |  |
 | `updated_at` | `int` |  |
@@ -1147,7 +1147,7 @@ Create an instance: `webhook = client.Webhook()`
 | `created_at` | `int` |  |
 | `event` | `list` |  |
 | `id` | `str` |  |
-| `updated_at` | `Any` |  |
+| `updated_at` | `int | None` |  |
 | `url` | `str` |  |
 
 #### Example: List
@@ -1184,7 +1184,7 @@ Create an instance: `webhook_endpoint = client.WebhookEndpoint()`
 | `created_at` | `int` |  |
 | `event` | `list` |  |
 | `id` | `str` |  |
-| `updated_at` | `Any` |  |
+| `updated_at` | `int | None` |  |
 | `url` | `str` |  |
 
 #### Example: Load
@@ -1269,11 +1269,11 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```python
-acquirer = client.Acquirer()
-acquirer.load({"id": "example_id"})
+merchant = client.Merchant()
+merchant.load({"id": "example_id"})
 
-# acquirer.data_get() now returns the acquirer data from the last load
-# acquirer.match_get() returns the last match criteria
+# merchant.data_get() now returns the merchant data from the last load
+# merchant.match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

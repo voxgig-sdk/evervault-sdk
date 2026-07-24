@@ -66,7 +66,7 @@ Entity operations throw a `\Throwable` on failure, so wrap them in
 
 ```php
 try {
-    $acquirer = $client->Acquirer()->load(["id" => "example_id"]);
+    $merchant = $client->Merchant()->load(["id" => "example_id"]);
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
 }
@@ -138,12 +138,12 @@ data via the `entity` option so offline calls resolve without a live server:
 
 ```php
 $client = EvervaultSDK::test([
-    "entity" => ["acquirer" => ["test01" => ["id" => "test01"]]],
+    "entity" => ["merchant" => ["test01" => ["id" => "test01"]]],
 ]);
 
 // Entity ops return the bare mock record (throws on error).
-$acquirer = $client->Acquirer()->load(["id" => "test01"]);
-print_r($acquirer);
+$merchant = $client->Merchant()->load(["id" => "test01"]);
+print_r($merchant);
 ```
 
 ### Use a custom fetch function
@@ -1289,11 +1289,11 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```php
-$acquirer = $client->Acquirer();
-$acquirer->load(["id" => "example_id"]);
+$merchant = $client->Merchant();
+$merchant->load(["id" => "example_id"]);
 
-// $acquirer->data_get() now returns the acquirer data from the last load
-// $acquirer->match_get() returns the last match criteria
+// $merchant->data_get() now returns the merchant data from the last load
+// $merchant->match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

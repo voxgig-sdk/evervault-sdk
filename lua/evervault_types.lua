@@ -49,10 +49,10 @@
 ---@field issuer? string
 ---@field last_four string
 ---@field number string
----@field replacement? any
+---@field replacement? string|nil
 ---@field segment? string
 ---@field status? string
----@field updated_at? any
+---@field updated_at? number|nil
 
 ---@class CardLoadMatch
 ---@field id string
@@ -74,10 +74,10 @@
 ---@field issuer? string
 ---@field last_four string
 ---@field number string
----@field replacement? any
+---@field replacement? string|nil
 ---@field segment? string
 ---@field status? string
----@field updated_at? any
+---@field updated_at? number|nil
 
 ---@class CardArt
 ---@field data string
@@ -100,7 +100,7 @@
 
 ---@class Core
 ---@field app? string
----@field authentication? any
+---@field authentication? string|nil
 ---@field category? string
 ---@field created_at? number
 ---@field custom_domain? string
@@ -126,7 +126,7 @@
 
 ---@class CoreCreateData
 ---@field app? string
----@field authentication? any
+---@field authentication? string|nil
 ---@field category? string
 ---@field created_at? number
 ---@field custom_domain? string
@@ -170,7 +170,7 @@
 ---@class FunctionRun
 ---@field async? boolean
 ---@field created_at? number
----@field error? any
+---@field error? table|nil
 ---@field id? string
 ---@field payload table
 ---@field result? table
@@ -276,7 +276,7 @@
 
 ---@class Relay
 ---@field app? string
----@field authentication? any
+---@field authentication? string|nil
 ---@field created_at? number
 ---@field destination_domain? string
 ---@field encrypt_empty_string? boolean
@@ -298,7 +298,7 @@
 ---@field authentication table
 ---@field card table
 ---@field challenge table
----@field cre? any
+---@field cre? nil|table
 ---@field created_at number
 ---@field cryptogram? string
 ---@field customer? table
@@ -311,7 +311,7 @@
 ---@field next_action table
 ---@field payment? table
 ---@field preferred_version? table
----@field rreq? any
+---@field rreq? nil|table
 ---@field status string
 ---@field three_ds_server? table
 ---@field updated_at? number
@@ -327,7 +327,7 @@
 ---@field authentication table
 ---@field card table
 ---@field challenge table
----@field cre? any
+---@field cre? nil|table
 ---@field created_at number
 ---@field cryptogram? string
 ---@field customer? table
@@ -340,7 +340,7 @@
 ---@field next_action table
 ---@field payment? table
 ---@field preferred_version? table
----@field rreq? any
+---@field rreq? nil|table
 ---@field status string
 ---@field three_ds_server? table
 ---@field updated_at? number
@@ -350,21 +350,21 @@
 ---@field created_at? number
 ---@field event table
 ---@field id? string
----@field updated_at? any
+---@field updated_at? number|nil
 ---@field url string
 
 ---@class WebhookListMatch
 ---@field created_at? number
 ---@field event? table
 ---@field id? string
----@field updated_at? any
+---@field updated_at? number|nil
 ---@field url? string
 
 ---@class WebhookCreateData
 ---@field created_at? number
 ---@field event table
 ---@field id? string
----@field updated_at? any
+---@field updated_at? number|nil
 ---@field url string
 
 ---@class WebhookRemoveMatch
@@ -374,7 +374,7 @@
 ---@field created_at? number
 ---@field event? table
 ---@field id? string
----@field updated_at? any
+---@field updated_at? number|nil
 ---@field url? string
 
 ---@class WebhookEndpointLoadMatch

@@ -54,10 +54,10 @@ export interface Card {
   issuer?: string
   last_four: string
   number: string
-  replacement?: any
+  replacement?: string | null
   segment?: string
   status?: string
-  updated_at?: any
+  updated_at?: number | null
 }
 
 export interface CardLoadMatch {
@@ -81,10 +81,10 @@ export interface CardCreateData {
   issuer?: string
   last_four: string
   number: string
-  replacement?: any
+  replacement?: string | null
   segment?: string
   status?: string
-  updated_at?: any
+  updated_at?: number | null
 }
 
 export interface CardArt {
@@ -112,7 +112,7 @@ export interface ClientSideTokenCreateData {
 
 export interface Core {
   app?: string
-  authentication?: any
+  authentication?: string | null
   category?: string
   created_at?: number
   custom_domain?: string
@@ -140,7 +140,7 @@ export interface CoreListMatch {
 
 export interface CoreCreateData {
   app?: string
-  authentication?: any
+  authentication?: string | null
   category?: string
   created_at?: number
   custom_domain?: string
@@ -189,7 +189,7 @@ export interface CustomDomainCreateData {
 export interface FunctionRun {
   async?: boolean
   created_at?: number
-  error?: any
+  error?: Record<string, any> | null
   id?: string
   payload: Record<string, any>
   result?: Record<string, any>
@@ -309,7 +309,7 @@ export interface PaymentRemoveMatch {
 
 export interface Relay {
   app?: string
-  authentication?: any
+  authentication?: string | null
   created_at?: number
   destination_domain?: string
   encrypt_empty_string?: boolean
@@ -334,7 +334,7 @@ export interface ThreeDsSession {
   authentication: Record<string, any>
   card: Record<string, any>
   challenge: Record<string, any>
-  cre?: any
+  cre?: null | Record<string, any>
   created_at: number
   cryptogram?: string
   customer?: Record<string, any>
@@ -347,7 +347,7 @@ export interface ThreeDsSession {
   next_action: Record<string, any>
   payment?: Record<string, any>
   preferred_version?: any[]
-  rreq?: any
+  rreq?: null | Record<string, any>
   status: string
   three_ds_server?: Record<string, any>
   updated_at?: number
@@ -365,7 +365,7 @@ export interface ThreeDsSessionCreateData {
   authentication: Record<string, any>
   card: Record<string, any>
   challenge: Record<string, any>
-  cre?: any
+  cre?: null | Record<string, any>
   created_at: number
   cryptogram?: string
   customer?: Record<string, any>
@@ -378,7 +378,7 @@ export interface ThreeDsSessionCreateData {
   next_action: Record<string, any>
   payment?: Record<string, any>
   preferred_version?: any[]
-  rreq?: any
+  rreq?: null | Record<string, any>
   status: string
   three_ds_server?: Record<string, any>
   updated_at?: number
@@ -389,7 +389,7 @@ export interface Webhook {
   created_at?: number
   event: any[]
   id?: string
-  updated_at?: any
+  updated_at?: number | null
   url: string
 }
 
@@ -397,7 +397,7 @@ export interface WebhookListMatch {
   created_at?: number
   event?: any[]
   id?: string
-  updated_at?: any
+  updated_at?: number | null
   url?: string
 }
 
@@ -405,7 +405,7 @@ export interface WebhookCreateData {
   created_at?: number
   event: any[]
   id?: string
-  updated_at?: any
+  updated_at?: number | null
   url: string
 }
 
@@ -417,7 +417,7 @@ export interface WebhookEndpoint {
   created_at?: number
   event?: any[]
   id?: string
-  updated_at?: any
+  updated_at?: number | null
   url?: string
 }
 

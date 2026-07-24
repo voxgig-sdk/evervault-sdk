@@ -74,10 +74,10 @@ class Card(CardRequired, total=False):
     funding: str
     id: str
     issuer: str
-    replacement: Any
+    replacement: str | None
     segment: str
     status: str
-    updated_at: Any
+    updated_at: int | None
 
 
 class CardLoadMatch(TypedDict):
@@ -104,10 +104,10 @@ class CardCreateData(CardCreateDataRequired, total=False):
     funding: str
     id: str
     issuer: str
-    replacement: Any
+    replacement: str | None
     segment: str
     status: str
-    updated_at: Any
+    updated_at: int | None
 
 
 class CardArt(TypedDict):
@@ -147,7 +147,7 @@ class CoreRequired(TypedDict):
 
 class Core(CoreRequired, total=False):
     app: str
-    authentication: Any
+    authentication: str | None
     category: str
     created_at: int
     custom_domain: str
@@ -178,7 +178,7 @@ class CoreCreateDataRequired(TypedDict):
 
 class CoreCreateData(CoreCreateDataRequired, total=False):
     app: str
-    authentication: Any
+    authentication: str | None
     category: str
     created_at: int
     custom_domain: str
@@ -230,7 +230,7 @@ class FunctionRunRequired(TypedDict):
 
 class FunctionRun(FunctionRunRequired, total=False):
     created_at: int
-    error: Any
+    error: dict | None
     id: str
     result: dict
     status: str
@@ -364,7 +364,7 @@ class PaymentRemoveMatch(TypedDict, total=False):
 
 class Relay(TypedDict, total=False):
     app: str
-    authentication: Any
+    authentication: str | None
     created_at: int
     destination_domain: str
     encrypt_empty_string: bool
@@ -398,7 +398,7 @@ class ThreeDsSessionRequired(TypedDict):
 class ThreeDsSession(ThreeDsSessionRequired, total=False):
     access_control_server: dict
     are: dict
-    cre: Any
+    cre: None | dict
     cryptogram: str
     customer: dict
     directory_server: dict
@@ -407,7 +407,7 @@ class ThreeDsSession(ThreeDsSessionRequired, total=False):
     initiator: dict
     payment: dict
     preferred_version: list
-    rreq: Any
+    rreq: None | dict
     three_ds_server: dict
     updated_at: int
 
@@ -432,7 +432,7 @@ class ThreeDsSessionCreateDataRequired(TypedDict):
 class ThreeDsSessionCreateData(ThreeDsSessionCreateDataRequired, total=False):
     access_control_server: dict
     are: dict
-    cre: Any
+    cre: None | dict
     cryptogram: str
     customer: dict
     directory_server: dict
@@ -441,7 +441,7 @@ class ThreeDsSessionCreateData(ThreeDsSessionCreateDataRequired, total=False):
     initiator: dict
     payment: dict
     preferred_version: list
-    rreq: Any
+    rreq: None | dict
     three_ds_server: dict
     updated_at: int
 
@@ -454,14 +454,14 @@ class WebhookRequired(TypedDict):
 class Webhook(WebhookRequired, total=False):
     created_at: int
     id: str
-    updated_at: Any
+    updated_at: int | None
 
 
 class WebhookListMatch(TypedDict, total=False):
     created_at: int
     event: list
     id: str
-    updated_at: Any
+    updated_at: int | None
     url: str
 
 
@@ -473,7 +473,7 @@ class WebhookCreateDataRequired(TypedDict):
 class WebhookCreateData(WebhookCreateDataRequired, total=False):
     created_at: int
     id: str
-    updated_at: Any
+    updated_at: int | None
 
 
 class WebhookRemoveMatch(TypedDict):
@@ -484,7 +484,7 @@ class WebhookEndpoint(TypedDict, total=False):
     created_at: int
     event: list
     id: str
-    updated_at: Any
+    updated_at: int | None
     url: str
 
 
