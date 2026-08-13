@@ -37,7 +37,7 @@ class ThreeDsSessionEntityTest < Minitest::Test
       Vs.getpath(setup[:data], "new.three_ds_session"), "three_ds_session_ref01"))
 
     three_ds_session_ref01_data_result = three_ds_session_ref01_ent.create(three_ds_session_ref01_data, nil)
-    three_ds_session_ref01_data = Helpers.to_map(three_ds_session_ref01_data_result)
+    three_ds_session_ref01_data = Helpers.to_map(three_ds_session_ref01_data_result.respond_to?(:data_get) ? three_ds_session_ref01_data_result.data_get : three_ds_session_ref01_data_result)
     assert !three_ds_session_ref01_data.nil?
     assert !three_ds_session_ref01_data["id"].nil?
 
@@ -46,7 +46,7 @@ class ThreeDsSessionEntityTest < Minitest::Test
       "id" => three_ds_session_ref01_data["id"],
     }
     three_ds_session_ref01_data_dt0_loaded = three_ds_session_ref01_ent.load(three_ds_session_ref01_match_dt0, nil)
-    three_ds_session_ref01_data_dt0_load_result = Helpers.to_map(three_ds_session_ref01_data_dt0_loaded)
+    three_ds_session_ref01_data_dt0_load_result = Helpers.to_map(three_ds_session_ref01_data_dt0_loaded.respond_to?(:data_get) ? three_ds_session_ref01_data_dt0_loaded.data_get : three_ds_session_ref01_data_dt0_loaded)
     assert !three_ds_session_ref01_data_dt0_load_result.nil?
     assert_equal three_ds_session_ref01_data_dt0_load_result["id"], three_ds_session_ref01_data["id"]
 

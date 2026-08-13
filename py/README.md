@@ -42,7 +42,7 @@ client = EvervaultSDK({
 ### 3. Load a cardart
 
 CardArt is nested under network_token, so provide the `network_token_id`.
-`load()` returns the bare record (a `dict`) and raises on error.
+`load()` returns the ENTITY — call data_get() for the record — and raises on error.
 
 ```python
 try:
@@ -55,11 +55,11 @@ except Exception as err:
 ### 4. Create, update, and remove
 
 ```python
-# Create — returns the bare created record (a dict)
-created = client.Acquirer().create({"configuration": [], "default": True, "id": "example_id", "name": "example_name"})
+# Create — returns the ENTITY (call data_get() for the record)
+created = client.Acquirer().create({"configurations": [], "default": True, "id": "example_id", "name": "example_name"})
 
 # Update — the created record's id is a plain dict key
-client.Acquirer().update({"id": created["id"]})
+client.Acquirer().update({"id": created.data_get()["id"], "configurations": [], "default": True})
 
 ```
 
@@ -137,7 +137,8 @@ Create a mock client for unit testing — no server required:
 ```python
 client = EvervaultSDK.test()
 
-# Entity ops return the bare record and raise on error.
+# Entity ops return the ENTITY and raises on error;
+# call data_get() for the record.
 merchant = client.Merchant().load({"id": "test01"})
 # merchant contains the mock response record
 ```
@@ -254,7 +255,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (a `dict` for single-entity
+Entity operations return the ENTITY (call data_get() for the record) (a `dict` for single-entity
 ops, a `list` for `list`) and raise on error. Wrap calls in
 `try`/`except` to handle failures.
 
@@ -276,7 +277,7 @@ On error, `ok` is `False` and `err` contains the error value.
 
 | Field | Description |
 | --- | --- |
-| `configuration` |  |
+| `configurations` |  |
 | `default` |  |
 | `description` |  |
 | `id` |  |
@@ -301,25 +302,13 @@ API path: `/payments/bin-lookups`
 | Field | Description |
 | --- | --- |
 | `address` |  |
-| `automatic_update` |  |
-| `bin` |  |
-| `brand` |  |
 | `card` |  |
 | `cardholder` |  |
-| `country` |  |
-| `created_at` |  |
-| `currency` |  |
 | `expiry` |  |
-| `extension` |  |
-| `funding` |  |
-| `id` |  |
-| `issuer` |  |
-| `last_four` |  |
+| `extensions` |  |
+| `month` |  |
 | `number` |  |
-| `replacement` |  |
-| `segment` |  |
-| `status` |  |
-| `updated_at` |  |
+| `year` |  |
 
 Operations: Create, Load.
 
@@ -356,25 +345,19 @@ API path: `/client-side-tokens`
 | --- | --- |
 | `app` |  |
 | `authentication` |  |
-| `category` |  |
-| `created_at` |  |
-| `custom_domain` |  |
-| `destination_domain` |  |
-| `encrypt_empty_string` |  |
-| `encrypted_at` |  |
-| `evervault_domain` |  |
-| `fingerprint` |  |
+| `createdAt` |  |
+| `customDomain` |  |
+| `destinationDomain` |  |
+| `encryptEmptyStrings` |  |
+| `evervaultDomain` |  |
 | `id` |  |
-| `metadata` |  |
-| `phone_number` |  |
+| `phoneNumber` |  |
 | `relay` |  |
-| `role` |  |
-| `route` |  |
+| `routes` |  |
 | `status` |  |
 | `token` |  |
-| `type` |  |
-| `updated_at` |  |
-| `validation_record` |  |
+| `updatedAt` |  |
+| `validationRecord` |  |
 
 Operations: Create, List, Remove.
 
@@ -384,13 +367,13 @@ API path: `/decrypt`
 
 | Field | Description |
 | --- | --- |
-| `created_at` |  |
-| `custom_domain` |  |
+| `createdAt` |  |
+| `customDomain` |  |
 | `id` |  |
 | `relay` |  |
 | `status` |  |
-| `updated_at` |  |
-| `validation_record` |  |
+| `updatedAt` |  |
+| `validationRecord` |  |
 
 Operations: Create, Load.
 
@@ -401,7 +384,7 @@ API path: `/relays/{relay_id}/custom-domains`
 | Field | Description |
 | --- | --- |
 | `async` |  |
-| `created_at` |  |
+| `createdAt` |  |
 | `error` |  |
 | `id` |  |
 | `payload` |  |
@@ -416,15 +399,15 @@ API path: `/functions/{function_name}/runs`
 
 | Field | Description |
 | --- | --- |
-| `apple_pay` |  |
+| `applePay` |  |
 | `business` |  |
-| `category_code` |  |
-| `created_at` |  |
+| `categoryCode` |  |
+| `createdAt` |  |
 | `id` |  |
 | `name` |  |
-| `network_token` |  |
-| `short_name` |  |
-| `updated_at` |  |
+| `networkTokens` |  |
+| `shortName` |  |
+| `updatedAt` |  |
 | `website` |  |
 
 Operations: Create, Load, Update.
@@ -436,17 +419,17 @@ API path: `/payments/merchants`
 | Field | Description |
 | --- | --- |
 | `card` |  |
-| `created_at` |  |
+| `createdAt` |  |
 | `expiry` |  |
 | `id` |  |
 | `merchant` |  |
 | `number` |  |
-| `payment_account_reference` |  |
+| `paymentAccountReference` |  |
 | `status` |  |
-| `token_requestor_identifier` |  |
-| `token_service_provider` |  |
-| `update_type` |  |
-| `updated_at` |  |
+| `tokenRequestorIdentifier` |  |
+| `tokenServiceProvider` |  |
+| `updateType` |  |
+| `updatedAt` |  |
 
 Operations: Create, Load.
 
@@ -456,7 +439,7 @@ API path: `/payments/network-tokens/{network_token_id}/simulate`
 
 | Field | Description |
 | --- | --- |
-| `created_at` |  |
+| `createdAt` |  |
 | `cryptogram` |  |
 | `id` |  |
 
@@ -468,20 +451,21 @@ API path: `/payments/network-tokens/{network_token_id}/cryptograms`
 
 | Field | Description |
 | --- | --- |
-| `apple_pay` |  |
+| `applePay` |  |
 | `business` |  |
-| `category_code` |  |
-| `configuration` |  |
+| `categoryCode` |  |
+| `configurations` |  |
+| `createdAt` |  |
 | `created_at` |  |
 | `data` |  |
 | `default` |  |
 | `description` |  |
 | `id` |  |
 | `name` |  |
-| `network_token` |  |
-| `short_name` |  |
+| `networkTokens` |  |
+| `shortName` |  |
 | `type` |  |
-| `updated_at` |  |
+| `updatedAt` |  |
 | `website` |  |
 
 Operations: List, Remove.
@@ -494,13 +478,13 @@ API path: `/payments/merchants`
 | --- | --- |
 | `app` |  |
 | `authentication` |  |
-| `created_at` |  |
-| `destination_domain` |  |
-| `encrypt_empty_string` |  |
-| `evervault_domain` |  |
+| `createdAt` |  |
+| `destinationDomain` |  |
+| `encryptEmptyStrings` |  |
+| `evervaultDomain` |  |
 | `id` |  |
-| `route` |  |
-| `updated_at` |  |
+| `routes` |  |
+| `updatedAt` |  |
 
 Operations: Load, Update.
 
@@ -510,29 +494,29 @@ API path: `/relays/{id}`
 
 | Field | Description |
 | --- | --- |
-| `access_control_server` |  |
+| `accessControlServer` |  |
 | `acquirer` |  |
-| `are` |  |
+| `ares` |  |
 | `authentication` |  |
 | `card` |  |
 | `challenge` |  |
-| `cre` |  |
-| `created_at` |  |
+| `createdAt` |  |
+| `cres` |  |
 | `cryptogram` |  |
 | `customer` |  |
-| `directory_server` |  |
+| `directoryServer` |  |
 | `eci` |  |
-| `failure_reason` |  |
+| `failureReason` |  |
 | `id` |  |
 | `initiator` |  |
 | `merchant` |  |
-| `next_action` |  |
+| `nextAction` |  |
 | `payment` |  |
-| `preferred_version` |  |
+| `preferredVersions` |  |
 | `rreq` |  |
 | `status` |  |
-| `three_ds_server` |  |
-| `updated_at` |  |
+| `threeDSServer` |  |
+| `updatedAt` |  |
 | `version` |  |
 
 Operations: Create, Load.
@@ -543,10 +527,10 @@ API path: `/payments/3ds-sessions`
 
 | Field | Description |
 | --- | --- |
-| `created_at` |  |
-| `event` |  |
+| `createdAt` |  |
+| `events` |  |
 | `id` |  |
-| `updated_at` |  |
+| `updatedAt` |  |
 | `url` |  |
 
 Operations: Create, List, Remove.
@@ -557,10 +541,10 @@ API path: `/webhook-endpoints`
 
 | Field | Description |
 | --- | --- |
-| `created_at` |  |
-| `event` |  |
+| `createdAt` |  |
+| `events` |  |
 | `id` |  |
-| `updated_at` |  |
+| `updatedAt` |  |
 | `url` |  |
 
 Operations: Load, Update.
@@ -588,7 +572,7 @@ Create an instance: `acquirer = client.Acquirer()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `configuration` | `list` |  |
+| `configurations` | `list` |  |
 | `default` | `bool` |  |
 | `description` | `str` |  |
 | `id` | `str` |  |
@@ -604,7 +588,7 @@ acquirer = client.Acquirer().load({"id": "acquirer_id"})
 
 ```python
 acquirer = client.Acquirer().create({
-    "configuration": [],  # list
+    "configurations": [],  # list
     "default": True,  # bool
     "id": "example_id",  # str
     "name": "example_name",  # str
@@ -653,25 +637,13 @@ Create an instance: `card = client.Card()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `address` | `dict` |  |
-| `automatic_update` | `str` |  |
-| `bin` | `str` |  |
-| `brand` | `str` |  |
 | `card` | `dict` |  |
 | `cardholder` | `dict` |  |
-| `country` | `str` |  |
-| `created_at` | `int` |  |
-| `currency` | `str` |  |
 | `expiry` | `dict` |  |
-| `extension` | `list` |  |
-| `funding` | `str` |  |
-| `id` | `str` |  |
-| `issuer` | `str` |  |
-| `last_four` | `str` |  |
+| `extensions` | `list` |  |
+| `month` | `str` |  |
 | `number` | `str` |  |
-| `replacement` | `str | None` |  |
-| `segment` | `str` |  |
-| `status` | `str` |  |
-| `updated_at` | `int | None` |  |
+| `year` | `str` |  |
 
 #### Example: Load
 
@@ -684,12 +656,11 @@ card = client.Card().load({"id": "card_id"})
 ```python
 card = client.Card().create({
     "address": {},  # dict
-    "bin": "example_bin",  # str
     "card": {},  # dict
-    "created_at": 1,  # int
     "expiry": {},  # dict
-    "last_four": "example_last_four",  # str
+    "month": "example_month",  # str
     "number": "example_number",  # str
+    "year": "example_year",  # str
 })
 ```
 
@@ -765,25 +736,19 @@ Create an instance: `core = client.Core()`
 | --- | --- | --- |
 | `app` | `str` |  |
 | `authentication` | `str | None` |  |
-| `category` | `str` |  |
-| `created_at` | `int` |  |
-| `custom_domain` | `str` |  |
-| `destination_domain` | `str` |  |
-| `encrypt_empty_string` | `bool` |  |
-| `encrypted_at` | `int` |  |
-| `evervault_domain` | `str` |  |
-| `fingerprint` | `str` |  |
+| `createdAt` | `int` |  |
+| `customDomain` | `str` |  |
+| `destinationDomain` | `str` |  |
+| `encryptEmptyStrings` | `bool` |  |
+| `evervaultDomain` | `str` |  |
 | `id` | `str` |  |
-| `metadata` | `Any` |  |
-| `phone_number` | `str` |  |
+| `phoneNumber` | `str` |  |
 | `relay` | `str` |  |
-| `role` | `str` |  |
-| `route` | `list` |  |
+| `routes` | `list` |  |
 | `status` | `str` |  |
 | `token` | `str` |  |
-| `type` | `str` |  |
-| `updated_at` | `int` |  |
-| `validation_record` | `str` |  |
+| `updatedAt` | `int` |  |
+| `validationRecord` | `str` |  |
 
 #### Example: List
 
@@ -795,8 +760,8 @@ cores = client.Core().list()
 
 ```python
 core = client.Core().create({
-    "destination_domain": "example_destination_domain",  # str
-    "route": [],  # list
+    "destinationDomain": "example_destinationDomain",  # str
+    "routes": [],  # list
     "token": "example_token",  # str
 })
 ```
@@ -817,13 +782,13 @@ Create an instance: `custom_domain = client.CustomDomain()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | `int` |  |
-| `custom_domain` | `str` |  |
+| `createdAt` | `int` |  |
+| `customDomain` | `str` |  |
 | `id` | `str` |  |
 | `relay` | `str` |  |
 | `status` | `str` |  |
-| `updated_at` | `int` |  |
-| `validation_record` | `str` |  |
+| `updatedAt` | `int` |  |
+| `validationRecord` | `str` |  |
 
 #### Example: Load
 
@@ -855,7 +820,7 @@ Create an instance: `function_run = client.FunctionRun()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `async` | `bool` |  |
-| `created_at` | `int` |  |
+| `createdAt` | `int` |  |
 | `error` | `dict | None` |  |
 | `id` | `str` |  |
 | `payload` | `dict` |  |
@@ -867,6 +832,7 @@ Create an instance: `function_run = client.FunctionRun()`
 ```python
 function_run = client.FunctionRun().create({
     "function_name": "example_function_name",  # str
+    "payload": {},  # dict
 })
 ```
 
@@ -887,15 +853,15 @@ Create an instance: `merchant = client.Merchant()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `apple_pay` | `dict` |  |
+| `applePay` | `dict` |  |
 | `business` | `dict` |  |
-| `category_code` | `str` |  |
-| `created_at` | `int` |  |
+| `categoryCode` | `str` |  |
+| `createdAt` | `int` |  |
 | `id` | `str` |  |
 | `name` | `str` |  |
-| `network_token` | `dict` |  |
-| `short_name` | `str` |  |
-| `updated_at` | `int` |  |
+| `networkTokens` | `dict` |  |
+| `shortName` | `str` |  |
+| `updatedAt` | `int` |  |
 | `website` | `str` |  |
 
 #### Example: Load
@@ -908,7 +874,7 @@ merchant = client.Merchant().load({"id": "merchant_id"})
 
 ```python
 merchant = client.Merchant().create({
-    "created_at": 1,  # int
+    "createdAt": 1,  # int
     "id": "example_id",  # str
     "name": "example_name",  # str
     "website": "example_website",  # str
@@ -932,17 +898,17 @@ Create an instance: `network_token = client.NetworkToken()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `card` | `dict` |  |
-| `created_at` | `int` |  |
+| `createdAt` | `int` |  |
 | `expiry` | `dict` |  |
 | `id` | `str` |  |
 | `merchant` | `str` |  |
 | `number` | `str` |  |
-| `payment_account_reference` | `str` |  |
+| `paymentAccountReference` | `str` |  |
 | `status` | `str` |  |
-| `token_requestor_identifier` | `str` |  |
-| `token_service_provider` | `str` |  |
-| `update_type` | `str` |  |
-| `updated_at` | `int` |  |
+| `tokenRequestorIdentifier` | `str` |  |
+| `tokenServiceProvider` | `str` |  |
+| `updateType` | `str` |  |
+| `updatedAt` | `int` |  |
 
 #### Example: Load
 
@@ -955,14 +921,14 @@ network_token = client.NetworkToken().load({"id": "network_token_id"})
 ```python
 network_token = client.NetworkToken().create({
     "card": {},  # dict
-    "created_at": 1,  # int
+    "createdAt": 1,  # int
     "expiry": {},  # dict
     "id": "example_id",  # str
     "merchant": "example_merchant",  # str
     "number": "example_number",  # str
     "status": "example_status",  # str
-    "token_requestor_identifier": "example_token_requestor_identifier",  # str
-    "token_service_provider": "example_token_service_provider",  # str
+    "tokenRequestorIdentifier": "example_tokenRequestorIdentifier",  # str
+    "tokenServiceProvider": "example_tokenServiceProvider",  # str
 })
 ```
 
@@ -981,7 +947,7 @@ Create an instance: `network_token_cryptogram = client.NetworkTokenCryptogram()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | `int` |  |
+| `createdAt` | `int` |  |
 | `cryptogram` | `str` |  |
 | `id` | `str` |  |
 
@@ -1009,26 +975,27 @@ Create an instance: `payment = client.Payment()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `apple_pay` | `dict` |  |
+| `applePay` | `dict` |  |
 | `business` | `dict` |  |
-| `category_code` | `str` |  |
-| `configuration` | `list` |  |
+| `categoryCode` | `str` |  |
+| `configurations` | `list` |  |
+| `createdAt` | `int` |  |
 | `created_at` | `int` |  |
 | `data` | `dict` |  |
 | `default` | `bool` |  |
 | `description` | `str` |  |
 | `id` | `str` |  |
 | `name` | `str` |  |
-| `network_token` | `dict` |  |
-| `short_name` | `str` |  |
+| `networkTokens` | `dict` |  |
+| `shortName` | `str` |  |
 | `type` | `str` |  |
-| `updated_at` | `int` |  |
+| `updatedAt` | `int` |  |
 | `website` | `str` |  |
 
 #### Example: List
 
 ```python
-payments = client.Payment().list()
+payments = client.Payment().list({"3ds_session_id": "example"})
 ```
 
 
@@ -1049,13 +1016,13 @@ Create an instance: `relay = client.Relay()`
 | --- | --- | --- |
 | `app` | `str` |  |
 | `authentication` | `str | None` |  |
-| `created_at` | `int` |  |
-| `destination_domain` | `str` |  |
-| `encrypt_empty_string` | `bool` |  |
-| `evervault_domain` | `str` |  |
+| `createdAt` | `int` |  |
+| `destinationDomain` | `str` |  |
+| `encryptEmptyStrings` | `bool` |  |
+| `evervaultDomain` | `str` |  |
 | `id` | `str` |  |
-| `route` | `list` |  |
-| `updated_at` | `int` |  |
+| `routes` | `list` |  |
+| `updatedAt` | `int` |  |
 
 #### Example: Load
 
@@ -1079,29 +1046,29 @@ Create an instance: `three_ds_session = client.ThreeDsSession()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `access_control_server` | `dict` |  |
+| `accessControlServer` | `dict` |  |
 | `acquirer` | `dict` |  |
-| `are` | `dict` |  |
+| `ares` | `dict` |  |
 | `authentication` | `dict` |  |
 | `card` | `dict` |  |
 | `challenge` | `dict` |  |
-| `cre` | `None | dict` |  |
-| `created_at` | `int` |  |
+| `createdAt` | `int` |  |
+| `cres` | `None | dict` |  |
 | `cryptogram` | `str` |  |
 | `customer` | `dict` |  |
-| `directory_server` | `dict` |  |
+| `directoryServer` | `dict` |  |
 | `eci` | `dict` |  |
-| `failure_reason` | `str` |  |
+| `failureReason` | `str` |  |
 | `id` | `str` |  |
 | `initiator` | `dict` |  |
 | `merchant` | `dict` |  |
-| `next_action` | `dict` |  |
+| `nextAction` | `dict` |  |
 | `payment` | `dict` |  |
-| `preferred_version` | `list` |  |
+| `preferredVersions` | `list` |  |
 | `rreq` | `None | dict` |  |
 | `status` | `str` |  |
-| `three_ds_server` | `dict` |  |
-| `updated_at` | `int` |  |
+| `threeDSServer` | `dict` |  |
+| `updatedAt` | `int` |  |
 | `version` | `str` |  |
 
 #### Example: Load
@@ -1118,10 +1085,10 @@ three_ds_session = client.ThreeDsSession().create({
     "authentication": {},  # dict
     "card": {},  # dict
     "challenge": {},  # dict
-    "created_at": 1,  # int
+    "createdAt": 1,  # int
     "id": "example_id",  # str
     "merchant": {},  # dict
-    "next_action": {},  # dict
+    "nextAction": {},  # dict
     "status": "example_status",  # str
     "version": "example_version",  # str
 })
@@ -1144,10 +1111,10 @@ Create an instance: `webhook = client.Webhook()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | `int` |  |
-| `event` | `list` |  |
+| `createdAt` | `int` |  |
+| `events` | `list` |  |
 | `id` | `str` |  |
-| `updated_at` | `int | None` |  |
+| `updatedAt` | `int | None` |  |
 | `url` | `str` |  |
 
 #### Example: List
@@ -1160,7 +1127,7 @@ webhooks = client.Webhook().list()
 
 ```python
 webhook = client.Webhook().create({
-    "event": [],  # list
+    "events": [],  # list
     "url": "example_url",  # str
 })
 ```
@@ -1181,10 +1148,10 @@ Create an instance: `webhook_endpoint = client.WebhookEndpoint()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | `int` |  |
-| `event` | `list` |  |
+| `createdAt` | `int` |  |
+| `events` | `list` |  |
 | `id` | `str` |  |
-| `updated_at` | `int | None` |  |
+| `updatedAt` | `int | None` |  |
 | `url` | `str` |  |
 
 #### Example: Load

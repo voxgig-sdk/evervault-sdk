@@ -50,7 +50,7 @@ class RelayEntityTest < Minitest::Test
     relay_ref01_data_up0_up[relay_ref01_markdef_up0_name] = relay_ref01_markdef_up0_value
 
     relay_ref01_resdata_up0_result = relay_ref01_ent.update(relay_ref01_data_up0_up, nil)
-    relay_ref01_resdata_up0 = Helpers.to_map(relay_ref01_resdata_up0_result)
+    relay_ref01_resdata_up0 = Helpers.to_map(relay_ref01_resdata_up0_result.respond_to?(:data_get) ? relay_ref01_resdata_up0_result.data_get : relay_ref01_resdata_up0_result)
     assert !relay_ref01_resdata_up0.nil?
     assert_equal relay_ref01_resdata_up0["id"], relay_ref01_data_up0_up["id"]
     assert_equal relay_ref01_resdata_up0[relay_ref01_markdef_up0_name], relay_ref01_markdef_up0_value
@@ -60,7 +60,7 @@ class RelayEntityTest < Minitest::Test
       "id" => relay_ref01_data["id"],
     }
     relay_ref01_data_dt0_loaded = relay_ref01_ent.load(relay_ref01_match_dt0, nil)
-    relay_ref01_data_dt0_load_result = Helpers.to_map(relay_ref01_data_dt0_loaded)
+    relay_ref01_data_dt0_load_result = Helpers.to_map(relay_ref01_data_dt0_loaded.respond_to?(:data_get) ? relay_ref01_data_dt0_loaded.data_get : relay_ref01_data_dt0_loaded)
     assert !relay_ref01_data_dt0_load_result.nil?
     assert_equal relay_ref01_data_dt0_load_result["id"], relay_ref01_data["id"]
 

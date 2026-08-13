@@ -297,7 +297,7 @@ const acquirer = client.Acquirer()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `configuration` | `any[]` | Yes |  |
+| `configurations` | `any[]` | Yes |  |
 | `default` | `boolean` | Yes |  |
 | `description` | `string` | No |  |
 | `id` | `string` | Yes |  |
@@ -307,7 +307,7 @@ const acquirer = client.Acquirer()
 
 | Field | load | create | update |
 | --- | --- | --- | --- |
-| `configuration` | - | - | Yes |
+| `configurations` | - | - | Yes |
 | `default` | - | Yes | Yes |
 | `description` | - | - | - |
 | `id` | - | - | - |
@@ -321,7 +321,7 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.Acquirer().create({
-  configuration: [],
+  configurations: [],
   default: true,
   id: 'example_id',
   name: 'example_name',
@@ -438,25 +438,33 @@ const card = client.Card()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `address` | `Record<string, any>` | Yes |  |
-| `automatic_update` | `string` | No |  |
-| `bin` | `string` | Yes |  |
-| `brand` | `string` | No |  |
 | `card` | `Record<string, any>` | Yes |  |
 | `cardholder` | `Record<string, any>` | No |  |
-| `country` | `string` | No |  |
-| `created_at` | `number` | Yes |  |
-| `currency` | `string` | No |  |
 | `expiry` | `Record<string, any>` | Yes |  |
-| `extension` | `any[]` | No |  |
-| `funding` | `string` | No |  |
-| `id` | `string` | No |  |
-| `issuer` | `string` | No |  |
-| `last_four` | `string` | Yes |  |
+| `extensions` | `any[]` | No |  |
+| `month` | `string` | Yes |  |
 | `number` | `string` | Yes |  |
-| `replacement` | `string | null` | No |  |
-| `segment` | `string` | No |  |
-| `status` | `string` | No |  |
-| `updated_at` | `number | null` | No |  |
+| `year` | `string` | Yes |  |
+
+### Actions
+
+This entity exposes custom API actions in addition to the standard
+operations. Select one with `$action` in the call's argument; the
+remaining keys are sent as that action's payload.
+
+| Action | Route | Call |
+| --- | --- | --- |
+| `simulate` | `/payments/cards/{card_id}/simulate` | `client.Card().create({ $action: 'simulate', ... })` |
+
+An action returns that action's OWN response, which is not necessarily a
+Card record — check the API definition for its shape.
+
+```ts
+const result = await client.Card().create({
+  $action: 'simulate',
+  /* ...the action's own arguments */
+})
+```
 
 ### Operations
 
@@ -467,12 +475,11 @@ Create a new entity with the given data.
 ```ts
 const result = await client.Card().create({
   address: {},
-  bin: 'example_bin',
   card: {},
-  created_at: 1,
   expiry: {},
-  last_four: 'example_last_four',
+  month: 'example_month',
   number: 'example_number',
+  year: 'example_year',
 })
 ```
 
@@ -631,25 +638,19 @@ const core = client.Core()
 | --- | --- | --- | --- |
 | `app` | `string` | No |  |
 | `authentication` | `string | null` | No |  |
-| `category` | `string` | No |  |
-| `created_at` | `number` | No |  |
-| `custom_domain` | `string` | No |  |
-| `destination_domain` | `string` | Yes |  |
-| `encrypt_empty_string` | `boolean` | No |  |
-| `encrypted_at` | `number` | No |  |
-| `evervault_domain` | `string` | No |  |
-| `fingerprint` | `string` | No |  |
+| `createdAt` | `number` | No |  |
+| `customDomain` | `string` | No |  |
+| `destinationDomain` | `string` | Yes |  |
+| `encryptEmptyStrings` | `boolean` | No |  |
+| `evervaultDomain` | `string` | No |  |
 | `id` | `string` | No |  |
-| `metadata` | `any` | No |  |
-| `phone_number` | `string` | No |  |
+| `phoneNumber` | `string` | No |  |
 | `relay` | `string` | No |  |
-| `role` | `string` | No |  |
-| `route` | `any[]` | Yes |  |
+| `routes` | `any[]` | Yes |  |
 | `status` | `string` | No |  |
 | `token` | `string` | Yes |  |
-| `type` | `string` | No |  |
-| `updated_at` | `number` | No |  |
-| `validation_record` | `string` | No |  |
+| `updatedAt` | `number` | No |  |
+| `validationRecord` | `string` | No |  |
 
 ### Field Usage by Operation
 
@@ -657,25 +658,19 @@ const core = client.Core()
 | --- | --- | --- | --- |
 | `app` | - | - | - |
 | `authentication` | - | - | - |
-| `category` | - | - | - |
-| `created_at` | - | - | - |
-| `custom_domain` | - | - | - |
-| `destination_domain` | Yes | - | - |
-| `encrypt_empty_string` | - | - | - |
-| `encrypted_at` | - | - | - |
-| `evervault_domain` | - | - | - |
-| `fingerprint` | - | - | - |
+| `createdAt` | - | - | - |
+| `customDomain` | - | - | - |
+| `destinationDomain` | Yes | - | - |
+| `encryptEmptyStrings` | - | - | - |
+| `evervaultDomain` | - | - | - |
 | `id` | - | - | - |
-| `metadata` | - | - | - |
-| `phone_number` | - | - | - |
+| `phoneNumber` | - | - | - |
 | `relay` | - | - | - |
-| `role` | - | - | - |
-| `route` | Yes | - | - |
+| `routes` | Yes | - | - |
 | `status` | - | - | - |
 | `token` | - | - | - |
-| `type` | - | - | - |
-| `updated_at` | - | - | - |
-| `validation_record` | - | - | - |
+| `updatedAt` | - | - | - |
+| `validationRecord` | - | - | - |
 
 ### Operations
 
@@ -685,8 +680,8 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.Core().create({
-  destination_domain: 'example_destination_domain',
-  route: [],
+  destinationDomain: 'example_destinationDomain',
+  routes: [],
   token: 'example_token',
 })
 ```
@@ -745,25 +740,25 @@ const custom_domain = client.CustomDomain()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | `number` | No |  |
-| `custom_domain` | `string` | No |  |
+| `createdAt` | `number` | No |  |
+| `customDomain` | `string` | No |  |
 | `id` | `string` | No |  |
 | `relay` | `string` | No |  |
 | `status` | `string` | No |  |
-| `updated_at` | `number` | No |  |
-| `validation_record` | `string` | No |  |
+| `updatedAt` | `number` | No |  |
+| `validationRecord` | `string` | No |  |
 
 ### Field Usage by Operation
 
 | Field | load | create |
 | --- | --- | --- |
-| `created_at` | - | - |
-| `custom_domain` | - | Yes |
+| `createdAt` | - | - |
+| `customDomain` | - | Yes |
 | `id` | - | - |
 | `relay` | - | - |
 | `status` | - | - |
-| `updated_at` | - | - |
-| `validation_record` | - | - |
+| `updatedAt` | - | - |
+| `validationRecord` | - | - |
 
 ### Operations
 
@@ -824,7 +819,7 @@ const function_run = client.FunctionRun()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `async` | `boolean` | No |  |
-| `created_at` | `number` | No |  |
+| `createdAt` | `number` | No |  |
 | `error` | `Record<string, any> | null` | No |  |
 | `id` | `string` | No |  |
 | `payload` | `Record<string, any>` | Yes |  |
@@ -840,6 +835,7 @@ Create a new entity with the given data.
 ```ts
 const result = await client.FunctionRun().create({
   function_name: 'example_function_name',
+  payload: {},
 })
 ```
 
@@ -881,30 +877,30 @@ const merchant = client.Merchant()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `apple_pay` | `Record<string, any>` | No |  |
+| `applePay` | `Record<string, any>` | No |  |
 | `business` | `Record<string, any>` | No |  |
-| `category_code` | `string` | No |  |
-| `created_at` | `number` | Yes |  |
+| `categoryCode` | `string` | No |  |
+| `createdAt` | `number` | Yes |  |
 | `id` | `string` | Yes |  |
 | `name` | `string` | Yes |  |
-| `network_token` | `Record<string, any>` | No |  |
-| `short_name` | `string` | No |  |
-| `updated_at` | `number` | No |  |
+| `networkTokens` | `Record<string, any>` | No |  |
+| `shortName` | `string` | No |  |
+| `updatedAt` | `number` | No |  |
 | `website` | `string` | Yes |  |
 
 ### Field Usage by Operation
 
 | Field | load | create | update |
 | --- | --- | --- | --- |
-| `apple_pay` | - | - | - |
+| `applePay` | - | - | - |
 | `business` | - | Yes | - |
-| `category_code` | - | Yes | - |
-| `created_at` | - | - | - |
+| `categoryCode` | - | Yes | - |
+| `createdAt` | - | - | - |
 | `id` | - | - | - |
 | `name` | - | - | - |
-| `network_token` | - | - | - |
-| `short_name` | - | - | - |
-| `updated_at` | - | - | - |
+| `networkTokens` | - | - | - |
+| `shortName` | - | - | - |
+| `updatedAt` | - | - | - |
 | `website` | - | - | - |
 
 ### Operations
@@ -915,7 +911,7 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.Merchant().create({
-  created_at: 1,
+  createdAt: 1,
   id: 'example_id',
   name: 'example_name',
   website: 'example_website',
@@ -980,17 +976,37 @@ const network_token = client.NetworkToken()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `card` | `Record<string, any>` | Yes |  |
-| `created_at` | `number` | Yes |  |
+| `createdAt` | `number` | Yes |  |
 | `expiry` | `Record<string, any>` | Yes |  |
 | `id` | `string` | Yes |  |
 | `merchant` | `string` | Yes |  |
 | `number` | `string` | Yes |  |
-| `payment_account_reference` | `string` | No |  |
+| `paymentAccountReference` | `string` | No |  |
 | `status` | `string` | Yes |  |
-| `token_requestor_identifier` | `string` | Yes |  |
-| `token_service_provider` | `string` | Yes |  |
-| `update_type` | `string` | No |  |
-| `updated_at` | `number` | No |  |
+| `tokenRequestorIdentifier` | `string` | Yes |  |
+| `tokenServiceProvider` | `string` | Yes |  |
+| `updateType` | `string` | No |  |
+| `updatedAt` | `number` | No |  |
+
+### Actions
+
+This entity exposes custom API actions in addition to the standard
+operations. Select one with `$action` in the call's argument; the
+remaining keys are sent as that action's payload.
+
+| Action | Route | Call |
+| --- | --- | --- |
+| `simulate` | `/payments/network-tokens/{network_token_id}/simulate` | `client.NetworkToken().create({ $action: 'simulate', ... })` |
+
+An action returns that action's OWN response, which is not necessarily a
+NetworkToken record — check the API definition for its shape.
+
+```ts
+const result = await client.NetworkToken().create({
+  $action: 'simulate',
+  /* ...the action's own arguments */
+})
+```
 
 ### Operations
 
@@ -1001,14 +1017,14 @@ Create a new entity with the given data.
 ```ts
 const result = await client.NetworkToken().create({
   card: {},
-  created_at: 1,
+  createdAt: 1,
   expiry: {},
   id: 'example_id',
   merchant: 'example_merchant',
   number: 'example_number',
   status: 'example_status',
-  token_requestor_identifier: 'example_token_requestor_identifier',
-  token_service_provider: 'example_token_service_provider',
+  tokenRequestorIdentifier: 'example_tokenRequestorIdentifier',
+  tokenServiceProvider: 'example_tokenServiceProvider',
 })
 ```
 
@@ -1058,7 +1074,7 @@ const network_token_cryptogram = client.NetworkTokenCryptogram()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | `number` | No |  |
+| `createdAt` | `number` | No |  |
 | `cryptogram` | `string` | No |  |
 | `id` | `string` | No |  |
 
@@ -1112,41 +1128,43 @@ const payment = client.Payment()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `apple_pay` | `Record<string, any>` | No |  |
+| `applePay` | `Record<string, any>` | No |  |
 | `business` | `Record<string, any>` | No |  |
-| `category_code` | `string` | No |  |
-| `configuration` | `any[]` | Yes |  |
-| `created_at` | `number` | Yes |  |
+| `categoryCode` | `string` | No |  |
+| `configurations` | `any[]` | Yes |  |
+| `createdAt` | `number` | Yes |  |
+| `created_at` | `number` | No |  |
 | `data` | `Record<string, any>` | No |  |
 | `default` | `boolean` | Yes |  |
 | `description` | `string` | No |  |
 | `id` | `string` | Yes |  |
 | `name` | `string` | Yes |  |
-| `network_token` | `Record<string, any>` | No |  |
-| `short_name` | `string` | No |  |
+| `networkTokens` | `Record<string, any>` | No |  |
+| `shortName` | `string` | No |  |
 | `type` | `string` | No |  |
-| `updated_at` | `number` | No |  |
+| `updatedAt` | `number` | No |  |
 | `website` | `string` | Yes |  |
 
-### Field Usage by Operation
+### Actions
 
-| Field | list | remove |
+This entity exposes custom API actions in addition to the standard
+operations. Select one with `$action` in the call's argument; the
+remaining keys are sent as that action's payload.
+
+| Action | Route | Call |
 | --- | --- | --- |
-| `apple_pay` | - | - |
-| `business` | - | - |
-| `category_code` | - | - |
-| `configuration` | - | - |
-| `created_at` | Yes | - |
-| `data` | - | - |
-| `default` | - | - |
-| `description` | - | - |
-| `id` | - | - |
-| `name` | - | - |
-| `network_token` | - | - |
-| `short_name` | - | - |
-| `type` | - | - |
-| `updated_at` | - | - |
-| `website` | - | - |
+| `acquirer` | `/payments/acquirers` | `client.Payment().list({ $action: 'acquirer', ... })` |
+| `merchant` | `/payments/merchants` | `client.Payment().list({ $action: 'merchant', ... })` |
+
+An action returns that action's OWN response, which is not necessarily a
+Payment record — check the API definition for its shape.
+
+```ts
+const result = await client.Payment().list({
+  $action: 'acquirer',
+  /* ...the action's own arguments */
+})
+```
 
 ### Operations
 
@@ -1155,7 +1173,7 @@ const payment = client.Payment()
 List entities matching the given criteria. Returns an array.
 
 ```ts
-const results = await client.Payment().list()
+const results = await client.Payment().list({ '3ds_session_id': "example" })
 ```
 
 #### `remove(match: object, ctrl?: object)`
@@ -1206,13 +1224,13 @@ const relay = client.Relay()
 | --- | --- | --- | --- |
 | `app` | `string` | No |  |
 | `authentication` | `string | null` | No |  |
-| `created_at` | `number` | No |  |
-| `destination_domain` | `string` | No |  |
-| `encrypt_empty_string` | `boolean` | No |  |
-| `evervault_domain` | `string` | No |  |
+| `createdAt` | `number` | No |  |
+| `destinationDomain` | `string` | No |  |
+| `encryptEmptyStrings` | `boolean` | No |  |
+| `evervaultDomain` | `string` | No |  |
 | `id` | `string` | No |  |
-| `route` | `any[]` | No |  |
-| `updated_at` | `number` | No |  |
+| `routes` | `any[]` | No |  |
+| `updatedAt` | `number` | No |  |
 
 ### Operations
 
@@ -1273,58 +1291,58 @@ const three_ds_session = client.ThreeDsSession()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `access_control_server` | `Record<string, any>` | No |  |
+| `accessControlServer` | `Record<string, any>` | No |  |
 | `acquirer` | `Record<string, any>` | Yes |  |
-| `are` | `Record<string, any>` | No |  |
+| `ares` | `Record<string, any>` | No |  |
 | `authentication` | `Record<string, any>` | Yes |  |
 | `card` | `Record<string, any>` | Yes |  |
 | `challenge` | `Record<string, any>` | Yes |  |
-| `cre` | `null | Record<string, any>` | No |  |
-| `created_at` | `number` | Yes |  |
+| `createdAt` | `number` | Yes |  |
+| `cres` | `null | Record<string, any>` | No |  |
 | `cryptogram` | `string` | No |  |
 | `customer` | `Record<string, any>` | No |  |
-| `directory_server` | `Record<string, any>` | No |  |
+| `directoryServer` | `Record<string, any>` | No |  |
 | `eci` | `Record<string, any>` | No |  |
-| `failure_reason` | `string` | No |  |
+| `failureReason` | `string` | No |  |
 | `id` | `string` | Yes |  |
 | `initiator` | `Record<string, any>` | No |  |
 | `merchant` | `Record<string, any>` | Yes |  |
-| `next_action` | `Record<string, any>` | Yes |  |
+| `nextAction` | `Record<string, any>` | Yes |  |
 | `payment` | `Record<string, any>` | No |  |
-| `preferred_version` | `any[]` | No |  |
+| `preferredVersions` | `any[]` | No |  |
 | `rreq` | `null | Record<string, any>` | No |  |
 | `status` | `string` | Yes |  |
-| `three_ds_server` | `Record<string, any>` | No |  |
-| `updated_at` | `number` | No |  |
+| `threeDSServer` | `Record<string, any>` | No |  |
+| `updatedAt` | `number` | No |  |
 | `version` | `string` | Yes |  |
 
 ### Field Usage by Operation
 
 | Field | load | create |
 | --- | --- | --- |
-| `access_control_server` | - | - |
+| `accessControlServer` | - | - |
 | `acquirer` | - | Yes |
-| `are` | - | - |
+| `ares` | - | - |
 | `authentication` | - | - |
 | `card` | - | - |
 | `challenge` | - | - |
-| `cre` | - | - |
-| `created_at` | - | - |
+| `createdAt` | - | - |
+| `cres` | - | - |
 | `cryptogram` | - | - |
 | `customer` | - | - |
-| `directory_server` | - | - |
+| `directoryServer` | - | - |
 | `eci` | - | - |
-| `failure_reason` | - | - |
+| `failureReason` | - | - |
 | `id` | - | - |
 | `initiator` | - | - |
 | `merchant` | - | - |
-| `next_action` | - | - |
+| `nextAction` | - | - |
 | `payment` | - | - |
-| `preferred_version` | - | - |
+| `preferredVersions` | - | - |
 | `rreq` | - | - |
 | `status` | - | - |
-| `three_ds_server` | - | - |
-| `updated_at` | - | - |
+| `threeDSServer` | - | - |
+| `updatedAt` | - | - |
 | `version` | - | - |
 
 ### Operations
@@ -1339,10 +1357,10 @@ const result = await client.ThreeDsSession().create({
   authentication: {},
   card: {},
   challenge: {},
-  created_at: 1,
+  createdAt: 1,
   id: 'example_id',
   merchant: {},
-  next_action: {},
+  nextAction: {},
   status: 'example_status',
   version: 'example_version',
 })
@@ -1394,20 +1412,20 @@ const webhook = client.Webhook()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | `number` | No |  |
-| `event` | `any[]` | Yes |  |
+| `createdAt` | `number` | No |  |
+| `events` | `any[]` | Yes |  |
 | `id` | `string` | No |  |
-| `updated_at` | `number | null` | No |  |
+| `updatedAt` | `number | null` | No |  |
 | `url` | `string` | Yes |  |
 
 ### Field Usage by Operation
 
 | Field | list | create | remove |
 | --- | --- | --- | --- |
-| `created_at` | - | - | - |
-| `event` | Yes | - | - |
+| `createdAt` | - | - | - |
+| `events` | Yes | - | - |
 | `id` | - | - | - |
-| `updated_at` | - | - | - |
+| `updatedAt` | - | - | - |
 | `url` | Yes | - | - |
 
 ### Operations
@@ -1418,7 +1436,7 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.Webhook().create({
-  event: [],
+  events: [],
   url: 'example_url',
 })
 ```
@@ -1477,20 +1495,20 @@ const webhook_endpoint = client.WebhookEndpoint()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | `number` | No |  |
-| `event` | `any[]` | No |  |
+| `createdAt` | `number` | No |  |
+| `events` | `any[]` | No |  |
 | `id` | `string` | No |  |
-| `updated_at` | `number | null` | No |  |
+| `updatedAt` | `number | null` | No |  |
 | `url` | `string` | No |  |
 
 ### Field Usage by Operation
 
 | Field | load | update |
 | --- | --- | --- |
-| `created_at` | - | - |
-| `event` | - | Yes |
+| `createdAt` | - | - |
+| `events` | - | Yes |
 | `id` | - | - |
-| `updated_at` | - | - |
+| `updatedAt` | - | - |
 | `url` | - | - |
 
 ### Operations

@@ -62,14 +62,14 @@ describe('WebhookEntity', async () => {
     const webhook_ref01_ent = client.Webhook()
     let webhook_ref01_data = setup.data.new.webhook['webhook_ref01']
 
-    webhook_ref01_data = await webhook_ref01_ent.create(webhook_ref01_data)
+    webhook_ref01_data = (await webhook_ref01_ent.create(webhook_ref01_data)).data()
     assert(null != webhook_ref01_data.id)
 
 
     // LIST
     const webhook_ref01_match: any = {}
 
-    const webhook_ref01_list = await webhook_ref01_ent.list(webhook_ref01_match)
+    const webhook_ref01_list = (await webhook_ref01_ent.list(webhook_ref01_match)).map((e: any) => e.data())
 
     assert(!isempty(select(webhook_ref01_list, { id: webhook_ref01_data.id })))
 
@@ -82,7 +82,7 @@ describe('WebhookEntity', async () => {
     // LIST
     const webhook_ref01_match_rt0: any = {}
 
-    const webhook_ref01_list_rt0 = await webhook_ref01_ent.list(webhook_ref01_match_rt0)
+    const webhook_ref01_list_rt0 = (await webhook_ref01_ent.list(webhook_ref01_match_rt0)).map((e: any) => e.data())
 
     assert(isempty(select(webhook_ref01_list_rt0, { id: webhook_ref01_data.id })))
 

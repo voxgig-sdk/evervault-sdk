@@ -159,7 +159,7 @@ fmt.Println(acquirer.GetName()) // "acquirer"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `configuration` | `[]any` | Yes |  |
+| `configurations` | `[]any` | Yes |  |
 | `default` | `bool` | Yes |  |
 | `description` | `string` | No |  |
 | `id` | `string` | Yes |  |
@@ -169,7 +169,7 @@ fmt.Println(acquirer.GetName()) // "acquirer"
 
 | Field | load | create | update |
 | --- | --- | --- | --- |
-| `configuration` | - | - | Yes |
+| `configurations` | - | - | Yes |
 | `default` | - | Yes | Yes |
 | `description` | - | - | - |
 | `id` | - | - | - |
@@ -195,7 +195,7 @@ Create a new entity with the given data.
 
 ```go
 result, err := client.Acquirer(nil).Create(map[string]any{
-    "configuration": []any{},
+    "configurations": []any{},
     "default": true,
     "id": "example_id",
     "name": "example_name",
@@ -310,25 +310,13 @@ fmt.Println(card.GetName()) // "card"
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `address` | `map[string]any` | Yes |  |
-| `automatic_update` | `string` | No |  |
-| `bin` | `string` | Yes |  |
-| `brand` | `string` | No |  |
 | `card` | `map[string]any` | Yes |  |
 | `cardholder` | `map[string]any` | No |  |
-| `country` | `string` | No |  |
-| `created_at` | `int` | Yes |  |
-| `currency` | `string` | No |  |
 | `expiry` | `map[string]any` | Yes |  |
-| `extension` | `[]any` | No |  |
-| `funding` | `string` | No |  |
-| `id` | `string` | No |  |
-| `issuer` | `string` | No |  |
-| `last_four` | `string` | Yes |  |
+| `extensions` | `[]any` | No |  |
+| `month` | `string` | Yes |  |
 | `number` | `string` | Yes |  |
-| `replacement` | `any` | No |  |
-| `segment` | `string` | No |  |
-| `status` | `string` | No |  |
-| `updated_at` | `any` | No |  |
+| `year` | `string` | Yes |  |
 
 ### Operations
 
@@ -351,12 +339,11 @@ Create a new entity with the given data.
 ```go
 result, err := client.Card(nil).Create(map[string]any{
     "address": map[string]any{},
-    "bin": "example_bin",
     "card": map[string]any{},
-    "created_at": 1,
     "expiry": map[string]any{},
-    "last_four": "example_last_four",
+    "month": "example_month",
     "number": "example_number",
+    "year": "example_year",
 }, nil)
 if err != nil {
     panic(err)
@@ -510,25 +497,19 @@ fmt.Println(core.GetName()) // "core"
 | --- | --- | --- | --- |
 | `app` | `string` | No |  |
 | `authentication` | `any` | No |  |
-| `category` | `string` | No |  |
-| `created_at` | `int` | No |  |
-| `custom_domain` | `string` | No |  |
-| `destination_domain` | `string` | Yes |  |
-| `encrypt_empty_string` | `bool` | No |  |
-| `encrypted_at` | `int` | No |  |
-| `evervault_domain` | `string` | No |  |
-| `fingerprint` | `string` | No |  |
+| `createdAt` | `int` | No |  |
+| `customDomain` | `string` | No |  |
+| `destinationDomain` | `string` | Yes |  |
+| `encryptEmptyStrings` | `bool` | No |  |
+| `evervaultDomain` | `string` | No |  |
 | `id` | `string` | No |  |
-| `metadata` | `any` | No |  |
-| `phone_number` | `string` | No |  |
+| `phoneNumber` | `string` | No |  |
 | `relay` | `string` | No |  |
-| `role` | `string` | No |  |
-| `route` | `[]any` | Yes |  |
+| `routes` | `[]any` | Yes |  |
 | `status` | `string` | No |  |
 | `token` | `string` | Yes |  |
-| `type` | `string` | No |  |
-| `updated_at` | `int` | No |  |
-| `validation_record` | `string` | No |  |
+| `updatedAt` | `int` | No |  |
+| `validationRecord` | `string` | No |  |
 
 ### Field Usage by Operation
 
@@ -536,25 +517,19 @@ fmt.Println(core.GetName()) // "core"
 | --- | --- | --- | --- |
 | `app` | - | - | - |
 | `authentication` | - | - | - |
-| `category` | - | - | - |
-| `created_at` | - | - | - |
-| `custom_domain` | - | - | - |
-| `destination_domain` | Yes | - | - |
-| `encrypt_empty_string` | - | - | - |
-| `encrypted_at` | - | - | - |
-| `evervault_domain` | - | - | - |
-| `fingerprint` | - | - | - |
+| `createdAt` | - | - | - |
+| `customDomain` | - | - | - |
+| `destinationDomain` | Yes | - | - |
+| `encryptEmptyStrings` | - | - | - |
+| `evervaultDomain` | - | - | - |
 | `id` | - | - | - |
-| `metadata` | - | - | - |
-| `phone_number` | - | - | - |
+| `phoneNumber` | - | - | - |
 | `relay` | - | - | - |
-| `role` | - | - | - |
-| `route` | Yes | - | - |
+| `routes` | Yes | - | - |
 | `status` | - | - | - |
 | `token` | - | - | - |
-| `type` | - | - | - |
-| `updated_at` | - | - | - |
-| `validation_record` | - | - | - |
+| `updatedAt` | - | - | - |
+| `validationRecord` | - | - | - |
 
 ### Operations
 
@@ -576,8 +551,8 @@ Create a new entity with the given data.
 
 ```go
 result, err := client.Core(nil).Create(map[string]any{
-    "destination_domain": "example_destination_domain",
-    "route": []any{},
+    "destinationDomain": "example_destinationDomain",
+    "routes": []any{},
     "token": "example_token",
 }, nil)
 if err != nil {
@@ -633,25 +608,25 @@ fmt.Println(customDomain.GetName()) // "custom_domain"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | `int` | No |  |
-| `custom_domain` | `string` | No |  |
+| `createdAt` | `int` | No |  |
+| `customDomain` | `string` | No |  |
 | `id` | `string` | No |  |
 | `relay` | `string` | No |  |
 | `status` | `string` | No |  |
-| `updated_at` | `int` | No |  |
-| `validation_record` | `string` | No |  |
+| `updatedAt` | `int` | No |  |
+| `validationRecord` | `string` | No |  |
 
 ### Field Usage by Operation
 
 | Field | load | create |
 | --- | --- | --- |
-| `created_at` | - | - |
-| `custom_domain` | - | Yes |
+| `createdAt` | - | - |
+| `customDomain` | - | Yes |
 | `id` | - | - |
 | `relay` | - | - |
 | `status` | - | - |
-| `updated_at` | - | - |
-| `validation_record` | - | - |
+| `updatedAt` | - | - |
+| `validationRecord` | - | - |
 
 ### Operations
 
@@ -717,7 +692,7 @@ fmt.Println(functionRun.GetName()) // "function_run"
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `async` | `bool` | No |  |
-| `created_at` | `int` | No |  |
+| `createdAt` | `int` | No |  |
 | `error` | `any` | No |  |
 | `id` | `string` | No |  |
 | `payload` | `map[string]any` | Yes |  |
@@ -733,6 +708,7 @@ Create a new entity with the given data.
 ```go
 result, err := client.FunctionRun(nil).Create(map[string]any{
     "function_name": "example_function_name",
+    "payload": map[string]any{},
 }, nil)
 if err != nil {
     panic(err)
@@ -775,30 +751,30 @@ fmt.Println(merchant.GetName()) // "merchant"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `apple_pay` | `map[string]any` | No |  |
+| `applePay` | `map[string]any` | No |  |
 | `business` | `map[string]any` | No |  |
-| `category_code` | `string` | No |  |
-| `created_at` | `int` | Yes |  |
+| `categoryCode` | `string` | No |  |
+| `createdAt` | `int` | Yes |  |
 | `id` | `string` | Yes |  |
 | `name` | `string` | Yes |  |
-| `network_token` | `map[string]any` | No |  |
-| `short_name` | `string` | No |  |
-| `updated_at` | `int` | No |  |
+| `networkTokens` | `map[string]any` | No |  |
+| `shortName` | `string` | No |  |
+| `updatedAt` | `int` | No |  |
 | `website` | `string` | Yes |  |
 
 ### Field Usage by Operation
 
 | Field | load | create | update |
 | --- | --- | --- | --- |
-| `apple_pay` | - | - | - |
+| `applePay` | - | - | - |
 | `business` | - | Yes | - |
-| `category_code` | - | Yes | - |
-| `created_at` | - | - | - |
+| `categoryCode` | - | Yes | - |
+| `createdAt` | - | - | - |
 | `id` | - | - | - |
 | `name` | - | - | - |
-| `network_token` | - | - | - |
-| `short_name` | - | - | - |
-| `updated_at` | - | - | - |
+| `networkTokens` | - | - | - |
+| `shortName` | - | - | - |
+| `updatedAt` | - | - | - |
 | `website` | - | - | - |
 
 ### Operations
@@ -821,7 +797,7 @@ Create a new entity with the given data.
 
 ```go
 result, err := client.Merchant(nil).Create(map[string]any{
-    "created_at": 1,
+    "createdAt": 1,
     "id": "example_id",
     "name": "example_name",
     "website": "example_website",
@@ -883,17 +859,17 @@ fmt.Println(networkToken.GetName()) // "network_token"
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `card` | `map[string]any` | Yes |  |
-| `created_at` | `int` | Yes |  |
+| `createdAt` | `int` | Yes |  |
 | `expiry` | `map[string]any` | Yes |  |
 | `id` | `string` | Yes |  |
 | `merchant` | `string` | Yes |  |
 | `number` | `string` | Yes |  |
-| `payment_account_reference` | `string` | No |  |
+| `paymentAccountReference` | `string` | No |  |
 | `status` | `string` | Yes |  |
-| `token_requestor_identifier` | `string` | Yes |  |
-| `token_service_provider` | `string` | Yes |  |
-| `update_type` | `string` | No |  |
-| `updated_at` | `int` | No |  |
+| `tokenRequestorIdentifier` | `string` | Yes |  |
+| `tokenServiceProvider` | `string` | Yes |  |
+| `updateType` | `string` | No |  |
+| `updatedAt` | `int` | No |  |
 
 ### Operations
 
@@ -916,14 +892,14 @@ Create a new entity with the given data.
 ```go
 result, err := client.NetworkToken(nil).Create(map[string]any{
     "card": map[string]any{},
-    "created_at": 1,
+    "createdAt": 1,
     "expiry": map[string]any{},
     "id": "example_id",
     "merchant": "example_merchant",
     "number": "example_number",
     "status": "example_status",
-    "token_requestor_identifier": "example_token_requestor_identifier",
-    "token_service_provider": "example_token_service_provider",
+    "tokenRequestorIdentifier": "example_tokenRequestorIdentifier",
+    "tokenServiceProvider": "example_tokenServiceProvider",
 }, nil)
 if err != nil {
     panic(err)
@@ -966,7 +942,7 @@ fmt.Println(networkTokenCryptogram.GetName()) // "network_token_cryptogram"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | `int` | No |  |
+| `createdAt` | `int` | No |  |
 | `cryptogram` | `string` | No |  |
 | `id` | `string` | No |  |
 
@@ -1021,41 +997,22 @@ fmt.Println(payment.GetName()) // "payment"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `apple_pay` | `map[string]any` | No |  |
+| `applePay` | `map[string]any` | No |  |
 | `business` | `map[string]any` | No |  |
-| `category_code` | `string` | No |  |
-| `configuration` | `[]any` | Yes |  |
-| `created_at` | `int` | Yes |  |
+| `categoryCode` | `string` | No |  |
+| `configurations` | `[]any` | Yes |  |
+| `createdAt` | `int` | Yes |  |
+| `created_at` | `int` | No |  |
 | `data` | `map[string]any` | No |  |
 | `default` | `bool` | Yes |  |
 | `description` | `string` | No |  |
 | `id` | `string` | Yes |  |
 | `name` | `string` | Yes |  |
-| `network_token` | `map[string]any` | No |  |
-| `short_name` | `string` | No |  |
+| `networkTokens` | `map[string]any` | No |  |
+| `shortName` | `string` | No |  |
 | `type` | `string` | No |  |
-| `updated_at` | `int` | No |  |
+| `updatedAt` | `int` | No |  |
 | `website` | `string` | Yes |  |
-
-### Field Usage by Operation
-
-| Field | list | remove |
-| --- | --- | --- |
-| `apple_pay` | - | - |
-| `business` | - | - |
-| `category_code` | - | - |
-| `configuration` | - | - |
-| `created_at` | Yes | - |
-| `data` | - | - |
-| `default` | - | - |
-| `description` | - | - |
-| `id` | - | - |
-| `name` | - | - |
-| `network_token` | - | - |
-| `short_name` | - | - |
-| `type` | - | - |
-| `updated_at` | - | - |
-| `website` | - | - |
 
 ### Operations
 
@@ -1120,13 +1077,13 @@ fmt.Println(relay.GetName()) // "relay"
 | --- | --- | --- | --- |
 | `app` | `string` | No |  |
 | `authentication` | `any` | No |  |
-| `created_at` | `int` | No |  |
-| `destination_domain` | `string` | No |  |
-| `encrypt_empty_string` | `bool` | No |  |
-| `evervault_domain` | `string` | No |  |
+| `createdAt` | `int` | No |  |
+| `destinationDomain` | `string` | No |  |
+| `encryptEmptyStrings` | `bool` | No |  |
+| `evervaultDomain` | `string` | No |  |
 | `id` | `string` | No |  |
-| `route` | `[]any` | No |  |
-| `updated_at` | `int` | No |  |
+| `routes` | `[]any` | No |  |
+| `updatedAt` | `int` | No |  |
 
 ### Operations
 
@@ -1192,58 +1149,58 @@ fmt.Println(threeDsSession.GetName()) // "three_ds_session"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `access_control_server` | `map[string]any` | No |  |
+| `accessControlServer` | `map[string]any` | No |  |
 | `acquirer` | `map[string]any` | Yes |  |
-| `are` | `map[string]any` | No |  |
+| `ares` | `map[string]any` | No |  |
 | `authentication` | `map[string]any` | Yes |  |
 | `card` | `map[string]any` | Yes |  |
 | `challenge` | `map[string]any` | Yes |  |
-| `cre` | `any` | No |  |
-| `created_at` | `int` | Yes |  |
+| `createdAt` | `int` | Yes |  |
+| `cres` | `any` | No |  |
 | `cryptogram` | `string` | No |  |
 | `customer` | `map[string]any` | No |  |
-| `directory_server` | `map[string]any` | No |  |
+| `directoryServer` | `map[string]any` | No |  |
 | `eci` | `map[string]any` | No |  |
-| `failure_reason` | `string` | No |  |
+| `failureReason` | `string` | No |  |
 | `id` | `string` | Yes |  |
 | `initiator` | `map[string]any` | No |  |
 | `merchant` | `map[string]any` | Yes |  |
-| `next_action` | `map[string]any` | Yes |  |
+| `nextAction` | `map[string]any` | Yes |  |
 | `payment` | `map[string]any` | No |  |
-| `preferred_version` | `[]any` | No |  |
+| `preferredVersions` | `[]any` | No |  |
 | `rreq` | `any` | No |  |
 | `status` | `string` | Yes |  |
-| `three_ds_server` | `map[string]any` | No |  |
-| `updated_at` | `int` | No |  |
+| `threeDSServer` | `map[string]any` | No |  |
+| `updatedAt` | `int` | No |  |
 | `version` | `string` | Yes |  |
 
 ### Field Usage by Operation
 
 | Field | load | create |
 | --- | --- | --- |
-| `access_control_server` | - | - |
+| `accessControlServer` | - | - |
 | `acquirer` | - | Yes |
-| `are` | - | - |
+| `ares` | - | - |
 | `authentication` | - | - |
 | `card` | - | - |
 | `challenge` | - | - |
-| `cre` | - | - |
-| `created_at` | - | - |
+| `createdAt` | - | - |
+| `cres` | - | - |
 | `cryptogram` | - | - |
 | `customer` | - | - |
-| `directory_server` | - | - |
+| `directoryServer` | - | - |
 | `eci` | - | - |
-| `failure_reason` | - | - |
+| `failureReason` | - | - |
 | `id` | - | - |
 | `initiator` | - | - |
 | `merchant` | - | - |
-| `next_action` | - | - |
+| `nextAction` | - | - |
 | `payment` | - | - |
-| `preferred_version` | - | - |
+| `preferredVersions` | - | - |
 | `rreq` | - | - |
 | `status` | - | - |
-| `three_ds_server` | - | - |
-| `updated_at` | - | - |
+| `threeDSServer` | - | - |
+| `updatedAt` | - | - |
 | `version` | - | - |
 
 ### Operations
@@ -1270,10 +1227,10 @@ result, err := client.ThreeDsSession(nil).Create(map[string]any{
     "authentication": map[string]any{},
     "card": map[string]any{},
     "challenge": map[string]any{},
-    "created_at": 1,
+    "createdAt": 1,
     "id": "example_id",
     "merchant": map[string]any{},
-    "next_action": map[string]any{},
+    "nextAction": map[string]any{},
     "status": "example_status",
     "version": "example_version",
 }, nil)
@@ -1318,20 +1275,20 @@ fmt.Println(webhook.GetName()) // "webhook"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | `int` | No |  |
-| `event` | `[]any` | Yes |  |
+| `createdAt` | `int` | No |  |
+| `events` | `[]any` | Yes |  |
 | `id` | `string` | No |  |
-| `updated_at` | `any` | No |  |
+| `updatedAt` | `any` | No |  |
 | `url` | `string` | Yes |  |
 
 ### Field Usage by Operation
 
 | Field | list | create | remove |
 | --- | --- | --- | --- |
-| `created_at` | - | - | - |
-| `event` | Yes | - | - |
+| `createdAt` | - | - | - |
+| `events` | Yes | - | - |
 | `id` | - | - | - |
-| `updated_at` | - | - | - |
+| `updatedAt` | - | - | - |
 | `url` | Yes | - | - |
 
 ### Operations
@@ -1354,7 +1311,7 @@ Create a new entity with the given data.
 
 ```go
 result, err := client.Webhook(nil).Create(map[string]any{
-    "event": []any{},
+    "events": []any{},
     "url": "example_url",
 }, nil)
 if err != nil {
@@ -1410,20 +1367,20 @@ fmt.Println(webhookEndpoint.GetName()) // "webhook_endpoint"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | `int` | No |  |
-| `event` | `[]any` | No |  |
+| `createdAt` | `int` | No |  |
+| `events` | `[]any` | No |  |
 | `id` | `string` | No |  |
-| `updated_at` | `any` | No |  |
+| `updatedAt` | `any` | No |  |
 | `url` | `string` | No |  |
 
 ### Field Usage by Operation
 
 | Field | load | update |
 | --- | --- | --- |
-| `created_at` | - | - |
-| `event` | - | Yes |
+| `createdAt` | - | - |
+| `events` | - | Yes |
 | `id` | - | - |
-| `updated_at` | - | - |
+| `updatedAt` | - | - |
 | `url` | - | - |
 
 ### Operations

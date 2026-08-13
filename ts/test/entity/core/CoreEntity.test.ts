@@ -63,14 +63,14 @@ describe('CoreEntity', async () => {
     let core_ref01_data = setup.data.new.core['core_ref01']
     core_ref01_data['relay_id'] = setup.idmap['relay01']
 
-    core_ref01_data = await core_ref01_ent.create(core_ref01_data)
+    core_ref01_data = (await core_ref01_ent.create(core_ref01_data)).data()
     assert(null != core_ref01_data.id)
 
 
     // LIST
     const core_ref01_match: any = {}
 
-    const core_ref01_list = await core_ref01_ent.list(core_ref01_match)
+    const core_ref01_list = (await core_ref01_ent.list(core_ref01_match)).map((e: any) => e.data())
 
     assert(!isempty(select(core_ref01_list, { id: core_ref01_data.id })))
 
@@ -83,7 +83,7 @@ describe('CoreEntity', async () => {
     // LIST
     const core_ref01_match_rt0: any = {}
 
-    const core_ref01_list_rt0 = await core_ref01_ent.list(core_ref01_match_rt0)
+    const core_ref01_list_rt0 = (await core_ref01_ent.list(core_ref01_match_rt0)).map((e: any) => e.data())
 
     assert(isempty(select(core_ref01_list_rt0, { id: core_ref01_data.id })))
 

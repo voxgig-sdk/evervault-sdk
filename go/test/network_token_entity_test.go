@@ -58,7 +58,7 @@ func TestNetworkTokenEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("create failed: %v", err)
 		}
-		networkTokenRef01Data = core.ToMapAny(networkTokenRef01DataResult)
+		networkTokenRef01Data = core.ToMapAny(entityData(networkTokenRef01DataResult))
 		if networkTokenRef01Data == nil {
 			t.Fatal("expected create result to be a map")
 		}
@@ -74,7 +74,7 @@ func TestNetworkTokenEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("load failed: %v", err)
 		}
-		networkTokenRef01DataDt0LoadResult := core.ToMapAny(networkTokenRef01DataDt0Loaded)
+		networkTokenRef01DataDt0LoadResult := core.ToMapAny(entityData(networkTokenRef01DataDt0Loaded))
 		if networkTokenRef01DataDt0LoadResult == nil {
 			t.Fatal("expected load result to be a map")
 		}

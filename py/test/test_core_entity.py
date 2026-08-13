@@ -6,9 +6,9 @@ import time
 
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from evervault_sdk.utility.voxgig_struct import voxgig_struct as vs
 from evervault_sdk import EvervaultSDK
-from core import helpers
+from evervault_sdk.core import helpers
 
 _TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 from test import runner
@@ -42,7 +42,7 @@ class TestCoreEntity:
         assert len(seen) == 3
 
         # Inbound: streaming active -> yields each item from the feature.
-        from config import make_config
+        from evervault_sdk.config import make_config
         cfg = make_config()
         if isinstance(cfg.get("feature"), dict) and "streaming" in cfg["feature"]:
             sdk = EvervaultSDK.test(
@@ -79,7 +79,7 @@ class TestCoreEntity:
             vs.getpath(setup["data"], "new.core"), "core_ref01"))
         core_ref01_data["relay_id"] = setup["idmap"]["relay01"]
 
-        core_ref01_data = helpers.to_map(core_ref01_ent.create(core_ref01_data, None))
+        core_ref01_data = helpers.to_map(runner.entity_data(core_ref01_ent.create(core_ref01_data, None)))
         assert core_ref01_data is not None
         assert core_ref01_data["id"] is not None
 

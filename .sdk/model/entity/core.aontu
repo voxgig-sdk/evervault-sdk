@@ -22,22 +22,17 @@ main: kit: entity: core: {
       ]
     }
     {
-      name: "category"
-      req: false
-      type: "`$STRING`"
-    }
-    {
-      name: "created_at"
+      name: "createdAt"
       req: false
       type: "`$INTEGER`"
     }
     {
-      name: "custom_domain"
+      name: "customDomain"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "destination_domain"
+      name: "destinationDomain"
       op: {
         list: {
           req: false
@@ -48,22 +43,12 @@ main: kit: entity: core: {
       type: "`$STRING`"
     }
     {
-      name: "encrypt_empty_string"
+      name: "encryptEmptyStrings"
       req: false
       type: "`$BOOLEAN`"
     }
     {
-      name: "encrypted_at"
-      req: false
-      type: "`$INTEGER`"
-    }
-    {
-      name: "evervault_domain"
-      req: false
-      type: "`$STRING`"
-    }
-    {
-      name: "fingerprint"
+      name: "evervaultDomain"
       req: false
       type: "`$STRING`"
     }
@@ -73,12 +58,7 @@ main: kit: entity: core: {
       type: "`$STRING`"
     }
     {
-      name: "metadata"
-      req: false
-      type: "`$ANY`"
-    }
-    {
-      name: "phone_number"
+      name: "phoneNumber"
       req: false
       type: "`$STRING`"
     }
@@ -88,12 +68,7 @@ main: kit: entity: core: {
       type: "`$STRING`"
     }
     {
-      name: "role"
-      req: false
-      type: "`$STRING`"
-    }
-    {
-      name: "route"
+      name: "routes"
       op: {
         list: {
           req: false
@@ -114,17 +89,12 @@ main: kit: entity: core: {
       type: "`$STRING`"
     }
     {
-      name: "type"
-      req: false
-      type: "`$STRING`"
-    }
-    {
-      name: "updated_at"
+      name: "updatedAt"
       req: false
       type: "`$INTEGER`"
     }
     {
-      name: "validation_record"
+      name: "validationRecord"
       req: false
       type: "`$STRING`"
     }
@@ -170,7 +140,7 @@ main: kit: entity: core: {
           ]
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.metadata`"
           }
         }
         {
@@ -215,7 +185,7 @@ main: kit: entity: core: {
           }
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.data`"
           }
         }
         {
@@ -226,7 +196,7 @@ main: kit: entity: core: {
           ]
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.data`"
           }
         }
       ]

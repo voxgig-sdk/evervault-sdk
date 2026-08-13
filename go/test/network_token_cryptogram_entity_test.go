@@ -59,7 +59,7 @@ func TestNetworkTokenCryptogramEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("create failed: %v", err)
 		}
-		networkTokenCryptogramRef01Data = core.ToMapAny(networkTokenCryptogramRef01DataResult)
+		networkTokenCryptogramRef01Data = core.ToMapAny(entityData(networkTokenCryptogramRef01DataResult))
 		if networkTokenCryptogramRef01Data == nil {
 			t.Fatal("expected create result to be a map")
 		}

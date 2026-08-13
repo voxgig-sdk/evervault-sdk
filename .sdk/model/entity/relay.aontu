@@ -22,22 +22,22 @@ main: kit: entity: relay: {
       ]
     }
     {
-      name: "created_at"
+      name: "createdAt"
       req: false
       type: "`$INTEGER`"
     }
     {
-      name: "destination_domain"
+      name: "destinationDomain"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "encrypt_empty_string"
+      name: "encryptEmptyStrings"
       req: false
       type: "`$BOOLEAN`"
     }
     {
-      name: "evervault_domain"
+      name: "evervaultDomain"
       req: false
       type: "`$STRING`"
     }
@@ -47,12 +47,12 @@ main: kit: entity: relay: {
       type: "`$STRING`"
     }
     {
-      name: "route"
+      name: "routes"
       req: false
       type: "`$ARRAY`"
     }
     {
-      name: "updated_at"
+      name: "updatedAt"
       req: false
       type: "`$INTEGER`"
     }

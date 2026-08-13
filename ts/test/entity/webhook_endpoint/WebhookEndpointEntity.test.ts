@@ -67,7 +67,7 @@ describe('WebhookEndpointEntity', async () => {
     const webhook_endpoint_ref01_markdef_up0 = { name: 'url', value: 'Mark01-webhook_endpoint_ref01_' + setup.now }
     ;(webhook_endpoint_ref01_data_up0 as any)[webhook_endpoint_ref01_markdef_up0.name] = webhook_endpoint_ref01_markdef_up0.value
 
-    const webhook_endpoint_ref01_resdata_up0 = await webhook_endpoint_ref01_ent.update(webhook_endpoint_ref01_data_up0)
+    const webhook_endpoint_ref01_resdata_up0 = (await webhook_endpoint_ref01_ent.update(webhook_endpoint_ref01_data_up0)).data()
     assert(webhook_endpoint_ref01_resdata_up0.id === webhook_endpoint_ref01_data_up0.id)
 
     assert((webhook_endpoint_ref01_resdata_up0 as any)[webhook_endpoint_ref01_markdef_up0.name] === webhook_endpoint_ref01_markdef_up0.value)
@@ -76,7 +76,7 @@ describe('WebhookEndpointEntity', async () => {
     // LOAD
     const webhook_endpoint_ref01_match_dt0: any = {}
     webhook_endpoint_ref01_match_dt0.id = webhook_endpoint_ref01_data.id
-    const webhook_endpoint_ref01_data_dt0 = await webhook_endpoint_ref01_ent.load(webhook_endpoint_ref01_match_dt0)
+    const webhook_endpoint_ref01_data_dt0 = (await webhook_endpoint_ref01_ent.load(webhook_endpoint_ref01_match_dt0)).data()
     assert(webhook_endpoint_ref01_data_dt0.id === webhook_endpoint_ref01_data.id)
 
 

@@ -62,7 +62,7 @@ describe('AcquirerEntity', async () => {
     const acquirer_ref01_ent = client.Acquirer()
     let acquirer_ref01_data = setup.data.new.acquirer['acquirer_ref01']
 
-    acquirer_ref01_data = await acquirer_ref01_ent.create(acquirer_ref01_data)
+    acquirer_ref01_data = (await acquirer_ref01_ent.create(acquirer_ref01_data)).data()
     assert(null != acquirer_ref01_data.id)
 
 
@@ -73,7 +73,7 @@ describe('AcquirerEntity', async () => {
     const acquirer_ref01_markdef_up0 = { name: 'description', value: 'Mark01-acquirer_ref01_' + setup.now }
     ;(acquirer_ref01_data_up0 as any)[acquirer_ref01_markdef_up0.name] = acquirer_ref01_markdef_up0.value
 
-    const acquirer_ref01_resdata_up0 = await acquirer_ref01_ent.update(acquirer_ref01_data_up0)
+    const acquirer_ref01_resdata_up0 = (await acquirer_ref01_ent.update(acquirer_ref01_data_up0)).data()
     assert(acquirer_ref01_resdata_up0.id === acquirer_ref01_data_up0.id)
 
     assert((acquirer_ref01_resdata_up0 as any)[acquirer_ref01_markdef_up0.name] === acquirer_ref01_markdef_up0.value)
@@ -82,7 +82,7 @@ describe('AcquirerEntity', async () => {
     // LOAD
     const acquirer_ref01_match_dt0: any = {}
     acquirer_ref01_match_dt0.id = acquirer_ref01_data.id
-    const acquirer_ref01_data_dt0 = await acquirer_ref01_ent.load(acquirer_ref01_match_dt0)
+    const acquirer_ref01_data_dt0 = (await acquirer_ref01_ent.load(acquirer_ref01_match_dt0)).data()
     assert(acquirer_ref01_data_dt0.id === acquirer_ref01_data.id)
 
 

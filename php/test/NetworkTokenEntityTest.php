@@ -44,7 +44,7 @@ class NetworkTokenEntityTest extends TestCase
             Vs::getpath($setup["data"], "new.network_token"), "network_token_ref01"));
 
         $network_token_ref01_data_result = $network_token_ref01_ent->create($network_token_ref01_data, null);
-        $network_token_ref01_data = Helpers::to_map($network_token_ref01_data_result);
+        $network_token_ref01_data = Helpers::to_map(is_object($network_token_ref01_data_result) && method_exists($network_token_ref01_data_result, 'data_get') ? $network_token_ref01_data_result->data_get() : $network_token_ref01_data_result);
         $this->assertNotNull($network_token_ref01_data);
         $this->assertNotNull($network_token_ref01_data["id"]);
 
@@ -53,7 +53,7 @@ class NetworkTokenEntityTest extends TestCase
             "id" => $network_token_ref01_data["id"],
         ];
         $network_token_ref01_data_dt0_loaded = $network_token_ref01_ent->load($network_token_ref01_match_dt0, null);
-        $network_token_ref01_data_dt0_load_result = Helpers::to_map($network_token_ref01_data_dt0_loaded);
+        $network_token_ref01_data_dt0_load_result = Helpers::to_map(is_object($network_token_ref01_data_dt0_loaded) && method_exists($network_token_ref01_data_dt0_loaded, 'data_get') ? $network_token_ref01_data_dt0_loaded->data_get() : $network_token_ref01_data_dt0_loaded);
         $this->assertNotNull($network_token_ref01_data_dt0_load_result);
         $this->assertEquals($network_token_ref01_data_dt0_load_result["id"], $network_token_ref01_data["id"]);
 

@@ -6,9 +6,9 @@ import time
 
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from evervault_sdk.utility.voxgig_struct import voxgig_struct as vs
 from evervault_sdk import EvervaultSDK
-from core import helpers
+from evervault_sdk.core import helpers
 
 _TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 from test import runner
@@ -44,7 +44,7 @@ class TestNetworkTokenEntity:
         network_token_ref01_data = helpers.to_map(vs.getprop(
             vs.getpath(setup["data"], "new.network_token"), "network_token_ref01"))
 
-        network_token_ref01_data = helpers.to_map(network_token_ref01_ent.create(network_token_ref01_data, None))
+        network_token_ref01_data = helpers.to_map(runner.entity_data(network_token_ref01_ent.create(network_token_ref01_data, None)))
         assert network_token_ref01_data is not None
         assert network_token_ref01_data["id"] is not None
 
@@ -53,7 +53,7 @@ class TestNetworkTokenEntity:
             "id": network_token_ref01_data["id"],
         }
         network_token_ref01_data_dt0_loaded = network_token_ref01_ent.load(network_token_ref01_match_dt0, None)
-        network_token_ref01_data_dt0_load_result = helpers.to_map(network_token_ref01_data_dt0_loaded)
+        network_token_ref01_data_dt0_load_result = helpers.to_map(runner.entity_data(network_token_ref01_data_dt0_loaded))
         assert network_token_ref01_data_dt0_load_result is not None
         assert network_token_ref01_data_dt0_load_result["id"] == network_token_ref01_data["id"]
 

@@ -58,7 +58,7 @@ func TestBinLookupEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("create failed: %v", err)
 		}
-		binLookupRef01Data = core.ToMapAny(binLookupRef01DataResult)
+		binLookupRef01Data = core.ToMapAny(entityData(binLookupRef01DataResult))
 		if binLookupRef01Data == nil {
 			t.Fatal("expected create result to be a map")
 		}

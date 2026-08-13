@@ -58,7 +58,7 @@ func TestThreeDsSessionEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("create failed: %v", err)
 		}
-		threeDsSessionRef01Data = core.ToMapAny(threeDsSessionRef01DataResult)
+		threeDsSessionRef01Data = core.ToMapAny(entityData(threeDsSessionRef01DataResult))
 		if threeDsSessionRef01Data == nil {
 			t.Fatal("expected create result to be a map")
 		}
@@ -74,7 +74,7 @@ func TestThreeDsSessionEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("load failed: %v", err)
 		}
-		threeDsSessionRef01DataDt0LoadResult := core.ToMapAny(threeDsSessionRef01DataDt0Loaded)
+		threeDsSessionRef01DataDt0LoadResult := core.ToMapAny(entityData(threeDsSessionRef01DataDt0Loaded))
 		if threeDsSessionRef01DataDt0LoadResult == nil {
 			t.Fatal("expected load result to be a map")
 		}

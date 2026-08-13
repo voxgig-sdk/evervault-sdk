@@ -50,7 +50,7 @@ class EvervaultConfig
           'fields' => [
             [
               'active' => true,
-              'name' => 'configuration',
+              'name' => 'configurations',
               'op' => [
                 'update' => [
                   'req' => false,
@@ -115,6 +115,7 @@ class EvervaultConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/payments/acquirers',
                   'parts' => [
@@ -150,6 +151,7 @@ class EvervaultConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/payments/acquirers/{acquirer_id}',
                   'parts' => [
@@ -195,6 +197,7 @@ class EvervaultConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'PATCH',
                   'orig' => '/payments/acquirers/{acquirer_id}',
                   'parts' => [
@@ -245,6 +248,7 @@ class EvervaultConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/payments/bin-lookups',
                   'parts' => [
@@ -277,148 +281,52 @@ class EvervaultConfig
             ],
             [
               'active' => true,
-              'name' => 'automatic_update',
-              'req' => false,
-              'type' => '`$STRING`',
-              'index$' => 1,
-            ],
-            [
-              'active' => true,
-              'name' => 'bin',
-              'req' => true,
-              'type' => '`$STRING`',
-              'index$' => 2,
-            ],
-            [
-              'active' => true,
-              'name' => 'brand',
-              'req' => false,
-              'type' => '`$STRING`',
-              'index$' => 3,
-            ],
-            [
-              'active' => true,
               'name' => 'card',
               'req' => true,
               'type' => '`$OBJECT`',
-              'index$' => 4,
+              'index$' => 1,
             ],
             [
               'active' => true,
               'name' => 'cardholder',
               'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 5,
-            ],
-            [
-              'active' => true,
-              'name' => 'country',
-              'req' => false,
-              'type' => '`$STRING`',
-              'index$' => 6,
-            ],
-            [
-              'active' => true,
-              'name' => 'created_at',
-              'req' => true,
-              'type' => '`$INTEGER`',
-              'index$' => 7,
-            ],
-            [
-              'active' => true,
-              'name' => 'currency',
-              'req' => false,
-              'type' => '`$STRING`',
-              'index$' => 8,
+              'index$' => 2,
             ],
             [
               'active' => true,
               'name' => 'expiry',
               'req' => true,
               'type' => '`$OBJECT`',
-              'index$' => 9,
+              'index$' => 3,
             ],
             [
               'active' => true,
-              'name' => 'extension',
+              'name' => 'extensions',
               'req' => false,
               'type' => '`$ARRAY`',
-              'index$' => 10,
+              'index$' => 4,
             ],
             [
               'active' => true,
-              'name' => 'funding',
-              'req' => false,
-              'type' => '`$STRING`',
-              'index$' => 11,
-            ],
-            [
-              'active' => true,
-              'name' => 'id',
-              'req' => false,
-              'type' => '`$STRING`',
-              'index$' => 12,
-            ],
-            [
-              'active' => true,
-              'name' => 'issuer',
-              'req' => false,
-              'type' => '`$STRING`',
-              'index$' => 13,
-            ],
-            [
-              'active' => true,
-              'name' => 'last_four',
+              'name' => 'month',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 14,
+              'index$' => 5,
             ],
             [
               'active' => true,
               'name' => 'number',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 15,
+              'index$' => 6,
             ],
             [
               'active' => true,
-              'name' => 'replacement',
-              'req' => false,
-              'type' => [
-                '`$ONE`',
-                [
-                  '`$STRING`',
-                  '`$NULL`',
-                ],
-              ],
-              'index$' => 16,
-            ],
-            [
-              'active' => true,
-              'name' => 'segment',
-              'req' => false,
+              'name' => 'year',
+              'req' => true,
               'type' => '`$STRING`',
-              'index$' => 17,
-            ],
-            [
-              'active' => true,
-              'name' => 'status',
-              'req' => false,
-              'type' => '`$STRING`',
-              'index$' => 18,
-            ],
-            [
-              'active' => true,
-              'name' => 'updated_at',
-              'req' => false,
-              'type' => [
-                '`$ONE`',
-                [
-                  '`$INTEGER`',
-                  '`$NULL`',
-                ],
-              ],
-              'index$' => 19,
+              'index$' => 7,
             ],
           ],
           'name' => 'card',
@@ -442,6 +350,7 @@ class EvervaultConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/payments/cards/{card_id}/simulate',
                   'parts' => [
@@ -463,13 +372,14 @@ class EvervaultConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.expiry`',
                   ],
                   'index$' => 0,
                 ],
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/insights/cards',
                   'parts' => [
@@ -478,7 +388,9 @@ class EvervaultConfig
                   ],
                   'select' => [],
                   'transform' => [
-                    'req' => '`reqdata`',
+                    'req' => [
+                      'card' => '`reqdata`',
+                    ],
                     'res' => '`body`',
                   ],
                   'index$' => 1,
@@ -486,6 +398,7 @@ class EvervaultConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/payments/cards',
                   'parts' => [
@@ -495,7 +408,7 @@ class EvervaultConfig
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.expiry`',
                   ],
                   'index$' => 2,
                 ],
@@ -521,6 +434,7 @@ class EvervaultConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/payments/cards/{card_id}',
                   'parts' => [
@@ -540,7 +454,7 @@ class EvervaultConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.expiry`',
                   ],
                   'index$' => 0,
                 ],
@@ -604,6 +518,7 @@ class EvervaultConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/payments/network-tokens/{network_token_id}/card-art',
                   'parts' => [
@@ -668,6 +583,7 @@ class EvervaultConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/client-side-tokens',
                   'parts' => [
@@ -712,28 +628,21 @@ class EvervaultConfig
             ],
             [
               'active' => true,
-              'name' => 'category',
+              'name' => 'createdAt',
               'req' => false,
-              'type' => '`$STRING`',
+              'type' => '`$INTEGER`',
               'index$' => 2,
             ],
             [
               'active' => true,
-              'name' => 'created_at',
+              'name' => 'customDomain',
               'req' => false,
-              'type' => '`$INTEGER`',
+              'type' => '`$STRING`',
               'index$' => 3,
             ],
             [
               'active' => true,
-              'name' => 'custom_domain',
-              'req' => false,
-              'type' => '`$STRING`',
-              'index$' => 4,
-            ],
-            [
-              'active' => true,
-              'name' => 'destination_domain',
+              'name' => 'destinationDomain',
               'op' => [
                 'list' => [
                   'req' => false,
@@ -742,74 +651,46 @@ class EvervaultConfig
               ],
               'req' => true,
               'type' => '`$STRING`',
+              'index$' => 4,
+            ],
+            [
+              'active' => true,
+              'name' => 'encryptEmptyStrings',
+              'req' => false,
+              'type' => '`$BOOLEAN`',
               'index$' => 5,
             ],
             [
               'active' => true,
-              'name' => 'encrypt_empty_string',
+              'name' => 'evervaultDomain',
               'req' => false,
-              'type' => '`$BOOLEAN`',
+              'type' => '`$STRING`',
               'index$' => 6,
-            ],
-            [
-              'active' => true,
-              'name' => 'encrypted_at',
-              'req' => false,
-              'type' => '`$INTEGER`',
-              'index$' => 7,
-            ],
-            [
-              'active' => true,
-              'name' => 'evervault_domain',
-              'req' => false,
-              'type' => '`$STRING`',
-              'index$' => 8,
-            ],
-            [
-              'active' => true,
-              'name' => 'fingerprint',
-              'req' => false,
-              'type' => '`$STRING`',
-              'index$' => 9,
             ],
             [
               'active' => true,
               'name' => 'id',
               'req' => false,
               'type' => '`$STRING`',
-              'index$' => 10,
+              'index$' => 7,
             ],
             [
               'active' => true,
-              'name' => 'metadata',
-              'req' => false,
-              'type' => '`$ANY`',
-              'index$' => 11,
-            ],
-            [
-              'active' => true,
-              'name' => 'phone_number',
+              'name' => 'phoneNumber',
               'req' => false,
               'type' => '`$STRING`',
-              'index$' => 12,
+              'index$' => 8,
             ],
             [
               'active' => true,
               'name' => 'relay',
               'req' => false,
               'type' => '`$STRING`',
-              'index$' => 13,
+              'index$' => 9,
             ],
             [
               'active' => true,
-              'name' => 'role',
-              'req' => false,
-              'type' => '`$STRING`',
-              'index$' => 14,
-            ],
-            [
-              'active' => true,
-              'name' => 'route',
+              'name' => 'routes',
               'op' => [
                 'list' => [
                   'req' => false,
@@ -818,42 +699,35 @@ class EvervaultConfig
               ],
               'req' => true,
               'type' => '`$ARRAY`',
-              'index$' => 15,
+              'index$' => 10,
             ],
             [
               'active' => true,
               'name' => 'status',
               'req' => false,
               'type' => '`$STRING`',
-              'index$' => 16,
+              'index$' => 11,
             ],
             [
               'active' => true,
               'name' => 'token',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 17,
+              'index$' => 12,
             ],
             [
               'active' => true,
-              'name' => 'type',
-              'req' => false,
-              'type' => '`$STRING`',
-              'index$' => 18,
-            ],
-            [
-              'active' => true,
-              'name' => 'updated_at',
+              'name' => 'updatedAt',
               'req' => false,
               'type' => '`$INTEGER`',
-              'index$' => 19,
+              'index$' => 13,
             ],
             [
               'active' => true,
-              'name' => 'validation_record',
+              'name' => 'validationRecord',
               'req' => false,
               'type' => '`$STRING`',
-              'index$' => 20,
+              'index$' => 14,
             ],
           ],
           'name' => 'core',
@@ -865,6 +739,7 @@ class EvervaultConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/decrypt',
                   'parts' => [
@@ -880,6 +755,7 @@ class EvervaultConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/encrypt',
                   'parts' => [
@@ -895,6 +771,7 @@ class EvervaultConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/inspect',
                   'parts' => [
@@ -903,13 +780,14 @@ class EvervaultConfig
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.metadata`',
                   ],
                   'index$' => 2,
                 ],
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/relays',
                   'parts' => [
@@ -944,6 +822,7 @@ class EvervaultConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/relays/{relay_id}/custom-domains',
                   'parts' => [
@@ -958,13 +837,14 @@ class EvervaultConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.data`',
                   ],
                   'index$' => 0,
                 ],
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/relays',
                   'parts' => [
@@ -973,7 +853,7 @@ class EvervaultConfig
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.data`',
                   ],
                   'index$' => 1,
                 ],
@@ -1008,6 +888,7 @@ class EvervaultConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/relays/{relay_id}/custom-domains/{id}',
                   'parts' => [
@@ -1043,6 +924,7 @@ class EvervaultConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/relays/{id}',
                   'parts' => [
@@ -1076,14 +958,14 @@ class EvervaultConfig
           'fields' => [
             [
               'active' => true,
-              'name' => 'created_at',
+              'name' => 'createdAt',
               'req' => false,
               'type' => '`$INTEGER`',
               'index$' => 0,
             ],
             [
               'active' => true,
-              'name' => 'custom_domain',
+              'name' => 'customDomain',
               'op' => [
                 'create' => [
                   'req' => true,
@@ -1117,14 +999,14 @@ class EvervaultConfig
             ],
             [
               'active' => true,
-              'name' => 'updated_at',
+              'name' => 'updatedAt',
               'req' => false,
               'type' => '`$INTEGER`',
               'index$' => 5,
             ],
             [
               'active' => true,
-              'name' => 'validation_record',
+              'name' => 'validationRecord',
               'req' => false,
               'type' => '`$STRING`',
               'index$' => 6,
@@ -1151,6 +1033,7 @@ class EvervaultConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/relays/{relay_id}/custom-domains',
                   'parts' => [
@@ -1200,6 +1083,7 @@ class EvervaultConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/relays/{relay_id}/custom-domains/{id}',
                   'parts' => [
@@ -1243,7 +1127,7 @@ class EvervaultConfig
             ],
             [
               'active' => true,
-              'name' => 'created_at',
+              'name' => 'createdAt',
               'req' => false,
               'type' => '`$INTEGER`',
               'index$' => 1,
@@ -1311,6 +1195,7 @@ class EvervaultConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/functions/{function_name}/runs',
                   'parts' => [
@@ -1345,7 +1230,7 @@ class EvervaultConfig
           'fields' => [
             [
               'active' => true,
-              'name' => 'apple_pay',
+              'name' => 'applePay',
               'req' => false,
               'type' => '`$OBJECT`',
               'index$' => 0,
@@ -1365,7 +1250,7 @@ class EvervaultConfig
             ],
             [
               'active' => true,
-              'name' => 'category_code',
+              'name' => 'categoryCode',
               'op' => [
                 'create' => [
                   'req' => true,
@@ -1378,7 +1263,7 @@ class EvervaultConfig
             ],
             [
               'active' => true,
-              'name' => 'created_at',
+              'name' => 'createdAt',
               'req' => true,
               'type' => '`$INTEGER`',
               'index$' => 3,
@@ -1399,21 +1284,21 @@ class EvervaultConfig
             ],
             [
               'active' => true,
-              'name' => 'network_token',
+              'name' => 'networkTokens',
               'req' => false,
               'type' => '`$OBJECT`',
               'index$' => 6,
             ],
             [
               'active' => true,
-              'name' => 'short_name',
+              'name' => 'shortName',
               'req' => false,
               'type' => '`$STRING`',
               'index$' => 7,
             ],
             [
               'active' => true,
-              'name' => 'updated_at',
+              'name' => 'updatedAt',
               'req' => false,
               'type' => '`$INTEGER`',
               'index$' => 8,
@@ -1435,6 +1320,7 @@ class EvervaultConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/payments/merchants',
                   'parts' => [
@@ -1470,6 +1356,7 @@ class EvervaultConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/payments/merchants/{merchant_id}',
                   'parts' => [
@@ -1515,6 +1402,7 @@ class EvervaultConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'PATCH',
                   'orig' => '/payments/merchants/{merchant_id}',
                   'parts' => [
@@ -1557,7 +1445,7 @@ class EvervaultConfig
             ],
             [
               'active' => true,
-              'name' => 'created_at',
+              'name' => 'createdAt',
               'req' => true,
               'type' => '`$INTEGER`',
               'index$' => 1,
@@ -1592,7 +1480,7 @@ class EvervaultConfig
             ],
             [
               'active' => true,
-              'name' => 'payment_account_reference',
+              'name' => 'paymentAccountReference',
               'req' => false,
               'type' => '`$STRING`',
               'index$' => 6,
@@ -1606,28 +1494,28 @@ class EvervaultConfig
             ],
             [
               'active' => true,
-              'name' => 'token_requestor_identifier',
+              'name' => 'tokenRequestorIdentifier',
               'req' => true,
               'type' => '`$STRING`',
               'index$' => 8,
             ],
             [
               'active' => true,
-              'name' => 'token_service_provider',
+              'name' => 'tokenServiceProvider',
               'req' => true,
               'type' => '`$STRING`',
               'index$' => 9,
             ],
             [
               'active' => true,
-              'name' => 'update_type',
+              'name' => 'updateType',
               'req' => false,
               'type' => '`$STRING`',
               'index$' => 10,
             ],
             [
               'active' => true,
-              'name' => 'updated_at',
+              'name' => 'updatedAt',
               'req' => false,
               'type' => '`$INTEGER`',
               'index$' => 11,
@@ -1654,6 +1542,7 @@ class EvervaultConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/payments/network-tokens/{network_token_id}/simulate',
                   'parts' => [
@@ -1682,6 +1571,7 @@ class EvervaultConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/payments/network-tokens',
                   'parts' => [
@@ -1717,6 +1607,7 @@ class EvervaultConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/payments/network-tokens/{network_token_id}',
                   'parts' => [
@@ -1752,7 +1643,7 @@ class EvervaultConfig
           'fields' => [
             [
               'active' => true,
-              'name' => 'created_at',
+              'name' => 'createdAt',
               'req' => false,
               'type' => '`$INTEGER`',
               'index$' => 0,
@@ -1793,6 +1684,7 @@ class EvervaultConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/payments/network-tokens/{network_token_id}/cryptograms',
                   'parts' => [
@@ -1829,7 +1721,7 @@ class EvervaultConfig
           'fields' => [
             [
               'active' => true,
-              'name' => 'apple_pay',
+              'name' => 'applePay',
               'req' => false,
               'type' => '`$OBJECT`',
               'index$' => 0,
@@ -1843,100 +1735,101 @@ class EvervaultConfig
             ],
             [
               'active' => true,
-              'name' => 'category_code',
+              'name' => 'categoryCode',
               'req' => false,
               'type' => '`$STRING`',
               'index$' => 2,
             ],
             [
               'active' => true,
-              'name' => 'configuration',
+              'name' => 'configurations',
               'req' => true,
               'type' => '`$ARRAY`',
               'index$' => 3,
             ],
             [
               'active' => true,
-              'name' => 'created_at',
-              'op' => [
-                'list' => [
-                  'req' => false,
-                  'type' => '`$INTEGER`',
-                ],
-              ],
+              'name' => 'createdAt',
               'req' => true,
               'type' => '`$INTEGER`',
               'index$' => 4,
             ],
             [
               'active' => true,
+              'name' => 'created_at',
+              'req' => false,
+              'type' => '`$INTEGER`',
+              'index$' => 5,
+            ],
+            [
+              'active' => true,
               'name' => 'data',
               'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 5,
+              'index$' => 6,
             ],
             [
               'active' => true,
               'name' => 'default',
               'req' => true,
               'type' => '`$BOOLEAN`',
-              'index$' => 6,
+              'index$' => 7,
             ],
             [
               'active' => true,
               'name' => 'description',
               'req' => false,
               'type' => '`$STRING`',
-              'index$' => 7,
+              'index$' => 8,
             ],
             [
               'active' => true,
               'name' => 'id',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 8,
+              'index$' => 9,
             ],
             [
               'active' => true,
               'name' => 'name',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 9,
-            ],
-            [
-              'active' => true,
-              'name' => 'network_token',
-              'req' => false,
-              'type' => '`$OBJECT`',
               'index$' => 10,
             ],
             [
               'active' => true,
-              'name' => 'short_name',
+              'name' => 'networkTokens',
               'req' => false,
-              'type' => '`$STRING`',
+              'type' => '`$OBJECT`',
               'index$' => 11,
             ],
             [
               'active' => true,
-              'name' => 'type',
+              'name' => 'shortName',
               'req' => false,
               'type' => '`$STRING`',
               'index$' => 12,
             ],
             [
               'active' => true,
-              'name' => 'updated_at',
+              'name' => 'type',
+              'req' => false,
+              'type' => '`$STRING`',
+              'index$' => 13,
+            ],
+            [
+              'active' => true,
+              'name' => 'updatedAt',
               'req' => false,
               'type' => '`$INTEGER`',
-              'index$' => 13,
+              'index$' => 14,
             ],
             [
               'active' => true,
               'name' => 'website',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 14,
+              'index$' => 15,
             ],
           ],
           'name' => 'payment',
@@ -1977,6 +1870,7 @@ class EvervaultConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/payments/merchants',
                   'parts' => [
@@ -1993,7 +1887,7 @@ class EvervaultConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.data`',
                   ],
                   'index$' => 0,
                 ],
@@ -2021,6 +1915,7 @@ class EvervaultConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/payments/acquirers',
                   'parts' => [
@@ -2036,7 +1931,7 @@ class EvervaultConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.data`',
                   ],
                   'index$' => 1,
                 ],
@@ -2055,6 +1950,7 @@ class EvervaultConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/payments/3ds-sessions/{3ds_session_id}/messages',
                   'parts' => [
@@ -2070,7 +1966,7 @@ class EvervaultConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.messages`',
                   ],
                   'index$' => 2,
                 ],
@@ -2096,6 +1992,7 @@ class EvervaultConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/payments/acquirers/{acquirer_id}',
                   'parts' => [
@@ -2129,6 +2026,7 @@ class EvervaultConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/payments/cards/{card_id}',
                   'parts' => [
@@ -2162,6 +2060,7 @@ class EvervaultConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/payments/merchants/{merchant_id}',
                   'parts' => [
@@ -2195,6 +2094,7 @@ class EvervaultConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/payments/network-tokens/{network_token_id}',
                   'parts' => [
@@ -2261,28 +2161,28 @@ class EvervaultConfig
             ],
             [
               'active' => true,
-              'name' => 'created_at',
+              'name' => 'createdAt',
               'req' => false,
               'type' => '`$INTEGER`',
               'index$' => 2,
             ],
             [
               'active' => true,
-              'name' => 'destination_domain',
+              'name' => 'destinationDomain',
               'req' => false,
               'type' => '`$STRING`',
               'index$' => 3,
             ],
             [
               'active' => true,
-              'name' => 'encrypt_empty_string',
+              'name' => 'encryptEmptyStrings',
               'req' => false,
               'type' => '`$BOOLEAN`',
               'index$' => 4,
             ],
             [
               'active' => true,
-              'name' => 'evervault_domain',
+              'name' => 'evervaultDomain',
               'req' => false,
               'type' => '`$STRING`',
               'index$' => 5,
@@ -2296,14 +2196,14 @@ class EvervaultConfig
             ],
             [
               'active' => true,
-              'name' => 'route',
+              'name' => 'routes',
               'req' => false,
               'type' => '`$ARRAY`',
               'index$' => 7,
             ],
             [
               'active' => true,
-              'name' => 'updated_at',
+              'name' => 'updatedAt',
               'req' => false,
               'type' => '`$INTEGER`',
               'index$' => 8,
@@ -2330,6 +2230,7 @@ class EvervaultConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/relays/{id}',
                   'parts' => [
@@ -2369,6 +2270,7 @@ class EvervaultConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'PATCH',
                   'orig' => '/relays/{id}',
                   'parts' => [
@@ -2398,7 +2300,7 @@ class EvervaultConfig
           'fields' => [
             [
               'active' => true,
-              'name' => 'access_control_server',
+              'name' => 'accessControlServer',
               'req' => false,
               'type' => '`$OBJECT`',
               'index$' => 0,
@@ -2418,7 +2320,7 @@ class EvervaultConfig
             ],
             [
               'active' => true,
-              'name' => 'are',
+              'name' => 'ares',
               'req' => false,
               'type' => '`$OBJECT`',
               'index$' => 2,
@@ -2446,7 +2348,14 @@ class EvervaultConfig
             ],
             [
               'active' => true,
-              'name' => 'cre',
+              'name' => 'createdAt',
+              'req' => true,
+              'type' => '`$INTEGER`',
+              'index$' => 6,
+            ],
+            [
+              'active' => true,
+              'name' => 'cres',
               'req' => false,
               'type' => [
                 '`$ONE`',
@@ -2455,13 +2364,6 @@ class EvervaultConfig
                   '`$OBJECT`',
                 ],
               ],
-              'index$' => 6,
-            ],
-            [
-              'active' => true,
-              'name' => 'created_at',
-              'req' => true,
-              'type' => '`$INTEGER`',
               'index$' => 7,
             ],
             [
@@ -2480,7 +2382,7 @@ class EvervaultConfig
             ],
             [
               'active' => true,
-              'name' => 'directory_server',
+              'name' => 'directoryServer',
               'req' => false,
               'type' => '`$OBJECT`',
               'index$' => 10,
@@ -2494,7 +2396,7 @@ class EvervaultConfig
             ],
             [
               'active' => true,
-              'name' => 'failure_reason',
+              'name' => 'failureReason',
               'req' => false,
               'type' => '`$STRING`',
               'index$' => 12,
@@ -2522,7 +2424,7 @@ class EvervaultConfig
             ],
             [
               'active' => true,
-              'name' => 'next_action',
+              'name' => 'nextAction',
               'req' => true,
               'type' => '`$OBJECT`',
               'index$' => 16,
@@ -2536,7 +2438,7 @@ class EvervaultConfig
             ],
             [
               'active' => true,
-              'name' => 'preferred_version',
+              'name' => 'preferredVersions',
               'req' => false,
               'type' => '`$ARRAY`',
               'index$' => 18,
@@ -2563,14 +2465,14 @@ class EvervaultConfig
             ],
             [
               'active' => true,
-              'name' => 'three_ds_server',
+              'name' => 'threeDSServer',
               'req' => false,
               'type' => '`$OBJECT`',
               'index$' => 21,
             ],
             [
               'active' => true,
-              'name' => 'updated_at',
+              'name' => 'updatedAt',
               'req' => false,
               'type' => '`$INTEGER`',
               'index$' => 22,
@@ -2592,6 +2494,7 @@ class EvervaultConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/payments/3ds-sessions',
                   'parts' => [
@@ -2627,6 +2530,7 @@ class EvervaultConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/payments/3ds-sessions/{3ds_session_id}',
                   'parts' => [
@@ -2661,14 +2565,14 @@ class EvervaultConfig
           'fields' => [
             [
               'active' => true,
-              'name' => 'created_at',
+              'name' => 'createdAt',
               'req' => false,
               'type' => '`$INTEGER`',
               'index$' => 0,
             ],
             [
               'active' => true,
-              'name' => 'event',
+              'name' => 'events',
               'op' => [
                 'list' => [
                   'req' => false,
@@ -2688,7 +2592,7 @@ class EvervaultConfig
             ],
             [
               'active' => true,
-              'name' => 'updated_at',
+              'name' => 'updatedAt',
               'req' => false,
               'type' => [
                 '`$ONE`',
@@ -2722,6 +2626,7 @@ class EvervaultConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/webhook-endpoints',
                   'parts' => [
@@ -2765,6 +2670,7 @@ class EvervaultConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/webhook-endpoints',
                   'parts' => [
@@ -2778,7 +2684,7 @@ class EvervaultConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.data`',
                   ],
                   'index$' => 0,
                 ],
@@ -2805,6 +2711,7 @@ class EvervaultConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/webhook-endpoints/{webhook_endpoint_id}',
                   'parts' => [
@@ -2838,14 +2745,14 @@ class EvervaultConfig
           'fields' => [
             [
               'active' => true,
-              'name' => 'created_at',
+              'name' => 'createdAt',
               'req' => false,
               'type' => '`$INTEGER`',
               'index$' => 0,
             ],
             [
               'active' => true,
-              'name' => 'event',
+              'name' => 'events',
               'op' => [
                 'update' => [
                   'req' => true,
@@ -2865,7 +2772,7 @@ class EvervaultConfig
             ],
             [
               'active' => true,
-              'name' => 'updated_at',
+              'name' => 'updatedAt',
               'req' => false,
               'type' => [
                 '`$ONE`',
@@ -2906,6 +2813,7 @@ class EvervaultConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/webhook-endpoints/{webhook_endpoint_id}',
                   'parts' => [
@@ -2951,6 +2859,7 @@ class EvervaultConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'PATCH',
                   'orig' => '/webhook-endpoints/{webhook_endpoint_id}',
                   'parts' => [

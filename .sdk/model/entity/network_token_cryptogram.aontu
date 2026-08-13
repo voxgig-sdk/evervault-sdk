@@ -6,7 +6,7 @@ main: kit: entity: network_token_cryptogram: {
 
   fields: [
     {
-      name: "created_at"
+      name: "createdAt"
       req: false
       type: "`$INTEGER`"
     }

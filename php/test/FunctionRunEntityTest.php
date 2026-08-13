@@ -45,7 +45,7 @@ class FunctionRunEntityTest extends TestCase
         $function_run_ref01_data["function_name"] = $setup["idmap"]["function_name01"];
 
         $function_run_ref01_data_result = $function_run_ref01_ent->create($function_run_ref01_data, null);
-        $function_run_ref01_data = Helpers::to_map($function_run_ref01_data_result);
+        $function_run_ref01_data = Helpers::to_map(is_object($function_run_ref01_data_result) && method_exists($function_run_ref01_data_result, 'data_get') ? $function_run_ref01_data_result->data_get() : $function_run_ref01_data_result);
         $this->assertNotNull($function_run_ref01_data);
         $this->assertNotNull($function_run_ref01_data["id"]);
 

@@ -39,7 +39,7 @@ CardArt is nested under network_token, so provide the `network_token_id`.
 
 ```php
 try {
-    // load() returns the bare CardArt record (throws on error).
+    // load() returns the ENTITY — call data_get() for the CardArt record (throws on error).
     $cardart = $client->CardArt()->load(["network_token_id" => "example_network_token_id"]);
     print_r($cardart);
 } catch (\Throwable $err) {
@@ -50,11 +50,11 @@ try {
 ### 4. Create, update, and remove
 
 ```php
-// create() returns the bare created Acquirer record.
-$created = $client->Acquirer()->create(["configuration" => [], "default" => true, "id" => "example_id", "name" => "example_name"]);
+// create() returns the ENTITY — call data_get() for the created Acquirer record.
+$created = $client->Acquirer()->create(["configurations" => [], "default" => true, "id" => "example_id", "name" => "example_name"]);
 
-// Update — index the bare record directly ($created["id"]).
-$client->Acquirer()->update(["id" => $created["id"]]);
+// Update — index the record via data_get() ($created->data_get()["id"]).
+$client->Acquirer()->update(["id" => $created->data_get()["id"], "configurations" => [], "default" => true]);
 
 ```
 
@@ -141,7 +141,8 @@ $client = EvervaultSDK::test([
     "entity" => ["merchant" => ["test01" => ["id" => "test01"]]],
 ]);
 
-// Entity ops return the bare mock record (throws on error).
+// Entity ops return the ENTITY (throws on error);
+// call data_get() for the mock record.
 $merchant = $client->Merchant()->load(["id" => "test01"]);
 print_r($merchant);
 ```
@@ -261,7 +262,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (an `array` for single-entity
+Entity operations return the ENTITY (call data_get() for the record) (an `array` for single-entity
 ops, a `list` for `list`) and throw on error. Wrap calls in
 `try`/`catch` to handle failures.
 
@@ -283,7 +284,7 @@ On error, `ok` is `false` and `$err` contains the error value.
 
 | Field | Description |
 | --- | --- |
-| `configuration` |  |
+| `configurations` |  |
 | `default` |  |
 | `description` |  |
 | `id` |  |
@@ -308,25 +309,13 @@ API path: `/payments/bin-lookups`
 | Field | Description |
 | --- | --- |
 | `address` |  |
-| `automatic_update` |  |
-| `bin` |  |
-| `brand` |  |
 | `card` |  |
 | `cardholder` |  |
-| `country` |  |
-| `created_at` |  |
-| `currency` |  |
 | `expiry` |  |
-| `extension` |  |
-| `funding` |  |
-| `id` |  |
-| `issuer` |  |
-| `last_four` |  |
+| `extensions` |  |
+| `month` |  |
 | `number` |  |
-| `replacement` |  |
-| `segment` |  |
-| `status` |  |
-| `updated_at` |  |
+| `year` |  |
 
 Operations: Create, Load.
 
@@ -363,25 +352,19 @@ API path: `/client-side-tokens`
 | --- | --- |
 | `app` |  |
 | `authentication` |  |
-| `category` |  |
-| `created_at` |  |
-| `custom_domain` |  |
-| `destination_domain` |  |
-| `encrypt_empty_string` |  |
-| `encrypted_at` |  |
-| `evervault_domain` |  |
-| `fingerprint` |  |
+| `createdAt` |  |
+| `customDomain` |  |
+| `destinationDomain` |  |
+| `encryptEmptyStrings` |  |
+| `evervaultDomain` |  |
 | `id` |  |
-| `metadata` |  |
-| `phone_number` |  |
+| `phoneNumber` |  |
 | `relay` |  |
-| `role` |  |
-| `route` |  |
+| `routes` |  |
 | `status` |  |
 | `token` |  |
-| `type` |  |
-| `updated_at` |  |
-| `validation_record` |  |
+| `updatedAt` |  |
+| `validationRecord` |  |
 
 Operations: Create, List, Remove.
 
@@ -391,13 +374,13 @@ API path: `/decrypt`
 
 | Field | Description |
 | --- | --- |
-| `created_at` |  |
-| `custom_domain` |  |
+| `createdAt` |  |
+| `customDomain` |  |
 | `id` |  |
 | `relay` |  |
 | `status` |  |
-| `updated_at` |  |
-| `validation_record` |  |
+| `updatedAt` |  |
+| `validationRecord` |  |
 
 Operations: Create, Load.
 
@@ -408,7 +391,7 @@ API path: `/relays/{relay_id}/custom-domains`
 | Field | Description |
 | --- | --- |
 | `async` |  |
-| `created_at` |  |
+| `createdAt` |  |
 | `error` |  |
 | `id` |  |
 | `payload` |  |
@@ -423,15 +406,15 @@ API path: `/functions/{function_name}/runs`
 
 | Field | Description |
 | --- | --- |
-| `apple_pay` |  |
+| `applePay` |  |
 | `business` |  |
-| `category_code` |  |
-| `created_at` |  |
+| `categoryCode` |  |
+| `createdAt` |  |
 | `id` |  |
 | `name` |  |
-| `network_token` |  |
-| `short_name` |  |
-| `updated_at` |  |
+| `networkTokens` |  |
+| `shortName` |  |
+| `updatedAt` |  |
 | `website` |  |
 
 Operations: Create, Load, Update.
@@ -443,17 +426,17 @@ API path: `/payments/merchants`
 | Field | Description |
 | --- | --- |
 | `card` |  |
-| `created_at` |  |
+| `createdAt` |  |
 | `expiry` |  |
 | `id` |  |
 | `merchant` |  |
 | `number` |  |
-| `payment_account_reference` |  |
+| `paymentAccountReference` |  |
 | `status` |  |
-| `token_requestor_identifier` |  |
-| `token_service_provider` |  |
-| `update_type` |  |
-| `updated_at` |  |
+| `tokenRequestorIdentifier` |  |
+| `tokenServiceProvider` |  |
+| `updateType` |  |
+| `updatedAt` |  |
 
 Operations: Create, Load.
 
@@ -463,7 +446,7 @@ API path: `/payments/network-tokens/{network_token_id}/simulate`
 
 | Field | Description |
 | --- | --- |
-| `created_at` |  |
+| `createdAt` |  |
 | `cryptogram` |  |
 | `id` |  |
 
@@ -475,20 +458,21 @@ API path: `/payments/network-tokens/{network_token_id}/cryptograms`
 
 | Field | Description |
 | --- | --- |
-| `apple_pay` |  |
+| `applePay` |  |
 | `business` |  |
-| `category_code` |  |
-| `configuration` |  |
+| `categoryCode` |  |
+| `configurations` |  |
+| `createdAt` |  |
 | `created_at` |  |
 | `data` |  |
 | `default` |  |
 | `description` |  |
 | `id` |  |
 | `name` |  |
-| `network_token` |  |
-| `short_name` |  |
+| `networkTokens` |  |
+| `shortName` |  |
 | `type` |  |
-| `updated_at` |  |
+| `updatedAt` |  |
 | `website` |  |
 
 Operations: List, Remove.
@@ -501,13 +485,13 @@ API path: `/payments/merchants`
 | --- | --- |
 | `app` |  |
 | `authentication` |  |
-| `created_at` |  |
-| `destination_domain` |  |
-| `encrypt_empty_string` |  |
-| `evervault_domain` |  |
+| `createdAt` |  |
+| `destinationDomain` |  |
+| `encryptEmptyStrings` |  |
+| `evervaultDomain` |  |
 | `id` |  |
-| `route` |  |
-| `updated_at` |  |
+| `routes` |  |
+| `updatedAt` |  |
 
 Operations: Load, Update.
 
@@ -517,29 +501,29 @@ API path: `/relays/{id}`
 
 | Field | Description |
 | --- | --- |
-| `access_control_server` |  |
+| `accessControlServer` |  |
 | `acquirer` |  |
-| `are` |  |
+| `ares` |  |
 | `authentication` |  |
 | `card` |  |
 | `challenge` |  |
-| `cre` |  |
-| `created_at` |  |
+| `createdAt` |  |
+| `cres` |  |
 | `cryptogram` |  |
 | `customer` |  |
-| `directory_server` |  |
+| `directoryServer` |  |
 | `eci` |  |
-| `failure_reason` |  |
+| `failureReason` |  |
 | `id` |  |
 | `initiator` |  |
 | `merchant` |  |
-| `next_action` |  |
+| `nextAction` |  |
 | `payment` |  |
-| `preferred_version` |  |
+| `preferredVersions` |  |
 | `rreq` |  |
 | `status` |  |
-| `three_ds_server` |  |
-| `updated_at` |  |
+| `threeDSServer` |  |
+| `updatedAt` |  |
 | `version` |  |
 
 Operations: Create, Load.
@@ -550,10 +534,10 @@ API path: `/payments/3ds-sessions`
 
 | Field | Description |
 | --- | --- |
-| `created_at` |  |
-| `event` |  |
+| `createdAt` |  |
+| `events` |  |
 | `id` |  |
-| `updated_at` |  |
+| `updatedAt` |  |
 | `url` |  |
 
 Operations: Create, List, Remove.
@@ -564,10 +548,10 @@ API path: `/webhook-endpoints`
 
 | Field | Description |
 | --- | --- |
-| `created_at` |  |
-| `event` |  |
+| `createdAt` |  |
+| `events` |  |
 | `id` |  |
-| `updated_at` |  |
+| `updatedAt` |  |
 | `url` |  |
 
 Operations: Load, Update.
@@ -595,7 +579,7 @@ Create an instance: `$acquirer = $client->Acquirer();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `configuration` | `array` |  |
+| `configurations` | `array` |  |
 | `default` | `bool` |  |
 | `description` | `string` |  |
 | `id` | `string` |  |
@@ -604,7 +588,7 @@ Create an instance: `$acquirer = $client->Acquirer();`
 #### Example: Load
 
 ```php
-// load() returns the bare Acquirer record (throws on error).
+// load() returns the ENTITY — call data_get() for the Acquirer record (throws on error).
 $acquirer = $client->Acquirer()->load(["id" => "acquirer_id"]);
 ```
 
@@ -612,7 +596,7 @@ $acquirer = $client->Acquirer()->load(["id" => "acquirer_id"]);
 
 ```php
 $acquirer = $client->Acquirer()->create([
-    "configuration" => null, // array
+    "configurations" => null, // array
     "default" => null, // bool
     "id" => null, // string
     "name" => null, // string
@@ -661,30 +645,18 @@ Create an instance: `$card = $client->Card();`
 | Field | Type | Description |
 | --- | --- | --- |
 | `address` | `array` |  |
-| `automatic_update` | `string` |  |
-| `bin` | `string` |  |
-| `brand` | `string` |  |
 | `card` | `array` |  |
 | `cardholder` | `array` |  |
-| `country` | `string` |  |
-| `created_at` | `int` |  |
-| `currency` | `string` |  |
 | `expiry` | `array` |  |
-| `extension` | `array` |  |
-| `funding` | `string` |  |
-| `id` | `string` |  |
-| `issuer` | `string` |  |
-| `last_four` | `string` |  |
+| `extensions` | `array` |  |
+| `month` | `string` |  |
 | `number` | `string` |  |
-| `replacement` | `mixed` |  |
-| `segment` | `string` |  |
-| `status` | `string` |  |
-| `updated_at` | `mixed` |  |
+| `year` | `string` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare Card record (throws on error).
+// load() returns the ENTITY — call data_get() for the Card record (throws on error).
 $card = $client->Card()->load(["id" => "card_id"]);
 ```
 
@@ -693,12 +665,11 @@ $card = $client->Card()->load(["id" => "card_id"]);
 ```php
 $card = $client->Card()->create([
     "address" => null, // array
-    "bin" => null, // string
     "card" => null, // array
-    "created_at" => null, // int
     "expiry" => null, // array
-    "last_four" => null, // string
+    "month" => null, // string
     "number" => null, // string
+    "year" => null, // string
 ]);
 ```
 
@@ -725,7 +696,7 @@ Create an instance: `$card_art = $client->CardArt();`
 #### Example: Load
 
 ```php
-// load() returns the bare CardArt record (throws on error).
+// load() returns the ENTITY — call data_get() for the CardArt record (throws on error).
 $card_art = $client->CardArt()->load(["network_token_id" => "network_token_id"]);
 ```
 
@@ -775,25 +746,19 @@ Create an instance: `$core = $client->Core();`
 | --- | --- | --- |
 | `app` | `string` |  |
 | `authentication` | `mixed` |  |
-| `category` | `string` |  |
-| `created_at` | `int` |  |
-| `custom_domain` | `string` |  |
-| `destination_domain` | `string` |  |
-| `encrypt_empty_string` | `bool` |  |
-| `encrypted_at` | `int` |  |
-| `evervault_domain` | `string` |  |
-| `fingerprint` | `string` |  |
+| `createdAt` | `int` |  |
+| `customDomain` | `string` |  |
+| `destinationDomain` | `string` |  |
+| `encryptEmptyStrings` | `bool` |  |
+| `evervaultDomain` | `string` |  |
 | `id` | `string` |  |
-| `metadata` | `mixed` |  |
-| `phone_number` | `string` |  |
+| `phoneNumber` | `string` |  |
 | `relay` | `string` |  |
-| `role` | `string` |  |
-| `route` | `array` |  |
+| `routes` | `array` |  |
 | `status` | `string` |  |
 | `token` | `string` |  |
-| `type` | `string` |  |
-| `updated_at` | `int` |  |
-| `validation_record` | `string` |  |
+| `updatedAt` | `int` |  |
+| `validationRecord` | `string` |  |
 
 #### Example: List
 
@@ -806,8 +771,8 @@ $cores = $client->Core()->list();
 
 ```php
 $core = $client->Core()->create([
-    "destination_domain" => null, // string
-    "route" => null, // array
+    "destinationDomain" => null, // string
+    "routes" => null, // array
     "token" => null, // string
 ]);
 ```
@@ -828,18 +793,18 @@ Create an instance: `$custom_domain = $client->CustomDomain();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | `int` |  |
-| `custom_domain` | `string` |  |
+| `createdAt` | `int` |  |
+| `customDomain` | `string` |  |
 | `id` | `string` |  |
 | `relay` | `string` |  |
 | `status` | `string` |  |
-| `updated_at` | `int` |  |
-| `validation_record` | `string` |  |
+| `updatedAt` | `int` |  |
+| `validationRecord` | `string` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare CustomDomain record (throws on error).
+// load() returns the ENTITY — call data_get() for the CustomDomain record (throws on error).
 $custom_domain = $client->CustomDomain()->load(["id" => "custom_domain_id", "relay_id" => "relay_id"]);
 ```
 
@@ -867,7 +832,7 @@ Create an instance: `$function_run = $client->FunctionRun();`
 | Field | Type | Description |
 | --- | --- | --- |
 | `async` | `bool` |  |
-| `created_at` | `int` |  |
+| `createdAt` | `int` |  |
 | `error` | `mixed` |  |
 | `id` | `string` |  |
 | `payload` | `array` |  |
@@ -879,6 +844,7 @@ Create an instance: `$function_run = $client->FunctionRun();`
 ```php
 $function_run = $client->FunctionRun()->create([
     "function_name" => null, // string
+    "payload" => null, // array
 ]);
 ```
 
@@ -899,21 +865,21 @@ Create an instance: `$merchant = $client->Merchant();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `apple_pay` | `array` |  |
+| `applePay` | `array` |  |
 | `business` | `array` |  |
-| `category_code` | `string` |  |
-| `created_at` | `int` |  |
+| `categoryCode` | `string` |  |
+| `createdAt` | `int` |  |
 | `id` | `string` |  |
 | `name` | `string` |  |
-| `network_token` | `array` |  |
-| `short_name` | `string` |  |
-| `updated_at` | `int` |  |
+| `networkTokens` | `array` |  |
+| `shortName` | `string` |  |
+| `updatedAt` | `int` |  |
 | `website` | `string` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare Merchant record (throws on error).
+// load() returns the ENTITY — call data_get() for the Merchant record (throws on error).
 $merchant = $client->Merchant()->load(["id" => "merchant_id"]);
 ```
 
@@ -921,7 +887,7 @@ $merchant = $client->Merchant()->load(["id" => "merchant_id"]);
 
 ```php
 $merchant = $client->Merchant()->create([
-    "created_at" => null, // int
+    "createdAt" => null, // int
     "id" => null, // string
     "name" => null, // string
     "website" => null, // string
@@ -945,22 +911,22 @@ Create an instance: `$network_token = $client->NetworkToken();`
 | Field | Type | Description |
 | --- | --- | --- |
 | `card` | `array` |  |
-| `created_at` | `int` |  |
+| `createdAt` | `int` |  |
 | `expiry` | `array` |  |
 | `id` | `string` |  |
 | `merchant` | `string` |  |
 | `number` | `string` |  |
-| `payment_account_reference` | `string` |  |
+| `paymentAccountReference` | `string` |  |
 | `status` | `string` |  |
-| `token_requestor_identifier` | `string` |  |
-| `token_service_provider` | `string` |  |
-| `update_type` | `string` |  |
-| `updated_at` | `int` |  |
+| `tokenRequestorIdentifier` | `string` |  |
+| `tokenServiceProvider` | `string` |  |
+| `updateType` | `string` |  |
+| `updatedAt` | `int` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare NetworkToken record (throws on error).
+// load() returns the ENTITY — call data_get() for the NetworkToken record (throws on error).
 $network_token = $client->NetworkToken()->load(["id" => "network_token_id"]);
 ```
 
@@ -969,14 +935,14 @@ $network_token = $client->NetworkToken()->load(["id" => "network_token_id"]);
 ```php
 $network_token = $client->NetworkToken()->create([
     "card" => null, // array
-    "created_at" => null, // int
+    "createdAt" => null, // int
     "expiry" => null, // array
     "id" => null, // string
     "merchant" => null, // string
     "number" => null, // string
     "status" => null, // string
-    "token_requestor_identifier" => null, // string
-    "token_service_provider" => null, // string
+    "tokenRequestorIdentifier" => null, // string
+    "tokenServiceProvider" => null, // string
 ]);
 ```
 
@@ -995,7 +961,7 @@ Create an instance: `$network_token_cryptogram = $client->NetworkTokenCryptogram
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | `int` |  |
+| `createdAt` | `int` |  |
 | `cryptogram` | `string` |  |
 | `id` | `string` |  |
 
@@ -1023,20 +989,21 @@ Create an instance: `$payment = $client->Payment();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `apple_pay` | `array` |  |
+| `applePay` | `array` |  |
 | `business` | `array` |  |
-| `category_code` | `string` |  |
-| `configuration` | `array` |  |
+| `categoryCode` | `string` |  |
+| `configurations` | `array` |  |
+| `createdAt` | `int` |  |
 | `created_at` | `int` |  |
 | `data` | `array` |  |
 | `default` | `bool` |  |
 | `description` | `string` |  |
 | `id` | `string` |  |
 | `name` | `string` |  |
-| `network_token` | `array` |  |
-| `short_name` | `string` |  |
+| `networkTokens` | `array` |  |
+| `shortName` | `string` |  |
 | `type` | `string` |  |
-| `updated_at` | `int` |  |
+| `updatedAt` | `int` |  |
 | `website` | `string` |  |
 
 #### Example: List
@@ -1064,18 +1031,18 @@ Create an instance: `$relay = $client->Relay();`
 | --- | --- | --- |
 | `app` | `string` |  |
 | `authentication` | `mixed` |  |
-| `created_at` | `int` |  |
-| `destination_domain` | `string` |  |
-| `encrypt_empty_string` | `bool` |  |
-| `evervault_domain` | `string` |  |
+| `createdAt` | `int` |  |
+| `destinationDomain` | `string` |  |
+| `encryptEmptyStrings` | `bool` |  |
+| `evervaultDomain` | `string` |  |
 | `id` | `string` |  |
-| `route` | `array` |  |
-| `updated_at` | `int` |  |
+| `routes` | `array` |  |
+| `updatedAt` | `int` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare Relay record (throws on error).
+// load() returns the ENTITY — call data_get() for the Relay record (throws on error).
 $relay = $client->Relay()->load(["id" => "relay_id"]);
 ```
 
@@ -1095,35 +1062,35 @@ Create an instance: `$three_ds_session = $client->ThreeDsSession();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `access_control_server` | `array` |  |
+| `accessControlServer` | `array` |  |
 | `acquirer` | `array` |  |
-| `are` | `array` |  |
+| `ares` | `array` |  |
 | `authentication` | `array` |  |
 | `card` | `array` |  |
 | `challenge` | `array` |  |
-| `cre` | `mixed` |  |
-| `created_at` | `int` |  |
+| `createdAt` | `int` |  |
+| `cres` | `mixed` |  |
 | `cryptogram` | `string` |  |
 | `customer` | `array` |  |
-| `directory_server` | `array` |  |
+| `directoryServer` | `array` |  |
 | `eci` | `array` |  |
-| `failure_reason` | `string` |  |
+| `failureReason` | `string` |  |
 | `id` | `string` |  |
 | `initiator` | `array` |  |
 | `merchant` | `array` |  |
-| `next_action` | `array` |  |
+| `nextAction` | `array` |  |
 | `payment` | `array` |  |
-| `preferred_version` | `array` |  |
+| `preferredVersions` | `array` |  |
 | `rreq` | `mixed` |  |
 | `status` | `string` |  |
-| `three_ds_server` | `array` |  |
-| `updated_at` | `int` |  |
+| `threeDSServer` | `array` |  |
+| `updatedAt` | `int` |  |
 | `version` | `string` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare ThreeDsSession record (throws on error).
+// load() returns the ENTITY — call data_get() for the ThreeDsSession record (throws on error).
 $three_ds_session = $client->ThreeDsSession()->load(["3ds_session_id" => "3ds_session_id"]);
 ```
 
@@ -1135,10 +1102,10 @@ $three_ds_session = $client->ThreeDsSession()->create([
     "authentication" => null, // array
     "card" => null, // array
     "challenge" => null, // array
-    "created_at" => null, // int
+    "createdAt" => null, // int
     "id" => null, // string
     "merchant" => null, // array
-    "next_action" => null, // array
+    "nextAction" => null, // array
     "status" => null, // string
     "version" => null, // string
 ]);
@@ -1161,10 +1128,10 @@ Create an instance: `$webhook = $client->Webhook();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | `int` |  |
-| `event` | `array` |  |
+| `createdAt` | `int` |  |
+| `events` | `array` |  |
 | `id` | `string` |  |
-| `updated_at` | `mixed` |  |
+| `updatedAt` | `mixed` |  |
 | `url` | `string` |  |
 
 #### Example: List
@@ -1178,7 +1145,7 @@ $webhooks = $client->Webhook()->list();
 
 ```php
 $webhook = $client->Webhook()->create([
-    "event" => null, // array
+    "events" => null, // array
     "url" => null, // string
 ]);
 ```
@@ -1199,16 +1166,16 @@ Create an instance: `$webhook_endpoint = $client->WebhookEndpoint();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | `int` |  |
-| `event` | `array` |  |
+| `createdAt` | `int` |  |
+| `events` | `array` |  |
 | `id` | `string` |  |
-| `updated_at` | `mixed` |  |
+| `updatedAt` | `mixed` |  |
 | `url` | `string` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare WebhookEndpoint record (throws on error).
+// load() returns the ENTITY — call data_get() for the WebhookEndpoint record (throws on error).
 $webhook_endpoint = $client->WebhookEndpoint()->load(["id" => "webhook_endpoint_id"]);
 ```
 

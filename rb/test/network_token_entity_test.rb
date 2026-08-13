@@ -37,7 +37,7 @@ class NetworkTokenEntityTest < Minitest::Test
       Vs.getpath(setup[:data], "new.network_token"), "network_token_ref01"))
 
     network_token_ref01_data_result = network_token_ref01_ent.create(network_token_ref01_data, nil)
-    network_token_ref01_data = Helpers.to_map(network_token_ref01_data_result)
+    network_token_ref01_data = Helpers.to_map(network_token_ref01_data_result.respond_to?(:data_get) ? network_token_ref01_data_result.data_get : network_token_ref01_data_result)
     assert !network_token_ref01_data.nil?
     assert !network_token_ref01_data["id"].nil?
 
@@ -46,7 +46,7 @@ class NetworkTokenEntityTest < Minitest::Test
       "id" => network_token_ref01_data["id"],
     }
     network_token_ref01_data_dt0_loaded = network_token_ref01_ent.load(network_token_ref01_match_dt0, nil)
-    network_token_ref01_data_dt0_load_result = Helpers.to_map(network_token_ref01_data_dt0_loaded)
+    network_token_ref01_data_dt0_load_result = Helpers.to_map(network_token_ref01_data_dt0_loaded.respond_to?(:data_get) ? network_token_ref01_data_dt0_loaded.data_get : network_token_ref01_data_dt0_loaded)
     assert !network_token_ref01_data_dt0_load_result.nil?
     assert_equal network_token_ref01_data_dt0_load_result["id"], network_token_ref01_data["id"]
 

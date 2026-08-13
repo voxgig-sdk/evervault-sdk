@@ -38,7 +38,7 @@ class CustomDomainEntityTest < Minitest::Test
     custom_domain_ref01_data["relay_id"] = setup[:idmap]["relay01"]
 
     custom_domain_ref01_data_result = custom_domain_ref01_ent.create(custom_domain_ref01_data, nil)
-    custom_domain_ref01_data = Helpers.to_map(custom_domain_ref01_data_result)
+    custom_domain_ref01_data = Helpers.to_map(custom_domain_ref01_data_result.respond_to?(:data_get) ? custom_domain_ref01_data_result.data_get : custom_domain_ref01_data_result)
     assert !custom_domain_ref01_data.nil?
     assert !custom_domain_ref01_data["id"].nil?
 
@@ -47,7 +47,7 @@ class CustomDomainEntityTest < Minitest::Test
       "id" => custom_domain_ref01_data["id"],
     }
     custom_domain_ref01_data_dt0_loaded = custom_domain_ref01_ent.load(custom_domain_ref01_match_dt0, nil)
-    custom_domain_ref01_data_dt0_load_result = Helpers.to_map(custom_domain_ref01_data_dt0_loaded)
+    custom_domain_ref01_data_dt0_load_result = Helpers.to_map(custom_domain_ref01_data_dt0_loaded.respond_to?(:data_get) ? custom_domain_ref01_data_dt0_loaded.data_get : custom_domain_ref01_data_dt0_loaded)
     assert !custom_domain_ref01_data_dt0_load_result.nil?
     assert_equal custom_domain_ref01_data_dt0_load_result["id"], custom_domain_ref01_data["id"]
 

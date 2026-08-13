@@ -84,7 +84,7 @@ class CoreEntityTest extends TestCase
         $core_ref01_data["relay_id"] = $setup["idmap"]["relay01"];
 
         $core_ref01_data_result = $core_ref01_ent->create($core_ref01_data, null);
-        $core_ref01_data = Helpers::to_map($core_ref01_data_result);
+        $core_ref01_data = Helpers::to_map(is_object($core_ref01_data_result) && method_exists($core_ref01_data_result, 'data_get') ? $core_ref01_data_result->data_get() : $core_ref01_data_result);
         $this->assertNotNull($core_ref01_data);
         $this->assertNotNull($core_ref01_data["id"]);
 

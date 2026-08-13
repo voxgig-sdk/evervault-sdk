@@ -37,7 +37,7 @@ class ClientSideTokenEntityTest < Minitest::Test
       Vs.getpath(setup[:data], "new.client_side_token"), "client_side_token_ref01"))
 
     client_side_token_ref01_data_result = client_side_token_ref01_ent.create(client_side_token_ref01_data, nil)
-    client_side_token_ref01_data = Helpers.to_map(client_side_token_ref01_data_result)
+    client_side_token_ref01_data = Helpers.to_map(client_side_token_ref01_data_result.respond_to?(:data_get) ? client_side_token_ref01_data_result.data_get : client_side_token_ref01_data_result)
     assert !client_side_token_ref01_data.nil?
 
   end

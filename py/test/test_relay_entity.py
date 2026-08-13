@@ -6,9 +6,9 @@ import time
 
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from evervault_sdk.utility.voxgig_struct import voxgig_struct as vs
 from evervault_sdk import EvervaultSDK
-from core import helpers
+from evervault_sdk.core import helpers
 
 _TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 from test import runner
@@ -56,7 +56,7 @@ class TestRelayEntity:
         relay_ref01_markdef_up0_value = "Mark01-relay_ref01_" + str(setup["now"])
         relay_ref01_data_up0_up[relay_ref01_markdef_up0_name] = relay_ref01_markdef_up0_value
 
-        relay_ref01_resdata_up0 = helpers.to_map(relay_ref01_ent.update(relay_ref01_data_up0_up, None))
+        relay_ref01_resdata_up0 = helpers.to_map(runner.entity_data(relay_ref01_ent.update(relay_ref01_data_up0_up, None)))
         assert relay_ref01_resdata_up0 is not None
         assert relay_ref01_resdata_up0["id"] == relay_ref01_data_up0_up["id"]
         assert relay_ref01_resdata_up0[relay_ref01_markdef_up0_name] == relay_ref01_markdef_up0_value
@@ -66,7 +66,7 @@ class TestRelayEntity:
             "id": relay_ref01_data["id"],
         }
         relay_ref01_data_dt0_loaded = relay_ref01_ent.load(relay_ref01_match_dt0, None)
-        relay_ref01_data_dt0_load_result = helpers.to_map(relay_ref01_data_dt0_loaded)
+        relay_ref01_data_dt0_load_result = helpers.to_map(runner.entity_data(relay_ref01_data_dt0_loaded))
         assert relay_ref01_data_dt0_load_result is not None
         assert relay_ref01_data_dt0_load_result["id"] == relay_ref01_data["id"]
 

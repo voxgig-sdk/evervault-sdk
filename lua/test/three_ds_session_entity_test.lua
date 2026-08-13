@@ -41,7 +41,7 @@ describe("ThreeDsSessionEntity", function()
 
     local three_ds_session_ref01_data_result, err = three_ds_session_ref01_ent:create(three_ds_session_ref01_data, nil)
     assert.is_nil(err)
-    three_ds_session_ref01_data = helpers.to_map(three_ds_session_ref01_data_result)
+    three_ds_session_ref01_data = helpers.to_map(type(three_ds_session_ref01_data_result) == 'table' and three_ds_session_ref01_data_result.data_get and three_ds_session_ref01_data_result:data_get() or three_ds_session_ref01_data_result)
     assert.is_not_nil(three_ds_session_ref01_data)
     assert.is_not_nil(three_ds_session_ref01_data["id"])
 
@@ -51,7 +51,7 @@ describe("ThreeDsSessionEntity", function()
     }
     local three_ds_session_ref01_data_dt0_loaded, err = three_ds_session_ref01_ent:load(three_ds_session_ref01_match_dt0, nil)
     assert.is_nil(err)
-    local three_ds_session_ref01_data_dt0_load_result = helpers.to_map(three_ds_session_ref01_data_dt0_loaded)
+    local three_ds_session_ref01_data_dt0_load_result = helpers.to_map(type(three_ds_session_ref01_data_dt0_loaded) == 'table' and three_ds_session_ref01_data_dt0_loaded.data_get and three_ds_session_ref01_data_dt0_loaded:data_get() or three_ds_session_ref01_data_dt0_loaded)
     assert.is_not_nil(three_ds_session_ref01_data_dt0_load_result)
     assert.are.equal(three_ds_session_ref01_data_dt0_load_result["id"], three_ds_session_ref01_data["id"])
 

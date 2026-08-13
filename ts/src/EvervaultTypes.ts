@@ -6,7 +6,7 @@
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 
 export interface Acquirer {
-  configuration: any[]
+  configurations: any[]
   default: boolean
   description?: string
   id: string
@@ -18,7 +18,7 @@ export interface AcquirerLoadMatch {
 }
 
 export interface AcquirerCreateData {
-  configuration: any[]
+  configurations: any[]
   default: boolean
   description?: string
   id: string
@@ -27,6 +27,10 @@ export interface AcquirerCreateData {
 
 export interface AcquirerUpdateData {
   id: string
+  configurations?: any[]
+  default?: boolean
+  description?: string
+  name?: string
 }
 
 export interface BinLookup {
@@ -39,25 +43,13 @@ export interface BinLookupCreateData {
 
 export interface Card {
   address: Record<string, any>
-  automatic_update?: string
-  bin: string
-  brand?: string
   card: Record<string, any>
   cardholder?: Record<string, any>
-  country?: string
-  created_at: number
-  currency?: string
   expiry: Record<string, any>
-  extension?: any[]
-  funding?: string
-  id?: string
-  issuer?: string
-  last_four: string
+  extensions?: any[]
+  month: string
   number: string
-  replacement?: string | null
-  segment?: string
-  status?: string
-  updated_at?: number | null
+  year: string
 }
 
 export interface CardLoadMatch {
@@ -66,25 +58,19 @@ export interface CardLoadMatch {
 
 export interface CardCreateData {
   address: Record<string, any>
-  automatic_update?: string
-  bin: string
-  brand?: string
   card: Record<string, any>
   cardholder?: Record<string, any>
-  country?: string
-  created_at: number
-  currency?: string
   expiry: Record<string, any>
-  extension?: any[]
-  funding?: string
-  id?: string
-  issuer?: string
-  last_four: string
+  extensions?: any[]
+  month: string
   number: string
-  replacement?: string | null
-  segment?: string
-  status?: string
-  updated_at?: number | null
+  year: string
+
+  // Selects a custom action instead of the plain create:
+  //   'simulate'
+  // The remaining keys are that action's own payload.
+  $action?: string
+  [action: string]: any
 }
 
 export interface CardArt {
@@ -113,25 +99,19 @@ export interface ClientSideTokenCreateData {
 export interface Core {
   app?: string
   authentication?: string | null
-  category?: string
-  created_at?: number
-  custom_domain?: string
-  destination_domain: string
-  encrypt_empty_string?: boolean
-  encrypted_at?: number
-  evervault_domain?: string
-  fingerprint?: string
+  createdAt?: number
+  customDomain?: string
+  destinationDomain: string
+  encryptEmptyStrings?: boolean
+  evervaultDomain?: string
   id?: string
-  metadata?: any
-  phone_number?: string
+  phoneNumber?: string
   relay?: string
-  role?: string
-  route: any[]
+  routes: any[]
   status?: string
   token: string
-  type?: string
-  updated_at?: number
-  validation_record?: string
+  updatedAt?: number
+  validationRecord?: string
 }
 
 export interface CoreListMatch {
@@ -141,25 +121,19 @@ export interface CoreListMatch {
 export interface CoreCreateData {
   app?: string
   authentication?: string | null
-  category?: string
-  created_at?: number
-  custom_domain?: string
-  destination_domain: string
-  encrypt_empty_string?: boolean
-  encrypted_at?: number
-  evervault_domain?: string
-  fingerprint?: string
+  createdAt?: number
+  customDomain?: string
+  destinationDomain: string
+  encryptEmptyStrings?: boolean
+  evervaultDomain?: string
   id?: string
-  metadata?: any
-  phone_number?: string
+  phoneNumber?: string
   relay?: string
-  role?: string
-  route: any[]
+  routes: any[]
   status?: string
   token: string
-  type?: string
-  updated_at?: number
-  validation_record?: string
+  updatedAt?: number
+  validationRecord?: string
 }
 
 export interface CoreRemoveMatch {
@@ -168,13 +142,13 @@ export interface CoreRemoveMatch {
 }
 
 export interface CustomDomain {
-  created_at?: number
-  custom_domain?: string
+  createdAt?: number
+  customDomain?: string
   id?: string
   relay?: string
   status?: string
-  updated_at?: number
-  validation_record?: string
+  updatedAt?: number
+  validationRecord?: string
 }
 
 export interface CustomDomainLoadMatch {
@@ -184,11 +158,18 @@ export interface CustomDomainLoadMatch {
 
 export interface CustomDomainCreateData {
   relay_id: string
+  createdAt?: number
+  customDomain?: string
+  id?: string
+  relay?: string
+  status?: string
+  updatedAt?: number
+  validationRecord?: string
 }
 
 export interface FunctionRun {
   async?: boolean
-  created_at?: number
+  createdAt?: number
   error?: Record<string, any> | null
   id?: string
   payload: Record<string, any>
@@ -198,18 +179,25 @@ export interface FunctionRun {
 
 export interface FunctionRunCreateData {
   function_name: string
+  async?: boolean
+  createdAt?: number
+  error?: Record<string, any> | null
+  id?: string
+  payload: Record<string, any>
+  result?: Record<string, any>
+  status?: string
 }
 
 export interface Merchant {
-  apple_pay?: Record<string, any>
+  applePay?: Record<string, any>
   business?: Record<string, any>
-  category_code?: string
-  created_at: number
+  categoryCode?: string
+  createdAt: number
   id: string
   name: string
-  network_token?: Record<string, any>
-  short_name?: string
-  updated_at?: number
+  networkTokens?: Record<string, any>
+  shortName?: string
+  updatedAt?: number
   website: string
 }
 
@@ -218,35 +206,44 @@ export interface MerchantLoadMatch {
 }
 
 export interface MerchantCreateData {
-  apple_pay?: Record<string, any>
+  applePay?: Record<string, any>
   business?: Record<string, any>
-  category_code?: string
-  created_at: number
+  categoryCode?: string
+  createdAt: number
   id: string
   name: string
-  network_token?: Record<string, any>
-  short_name?: string
-  updated_at?: number
+  networkTokens?: Record<string, any>
+  shortName?: string
+  updatedAt?: number
   website: string
 }
 
 export interface MerchantUpdateData {
   id: string
+  applePay?: Record<string, any>
+  business?: Record<string, any>
+  categoryCode?: string
+  createdAt?: number
+  name?: string
+  networkTokens?: Record<string, any>
+  shortName?: string
+  updatedAt?: number
+  website?: string
 }
 
 export interface NetworkToken {
   card: Record<string, any>
-  created_at: number
+  createdAt: number
   expiry: Record<string, any>
   id: string
   merchant: string
   number: string
-  payment_account_reference?: string
+  paymentAccountReference?: string
   status: string
-  token_requestor_identifier: string
-  token_service_provider: string
-  update_type?: string
-  updated_at?: number
+  tokenRequestorIdentifier: string
+  tokenServiceProvider: string
+  updateType?: string
+  updatedAt?: number
 }
 
 export interface NetworkTokenLoadMatch {
@@ -255,49 +252,64 @@ export interface NetworkTokenLoadMatch {
 
 export interface NetworkTokenCreateData {
   card: Record<string, any>
-  created_at: number
+  createdAt: number
   expiry: Record<string, any>
   id: string
   merchant: string
   number: string
-  payment_account_reference?: string
+  paymentAccountReference?: string
   status: string
-  token_requestor_identifier: string
-  token_service_provider: string
-  update_type?: string
-  updated_at?: number
+  tokenRequestorIdentifier: string
+  tokenServiceProvider: string
+  updateType?: string
+  updatedAt?: number
+
+  // Selects a custom action instead of the plain create:
+  //   'simulate'
+  // The remaining keys are that action's own payload.
+  $action?: string
+  [action: string]: any
 }
 
 export interface NetworkTokenCryptogram {
-  created_at?: number
+  createdAt?: number
   cryptogram?: string
   id?: string
 }
 
 export interface NetworkTokenCryptogramCreateData {
   id: string
+  createdAt?: number
+  cryptogram?: string
 }
 
 export interface Payment {
-  apple_pay?: Record<string, any>
+  applePay?: Record<string, any>
   business?: Record<string, any>
-  category_code?: string
-  configuration: any[]
-  created_at: number
+  categoryCode?: string
+  configurations: any[]
+  createdAt: number
+  created_at?: number
   data?: Record<string, any>
   default: boolean
   description?: string
   id: string
   name: string
-  network_token?: Record<string, any>
-  short_name?: string
+  networkTokens?: Record<string, any>
+  shortName?: string
   type?: string
-  updated_at?: number
+  updatedAt?: number
   website: string
 }
 
 export interface PaymentListMatch {
   "3ds_session_id": string
+
+  // Selects a custom action instead of the plain list:
+  //   'acquirer' | 'merchant'
+  // The remaining keys are that action's own payload.
+  $action?: string
+  [action: string]: any
 }
 
 export interface PaymentRemoveMatch {
@@ -310,13 +322,13 @@ export interface PaymentRemoveMatch {
 export interface Relay {
   app?: string
   authentication?: string | null
-  created_at?: number
-  destination_domain?: string
-  encrypt_empty_string?: boolean
-  evervault_domain?: string
+  createdAt?: number
+  destinationDomain?: string
+  encryptEmptyStrings?: boolean
+  evervaultDomain?: string
   id?: string
-  route?: any[]
-  updated_at?: number
+  routes?: any[]
+  updatedAt?: number
 }
 
 export interface RelayLoadMatch {
@@ -325,32 +337,40 @@ export interface RelayLoadMatch {
 
 export interface RelayUpdateData {
   id: string
+  app?: string
+  authentication?: string | null
+  createdAt?: number
+  destinationDomain?: string
+  encryptEmptyStrings?: boolean
+  evervaultDomain?: string
+  routes?: any[]
+  updatedAt?: number
 }
 
 export interface ThreeDsSession {
-  access_control_server?: Record<string, any>
+  accessControlServer?: Record<string, any>
   acquirer: Record<string, any>
-  are?: Record<string, any>
+  ares?: Record<string, any>
   authentication: Record<string, any>
   card: Record<string, any>
   challenge: Record<string, any>
-  cre?: null | Record<string, any>
-  created_at: number
+  createdAt: number
+  cres?: null | Record<string, any>
   cryptogram?: string
   customer?: Record<string, any>
-  directory_server?: Record<string, any>
+  directoryServer?: Record<string, any>
   eci?: Record<string, any>
-  failure_reason?: string
+  failureReason?: string
   id: string
   initiator?: Record<string, any>
   merchant: Record<string, any>
-  next_action: Record<string, any>
+  nextAction: Record<string, any>
   payment?: Record<string, any>
-  preferred_version?: any[]
+  preferredVersions?: any[]
   rreq?: null | Record<string, any>
   status: string
-  three_ds_server?: Record<string, any>
-  updated_at?: number
+  threeDSServer?: Record<string, any>
+  updatedAt?: number
   version: string
 }
 
@@ -359,53 +379,53 @@ export interface ThreeDsSessionLoadMatch {
 }
 
 export interface ThreeDsSessionCreateData {
-  access_control_server?: Record<string, any>
+  accessControlServer?: Record<string, any>
   acquirer: Record<string, any>
-  are?: Record<string, any>
+  ares?: Record<string, any>
   authentication: Record<string, any>
   card: Record<string, any>
   challenge: Record<string, any>
-  cre?: null | Record<string, any>
-  created_at: number
+  createdAt: number
+  cres?: null | Record<string, any>
   cryptogram?: string
   customer?: Record<string, any>
-  directory_server?: Record<string, any>
+  directoryServer?: Record<string, any>
   eci?: Record<string, any>
-  failure_reason?: string
+  failureReason?: string
   id: string
   initiator?: Record<string, any>
   merchant: Record<string, any>
-  next_action: Record<string, any>
+  nextAction: Record<string, any>
   payment?: Record<string, any>
-  preferred_version?: any[]
+  preferredVersions?: any[]
   rreq?: null | Record<string, any>
   status: string
-  three_ds_server?: Record<string, any>
-  updated_at?: number
+  threeDSServer?: Record<string, any>
+  updatedAt?: number
   version: string
 }
 
 export interface Webhook {
-  created_at?: number
-  event: any[]
+  createdAt?: number
+  events: any[]
   id?: string
-  updated_at?: number | null
+  updatedAt?: number | null
   url: string
 }
 
 export interface WebhookListMatch {
-  created_at?: number
-  event?: any[]
+  createdAt?: number
+  events?: any[]
   id?: string
-  updated_at?: number | null
+  updatedAt?: number | null
   url?: string
 }
 
 export interface WebhookCreateData {
-  created_at?: number
-  event: any[]
+  createdAt?: number
+  events: any[]
   id?: string
-  updated_at?: number | null
+  updatedAt?: number | null
   url: string
 }
 
@@ -414,10 +434,10 @@ export interface WebhookRemoveMatch {
 }
 
 export interface WebhookEndpoint {
-  created_at?: number
-  event?: any[]
+  createdAt?: number
+  events?: any[]
   id?: string
-  updated_at?: number | null
+  updatedAt?: number | null
   url?: string
 }
 
@@ -427,5 +447,9 @@ export interface WebhookEndpointLoadMatch {
 
 export interface WebhookEndpointUpdateData {
   id: string
+  createdAt?: number
+  events?: any[]
+  updatedAt?: number | null
+  url?: string
 }
 

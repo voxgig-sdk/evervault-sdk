@@ -1,9 +1,9 @@
 # evervault-cli
 
-AQL-driven command-line client **and** interactive REPL for the Evervault
-SDK. Each command line is parsed as a single [AQL](https://github.com/aql-lang/aql)
+boru-driven command-line client **and** interactive REPL for the Evervault
+SDK. Each command line is parsed as a single [boru](https://github.com/boru-lang/boru)
 expression and evaluated against the live API; run it with no arguments to drop
-into a REPL. Built on `github.com/aql-lang/aql/eng/go` and the sibling Go SDK
+into a REPL. Built on `github.com/boru-lang/boru/eng/go` and the sibling Go SDK
 at `../go`.
 
 ## Examples
@@ -18,7 +18,7 @@ make build
 # 3. Provide credentials once, via the environment
 export EVERVAULT_APIKEY=sk_live_xxx
 
-# 4. Each command line is ONE AQL expression, run against the API:
+# 4. Each command line is ONE boru expression, run against the API:
 ./evervault-cli load 1 acquirer            # {id:1} shorthand
 ./evervault-cli load '{id:1}' acquirer       # explicit match map
 ./evervault-cli update '{name:"x"}' acquirer
@@ -50,7 +50,7 @@ evervault> /quit
    export EVERVAULT_APIKEY=sk_live_xxx
    ```
 
-3. **Run a query.** Evaluate an AQL expression against the API (or run with no
+3. **Run a query.** Evaluate an boru expression against the API (or run with no
    arguments to open the REPL):
 
    ```sh
@@ -60,7 +60,7 @@ evervault> /quit
 4. **Go interactive.** Run the binary with no arguments to open the REPL, then
    type `/help` for the word and entity lists and `/quit` to leave.
 
-That is the whole loop: *build → set key → evaluate AQL expressions*.
+That is the whole loop: *build → set key → evaluate boru expressions*.
 
 ## How-to guides
 
@@ -98,7 +98,7 @@ Both are injectable by a secrets vault, so the key never has to be typed inline.
 ### Explore interactively with the REPL
 
 Run with no arguments to open a REPL (prompt `evervault>`). Each line is
-evaluated as its own AQL expression:
+evaluated as its own boru expression:
 
 ```text
 $ ./evervault-cli
@@ -123,7 +123,7 @@ below — this SDK exposes 16 entities.
 
 ### Words
 
-The CLI registers these AQL words, each bound to the SDK:
+The CLI registers these boru words, each bound to the SDK:
 
 | Word     | Signatures                                    | Returns                        |
 |----------|-----------------------------------------------|--------------------------------|
@@ -131,7 +131,7 @@ The CLI registers these AQL words, each bound to the SDK:
 | `load`   | `load <entity>` · `load <query> <entity>`     | A single record                |
 | `update` | `update <query> <entity>`                     | Update a record, return it     |
 
-- `<entity>` is a bareword, auto-quoted as an AQL atom (e.g. `acquirer`).
+- `<entity>` is a bareword, auto-quoted as an boru atom (e.g. `acquirer`).
 - `<query>` is either a **Map** (`{id:1}`) or a **Scalar** (`1`, treated as
   `{id:1}`). A scalar is always wrapped as `{id:<value>}`.
 
@@ -150,7 +150,7 @@ Unset variables fall back to the SDK's built-in defaults.
 
 ### REPL commands
 
-Meta-commands use the `/` prefix (everything else on a line is evaluated as AQL):
+Meta-commands use the `/` prefix (everything else on a line is evaluated as boru):
 
 - `/quit` / `/q` / `/exit` — exit the REPL
 - `/help` / `/h` / `/?`     — show the word list, entity list and meta commands
@@ -178,25 +178,25 @@ acquirer bin_lookup card card_art client_side_token core custom_domain function_
 
 ## Explanation
 
-### Why AQL?
+### Why boru?
 
-The whole command line is one [AQL](https://github.com/aql-lang/aql) expression,
+The whole command line is one [boru](https://github.com/boru-lang/boru) expression,
 not a fixed `verb --flag` grammar. That means the same binary works one-shot
 (`./evervault-cli <expr>`) and interactively (the REPL), and expressions compose the
-same way in both. `list` / `load` / `update` are ordinary AQL *words* bound to
+same way in both. `list` / `load` / `update` are ordinary boru *words* bound to
 the SDK — adding SDK operations is adding words, not re-parsing flags.
 
 ### How it is wired
 
 `main.go` builds the SDK client (configured from the environment), creates an
-AQL registry, and `words.go` registers `list` / `load` / `update` as native
+boru registry, and `words.go` registers `list` / `load` / `update` as native
 words that dispatch on the entity atom and call the sibling Go SDK at `../go`.
 Results are unwrapped from their `Entity` wrappers to plain data before being
 printed.
 
 ### Output format
 
-Each result value is printed as its AQL string form (a JSON-like rendering of
+Each result value is printed as its boru string form (a JSON-like rendering of
 the record or list of records). One-shot mode prints to stdout; errors go to
 stderr with a non-zero exit code.
 

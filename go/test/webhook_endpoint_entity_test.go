@@ -74,7 +74,7 @@ func TestWebhookEndpointEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("update failed: %v", err)
 		}
-		webhookEndpointRef01ResdataUp0 := core.ToMapAny(webhookEndpointRef01ResdataUp0Result)
+		webhookEndpointRef01ResdataUp0 := core.ToMapAny(entityData(webhookEndpointRef01ResdataUp0Result))
 		if webhookEndpointRef01ResdataUp0 == nil {
 			t.Fatal("expected update result to be a map")
 		}
@@ -93,7 +93,7 @@ func TestWebhookEndpointEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("load failed: %v", err)
 		}
-		webhookEndpointRef01DataDt0LoadResult := core.ToMapAny(webhookEndpointRef01DataDt0Loaded)
+		webhookEndpointRef01DataDt0LoadResult := core.ToMapAny(entityData(webhookEndpointRef01DataDt0Loaded))
 		if webhookEndpointRef01DataDt0LoadResult == nil {
 			t.Fatal("expected load result to be a map")
 		}

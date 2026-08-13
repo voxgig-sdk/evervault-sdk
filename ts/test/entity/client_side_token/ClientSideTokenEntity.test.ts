@@ -62,7 +62,7 @@ describe('ClientSideTokenEntity', async () => {
     const client_side_token_ref01_ent = client.ClientSideToken()
     let client_side_token_ref01_data = setup.data.new.client_side_token['client_side_token_ref01']
 
-    client_side_token_ref01_data = await client_side_token_ref01_ent.create(client_side_token_ref01_data)
+    client_side_token_ref01_data = (await client_side_token_ref01_ent.create(client_side_token_ref01_data)).data()
     assert(null != client_side_token_ref01_data)
 
 

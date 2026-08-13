@@ -61,14 +61,14 @@ func main() {
     fmt.Println(acquirer)
 
     // Create a acquirer.
-    created, err := client.Acquirer(nil).Create(map[string]any{"configuration": []any{}, "default": true, "id": "example_id", "name": "example_name"}, nil)
+    created, err := client.Acquirer(nil).Create(map[string]any{"configurations": []any{}, "default": true, "id": "example_id", "name": "example_name"}, nil)
     if err != nil {
         panic(err)
     }
     fmt.Println(created)
 
     // Update a acquirer.
-    updated, err := client.Acquirer(nil).Update(map[string]any{"id": "example_id"}, nil)
+    updated, err := client.Acquirer(nil).Update(map[string]any{"id": "example_id", "configurations": []any{}, "default": true}, nil)
     if err != nil {
         panic(err)
     }
@@ -297,7 +297,7 @@ Only `Direct()` returns a response envelope — a `map[string]any` with
 
 | Field | Description |
 | --- | --- |
-| `"configuration"` |  |
+| `"configurations"` |  |
 | `"default"` |  |
 | `"description"` |  |
 | `"id"` |  |
@@ -322,25 +322,13 @@ API path: `/payments/bin-lookups`
 | Field | Description |
 | --- | --- |
 | `"address"` |  |
-| `"automatic_update"` |  |
-| `"bin"` |  |
-| `"brand"` |  |
 | `"card"` |  |
 | `"cardholder"` |  |
-| `"country"` |  |
-| `"created_at"` |  |
-| `"currency"` |  |
 | `"expiry"` |  |
-| `"extension"` |  |
-| `"funding"` |  |
-| `"id"` |  |
-| `"issuer"` |  |
-| `"last_four"` |  |
+| `"extensions"` |  |
+| `"month"` |  |
 | `"number"` |  |
-| `"replacement"` |  |
-| `"segment"` |  |
-| `"status"` |  |
-| `"updated_at"` |  |
+| `"year"` |  |
 
 Operations: Create, Load.
 
@@ -377,25 +365,19 @@ API path: `/client-side-tokens`
 | --- | --- |
 | `"app"` |  |
 | `"authentication"` |  |
-| `"category"` |  |
-| `"created_at"` |  |
-| `"custom_domain"` |  |
-| `"destination_domain"` |  |
-| `"encrypt_empty_string"` |  |
-| `"encrypted_at"` |  |
-| `"evervault_domain"` |  |
-| `"fingerprint"` |  |
+| `"createdAt"` |  |
+| `"customDomain"` |  |
+| `"destinationDomain"` |  |
+| `"encryptEmptyStrings"` |  |
+| `"evervaultDomain"` |  |
 | `"id"` |  |
-| `"metadata"` |  |
-| `"phone_number"` |  |
+| `"phoneNumber"` |  |
 | `"relay"` |  |
-| `"role"` |  |
-| `"route"` |  |
+| `"routes"` |  |
 | `"status"` |  |
 | `"token"` |  |
-| `"type"` |  |
-| `"updated_at"` |  |
-| `"validation_record"` |  |
+| `"updatedAt"` |  |
+| `"validationRecord"` |  |
 
 Operations: Create, List, Remove.
 
@@ -405,13 +387,13 @@ API path: `/decrypt`
 
 | Field | Description |
 | --- | --- |
-| `"created_at"` |  |
-| `"custom_domain"` |  |
+| `"createdAt"` |  |
+| `"customDomain"` |  |
 | `"id"` |  |
 | `"relay"` |  |
 | `"status"` |  |
-| `"updated_at"` |  |
-| `"validation_record"` |  |
+| `"updatedAt"` |  |
+| `"validationRecord"` |  |
 
 Operations: Create, Load.
 
@@ -422,7 +404,7 @@ API path: `/relays/{relay_id}/custom-domains`
 | Field | Description |
 | --- | --- |
 | `"async"` |  |
-| `"created_at"` |  |
+| `"createdAt"` |  |
 | `"error"` |  |
 | `"id"` |  |
 | `"payload"` |  |
@@ -437,15 +419,15 @@ API path: `/functions/{function_name}/runs`
 
 | Field | Description |
 | --- | --- |
-| `"apple_pay"` |  |
+| `"applePay"` |  |
 | `"business"` |  |
-| `"category_code"` |  |
-| `"created_at"` |  |
+| `"categoryCode"` |  |
+| `"createdAt"` |  |
 | `"id"` |  |
 | `"name"` |  |
-| `"network_token"` |  |
-| `"short_name"` |  |
-| `"updated_at"` |  |
+| `"networkTokens"` |  |
+| `"shortName"` |  |
+| `"updatedAt"` |  |
 | `"website"` |  |
 
 Operations: Create, Load, Update.
@@ -457,17 +439,17 @@ API path: `/payments/merchants`
 | Field | Description |
 | --- | --- |
 | `"card"` |  |
-| `"created_at"` |  |
+| `"createdAt"` |  |
 | `"expiry"` |  |
 | `"id"` |  |
 | `"merchant"` |  |
 | `"number"` |  |
-| `"payment_account_reference"` |  |
+| `"paymentAccountReference"` |  |
 | `"status"` |  |
-| `"token_requestor_identifier"` |  |
-| `"token_service_provider"` |  |
-| `"update_type"` |  |
-| `"updated_at"` |  |
+| `"tokenRequestorIdentifier"` |  |
+| `"tokenServiceProvider"` |  |
+| `"updateType"` |  |
+| `"updatedAt"` |  |
 
 Operations: Create, Load.
 
@@ -477,7 +459,7 @@ API path: `/payments/network-tokens/{network_token_id}/simulate`
 
 | Field | Description |
 | --- | --- |
-| `"created_at"` |  |
+| `"createdAt"` |  |
 | `"cryptogram"` |  |
 | `"id"` |  |
 
@@ -489,20 +471,21 @@ API path: `/payments/network-tokens/{network_token_id}/cryptograms`
 
 | Field | Description |
 | --- | --- |
-| `"apple_pay"` |  |
+| `"applePay"` |  |
 | `"business"` |  |
-| `"category_code"` |  |
-| `"configuration"` |  |
+| `"categoryCode"` |  |
+| `"configurations"` |  |
+| `"createdAt"` |  |
 | `"created_at"` |  |
 | `"data"` |  |
 | `"default"` |  |
 | `"description"` |  |
 | `"id"` |  |
 | `"name"` |  |
-| `"network_token"` |  |
-| `"short_name"` |  |
+| `"networkTokens"` |  |
+| `"shortName"` |  |
 | `"type"` |  |
-| `"updated_at"` |  |
+| `"updatedAt"` |  |
 | `"website"` |  |
 
 Operations: List, Remove.
@@ -515,13 +498,13 @@ API path: `/payments/merchants`
 | --- | --- |
 | `"app"` |  |
 | `"authentication"` |  |
-| `"created_at"` |  |
-| `"destination_domain"` |  |
-| `"encrypt_empty_string"` |  |
-| `"evervault_domain"` |  |
+| `"createdAt"` |  |
+| `"destinationDomain"` |  |
+| `"encryptEmptyStrings"` |  |
+| `"evervaultDomain"` |  |
 | `"id"` |  |
-| `"route"` |  |
-| `"updated_at"` |  |
+| `"routes"` |  |
+| `"updatedAt"` |  |
 
 Operations: Load, Update.
 
@@ -531,29 +514,29 @@ API path: `/relays/{id}`
 
 | Field | Description |
 | --- | --- |
-| `"access_control_server"` |  |
+| `"accessControlServer"` |  |
 | `"acquirer"` |  |
-| `"are"` |  |
+| `"ares"` |  |
 | `"authentication"` |  |
 | `"card"` |  |
 | `"challenge"` |  |
-| `"cre"` |  |
-| `"created_at"` |  |
+| `"createdAt"` |  |
+| `"cres"` |  |
 | `"cryptogram"` |  |
 | `"customer"` |  |
-| `"directory_server"` |  |
+| `"directoryServer"` |  |
 | `"eci"` |  |
-| `"failure_reason"` |  |
+| `"failureReason"` |  |
 | `"id"` |  |
 | `"initiator"` |  |
 | `"merchant"` |  |
-| `"next_action"` |  |
+| `"nextAction"` |  |
 | `"payment"` |  |
-| `"preferred_version"` |  |
+| `"preferredVersions"` |  |
 | `"rreq"` |  |
 | `"status"` |  |
-| `"three_ds_server"` |  |
-| `"updated_at"` |  |
+| `"threeDSServer"` |  |
+| `"updatedAt"` |  |
 | `"version"` |  |
 
 Operations: Create, Load.
@@ -564,10 +547,10 @@ API path: `/payments/3ds-sessions`
 
 | Field | Description |
 | --- | --- |
-| `"created_at"` |  |
-| `"event"` |  |
+| `"createdAt"` |  |
+| `"events"` |  |
 | `"id"` |  |
-| `"updated_at"` |  |
+| `"updatedAt"` |  |
 | `"url"` |  |
 
 Operations: Create, List, Remove.
@@ -578,10 +561,10 @@ API path: `/webhook-endpoints`
 
 | Field | Description |
 | --- | --- |
-| `"created_at"` |  |
-| `"event"` |  |
+| `"createdAt"` |  |
+| `"events"` |  |
 | `"id"` |  |
-| `"updated_at"` |  |
+| `"updatedAt"` |  |
 | `"url"` |  |
 
 Operations: Load, Update.
@@ -609,7 +592,7 @@ Create an instance: `acquirer := client.Acquirer(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `configuration` | `[]any` |  |
+| `configurations` | `[]any` |  |
 | `default` | `bool` |  |
 | `description` | `string` |  |
 | `id` | `string` |  |
@@ -629,7 +612,7 @@ fmt.Println(acquirer) // the loaded record
 
 ```go
 result, err := client.Acquirer(nil).Create(map[string]any{
-    "configuration": []any{},
+    "configurations": []any{},
     "default": true,
     "id": "example_id",
     "name": "example_name",
@@ -686,25 +669,13 @@ Create an instance: `card := client.Card(nil)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `address` | `map[string]any` |  |
-| `automatic_update` | `string` |  |
-| `bin` | `string` |  |
-| `brand` | `string` |  |
 | `card` | `map[string]any` |  |
 | `cardholder` | `map[string]any` |  |
-| `country` | `string` |  |
-| `created_at` | `int` |  |
-| `currency` | `string` |  |
 | `expiry` | `map[string]any` |  |
-| `extension` | `[]any` |  |
-| `funding` | `string` |  |
-| `id` | `string` |  |
-| `issuer` | `string` |  |
-| `last_four` | `string` |  |
+| `extensions` | `[]any` |  |
+| `month` | `string` |  |
 | `number` | `string` |  |
-| `replacement` | `any` |  |
-| `segment` | `string` |  |
-| `status` | `string` |  |
-| `updated_at` | `any` |  |
+| `year` | `string` |  |
 
 #### Example: Load
 
@@ -721,12 +692,11 @@ fmt.Println(card) // the loaded record
 ```go
 result, err := client.Card(nil).Create(map[string]any{
     "address": map[string]any{},
-    "bin": "example_bin",
     "card": map[string]any{},
-    "created_at": 1,
     "expiry": map[string]any{},
-    "last_four": "example_last_four",
+    "month": "example_month",
     "number": "example_number",
+    "year": "example_year",
 }, nil)
 if err != nil {
     panic(err)
@@ -814,25 +784,19 @@ Create an instance: `core := client.Core(nil)`
 | --- | --- | --- |
 | `app` | `string` |  |
 | `authentication` | `any` |  |
-| `category` | `string` |  |
-| `created_at` | `int` |  |
-| `custom_domain` | `string` |  |
-| `destination_domain` | `string` |  |
-| `encrypt_empty_string` | `bool` |  |
-| `encrypted_at` | `int` |  |
-| `evervault_domain` | `string` |  |
-| `fingerprint` | `string` |  |
+| `createdAt` | `int` |  |
+| `customDomain` | `string` |  |
+| `destinationDomain` | `string` |  |
+| `encryptEmptyStrings` | `bool` |  |
+| `evervaultDomain` | `string` |  |
 | `id` | `string` |  |
-| `metadata` | `any` |  |
-| `phone_number` | `string` |  |
+| `phoneNumber` | `string` |  |
 | `relay` | `string` |  |
-| `role` | `string` |  |
-| `route` | `[]any` |  |
+| `routes` | `[]any` |  |
 | `status` | `string` |  |
 | `token` | `string` |  |
-| `type` | `string` |  |
-| `updated_at` | `int` |  |
-| `validation_record` | `string` |  |
+| `updatedAt` | `int` |  |
+| `validationRecord` | `string` |  |
 
 #### Example: List
 
@@ -848,8 +812,8 @@ fmt.Println(cores) // the array of records
 
 ```go
 result, err := client.Core(nil).Create(map[string]any{
-    "destination_domain": "example_destination_domain",
-    "route": []any{},
+    "destinationDomain": "example_destinationDomain",
+    "routes": []any{},
     "token": "example_token",
 }, nil)
 if err != nil {
@@ -874,13 +838,13 @@ Create an instance: `customDomain := client.CustomDomain(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | `int` |  |
-| `custom_domain` | `string` |  |
+| `createdAt` | `int` |  |
+| `customDomain` | `string` |  |
 | `id` | `string` |  |
 | `relay` | `string` |  |
 | `status` | `string` |  |
-| `updated_at` | `int` |  |
-| `validation_record` | `string` |  |
+| `updatedAt` | `int` |  |
+| `validationRecord` | `string` |  |
 
 #### Example: Load
 
@@ -920,7 +884,7 @@ Create an instance: `functionRun := client.FunctionRun(nil)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `async` | `bool` |  |
-| `created_at` | `int` |  |
+| `createdAt` | `int` |  |
 | `error` | `any` |  |
 | `id` | `string` |  |
 | `payload` | `map[string]any` |  |
@@ -932,6 +896,7 @@ Create an instance: `functionRun := client.FunctionRun(nil)`
 ```go
 result, err := client.FunctionRun(nil).Create(map[string]any{
     "function_name": "example_function_name",
+    "payload": map[string]any{},
 }, nil)
 if err != nil {
     panic(err)
@@ -956,15 +921,15 @@ Create an instance: `merchant := client.Merchant(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `apple_pay` | `map[string]any` |  |
+| `applePay` | `map[string]any` |  |
 | `business` | `map[string]any` |  |
-| `category_code` | `string` |  |
-| `created_at` | `int` |  |
+| `categoryCode` | `string` |  |
+| `createdAt` | `int` |  |
 | `id` | `string` |  |
 | `name` | `string` |  |
-| `network_token` | `map[string]any` |  |
-| `short_name` | `string` |  |
-| `updated_at` | `int` |  |
+| `networkTokens` | `map[string]any` |  |
+| `shortName` | `string` |  |
+| `updatedAt` | `int` |  |
 | `website` | `string` |  |
 
 #### Example: Load
@@ -981,7 +946,7 @@ fmt.Println(merchant) // the loaded record
 
 ```go
 result, err := client.Merchant(nil).Create(map[string]any{
-    "created_at": 1,
+    "createdAt": 1,
     "id": "example_id",
     "name": "example_name",
     "website": "example_website",
@@ -1009,17 +974,17 @@ Create an instance: `networkToken := client.NetworkToken(nil)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `card` | `map[string]any` |  |
-| `created_at` | `int` |  |
+| `createdAt` | `int` |  |
 | `expiry` | `map[string]any` |  |
 | `id` | `string` |  |
 | `merchant` | `string` |  |
 | `number` | `string` |  |
-| `payment_account_reference` | `string` |  |
+| `paymentAccountReference` | `string` |  |
 | `status` | `string` |  |
-| `token_requestor_identifier` | `string` |  |
-| `token_service_provider` | `string` |  |
-| `update_type` | `string` |  |
-| `updated_at` | `int` |  |
+| `tokenRequestorIdentifier` | `string` |  |
+| `tokenServiceProvider` | `string` |  |
+| `updateType` | `string` |  |
+| `updatedAt` | `int` |  |
 
 #### Example: Load
 
@@ -1036,14 +1001,14 @@ fmt.Println(networkToken) // the loaded record
 ```go
 result, err := client.NetworkToken(nil).Create(map[string]any{
     "card": map[string]any{},
-    "created_at": 1,
+    "createdAt": 1,
     "expiry": map[string]any{},
     "id": "example_id",
     "merchant": "example_merchant",
     "number": "example_number",
     "status": "example_status",
-    "token_requestor_identifier": "example_token_requestor_identifier",
-    "token_service_provider": "example_token_service_provider",
+    "tokenRequestorIdentifier": "example_tokenRequestorIdentifier",
+    "tokenServiceProvider": "example_tokenServiceProvider",
 }, nil)
 if err != nil {
     panic(err)
@@ -1066,7 +1031,7 @@ Create an instance: `networkTokenCryptogram := client.NetworkTokenCryptogram(nil
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | `int` |  |
+| `createdAt` | `int` |  |
 | `cryptogram` | `string` |  |
 | `id` | `string` |  |
 
@@ -1098,20 +1063,21 @@ Create an instance: `payment := client.Payment(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `apple_pay` | `map[string]any` |  |
+| `applePay` | `map[string]any` |  |
 | `business` | `map[string]any` |  |
-| `category_code` | `string` |  |
-| `configuration` | `[]any` |  |
+| `categoryCode` | `string` |  |
+| `configurations` | `[]any` |  |
+| `createdAt` | `int` |  |
 | `created_at` | `int` |  |
 | `data` | `map[string]any` |  |
 | `default` | `bool` |  |
 | `description` | `string` |  |
 | `id` | `string` |  |
 | `name` | `string` |  |
-| `network_token` | `map[string]any` |  |
-| `short_name` | `string` |  |
+| `networkTokens` | `map[string]any` |  |
+| `shortName` | `string` |  |
 | `type` | `string` |  |
-| `updated_at` | `int` |  |
+| `updatedAt` | `int` |  |
 | `website` | `string` |  |
 
 #### Example: List
@@ -1142,13 +1108,13 @@ Create an instance: `relay := client.Relay(nil)`
 | --- | --- | --- |
 | `app` | `string` |  |
 | `authentication` | `any` |  |
-| `created_at` | `int` |  |
-| `destination_domain` | `string` |  |
-| `encrypt_empty_string` | `bool` |  |
-| `evervault_domain` | `string` |  |
+| `createdAt` | `int` |  |
+| `destinationDomain` | `string` |  |
+| `encryptEmptyStrings` | `bool` |  |
+| `evervaultDomain` | `string` |  |
 | `id` | `string` |  |
-| `route` | `[]any` |  |
-| `updated_at` | `int` |  |
+| `routes` | `[]any` |  |
+| `updatedAt` | `int` |  |
 
 #### Example: Load
 
@@ -1176,29 +1142,29 @@ Create an instance: `threeDsSession := client.ThreeDsSession(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `access_control_server` | `map[string]any` |  |
+| `accessControlServer` | `map[string]any` |  |
 | `acquirer` | `map[string]any` |  |
-| `are` | `map[string]any` |  |
+| `ares` | `map[string]any` |  |
 | `authentication` | `map[string]any` |  |
 | `card` | `map[string]any` |  |
 | `challenge` | `map[string]any` |  |
-| `cre` | `any` |  |
-| `created_at` | `int` |  |
+| `createdAt` | `int` |  |
+| `cres` | `any` |  |
 | `cryptogram` | `string` |  |
 | `customer` | `map[string]any` |  |
-| `directory_server` | `map[string]any` |  |
+| `directoryServer` | `map[string]any` |  |
 | `eci` | `map[string]any` |  |
-| `failure_reason` | `string` |  |
+| `failureReason` | `string` |  |
 | `id` | `string` |  |
 | `initiator` | `map[string]any` |  |
 | `merchant` | `map[string]any` |  |
-| `next_action` | `map[string]any` |  |
+| `nextAction` | `map[string]any` |  |
 | `payment` | `map[string]any` |  |
-| `preferred_version` | `[]any` |  |
+| `preferredVersions` | `[]any` |  |
 | `rreq` | `any` |  |
 | `status` | `string` |  |
-| `three_ds_server` | `map[string]any` |  |
-| `updated_at` | `int` |  |
+| `threeDSServer` | `map[string]any` |  |
+| `updatedAt` | `int` |  |
 | `version` | `string` |  |
 
 #### Example: Load
@@ -1219,10 +1185,10 @@ result, err := client.ThreeDsSession(nil).Create(map[string]any{
     "authentication": map[string]any{},
     "card": map[string]any{},
     "challenge": map[string]any{},
-    "created_at": 1,
+    "createdAt": 1,
     "id": "example_id",
     "merchant": map[string]any{},
-    "next_action": map[string]any{},
+    "nextAction": map[string]any{},
     "status": "example_status",
     "version": "example_version",
 }, nil)
@@ -1249,10 +1215,10 @@ Create an instance: `webhook := client.Webhook(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | `int` |  |
-| `event` | `[]any` |  |
+| `createdAt` | `int` |  |
+| `events` | `[]any` |  |
 | `id` | `string` |  |
-| `updated_at` | `any` |  |
+| `updatedAt` | `any` |  |
 | `url` | `string` |  |
 
 #### Example: List
@@ -1269,7 +1235,7 @@ fmt.Println(webhooks) // the array of records
 
 ```go
 result, err := client.Webhook(nil).Create(map[string]any{
-    "event": []any{},
+    "events": []any{},
     "url": "example_url",
 }, nil)
 if err != nil {
@@ -1294,10 +1260,10 @@ Create an instance: `webhookEndpoint := client.WebhookEndpoint(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | `int` |  |
-| `event` | `[]any` |  |
+| `createdAt` | `int` |  |
+| `events` | `[]any` |  |
 | `id` | `string` |  |
-| `updated_at` | `any` |  |
+| `updatedAt` | `any` |  |
 | `url` | `string` |  |
 
 #### Example: Load

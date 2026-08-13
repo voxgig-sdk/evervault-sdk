@@ -7,7 +7,7 @@
 -- edit by hand.
 
 ---@class Acquirer
----@field configuration table
+---@field configurations table
 ---@field default boolean
 ---@field description? string
 ---@field id string
@@ -17,7 +17,7 @@
 ---@field id string
 
 ---@class AcquirerCreateData
----@field configuration table
+---@field configurations table
 ---@field default boolean
 ---@field description? string
 ---@field id string
@@ -25,6 +25,10 @@
 
 ---@class AcquirerUpdateData
 ---@field id string
+---@field configurations? table
+---@field default? boolean
+---@field description? string
+---@field name? string
 
 ---@class BinLookup
 ---@field number string
@@ -34,50 +38,26 @@
 
 ---@class Card
 ---@field address table
----@field automatic_update? string
----@field bin string
----@field brand? string
 ---@field card table
 ---@field cardholder? table
----@field country? string
----@field created_at number
----@field currency? string
 ---@field expiry table
----@field extension? table
----@field funding? string
----@field id? string
----@field issuer? string
----@field last_four string
+---@field extensions? table
+---@field month string
 ---@field number string
----@field replacement? string|nil
----@field segment? string
----@field status? string
----@field updated_at? number|nil
+---@field year string
 
 ---@class CardLoadMatch
 ---@field id string
 
 ---@class CardCreateData
 ---@field address table
----@field automatic_update? string
----@field bin string
----@field brand? string
 ---@field card table
 ---@field cardholder? table
----@field country? string
----@field created_at number
----@field currency? string
 ---@field expiry table
----@field extension? table
----@field funding? string
----@field id? string
----@field issuer? string
----@field last_four string
+---@field extensions? table
+---@field month string
 ---@field number string
----@field replacement? string|nil
----@field segment? string
----@field status? string
----@field updated_at? number|nil
+---@field year string
 
 ---@class CardArt
 ---@field data string
@@ -101,25 +81,19 @@
 ---@class Core
 ---@field app? string
 ---@field authentication? string|nil
----@field category? string
----@field created_at? number
----@field custom_domain? string
----@field destination_domain string
----@field encrypt_empty_string? boolean
----@field encrypted_at? number
----@field evervault_domain? string
----@field fingerprint? string
+---@field createdAt? number
+---@field customDomain? string
+---@field destinationDomain string
+---@field encryptEmptyStrings? boolean
+---@field evervaultDomain? string
 ---@field id? string
----@field metadata? any
----@field phone_number? string
+---@field phoneNumber? string
 ---@field relay? string
----@field role? string
----@field route table
+---@field routes table
 ---@field status? string
 ---@field token string
----@field type? string
----@field updated_at? number
----@field validation_record? string
+---@field updatedAt? number
+---@field validationRecord? string
 
 ---@class CoreListMatch
 ---@field relay_id? string
@@ -127,38 +101,32 @@
 ---@class CoreCreateData
 ---@field app? string
 ---@field authentication? string|nil
----@field category? string
----@field created_at? number
----@field custom_domain? string
----@field destination_domain string
----@field encrypt_empty_string? boolean
----@field encrypted_at? number
----@field evervault_domain? string
----@field fingerprint? string
+---@field createdAt? number
+---@field customDomain? string
+---@field destinationDomain string
+---@field encryptEmptyStrings? boolean
+---@field evervaultDomain? string
 ---@field id? string
----@field metadata? any
----@field phone_number? string
+---@field phoneNumber? string
 ---@field relay? string
----@field role? string
----@field route table
+---@field routes table
 ---@field status? string
 ---@field token string
----@field type? string
----@field updated_at? number
----@field validation_record? string
+---@field updatedAt? number
+---@field validationRecord? string
 
 ---@class CoreRemoveMatch
 ---@field id string
 ---@field relay_id? string
 
 ---@class CustomDomain
----@field created_at? number
----@field custom_domain? string
+---@field createdAt? number
+---@field customDomain? string
 ---@field id? string
 ---@field relay? string
 ---@field status? string
----@field updated_at? number
----@field validation_record? string
+---@field updatedAt? number
+---@field validationRecord? string
 
 ---@class CustomDomainLoadMatch
 ---@field id string
@@ -166,10 +134,17 @@
 
 ---@class CustomDomainCreateData
 ---@field relay_id string
+---@field createdAt? number
+---@field customDomain? string
+---@field id? string
+---@field relay? string
+---@field status? string
+---@field updatedAt? number
+---@field validationRecord? string
 
 ---@class FunctionRun
 ---@field async? boolean
----@field created_at? number
+---@field createdAt? number
 ---@field error? table|nil
 ---@field id? string
 ---@field payload table
@@ -178,91 +153,110 @@
 
 ---@class FunctionRunCreateData
 ---@field function_name string
+---@field async? boolean
+---@field createdAt? number
+---@field error? table|nil
+---@field id? string
+---@field payload table
+---@field result? table
+---@field status? string
 
 ---@class Merchant
----@field apple_pay? table
+---@field applePay? table
 ---@field business? table
----@field category_code? string
----@field created_at number
+---@field categoryCode? string
+---@field createdAt number
 ---@field id string
 ---@field name string
----@field network_token? table
----@field short_name? string
----@field updated_at? number
+---@field networkTokens? table
+---@field shortName? string
+---@field updatedAt? number
 ---@field website string
 
 ---@class MerchantLoadMatch
 ---@field id string
 
 ---@class MerchantCreateData
----@field apple_pay? table
+---@field applePay? table
 ---@field business? table
----@field category_code? string
----@field created_at number
+---@field categoryCode? string
+---@field createdAt number
 ---@field id string
 ---@field name string
----@field network_token? table
----@field short_name? string
----@field updated_at? number
+---@field networkTokens? table
+---@field shortName? string
+---@field updatedAt? number
 ---@field website string
 
 ---@class MerchantUpdateData
 ---@field id string
+---@field applePay? table
+---@field business? table
+---@field categoryCode? string
+---@field createdAt? number
+---@field name? string
+---@field networkTokens? table
+---@field shortName? string
+---@field updatedAt? number
+---@field website? string
 
 ---@class NetworkToken
 ---@field card table
----@field created_at number
+---@field createdAt number
 ---@field expiry table
 ---@field id string
 ---@field merchant string
 ---@field number string
----@field payment_account_reference? string
+---@field paymentAccountReference? string
 ---@field status string
----@field token_requestor_identifier string
----@field token_service_provider string
----@field update_type? string
----@field updated_at? number
+---@field tokenRequestorIdentifier string
+---@field tokenServiceProvider string
+---@field updateType? string
+---@field updatedAt? number
 
 ---@class NetworkTokenLoadMatch
 ---@field id string
 
 ---@class NetworkTokenCreateData
 ---@field card table
----@field created_at number
+---@field createdAt number
 ---@field expiry table
 ---@field id string
 ---@field merchant string
 ---@field number string
----@field payment_account_reference? string
+---@field paymentAccountReference? string
 ---@field status string
----@field token_requestor_identifier string
----@field token_service_provider string
----@field update_type? string
----@field updated_at? number
+---@field tokenRequestorIdentifier string
+---@field tokenServiceProvider string
+---@field updateType? string
+---@field updatedAt? number
 
 ---@class NetworkTokenCryptogram
----@field created_at? number
+---@field createdAt? number
 ---@field cryptogram? string
 ---@field id? string
 
 ---@class NetworkTokenCryptogramCreateData
 ---@field id string
+---@field createdAt? number
+---@field cryptogram? string
 
 ---@class Payment
----@field apple_pay? table
+---@field applePay? table
 ---@field business? table
----@field category_code? string
----@field configuration table
----@field created_at number
+---@field categoryCode? string
+---@field configurations table
+---@field createdAt number
+---@field created_at? number
 ---@field data? table
 ---@field default boolean
 ---@field description? string
 ---@field id string
 ---@field name string
----@field network_token? table
----@field short_name? string
+---@field networkTokens? table
+---@field shortName? string
 ---@field type? string
----@field updated_at? number
+---@field updatedAt? number
 ---@field website string
 
 ---@class PaymentListMatch
@@ -277,104 +271,112 @@
 ---@class Relay
 ---@field app? string
 ---@field authentication? string|nil
----@field created_at? number
----@field destination_domain? string
----@field encrypt_empty_string? boolean
----@field evervault_domain? string
+---@field createdAt? number
+---@field destinationDomain? string
+---@field encryptEmptyStrings? boolean
+---@field evervaultDomain? string
 ---@field id? string
----@field route? table
----@field updated_at? number
+---@field routes? table
+---@field updatedAt? number
 
 ---@class RelayLoadMatch
 ---@field id string
 
 ---@class RelayUpdateData
 ---@field id string
+---@field app? string
+---@field authentication? string|nil
+---@field createdAt? number
+---@field destinationDomain? string
+---@field encryptEmptyStrings? boolean
+---@field evervaultDomain? string
+---@field routes? table
+---@field updatedAt? number
 
 ---@class ThreeDsSession
----@field access_control_server? table
+---@field accessControlServer? table
 ---@field acquirer table
----@field are? table
+---@field ares? table
 ---@field authentication table
 ---@field card table
 ---@field challenge table
----@field cre? nil|table
----@field created_at number
+---@field createdAt number
+---@field cres? nil|table
 ---@field cryptogram? string
 ---@field customer? table
----@field directory_server? table
+---@field directoryServer? table
 ---@field eci? table
----@field failure_reason? string
+---@field failureReason? string
 ---@field id string
 ---@field initiator? table
 ---@field merchant table
----@field next_action table
+---@field nextAction table
 ---@field payment? table
----@field preferred_version? table
+---@field preferredVersions? table
 ---@field rreq? nil|table
 ---@field status string
----@field three_ds_server? table
----@field updated_at? number
+---@field threeDSServer? table
+---@field updatedAt? number
 ---@field version string
 
 ---@class ThreeDsSessionLoadMatch
 ---@field ["3ds_session_id"] string
 
 ---@class ThreeDsSessionCreateData
----@field access_control_server? table
+---@field accessControlServer? table
 ---@field acquirer table
----@field are? table
+---@field ares? table
 ---@field authentication table
 ---@field card table
 ---@field challenge table
----@field cre? nil|table
----@field created_at number
+---@field createdAt number
+---@field cres? nil|table
 ---@field cryptogram? string
 ---@field customer? table
----@field directory_server? table
+---@field directoryServer? table
 ---@field eci? table
----@field failure_reason? string
+---@field failureReason? string
 ---@field id string
 ---@field initiator? table
 ---@field merchant table
----@field next_action table
+---@field nextAction table
 ---@field payment? table
----@field preferred_version? table
+---@field preferredVersions? table
 ---@field rreq? nil|table
 ---@field status string
----@field three_ds_server? table
----@field updated_at? number
+---@field threeDSServer? table
+---@field updatedAt? number
 ---@field version string
 
 ---@class Webhook
----@field created_at? number
----@field event table
+---@field createdAt? number
+---@field events table
 ---@field id? string
----@field updated_at? number|nil
+---@field updatedAt? number|nil
 ---@field url string
 
 ---@class WebhookListMatch
----@field created_at? number
----@field event? table
+---@field createdAt? number
+---@field events? table
 ---@field id? string
----@field updated_at? number|nil
+---@field updatedAt? number|nil
 ---@field url? string
 
 ---@class WebhookCreateData
----@field created_at? number
----@field event table
+---@field createdAt? number
+---@field events table
 ---@field id? string
----@field updated_at? number|nil
+---@field updatedAt? number|nil
 ---@field url string
 
 ---@class WebhookRemoveMatch
 ---@field webhook_endpoint_id string
 
 ---@class WebhookEndpoint
----@field created_at? number
----@field event? table
+---@field createdAt? number
+---@field events? table
 ---@field id? string
----@field updated_at? number|nil
+---@field updatedAt? number|nil
 ---@field url? string
 
 ---@class WebhookEndpointLoadMatch
@@ -382,6 +384,10 @@
 
 ---@class WebhookEndpointUpdateData
 ---@field id string
+---@field createdAt? number
+---@field events? table
+---@field updatedAt? number|nil
+---@field url? string
 
 local M = {}
 

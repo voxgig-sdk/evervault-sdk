@@ -6,9 +6,9 @@ import time
 
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from evervault_sdk.utility.voxgig_struct import voxgig_struct as vs
 from evervault_sdk import EvervaultSDK
-from core import helpers
+from evervault_sdk.core import helpers
 
 _TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 from test import runner
@@ -44,7 +44,7 @@ class TestMerchantEntity:
         merchant_ref01_data = helpers.to_map(vs.getprop(
             vs.getpath(setup["data"], "new.merchant"), "merchant_ref01"))
 
-        merchant_ref01_data = helpers.to_map(merchant_ref01_ent.create(merchant_ref01_data, None))
+        merchant_ref01_data = helpers.to_map(runner.entity_data(merchant_ref01_ent.create(merchant_ref01_data, None)))
         assert merchant_ref01_data is not None
         assert merchant_ref01_data["id"] is not None
 
@@ -53,11 +53,11 @@ class TestMerchantEntity:
             "id": merchant_ref01_data["id"],
         }
 
-        merchant_ref01_markdef_up0_name = "category_code"
+        merchant_ref01_markdef_up0_name = "categoryCode"
         merchant_ref01_markdef_up0_value = "Mark01-merchant_ref01_" + str(setup["now"])
         merchant_ref01_data_up0_up[merchant_ref01_markdef_up0_name] = merchant_ref01_markdef_up0_value
 
-        merchant_ref01_resdata_up0 = helpers.to_map(merchant_ref01_ent.update(merchant_ref01_data_up0_up, None))
+        merchant_ref01_resdata_up0 = helpers.to_map(runner.entity_data(merchant_ref01_ent.update(merchant_ref01_data_up0_up, None)))
         assert merchant_ref01_resdata_up0 is not None
         assert merchant_ref01_resdata_up0["id"] == merchant_ref01_data_up0_up["id"]
         assert merchant_ref01_resdata_up0[merchant_ref01_markdef_up0_name] == merchant_ref01_markdef_up0_value
@@ -67,7 +67,7 @@ class TestMerchantEntity:
             "id": merchant_ref01_data["id"],
         }
         merchant_ref01_data_dt0_loaded = merchant_ref01_ent.load(merchant_ref01_match_dt0, None)
-        merchant_ref01_data_dt0_load_result = helpers.to_map(merchant_ref01_data_dt0_loaded)
+        merchant_ref01_data_dt0_load_result = helpers.to_map(runner.entity_data(merchant_ref01_data_dt0_loaded))
         assert merchant_ref01_data_dt0_load_result is not None
         assert merchant_ref01_data_dt0_load_result["id"] == merchant_ref01_data["id"]
 

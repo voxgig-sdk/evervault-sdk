@@ -67,7 +67,7 @@ describe('RelayEntity', async () => {
     const relay_ref01_markdef_up0 = { name: 'app', value: 'Mark01-relay_ref01_' + setup.now }
     ;(relay_ref01_data_up0 as any)[relay_ref01_markdef_up0.name] = relay_ref01_markdef_up0.value
 
-    const relay_ref01_resdata_up0 = await relay_ref01_ent.update(relay_ref01_data_up0)
+    const relay_ref01_resdata_up0 = (await relay_ref01_ent.update(relay_ref01_data_up0)).data()
     assert(relay_ref01_resdata_up0.id === relay_ref01_data_up0.id)
 
     assert((relay_ref01_resdata_up0 as any)[relay_ref01_markdef_up0.name] === relay_ref01_markdef_up0.value)
@@ -76,7 +76,7 @@ describe('RelayEntity', async () => {
     // LOAD
     const relay_ref01_match_dt0: any = {}
     relay_ref01_match_dt0.id = relay_ref01_data.id
-    const relay_ref01_data_dt0 = await relay_ref01_ent.load(relay_ref01_match_dt0)
+    const relay_ref01_data_dt0 = (await relay_ref01_ent.load(relay_ref01_match_dt0)).data()
     assert(relay_ref01_data_dt0.id === relay_ref01_data.id)
 
 

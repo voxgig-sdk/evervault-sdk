@@ -25,18 +25,22 @@ guide: {
   entity: card: {
     path: "/insights/cards": {
       op: create: method: *POST
+      op: create: transform: req: "card": *("`reqdata`")|top
     }
     path: "/payments/cards": {
       op: create: method: *POST
+      op: create: transform: res: *("`body.expiry`")|top
     }
     path: "/payments/cards/{card_id}": {
       rename: param: "card_id": *"id"
       op: load: method: *GET
+      op: load: transform: res: *("`body.expiry`")|top
     }
     path: "/payments/cards/{card_id}/simulate": {
       action: "simulate": {}
       rename: param: "card_id": *"id"
       op: create: method: *POST
+      op: create: transform: res: *("`body.expiry`")|top
     }
   }
 
@@ -61,16 +65,19 @@ guide: {
     }
     path: "/inspect": {
       op: create: method: *POST
+      op: create: transform: res: *("`body.metadata`")|top
     }
     path: "/relays": {
       op: create: method: *POST
       op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
     }
     path: "/relays/{id}": {
       op: remove: method: *DELETE
     }
     path: "/relays/{relay_id}/custom-domains": {
       op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
     }
     path: "/relays/{relay_id}/custom-domains/{id}": {
       op: remove: method: *DELETE
@@ -128,10 +135,12 @@ guide: {
   entity: payment: {
     path: "/payments/3ds-sessions/{3ds_session_id}/messages": {
       op: list: method: *GET
+      op: list: transform: res: *("`body.messages`")|top
     }
     path: "/payments/acquirers": {
       action: "acquirer": {}
       op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
     }
     path: "/payments/acquirers/{acquirer_id}": {
       op: remove: method: *DELETE
@@ -142,6 +151,7 @@ guide: {
     path: "/payments/merchants": {
       action: "merchant": {}
       op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
     }
     path: "/payments/merchants/{merchant_id}": {
       op: remove: method: *DELETE
@@ -171,6 +181,7 @@ guide: {
     path: "/webhook-endpoints": {
       op: create: method: *POST
       op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
     }
     path: "/webhook-endpoints/{webhook_endpoint_id}": {
       op: remove: method: *DELETE

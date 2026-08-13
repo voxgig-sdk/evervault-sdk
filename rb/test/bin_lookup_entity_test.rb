@@ -37,7 +37,7 @@ class BinLookupEntityTest < Minitest::Test
       Vs.getpath(setup[:data], "new.bin_lookup"), "bin_lookup_ref01"))
 
     bin_lookup_ref01_data_result = bin_lookup_ref01_ent.create(bin_lookup_ref01_data, nil)
-    bin_lookup_ref01_data = Helpers.to_map(bin_lookup_ref01_data_result)
+    bin_lookup_ref01_data = Helpers.to_map(bin_lookup_ref01_data_result.respond_to?(:data_get) ? bin_lookup_ref01_data_result.data_get : bin_lookup_ref01_data_result)
     assert !bin_lookup_ref01_data.nil?
 
   end

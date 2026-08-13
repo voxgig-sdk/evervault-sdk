@@ -6,9 +6,9 @@ import time
 
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from evervault_sdk.utility.voxgig_struct import voxgig_struct as vs
 from evervault_sdk import EvervaultSDK
-from core import helpers
+from evervault_sdk.core import helpers
 
 _TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 from test import runner
@@ -45,7 +45,7 @@ class TestFunctionRunEntity:
             vs.getpath(setup["data"], "new.function_run"), "function_run_ref01"))
         function_run_ref01_data["function_name"] = setup["idmap"]["function_name01"]
 
-        function_run_ref01_data = helpers.to_map(function_run_ref01_ent.create(function_run_ref01_data, None))
+        function_run_ref01_data = helpers.to_map(runner.entity_data(function_run_ref01_ent.create(function_run_ref01_data, None)))
         assert function_run_ref01_data is not None
         assert function_run_ref01_data["id"] is not None
 

@@ -44,7 +44,7 @@ class BinLookupEntityTest extends TestCase
             Vs::getpath($setup["data"], "new.bin_lookup"), "bin_lookup_ref01"));
 
         $bin_lookup_ref01_data_result = $bin_lookup_ref01_ent->create($bin_lookup_ref01_data, null);
-        $bin_lookup_ref01_data = Helpers::to_map($bin_lookup_ref01_data_result);
+        $bin_lookup_ref01_data = Helpers::to_map(is_object($bin_lookup_ref01_data_result) && method_exists($bin_lookup_ref01_data_result, 'data_get') ? $bin_lookup_ref01_data_result->data_get() : $bin_lookup_ref01_data_result);
         $this->assertNotNull($bin_lookup_ref01_data);
 
     }

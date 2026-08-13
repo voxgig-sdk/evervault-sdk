@@ -6,7 +6,7 @@ main: kit: entity: three_ds_session: {
 
   fields: [
     {
-      name: "access_control_server"
+      name: "accessControlServer"
       req: false
       type: "`$OBJECT`"
     }
@@ -22,7 +22,7 @@ main: kit: entity: three_ds_session: {
       type: "`$OBJECT`"
     }
     {
-      name: "are"
+      name: "ares"
       req: false
       type: "`$OBJECT`"
     }
@@ -42,7 +42,12 @@ main: kit: entity: three_ds_session: {
       type: "`$OBJECT`"
     }
     {
-      name: "cre"
+      name: "createdAt"
+      req: true
+      type: "`$INTEGER`"
+    }
+    {
+      name: "cres"
       req: false
       type: [
         "`$ONE`"
@@ -51,11 +56,6 @@ main: kit: entity: three_ds_session: {
           "`$OBJECT`"
         ]
       ]
-    }
-    {
-      name: "created_at"
-      req: true
-      type: "`$INTEGER`"
     }
     {
       name: "cryptogram"
@@ -68,7 +68,7 @@ main: kit: entity: three_ds_session: {
       type: "`$OBJECT`"
     }
     {
-      name: "directory_server"
+      name: "directoryServer"
       req: false
       type: "`$OBJECT`"
     }
@@ -78,7 +78,7 @@ main: kit: entity: three_ds_session: {
       type: "`$OBJECT`"
     }
     {
-      name: "failure_reason"
+      name: "failureReason"
       req: false
       type: "`$STRING`"
     }
@@ -98,7 +98,7 @@ main: kit: entity: three_ds_session: {
       type: "`$OBJECT`"
     }
     {
-      name: "next_action"
+      name: "nextAction"
       req: true
       type: "`$OBJECT`"
     }
@@ -108,7 +108,7 @@ main: kit: entity: three_ds_session: {
       type: "`$OBJECT`"
     }
     {
-      name: "preferred_version"
+      name: "preferredVersions"
       req: false
       type: "`$ARRAY`"
     }
@@ -129,12 +129,12 @@ main: kit: entity: three_ds_session: {
       type: "`$STRING`"
     }
     {
-      name: "three_ds_server"
+      name: "threeDSServer"
       req: false
       type: "`$OBJECT`"
     }
     {
-      name: "updated_at"
+      name: "updatedAt"
       req: false
       type: "`$INTEGER`"
     }

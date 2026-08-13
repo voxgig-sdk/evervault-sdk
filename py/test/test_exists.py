@@ -1,4 +1,4 @@
-# ProjectName SDK exists test
+# Evervault SDK exists test
 
 import pytest
 from evervault_sdk import EvervaultSDK

@@ -62,15 +62,9 @@ describe('CardEntity', async () => {
     const card_ref01_ent = client.Card()
     let card_ref01_data = setup.data.new.card['card_ref01']
 
-    card_ref01_data = await card_ref01_ent.create(card_ref01_data)
-    assert(null != card_ref01_data.id)
+    card_ref01_data = (await card_ref01_ent.create(card_ref01_data)).data()
+    assert(null != card_ref01_data)
 
-
-    // LOAD
-    const card_ref01_match_dt0: any = {}
-    card_ref01_match_dt0.id = card_ref01_data.id
-    const card_ref01_data_dt0 = await card_ref01_ent.load(card_ref01_match_dt0)
-    assert(card_ref01_data_dt0.id === card_ref01_data.id)
 
 
   })

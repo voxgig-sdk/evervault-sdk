@@ -41,7 +41,7 @@ describe("NetworkTokenEntity", function()
 
     local network_token_ref01_data_result, err = network_token_ref01_ent:create(network_token_ref01_data, nil)
     assert.is_nil(err)
-    network_token_ref01_data = helpers.to_map(network_token_ref01_data_result)
+    network_token_ref01_data = helpers.to_map(type(network_token_ref01_data_result) == 'table' and network_token_ref01_data_result.data_get and network_token_ref01_data_result:data_get() or network_token_ref01_data_result)
     assert.is_not_nil(network_token_ref01_data)
     assert.is_not_nil(network_token_ref01_data["id"])
 
@@ -51,7 +51,7 @@ describe("NetworkTokenEntity", function()
     }
     local network_token_ref01_data_dt0_loaded, err = network_token_ref01_ent:load(network_token_ref01_match_dt0, nil)
     assert.is_nil(err)
-    local network_token_ref01_data_dt0_load_result = helpers.to_map(network_token_ref01_data_dt0_loaded)
+    local network_token_ref01_data_dt0_load_result = helpers.to_map(type(network_token_ref01_data_dt0_loaded) == 'table' and network_token_ref01_data_dt0_loaded.data_get and network_token_ref01_data_dt0_loaded:data_get() or network_token_ref01_data_dt0_loaded)
     assert.is_not_nil(network_token_ref01_data_dt0_load_result)
     assert.are.equal(network_token_ref01_data_dt0_load_result["id"], network_token_ref01_data["id"])
 

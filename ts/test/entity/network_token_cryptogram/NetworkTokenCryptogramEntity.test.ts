@@ -63,7 +63,7 @@ describe('NetworkTokenCryptogramEntity', async () => {
     let network_token_cryptogram_ref01_data = setup.data.new.network_token_cryptogram['network_token_cryptogram_ref01']
     network_token_cryptogram_ref01_data['network_token_id'] = setup.idmap['network_token01']
 
-    network_token_cryptogram_ref01_data = await network_token_cryptogram_ref01_ent.create(network_token_cryptogram_ref01_data)
+    network_token_cryptogram_ref01_data = (await network_token_cryptogram_ref01_ent.create(network_token_cryptogram_ref01_data)).data()
     assert(null != network_token_cryptogram_ref01_data.id)
 
 

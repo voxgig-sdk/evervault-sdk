@@ -6,12 +6,12 @@ main: kit: entity: custom_domain: {
 
   fields: [
     {
-      name: "created_at"
+      name: "createdAt"
       req: false
       type: "`$INTEGER`"
     }
     {
-      name: "custom_domain"
+      name: "customDomain"
       op: {
         create: {
           req: true
@@ -37,12 +37,12 @@ main: kit: entity: custom_domain: {
       type: "`$STRING`"
     }
     {
-      name: "updated_at"
+      name: "updatedAt"
       req: false
       type: "`$INTEGER`"
     }
     {
-      name: "validation_record"
+      name: "validationRecord"
       req: false
       type: "`$STRING`"
     }

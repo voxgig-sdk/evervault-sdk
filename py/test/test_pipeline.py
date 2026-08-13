@@ -16,11 +16,11 @@
 import pytest
 
 from evervault_sdk import EvervaultSDK
-from core.error import EvervaultError
-from core.result import EvervaultResult
-from core.response import EvervaultResponse
-from core.spec import EvervaultSpec
-from feature.base_feature import EvervaultBaseFeature
+from evervault_sdk.core.error import EvervaultError
+from evervault_sdk.core.result import EvervaultResult
+from evervault_sdk.core.response import EvervaultResponse
+from evervault_sdk.core.spec import EvervaultSpec
+from evervault_sdk.feature.base_feature import EvervaultBaseFeature
 
 
 def _client():

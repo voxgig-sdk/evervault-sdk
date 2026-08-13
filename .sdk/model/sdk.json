@@ -5,6 +5,10 @@
       "desc": ""
     },
     "kit": {
+      "author": {
+        "name": "",
+        "url": ""
+      },
       "config": {
         "docs_order": [
           "ts",
@@ -18,6 +22,7 @@
           "content-type": "application/json"
         }
       },
+      "contributor": {},
       "entity": {
         "acquirer": {
           "active": true,
@@ -27,7 +32,7 @@
           "fields": [
             {
               "active": true,
-              "name": "configuration",
+              "name": "configurations",
               "op": {
                 "update": {
                   "req": false,
@@ -91,6 +96,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/payments/acquirers",
                   "parts": [
@@ -123,6 +129,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/payments/acquirers/{acquirer_id}",
                   "parts": [
@@ -165,6 +172,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "PATCH",
                   "orig": "/payments/acquirers/{acquirer_id}",
                   "parts": [
@@ -216,6 +224,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/payments/bin-lookups",
                   "parts": [
@@ -249,24 +258,6 @@
             },
             {
               "active": true,
-              "name": "automatic_update",
-              "req": false,
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "bin",
-              "req": true,
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "brand",
-              "req": false,
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
               "name": "card",
               "req": true,
               "type": "`$OBJECT`"
@@ -279,55 +270,19 @@
             },
             {
               "active": true,
-              "name": "country",
-              "req": false,
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "created_at",
-              "req": true,
-              "type": "`$INTEGER`"
-            },
-            {
-              "active": true,
-              "name": "currency",
-              "req": false,
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
               "name": "expiry",
               "req": true,
               "type": "`$OBJECT`"
             },
             {
               "active": true,
-              "name": "extension",
+              "name": "extensions",
               "req": false,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "funding",
-              "req": false,
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "id",
-              "req": false,
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "issuer",
-              "req": false,
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "last_four",
+              "name": "month",
               "req": true,
               "type": "`$STRING`"
             },
@@ -339,45 +294,11 @@
             },
             {
               "active": true,
-              "name": "replacement",
-              "req": false,
-              "type": [
-                "`$ONE`",
-                [
-                  "`$STRING`",
-                  "`$NULL`"
-                ]
-              ]
-            },
-            {
-              "active": true,
-              "name": "segment",
-              "req": false,
+              "name": "year",
+              "req": true,
               "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "status",
-              "req": false,
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "updated_at",
-              "req": false,
-              "type": [
-                "`$ONE`",
-                [
-                  "`$INTEGER`",
-                  "`$NULL`"
-                ]
-              ]
             }
           ],
-          "id": {
-            "field": "id",
-            "name": "id"
-          },
           "name": "card",
           "op": {
             "create": {
@@ -398,6 +319,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/payments/cards/{card_id}/simulate",
                   "parts": [
@@ -419,12 +341,13 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.expiry`"
                   }
                 },
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/insights/cards",
                   "parts": [
@@ -433,13 +356,16 @@
                   ],
                   "select": {},
                   "transform": {
-                    "req": "`reqdata`",
+                    "req": {
+                      "card": "`reqdata`"
+                    },
                     "res": "`body`"
                   }
                 },
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/payments/cards",
                   "parts": [
@@ -449,7 +375,7 @@
                   "select": {},
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.expiry`"
                   }
                 }
               ]
@@ -472,6 +398,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/payments/cards/{card_id}",
                   "parts": [
@@ -491,7 +418,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.expiry`"
                   }
                 }
               ]
@@ -552,6 +479,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/payments/network-tokens/{network_token_id}/card-art",
                   "parts": [
@@ -615,6 +543,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/client-side-tokens",
                   "parts": [
@@ -659,25 +588,19 @@
             },
             {
               "active": true,
-              "name": "category",
-              "req": false,
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "created_at",
+              "name": "createdAt",
               "req": false,
               "type": "`$INTEGER`"
             },
             {
               "active": true,
-              "name": "custom_domain",
+              "name": "customDomain",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "destination_domain",
+              "name": "destinationDomain",
               "op": {
                 "list": {
                   "req": false,
@@ -689,25 +612,13 @@
             },
             {
               "active": true,
-              "name": "encrypt_empty_string",
+              "name": "encryptEmptyStrings",
               "req": false,
               "type": "`$BOOLEAN`"
             },
             {
               "active": true,
-              "name": "encrypted_at",
-              "req": false,
-              "type": "`$INTEGER`"
-            },
-            {
-              "active": true,
-              "name": "evervault_domain",
-              "req": false,
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "fingerprint",
+              "name": "evervaultDomain",
               "req": false,
               "type": "`$STRING`"
             },
@@ -719,13 +630,7 @@
             },
             {
               "active": true,
-              "name": "metadata",
-              "req": false,
-              "type": "`$ANY`"
-            },
-            {
-              "active": true,
-              "name": "phone_number",
+              "name": "phoneNumber",
               "req": false,
               "type": "`$STRING`"
             },
@@ -737,13 +642,7 @@
             },
             {
               "active": true,
-              "name": "role",
-              "req": false,
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "route",
+              "name": "routes",
               "op": {
                 "list": {
                   "req": false,
@@ -767,19 +666,13 @@
             },
             {
               "active": true,
-              "name": "type",
-              "req": false,
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "updated_at",
+              "name": "updatedAt",
               "req": false,
               "type": "`$INTEGER`"
             },
             {
               "active": true,
-              "name": "validation_record",
+              "name": "validationRecord",
               "req": false,
               "type": "`$STRING`"
             }
@@ -797,6 +690,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/decrypt",
                   "parts": [
@@ -811,6 +705,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/encrypt",
                   "parts": [
@@ -825,6 +720,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/inspect",
                   "parts": [
@@ -833,12 +729,13 @@
                   "select": {},
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.metadata`"
                   }
                 },
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/relays",
                   "parts": [
@@ -870,6 +767,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/relays/{relay_id}/custom-domains",
                   "parts": [
@@ -884,12 +782,13 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.data`"
                   }
                 },
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/relays",
                   "parts": [
@@ -898,7 +797,7 @@
                   "select": {},
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.data`"
                   }
                 }
               ]
@@ -929,6 +828,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "DELETE",
                   "orig": "/relays/{relay_id}/custom-domains/{id}",
                   "parts": [
@@ -962,6 +862,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "DELETE",
                   "orig": "/relays/{id}",
                   "parts": [
@@ -997,13 +898,13 @@
           "fields": [
             {
               "active": true,
-              "name": "created_at",
+              "name": "createdAt",
               "req": false,
               "type": "`$INTEGER`"
             },
             {
               "active": true,
-              "name": "custom_domain",
+              "name": "customDomain",
               "op": {
                 "create": {
                   "req": true,
@@ -1033,13 +934,13 @@
             },
             {
               "active": true,
-              "name": "updated_at",
+              "name": "updatedAt",
               "req": false,
               "type": "`$INTEGER`"
             },
             {
               "active": true,
-              "name": "validation_record",
+              "name": "validationRecord",
               "req": false,
               "type": "`$STRING`"
             }
@@ -1068,6 +969,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/relays/{relay_id}/custom-domains",
                   "parts": [
@@ -1113,6 +1015,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/relays/{relay_id}/custom-domains/{id}",
                   "parts": [
@@ -1157,7 +1060,7 @@
             },
             {
               "active": true,
-              "name": "created_at",
+              "name": "createdAt",
               "req": false,
               "type": "`$INTEGER`"
             },
@@ -1222,6 +1125,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/functions/{function_name}/runs",
                   "parts": [
@@ -1258,7 +1162,7 @@
           "fields": [
             {
               "active": true,
-              "name": "apple_pay",
+              "name": "applePay",
               "req": false,
               "type": "`$OBJECT`"
             },
@@ -1276,7 +1180,7 @@
             },
             {
               "active": true,
-              "name": "category_code",
+              "name": "categoryCode",
               "op": {
                 "create": {
                   "req": true,
@@ -1288,7 +1192,7 @@
             },
             {
               "active": true,
-              "name": "created_at",
+              "name": "createdAt",
               "req": true,
               "type": "`$INTEGER`"
             },
@@ -1306,19 +1210,19 @@
             },
             {
               "active": true,
-              "name": "network_token",
+              "name": "networkTokens",
               "req": false,
               "type": "`$OBJECT`"
             },
             {
               "active": true,
-              "name": "short_name",
+              "name": "shortName",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "updated_at",
+              "name": "updatedAt",
               "req": false,
               "type": "`$INTEGER`"
             },
@@ -1342,6 +1246,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/payments/merchants",
                   "parts": [
@@ -1374,6 +1279,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/payments/merchants/{merchant_id}",
                   "parts": [
@@ -1416,6 +1322,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "PATCH",
                   "orig": "/payments/merchants/{merchant_id}",
                   "parts": [
@@ -1459,7 +1366,7 @@
             },
             {
               "active": true,
-              "name": "created_at",
+              "name": "createdAt",
               "req": true,
               "type": "`$INTEGER`"
             },
@@ -1489,7 +1396,7 @@
             },
             {
               "active": true,
-              "name": "payment_account_reference",
+              "name": "paymentAccountReference",
               "req": false,
               "type": "`$STRING`"
             },
@@ -1501,25 +1408,25 @@
             },
             {
               "active": true,
-              "name": "token_requestor_identifier",
+              "name": "tokenRequestorIdentifier",
               "req": true,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "token_service_provider",
+              "name": "tokenServiceProvider",
               "req": true,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "update_type",
+              "name": "updateType",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "updated_at",
+              "name": "updatedAt",
               "req": false,
               "type": "`$INTEGER`"
             }
@@ -1548,6 +1455,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/payments/network-tokens/{network_token_id}/simulate",
                   "parts": [
@@ -1575,6 +1483,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/payments/network-tokens",
                   "parts": [
@@ -1607,6 +1516,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/payments/network-tokens/{network_token_id}",
                   "parts": [
@@ -1644,7 +1554,7 @@
           "fields": [
             {
               "active": true,
-              "name": "created_at",
+              "name": "createdAt",
               "req": false,
               "type": "`$INTEGER`"
             },
@@ -1685,6 +1595,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/payments/network-tokens/{network_token_id}/cryptograms",
                   "parts": [
@@ -1723,7 +1634,7 @@
           "fields": [
             {
               "active": true,
-              "name": "apple_pay",
+              "name": "applePay",
               "req": false,
               "type": "`$OBJECT`"
             },
@@ -1735,26 +1646,26 @@
             },
             {
               "active": true,
-              "name": "category_code",
+              "name": "categoryCode",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "configuration",
+              "name": "configurations",
               "req": true,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "created_at",
-              "op": {
-                "list": {
-                  "req": false,
-                  "type": "`$INTEGER`"
-                }
-              },
+              "name": "createdAt",
               "req": true,
+              "type": "`$INTEGER`"
+            },
+            {
+              "active": true,
+              "name": "created_at",
+              "req": false,
               "type": "`$INTEGER`"
             },
             {
@@ -1789,13 +1700,13 @@
             },
             {
               "active": true,
-              "name": "network_token",
+              "name": "networkTokens",
               "req": false,
               "type": "`$OBJECT`"
             },
             {
               "active": true,
-              "name": "short_name",
+              "name": "shortName",
               "req": false,
               "type": "`$STRING`"
             },
@@ -1807,7 +1718,7 @@
             },
             {
               "active": true,
-              "name": "updated_at",
+              "name": "updatedAt",
               "req": false,
               "type": "`$INTEGER`"
             },
@@ -1860,6 +1771,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/payments/merchants",
                   "parts": [
@@ -1876,7 +1788,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.data`"
                   }
                 },
                 {
@@ -1903,6 +1815,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/payments/acquirers",
                   "parts": [
@@ -1918,7 +1831,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.data`"
                   }
                 },
                 {
@@ -1935,6 +1848,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/payments/3ds-sessions/{3ds_session_id}/messages",
                   "parts": [
@@ -1950,7 +1864,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.messages`"
                   }
                 }
               ]
@@ -1973,6 +1887,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "DELETE",
                   "orig": "/payments/acquirers/{acquirer_id}",
                   "parts": [
@@ -2004,6 +1919,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "DELETE",
                   "orig": "/payments/cards/{card_id}",
                   "parts": [
@@ -2035,6 +1951,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "DELETE",
                   "orig": "/payments/merchants/{merchant_id}",
                   "parts": [
@@ -2066,6 +1983,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "DELETE",
                   "orig": "/payments/network-tokens/{network_token_id}",
                   "parts": [
@@ -2132,25 +2050,25 @@
             },
             {
               "active": true,
-              "name": "created_at",
+              "name": "createdAt",
               "req": false,
               "type": "`$INTEGER`"
             },
             {
               "active": true,
-              "name": "destination_domain",
+              "name": "destinationDomain",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "encrypt_empty_string",
+              "name": "encryptEmptyStrings",
               "req": false,
               "type": "`$BOOLEAN`"
             },
             {
               "active": true,
-              "name": "evervault_domain",
+              "name": "evervaultDomain",
               "req": false,
               "type": "`$STRING`"
             },
@@ -2162,13 +2080,13 @@
             },
             {
               "active": true,
-              "name": "route",
+              "name": "routes",
               "req": false,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "updated_at",
+              "name": "updatedAt",
               "req": false,
               "type": "`$INTEGER`"
             }
@@ -2197,6 +2115,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/relays/{id}",
                   "parts": [
@@ -2233,6 +2152,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "PATCH",
                   "orig": "/relays/{id}",
                   "parts": [
@@ -2264,7 +2184,7 @@
           "fields": [
             {
               "active": true,
-              "name": "access_control_server",
+              "name": "accessControlServer",
               "req": false,
               "type": "`$OBJECT`"
             },
@@ -2282,7 +2202,7 @@
             },
             {
               "active": true,
-              "name": "are",
+              "name": "ares",
               "req": false,
               "type": "`$OBJECT`"
             },
@@ -2306,7 +2226,13 @@
             },
             {
               "active": true,
-              "name": "cre",
+              "name": "createdAt",
+              "req": true,
+              "type": "`$INTEGER`"
+            },
+            {
+              "active": true,
+              "name": "cres",
               "req": false,
               "type": [
                 "`$ONE`",
@@ -2315,12 +2241,6 @@
                   "`$OBJECT`"
                 ]
               ]
-            },
-            {
-              "active": true,
-              "name": "created_at",
-              "req": true,
-              "type": "`$INTEGER`"
             },
             {
               "active": true,
@@ -2336,7 +2256,7 @@
             },
             {
               "active": true,
-              "name": "directory_server",
+              "name": "directoryServer",
               "req": false,
               "type": "`$OBJECT`"
             },
@@ -2348,7 +2268,7 @@
             },
             {
               "active": true,
-              "name": "failure_reason",
+              "name": "failureReason",
               "req": false,
               "type": "`$STRING`"
             },
@@ -2372,7 +2292,7 @@
             },
             {
               "active": true,
-              "name": "next_action",
+              "name": "nextAction",
               "req": true,
               "type": "`$OBJECT`"
             },
@@ -2384,7 +2304,7 @@
             },
             {
               "active": true,
-              "name": "preferred_version",
+              "name": "preferredVersions",
               "req": false,
               "type": "`$ARRAY`"
             },
@@ -2408,13 +2328,13 @@
             },
             {
               "active": true,
-              "name": "three_ds_server",
+              "name": "threeDSServer",
               "req": false,
               "type": "`$OBJECT`"
             },
             {
               "active": true,
-              "name": "updated_at",
+              "name": "updatedAt",
               "req": false,
               "type": "`$INTEGER`"
             },
@@ -2438,6 +2358,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/payments/3ds-sessions",
                   "parts": [
@@ -2470,6 +2391,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/payments/3ds-sessions/{3ds_session_id}",
                   "parts": [
@@ -2506,13 +2428,13 @@
           "fields": [
             {
               "active": true,
-              "name": "created_at",
+              "name": "createdAt",
               "req": false,
               "type": "`$INTEGER`"
             },
             {
               "active": true,
-              "name": "event",
+              "name": "events",
               "op": {
                 "list": {
                   "req": false,
@@ -2530,7 +2452,7 @@
             },
             {
               "active": true,
-              "name": "updated_at",
+              "name": "updatedAt",
               "req": false,
               "type": [
                 "`$ONE`",
@@ -2566,6 +2488,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/webhook-endpoints",
                   "parts": [
@@ -2607,6 +2530,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/webhook-endpoints",
                   "parts": [
@@ -2620,7 +2544,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.data`"
                   }
                 }
               ]
@@ -2644,6 +2568,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "DELETE",
                   "orig": "/webhook-endpoints/{webhook_endpoint_id}",
                   "parts": [
@@ -2679,13 +2604,13 @@
           "fields": [
             {
               "active": true,
-              "name": "created_at",
+              "name": "createdAt",
               "req": false,
               "type": "`$INTEGER`"
             },
             {
               "active": true,
-              "name": "event",
+              "name": "events",
               "op": {
                 "update": {
                   "req": true,
@@ -2703,7 +2628,7 @@
             },
             {
               "active": true,
-              "name": "updated_at",
+              "name": "updatedAt",
               "req": false,
               "type": [
                 "`$ONE`",
@@ -2745,6 +2670,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/webhook-endpoints/{webhook_endpoint_id}",
                   "parts": [
@@ -2787,6 +2713,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "PATCH",
                   "orig": "/webhook-endpoints/{webhook_endpoint_id}",
                   "parts": [
@@ -3257,7 +3184,7 @@
                 "ref": "merchant_ref01",
                 "srcdatavar": "merchant_ref01_data",
                 "suffix": "_up0",
-                "textfield": "category_code"
+                "textfield": "categoryCode"
               },
               "match": {},
               "op": "update",
@@ -3634,18 +3561,41 @@
         "website": "https://evervault.com"
       },
       "option": {},
+      "repo": {
+        "host": "github.com",
+        "path": ""
+      },
       "target": {
         "go": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "go",
+          "feature": {
+            "fullset": [
+              "test/feature_test.go"
+            ],
+            "trim": true
+          },
           "module": {
-            "name": "evervault"
+            "goversion": "",
+            "name": "evervault",
+            "package": "",
+            "path": ""
           },
           "name": "go",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -3667,22 +3617,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Golang"
         },
         "go-cli": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "go",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "evervault"
+            "goversion": "",
+            "name": "evervault",
+            "package": "",
+            "path": ""
           },
           "name": "go-cli",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "phase": {
             "agentguide": {
               "active": false
@@ -3721,21 +3689,39 @@
                 "recipe": "github"
               },
               "via": "root"
-            }
+            },
+            "version": "0.0.1"
           },
           "title": "Go CLI"
         },
         "go-mcp": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "go",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "evervault"
+            "goversion": "",
+            "name": "evervault",
+            "package": "",
+            "path": ""
           },
           "name": "go-mcp",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "phase": {
             "agentguide": {
               "active": false
@@ -3774,12 +3760,17 @@
                 "recipe": "github"
               },
               "via": "root"
-            }
+            },
+            "version": "0.0.1"
           },
           "title": "Go MCP server"
         },
         "lua": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "--"
           },
@@ -3791,10 +3782,23 @@
             }
           },
           "ext": "lua",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "evervault"
+            "goversion": "",
+            "name": "evervault",
+            "package": "",
+            "path": ""
           },
           "name": "lua",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -3816,22 +3820,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Lua"
         },
         "php": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "php",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "evervault"
+            "goversion": "",
+            "name": "evervault",
+            "package": "",
+            "path": ""
           },
           "name": "php",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -3853,13 +3875,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "PHP"
         },
         "py": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "#"
           },
@@ -3871,10 +3898,23 @@
             }
           },
           "ext": "py",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "evervault"
+            "goversion": "",
+            "name": "evervault",
+            "package": "",
+            "path": ""
           },
           "name": "py",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -3896,13 +3936,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Python"
         },
         "rb": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "#"
           },
@@ -3919,10 +3964,23 @@
             }
           },
           "ext": "rb",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "evervault"
+            "goversion": "",
+            "name": "evervault",
+            "package": "",
+            "path": ""
           },
           "name": "rb",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -3944,13 +4002,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Ruby"
         },
         "ts": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
@@ -3973,10 +4036,23 @@
             }
           },
           "ext": "ts",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "evervault"
+            "goversion": "",
+            "name": "evervault",
+            "package": "",
+            "path": ""
           },
           "name": "ts",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -3998,9 +4074,17 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "title": "TypeScript"
+        }
+      },
+      "test": {
+        "live": {
+          "app": false,
+          "base": "",
+          "strict": false
         }
       }
     }

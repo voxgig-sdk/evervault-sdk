@@ -15,7 +15,7 @@ declare(strict_types=1);
 /** Acquirer entity data model. */
 class Acquirer
 {
-    public array $configuration;
+    public array $configurations;
     public bool $default;
     public ?string $description = null;
     public string $id;
@@ -31,7 +31,7 @@ class AcquirerLoadMatch
 /** Request payload for Acquirer#create. */
 class AcquirerCreateData
 {
-    public array $configuration;
+    public array $configurations;
     public bool $default;
     public ?string $description = null;
     public string $id;
@@ -42,6 +42,10 @@ class AcquirerCreateData
 class AcquirerUpdateData
 {
     public string $id;
+    public ?array $configurations = null;
+    public ?bool $default = null;
+    public ?string $description = null;
+    public ?string $name = null;
 }
 
 /** BinLookup entity data model. */
@@ -60,25 +64,13 @@ class BinLookupCreateData
 class Card
 {
     public array $address;
-    public ?string $automatic_update = null;
-    public string $bin;
-    public ?string $brand = null;
     public array $card;
     public ?array $cardholder = null;
-    public ?string $country = null;
-    public int $created_at;
-    public ?string $currency = null;
     public array $expiry;
-    public ?array $extension = null;
-    public ?string $funding = null;
-    public ?string $id = null;
-    public ?string $issuer = null;
-    public string $last_four;
+    public ?array $extensions = null;
+    public string $month;
     public string $number;
-    public mixed $replacement = null;
-    public ?string $segment = null;
-    public ?string $status = null;
-    public mixed $updated_at = null;
+    public string $year;
 }
 
 /** Request payload for Card#load. */
@@ -91,25 +83,13 @@ class CardLoadMatch
 class CardCreateData
 {
     public array $address;
-    public ?string $automatic_update = null;
-    public string $bin;
-    public ?string $brand = null;
     public array $card;
     public ?array $cardholder = null;
-    public ?string $country = null;
-    public int $created_at;
-    public ?string $currency = null;
     public array $expiry;
-    public ?array $extension = null;
-    public ?string $funding = null;
-    public ?string $id = null;
-    public ?string $issuer = null;
-    public string $last_four;
+    public ?array $extensions = null;
+    public string $month;
     public string $number;
-    public mixed $replacement = null;
-    public ?string $segment = null;
-    public ?string $status = null;
-    public mixed $updated_at = null;
+    public string $year;
 }
 
 /** CardArt entity data model. */
@@ -148,25 +128,19 @@ class Core
 {
     public ?string $app = null;
     public mixed $authentication = null;
-    public ?string $category = null;
-    public ?int $created_at = null;
-    public ?string $custom_domain = null;
-    public string $destination_domain;
-    public ?bool $encrypt_empty_string = null;
-    public ?int $encrypted_at = null;
-    public ?string $evervault_domain = null;
-    public ?string $fingerprint = null;
+    public ?int $createdAt = null;
+    public ?string $customDomain = null;
+    public string $destinationDomain;
+    public ?bool $encryptEmptyStrings = null;
+    public ?string $evervaultDomain = null;
     public ?string $id = null;
-    public mixed $metadata = null;
-    public ?string $phone_number = null;
+    public ?string $phoneNumber = null;
     public ?string $relay = null;
-    public ?string $role = null;
-    public array $route;
+    public array $routes;
     public ?string $status = null;
     public string $token;
-    public ?string $type = null;
-    public ?int $updated_at = null;
-    public ?string $validation_record = null;
+    public ?int $updatedAt = null;
+    public ?string $validationRecord = null;
 }
 
 /** Request payload for Core#list. */
@@ -180,25 +154,19 @@ class CoreCreateData
 {
     public ?string $app = null;
     public mixed $authentication = null;
-    public ?string $category = null;
-    public ?int $created_at = null;
-    public ?string $custom_domain = null;
-    public string $destination_domain;
-    public ?bool $encrypt_empty_string = null;
-    public ?int $encrypted_at = null;
-    public ?string $evervault_domain = null;
-    public ?string $fingerprint = null;
+    public ?int $createdAt = null;
+    public ?string $customDomain = null;
+    public string $destinationDomain;
+    public ?bool $encryptEmptyStrings = null;
+    public ?string $evervaultDomain = null;
     public ?string $id = null;
-    public mixed $metadata = null;
-    public ?string $phone_number = null;
+    public ?string $phoneNumber = null;
     public ?string $relay = null;
-    public ?string $role = null;
-    public array $route;
+    public array $routes;
     public ?string $status = null;
     public string $token;
-    public ?string $type = null;
-    public ?int $updated_at = null;
-    public ?string $validation_record = null;
+    public ?int $updatedAt = null;
+    public ?string $validationRecord = null;
 }
 
 /** Request payload for Core#remove. */
@@ -211,13 +179,13 @@ class CoreRemoveMatch
 /** CustomDomain entity data model. */
 class CustomDomain
 {
-    public ?int $created_at = null;
-    public ?string $custom_domain = null;
+    public ?int $createdAt = null;
+    public ?string $customDomain = null;
     public ?string $id = null;
     public ?string $relay = null;
     public ?string $status = null;
-    public ?int $updated_at = null;
-    public ?string $validation_record = null;
+    public ?int $updatedAt = null;
+    public ?string $validationRecord = null;
 }
 
 /** Request payload for CustomDomain#load. */
@@ -231,13 +199,20 @@ class CustomDomainLoadMatch
 class CustomDomainCreateData
 {
     public string $relay_id;
+    public ?int $createdAt = null;
+    public ?string $customDomain = null;
+    public ?string $id = null;
+    public ?string $relay = null;
+    public ?string $status = null;
+    public ?int $updatedAt = null;
+    public ?string $validationRecord = null;
 }
 
 /** FunctionRun entity data model. */
 class FunctionRun
 {
     public ?bool $async = null;
-    public ?int $created_at = null;
+    public ?int $createdAt = null;
     public mixed $error = null;
     public ?string $id = null;
     public array $payload;
@@ -249,20 +224,27 @@ class FunctionRun
 class FunctionRunCreateData
 {
     public string $function_name;
+    public ?bool $async = null;
+    public ?int $createdAt = null;
+    public mixed $error = null;
+    public ?string $id = null;
+    public array $payload;
+    public ?array $result = null;
+    public ?string $status = null;
 }
 
 /** Merchant entity data model. */
 class Merchant
 {
-    public ?array $apple_pay = null;
+    public ?array $applePay = null;
     public ?array $business = null;
-    public ?string $category_code = null;
-    public int $created_at;
+    public ?string $categoryCode = null;
+    public int $createdAt;
     public string $id;
     public string $name;
-    public ?array $network_token = null;
-    public ?string $short_name = null;
-    public ?int $updated_at = null;
+    public ?array $networkTokens = null;
+    public ?string $shortName = null;
+    public ?int $updatedAt = null;
     public string $website;
 }
 
@@ -275,15 +257,15 @@ class MerchantLoadMatch
 /** Request payload for Merchant#create. */
 class MerchantCreateData
 {
-    public ?array $apple_pay = null;
+    public ?array $applePay = null;
     public ?array $business = null;
-    public ?string $category_code = null;
-    public int $created_at;
+    public ?string $categoryCode = null;
+    public int $createdAt;
     public string $id;
     public string $name;
-    public ?array $network_token = null;
-    public ?string $short_name = null;
-    public ?int $updated_at = null;
+    public ?array $networkTokens = null;
+    public ?string $shortName = null;
+    public ?int $updatedAt = null;
     public string $website;
 }
 
@@ -291,23 +273,32 @@ class MerchantCreateData
 class MerchantUpdateData
 {
     public string $id;
+    public ?array $applePay = null;
+    public ?array $business = null;
+    public ?string $categoryCode = null;
+    public ?int $createdAt = null;
+    public ?string $name = null;
+    public ?array $networkTokens = null;
+    public ?string $shortName = null;
+    public ?int $updatedAt = null;
+    public ?string $website = null;
 }
 
 /** NetworkToken entity data model. */
 class NetworkToken
 {
     public array $card;
-    public int $created_at;
+    public int $createdAt;
     public array $expiry;
     public string $id;
     public string $merchant;
     public string $number;
-    public ?string $payment_account_reference = null;
+    public ?string $paymentAccountReference = null;
     public string $status;
-    public string $token_requestor_identifier;
-    public string $token_service_provider;
-    public ?string $update_type = null;
-    public ?int $updated_at = null;
+    public string $tokenRequestorIdentifier;
+    public string $tokenServiceProvider;
+    public ?string $updateType = null;
+    public ?int $updatedAt = null;
 }
 
 /** Request payload for NetworkToken#load. */
@@ -320,23 +311,23 @@ class NetworkTokenLoadMatch
 class NetworkTokenCreateData
 {
     public array $card;
-    public int $created_at;
+    public int $createdAt;
     public array $expiry;
     public string $id;
     public string $merchant;
     public string $number;
-    public ?string $payment_account_reference = null;
+    public ?string $paymentAccountReference = null;
     public string $status;
-    public string $token_requestor_identifier;
-    public string $token_service_provider;
-    public ?string $update_type = null;
-    public ?int $updated_at = null;
+    public string $tokenRequestorIdentifier;
+    public string $tokenServiceProvider;
+    public ?string $updateType = null;
+    public ?int $updatedAt = null;
 }
 
 /** NetworkTokenCryptogram entity data model. */
 class NetworkTokenCryptogram
 {
-    public ?int $created_at = null;
+    public ?int $createdAt = null;
     public ?string $cryptogram = null;
     public ?string $id = null;
 }
@@ -345,25 +336,28 @@ class NetworkTokenCryptogram
 class NetworkTokenCryptogramCreateData
 {
     public string $id;
+    public ?int $createdAt = null;
+    public ?string $cryptogram = null;
 }
 
 /** Payment entity data model. */
 class Payment
 {
-    public ?array $apple_pay = null;
+    public ?array $applePay = null;
     public ?array $business = null;
-    public ?string $category_code = null;
-    public array $configuration;
-    public int $created_at;
+    public ?string $categoryCode = null;
+    public array $configurations;
+    public int $createdAt;
+    public ?int $created_at = null;
     public ?array $data = null;
     public bool $default;
     public ?string $description = null;
     public string $id;
     public string $name;
-    public ?array $network_token = null;
-    public ?string $short_name = null;
+    public ?array $networkTokens = null;
+    public ?string $shortName = null;
     public ?string $type = null;
-    public ?int $updated_at = null;
+    public ?int $updatedAt = null;
     public string $website;
 }
 
@@ -386,13 +380,13 @@ class Relay
 {
     public ?string $app = null;
     public mixed $authentication = null;
-    public ?int $created_at = null;
-    public ?string $destination_domain = null;
-    public ?bool $encrypt_empty_string = null;
-    public ?string $evervault_domain = null;
+    public ?int $createdAt = null;
+    public ?string $destinationDomain = null;
+    public ?bool $encryptEmptyStrings = null;
+    public ?string $evervaultDomain = null;
     public ?string $id = null;
-    public ?array $route = null;
-    public ?int $updated_at = null;
+    public ?array $routes = null;
+    public ?int $updatedAt = null;
 }
 
 /** Request payload for Relay#load. */
@@ -405,34 +399,42 @@ class RelayLoadMatch
 class RelayUpdateData
 {
     public string $id;
+    public ?string $app = null;
+    public mixed $authentication = null;
+    public ?int $createdAt = null;
+    public ?string $destinationDomain = null;
+    public ?bool $encryptEmptyStrings = null;
+    public ?string $evervaultDomain = null;
+    public ?array $routes = null;
+    public ?int $updatedAt = null;
 }
 
 /** ThreeDsSession entity data model. */
 class ThreeDsSession
 {
-    public ?array $access_control_server = null;
+    public ?array $accessControlServer = null;
     public array $acquirer;
-    public ?array $are = null;
+    public ?array $ares = null;
     public array $authentication;
     public array $card;
     public array $challenge;
-    public mixed $cre = null;
-    public int $created_at;
+    public int $createdAt;
+    public mixed $cres = null;
     public ?string $cryptogram = null;
     public ?array $customer = null;
-    public ?array $directory_server = null;
+    public ?array $directoryServer = null;
     public ?array $eci = null;
-    public ?string $failure_reason = null;
+    public ?string $failureReason = null;
     public string $id;
     public ?array $initiator = null;
     public array $merchant;
-    public array $next_action;
+    public array $nextAction;
     public ?array $payment = null;
-    public ?array $preferred_version = null;
+    public ?array $preferredVersions = null;
     public mixed $rreq = null;
     public string $status;
-    public ?array $three_ds_server = null;
-    public ?int $updated_at = null;
+    public ?array $threeDSServer = null;
+    public ?int $updatedAt = null;
     public string $version;
 }
 
@@ -444,59 +446,59 @@ class ThreeDsSessionLoadMatch
 /** Request payload for ThreeDsSession#create. */
 class ThreeDsSessionCreateData
 {
-    public ?array $access_control_server = null;
+    public ?array $accessControlServer = null;
     public array $acquirer;
-    public ?array $are = null;
+    public ?array $ares = null;
     public array $authentication;
     public array $card;
     public array $challenge;
-    public mixed $cre = null;
-    public int $created_at;
+    public int $createdAt;
+    public mixed $cres = null;
     public ?string $cryptogram = null;
     public ?array $customer = null;
-    public ?array $directory_server = null;
+    public ?array $directoryServer = null;
     public ?array $eci = null;
-    public ?string $failure_reason = null;
+    public ?string $failureReason = null;
     public string $id;
     public ?array $initiator = null;
     public array $merchant;
-    public array $next_action;
+    public array $nextAction;
     public ?array $payment = null;
-    public ?array $preferred_version = null;
+    public ?array $preferredVersions = null;
     public mixed $rreq = null;
     public string $status;
-    public ?array $three_ds_server = null;
-    public ?int $updated_at = null;
+    public ?array $threeDSServer = null;
+    public ?int $updatedAt = null;
     public string $version;
 }
 
 /** Webhook entity data model. */
 class Webhook
 {
-    public ?int $created_at = null;
-    public array $event;
+    public ?int $createdAt = null;
+    public array $events;
     public ?string $id = null;
-    public mixed $updated_at = null;
+    public mixed $updatedAt = null;
     public string $url;
 }
 
 /** Request payload for Webhook#list. */
 class WebhookListMatch
 {
-    public ?int $created_at = null;
-    public ?array $event = null;
+    public ?int $createdAt = null;
+    public ?array $events = null;
     public ?string $id = null;
-    public mixed $updated_at = null;
+    public mixed $updatedAt = null;
     public ?string $url = null;
 }
 
 /** Request payload for Webhook#create. */
 class WebhookCreateData
 {
-    public ?int $created_at = null;
-    public array $event;
+    public ?int $createdAt = null;
+    public array $events;
     public ?string $id = null;
-    public mixed $updated_at = null;
+    public mixed $updatedAt = null;
     public string $url;
 }
 
@@ -509,10 +511,10 @@ class WebhookRemoveMatch
 /** WebhookEndpoint entity data model. */
 class WebhookEndpoint
 {
-    public ?int $created_at = null;
-    public ?array $event = null;
+    public ?int $createdAt = null;
+    public ?array $events = null;
     public ?string $id = null;
-    public mixed $updated_at = null;
+    public mixed $updatedAt = null;
     public ?string $url = null;
 }
 
@@ -526,5 +528,9 @@ class WebhookEndpointLoadMatch
 class WebhookEndpointUpdateData
 {
     public string $id;
+    public ?int $createdAt = null;
+    public ?array $events = null;
+    public mixed $updatedAt = null;
+    public ?string $url = null;
 }
 

@@ -49,11 +49,11 @@ print(cardart)
 
 ```lua
 -- Create
-local created, err = client:Acquirer():create({ configuration = {}, default = true, id = "example_id", name = "example_name" })
+local created, err = client:Acquirer():create({ configurations = {}, default = true, id = "example_id", name = "example_name" })
 if err then error(err) end
 
 -- Update
-client:Acquirer():update({ id = created["id"] })
+client:Acquirer():update({ id = created:data_get()["id"], configurations = {}, default = true })
 
 ```
 
@@ -263,7 +263,7 @@ Only `direct()` returns a response envelope — a `table` with `ok`,
 
 | Field | Description |
 | --- | --- |
-| `configuration` |  |
+| `configurations` |  |
 | `default` |  |
 | `description` |  |
 | `id` |  |
@@ -288,25 +288,13 @@ API path: `/payments/bin-lookups`
 | Field | Description |
 | --- | --- |
 | `address` |  |
-| `automatic_update` |  |
-| `bin` |  |
-| `brand` |  |
 | `card` |  |
 | `cardholder` |  |
-| `country` |  |
-| `created_at` |  |
-| `currency` |  |
 | `expiry` |  |
-| `extension` |  |
-| `funding` |  |
-| `id` |  |
-| `issuer` |  |
-| `last_four` |  |
+| `extensions` |  |
+| `month` |  |
 | `number` |  |
-| `replacement` |  |
-| `segment` |  |
-| `status` |  |
-| `updated_at` |  |
+| `year` |  |
 
 Operations: Create, Load.
 
@@ -343,25 +331,19 @@ API path: `/client-side-tokens`
 | --- | --- |
 | `app` |  |
 | `authentication` |  |
-| `category` |  |
-| `created_at` |  |
-| `custom_domain` |  |
-| `destination_domain` |  |
-| `encrypt_empty_string` |  |
-| `encrypted_at` |  |
-| `evervault_domain` |  |
-| `fingerprint` |  |
+| `createdAt` |  |
+| `customDomain` |  |
+| `destinationDomain` |  |
+| `encryptEmptyStrings` |  |
+| `evervaultDomain` |  |
 | `id` |  |
-| `metadata` |  |
-| `phone_number` |  |
+| `phoneNumber` |  |
 | `relay` |  |
-| `role` |  |
-| `route` |  |
+| `routes` |  |
 | `status` |  |
 | `token` |  |
-| `type` |  |
-| `updated_at` |  |
-| `validation_record` |  |
+| `updatedAt` |  |
+| `validationRecord` |  |
 
 Operations: Create, List, Remove.
 
@@ -371,13 +353,13 @@ API path: `/decrypt`
 
 | Field | Description |
 | --- | --- |
-| `created_at` |  |
-| `custom_domain` |  |
+| `createdAt` |  |
+| `customDomain` |  |
 | `id` |  |
 | `relay` |  |
 | `status` |  |
-| `updated_at` |  |
-| `validation_record` |  |
+| `updatedAt` |  |
+| `validationRecord` |  |
 
 Operations: Create, Load.
 
@@ -388,7 +370,7 @@ API path: `/relays/{relay_id}/custom-domains`
 | Field | Description |
 | --- | --- |
 | `async` |  |
-| `created_at` |  |
+| `createdAt` |  |
 | `error` |  |
 | `id` |  |
 | `payload` |  |
@@ -403,15 +385,15 @@ API path: `/functions/{function_name}/runs`
 
 | Field | Description |
 | --- | --- |
-| `apple_pay` |  |
+| `applePay` |  |
 | `business` |  |
-| `category_code` |  |
-| `created_at` |  |
+| `categoryCode` |  |
+| `createdAt` |  |
 | `id` |  |
 | `name` |  |
-| `network_token` |  |
-| `short_name` |  |
-| `updated_at` |  |
+| `networkTokens` |  |
+| `shortName` |  |
+| `updatedAt` |  |
 | `website` |  |
 
 Operations: Create, Load, Update.
@@ -423,17 +405,17 @@ API path: `/payments/merchants`
 | Field | Description |
 | --- | --- |
 | `card` |  |
-| `created_at` |  |
+| `createdAt` |  |
 | `expiry` |  |
 | `id` |  |
 | `merchant` |  |
 | `number` |  |
-| `payment_account_reference` |  |
+| `paymentAccountReference` |  |
 | `status` |  |
-| `token_requestor_identifier` |  |
-| `token_service_provider` |  |
-| `update_type` |  |
-| `updated_at` |  |
+| `tokenRequestorIdentifier` |  |
+| `tokenServiceProvider` |  |
+| `updateType` |  |
+| `updatedAt` |  |
 
 Operations: Create, Load.
 
@@ -443,7 +425,7 @@ API path: `/payments/network-tokens/{network_token_id}/simulate`
 
 | Field | Description |
 | --- | --- |
-| `created_at` |  |
+| `createdAt` |  |
 | `cryptogram` |  |
 | `id` |  |
 
@@ -455,20 +437,21 @@ API path: `/payments/network-tokens/{network_token_id}/cryptograms`
 
 | Field | Description |
 | --- | --- |
-| `apple_pay` |  |
+| `applePay` |  |
 | `business` |  |
-| `category_code` |  |
-| `configuration` |  |
+| `categoryCode` |  |
+| `configurations` |  |
+| `createdAt` |  |
 | `created_at` |  |
 | `data` |  |
 | `default` |  |
 | `description` |  |
 | `id` |  |
 | `name` |  |
-| `network_token` |  |
-| `short_name` |  |
+| `networkTokens` |  |
+| `shortName` |  |
 | `type` |  |
-| `updated_at` |  |
+| `updatedAt` |  |
 | `website` |  |
 
 Operations: List, Remove.
@@ -481,13 +464,13 @@ API path: `/payments/merchants`
 | --- | --- |
 | `app` |  |
 | `authentication` |  |
-| `created_at` |  |
-| `destination_domain` |  |
-| `encrypt_empty_string` |  |
-| `evervault_domain` |  |
+| `createdAt` |  |
+| `destinationDomain` |  |
+| `encryptEmptyStrings` |  |
+| `evervaultDomain` |  |
 | `id` |  |
-| `route` |  |
-| `updated_at` |  |
+| `routes` |  |
+| `updatedAt` |  |
 
 Operations: Load, Update.
 
@@ -497,29 +480,29 @@ API path: `/relays/{id}`
 
 | Field | Description |
 | --- | --- |
-| `access_control_server` |  |
+| `accessControlServer` |  |
 | `acquirer` |  |
-| `are` |  |
+| `ares` |  |
 | `authentication` |  |
 | `card` |  |
 | `challenge` |  |
-| `cre` |  |
-| `created_at` |  |
+| `createdAt` |  |
+| `cres` |  |
 | `cryptogram` |  |
 | `customer` |  |
-| `directory_server` |  |
+| `directoryServer` |  |
 | `eci` |  |
-| `failure_reason` |  |
+| `failureReason` |  |
 | `id` |  |
 | `initiator` |  |
 | `merchant` |  |
-| `next_action` |  |
+| `nextAction` |  |
 | `payment` |  |
-| `preferred_version` |  |
+| `preferredVersions` |  |
 | `rreq` |  |
 | `status` |  |
-| `three_ds_server` |  |
-| `updated_at` |  |
+| `threeDSServer` |  |
+| `updatedAt` |  |
 | `version` |  |
 
 Operations: Create, Load.
@@ -530,10 +513,10 @@ API path: `/payments/3ds-sessions`
 
 | Field | Description |
 | --- | --- |
-| `created_at` |  |
-| `event` |  |
+| `createdAt` |  |
+| `events` |  |
 | `id` |  |
-| `updated_at` |  |
+| `updatedAt` |  |
 | `url` |  |
 
 Operations: Create, List, Remove.
@@ -544,10 +527,10 @@ API path: `/webhook-endpoints`
 
 | Field | Description |
 | --- | --- |
-| `created_at` |  |
-| `event` |  |
+| `createdAt` |  |
+| `events` |  |
 | `id` |  |
-| `updated_at` |  |
+| `updatedAt` |  |
 | `url` |  |
 
 Operations: Load, Update.
@@ -575,7 +558,7 @@ Create an instance: `local acquirer = client:Acquirer(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `configuration` | `table` |  |
+| `configurations` | `table` |  |
 | `default` | `boolean` |  |
 | `description` | `string` |  |
 | `id` | `string` |  |
@@ -591,7 +574,7 @@ local acquirer, err = client:Acquirer():load({ id = "acquirer_id" })
 
 ```lua
 local acquirer, err = client:Acquirer():create({
-  configuration = {}, -- table
+  configurations = {}, -- table
   default = true, -- boolean
   id = "example_id", -- string
   name = "example_name", -- string
@@ -640,25 +623,13 @@ Create an instance: `local card = client:Card(nil)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `address` | `table` |  |
-| `automatic_update` | `string` |  |
-| `bin` | `string` |  |
-| `brand` | `string` |  |
 | `card` | `table` |  |
 | `cardholder` | `table` |  |
-| `country` | `string` |  |
-| `created_at` | `number` |  |
-| `currency` | `string` |  |
 | `expiry` | `table` |  |
-| `extension` | `table` |  |
-| `funding` | `string` |  |
-| `id` | `string` |  |
-| `issuer` | `string` |  |
-| `last_four` | `string` |  |
+| `extensions` | `table` |  |
+| `month` | `string` |  |
 | `number` | `string` |  |
-| `replacement` | `string|nil` |  |
-| `segment` | `string` |  |
-| `status` | `string` |  |
-| `updated_at` | `number|nil` |  |
+| `year` | `string` |  |
 
 #### Example: Load
 
@@ -671,12 +642,11 @@ local card, err = client:Card():load({ id = "card_id" })
 ```lua
 local card, err = client:Card():create({
   address = {}, -- table
-  bin = "example_bin", -- string
   card = {}, -- table
-  created_at = 1, -- number
   expiry = {}, -- table
-  last_four = "example_last_four", -- string
+  month = "example_month", -- string
   number = "example_number", -- string
+  year = "example_year", -- string
 })
 ```
 
@@ -752,25 +722,19 @@ Create an instance: `local core = client:Core(nil)`
 | --- | --- | --- |
 | `app` | `string` |  |
 | `authentication` | `string|nil` |  |
-| `category` | `string` |  |
-| `created_at` | `number` |  |
-| `custom_domain` | `string` |  |
-| `destination_domain` | `string` |  |
-| `encrypt_empty_string` | `boolean` |  |
-| `encrypted_at` | `number` |  |
-| `evervault_domain` | `string` |  |
-| `fingerprint` | `string` |  |
+| `createdAt` | `number` |  |
+| `customDomain` | `string` |  |
+| `destinationDomain` | `string` |  |
+| `encryptEmptyStrings` | `boolean` |  |
+| `evervaultDomain` | `string` |  |
 | `id` | `string` |  |
-| `metadata` | `any` |  |
-| `phone_number` | `string` |  |
+| `phoneNumber` | `string` |  |
 | `relay` | `string` |  |
-| `role` | `string` |  |
-| `route` | `table` |  |
+| `routes` | `table` |  |
 | `status` | `string` |  |
 | `token` | `string` |  |
-| `type` | `string` |  |
-| `updated_at` | `number` |  |
-| `validation_record` | `string` |  |
+| `updatedAt` | `number` |  |
+| `validationRecord` | `string` |  |
 
 #### Example: List
 
@@ -782,8 +746,8 @@ local cores, err = client:Core():list()
 
 ```lua
 local core, err = client:Core():create({
-  destination_domain = "example_destination_domain", -- string
-  route = {}, -- table
+  destinationDomain = "example_destinationDomain", -- string
+  routes = {}, -- table
   token = "example_token", -- string
 })
 ```
@@ -804,13 +768,13 @@ Create an instance: `local custom_domain = client:CustomDomain(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | `number` |  |
-| `custom_domain` | `string` |  |
+| `createdAt` | `number` |  |
+| `customDomain` | `string` |  |
 | `id` | `string` |  |
 | `relay` | `string` |  |
 | `status` | `string` |  |
-| `updated_at` | `number` |  |
-| `validation_record` | `string` |  |
+| `updatedAt` | `number` |  |
+| `validationRecord` | `string` |  |
 
 #### Example: Load
 
@@ -842,7 +806,7 @@ Create an instance: `local function_run = client:FunctionRun(nil)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `async` | `boolean` |  |
-| `created_at` | `number` |  |
+| `createdAt` | `number` |  |
 | `error` | `table|nil` |  |
 | `id` | `string` |  |
 | `payload` | `table` |  |
@@ -854,6 +818,7 @@ Create an instance: `local function_run = client:FunctionRun(nil)`
 ```lua
 local function_run, err = client:FunctionRun():create({
   function_name = "example_function_name", -- string
+  payload = {}, -- table
 })
 ```
 
@@ -874,15 +839,15 @@ Create an instance: `local merchant = client:Merchant(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `apple_pay` | `table` |  |
+| `applePay` | `table` |  |
 | `business` | `table` |  |
-| `category_code` | `string` |  |
-| `created_at` | `number` |  |
+| `categoryCode` | `string` |  |
+| `createdAt` | `number` |  |
 | `id` | `string` |  |
 | `name` | `string` |  |
-| `network_token` | `table` |  |
-| `short_name` | `string` |  |
-| `updated_at` | `number` |  |
+| `networkTokens` | `table` |  |
+| `shortName` | `string` |  |
+| `updatedAt` | `number` |  |
 | `website` | `string` |  |
 
 #### Example: Load
@@ -895,7 +860,7 @@ local merchant, err = client:Merchant():load({ id = "merchant_id" })
 
 ```lua
 local merchant, err = client:Merchant():create({
-  created_at = 1, -- number
+  createdAt = 1, -- number
   id = "example_id", -- string
   name = "example_name", -- string
   website = "example_website", -- string
@@ -919,17 +884,17 @@ Create an instance: `local network_token = client:NetworkToken(nil)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `card` | `table` |  |
-| `created_at` | `number` |  |
+| `createdAt` | `number` |  |
 | `expiry` | `table` |  |
 | `id` | `string` |  |
 | `merchant` | `string` |  |
 | `number` | `string` |  |
-| `payment_account_reference` | `string` |  |
+| `paymentAccountReference` | `string` |  |
 | `status` | `string` |  |
-| `token_requestor_identifier` | `string` |  |
-| `token_service_provider` | `string` |  |
-| `update_type` | `string` |  |
-| `updated_at` | `number` |  |
+| `tokenRequestorIdentifier` | `string` |  |
+| `tokenServiceProvider` | `string` |  |
+| `updateType` | `string` |  |
+| `updatedAt` | `number` |  |
 
 #### Example: Load
 
@@ -942,14 +907,14 @@ local network_token, err = client:NetworkToken():load({ id = "network_token_id" 
 ```lua
 local network_token, err = client:NetworkToken():create({
   card = {}, -- table
-  created_at = 1, -- number
+  createdAt = 1, -- number
   expiry = {}, -- table
   id = "example_id", -- string
   merchant = "example_merchant", -- string
   number = "example_number", -- string
   status = "example_status", -- string
-  token_requestor_identifier = "example_token_requestor_identifier", -- string
-  token_service_provider = "example_token_service_provider", -- string
+  tokenRequestorIdentifier = "example_tokenRequestorIdentifier", -- string
+  tokenServiceProvider = "example_tokenServiceProvider", -- string
 })
 ```
 
@@ -968,7 +933,7 @@ Create an instance: `local network_token_cryptogram = client:NetworkTokenCryptog
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | `number` |  |
+| `createdAt` | `number` |  |
 | `cryptogram` | `string` |  |
 | `id` | `string` |  |
 
@@ -996,20 +961,21 @@ Create an instance: `local payment = client:Payment(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `apple_pay` | `table` |  |
+| `applePay` | `table` |  |
 | `business` | `table` |  |
-| `category_code` | `string` |  |
-| `configuration` | `table` |  |
+| `categoryCode` | `string` |  |
+| `configurations` | `table` |  |
+| `createdAt` | `number` |  |
 | `created_at` | `number` |  |
 | `data` | `table` |  |
 | `default` | `boolean` |  |
 | `description` | `string` |  |
 | `id` | `string` |  |
 | `name` | `string` |  |
-| `network_token` | `table` |  |
-| `short_name` | `string` |  |
+| `networkTokens` | `table` |  |
+| `shortName` | `string` |  |
 | `type` | `string` |  |
-| `updated_at` | `number` |  |
+| `updatedAt` | `number` |  |
 | `website` | `string` |  |
 
 #### Example: List
@@ -1036,13 +1002,13 @@ Create an instance: `local relay = client:Relay(nil)`
 | --- | --- | --- |
 | `app` | `string` |  |
 | `authentication` | `string|nil` |  |
-| `created_at` | `number` |  |
-| `destination_domain` | `string` |  |
-| `encrypt_empty_string` | `boolean` |  |
-| `evervault_domain` | `string` |  |
+| `createdAt` | `number` |  |
+| `destinationDomain` | `string` |  |
+| `encryptEmptyStrings` | `boolean` |  |
+| `evervaultDomain` | `string` |  |
 | `id` | `string` |  |
-| `route` | `table` |  |
-| `updated_at` | `number` |  |
+| `routes` | `table` |  |
+| `updatedAt` | `number` |  |
 
 #### Example: Load
 
@@ -1066,29 +1032,29 @@ Create an instance: `local three_ds_session = client:ThreeDsSession(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `access_control_server` | `table` |  |
+| `accessControlServer` | `table` |  |
 | `acquirer` | `table` |  |
-| `are` | `table` |  |
+| `ares` | `table` |  |
 | `authentication` | `table` |  |
 | `card` | `table` |  |
 | `challenge` | `table` |  |
-| `cre` | `nil|table` |  |
-| `created_at` | `number` |  |
+| `createdAt` | `number` |  |
+| `cres` | `nil|table` |  |
 | `cryptogram` | `string` |  |
 | `customer` | `table` |  |
-| `directory_server` | `table` |  |
+| `directoryServer` | `table` |  |
 | `eci` | `table` |  |
-| `failure_reason` | `string` |  |
+| `failureReason` | `string` |  |
 | `id` | `string` |  |
 | `initiator` | `table` |  |
 | `merchant` | `table` |  |
-| `next_action` | `table` |  |
+| `nextAction` | `table` |  |
 | `payment` | `table` |  |
-| `preferred_version` | `table` |  |
+| `preferredVersions` | `table` |  |
 | `rreq` | `nil|table` |  |
 | `status` | `string` |  |
-| `three_ds_server` | `table` |  |
-| `updated_at` | `number` |  |
+| `threeDSServer` | `table` |  |
+| `updatedAt` | `number` |  |
 | `version` | `string` |  |
 
 #### Example: Load
@@ -1105,10 +1071,10 @@ local three_ds_session, err = client:ThreeDsSession():create({
   authentication = {}, -- table
   card = {}, -- table
   challenge = {}, -- table
-  created_at = 1, -- number
+  createdAt = 1, -- number
   id = "example_id", -- string
   merchant = {}, -- table
-  next_action = {}, -- table
+  nextAction = {}, -- table
   status = "example_status", -- string
   version = "example_version", -- string
 })
@@ -1131,10 +1097,10 @@ Create an instance: `local webhook = client:Webhook(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | `number` |  |
-| `event` | `table` |  |
+| `createdAt` | `number` |  |
+| `events` | `table` |  |
 | `id` | `string` |  |
-| `updated_at` | `number|nil` |  |
+| `updatedAt` | `number|nil` |  |
 | `url` | `string` |  |
 
 #### Example: List
@@ -1147,7 +1113,7 @@ local webhooks, err = client:Webhook():list()
 
 ```lua
 local webhook, err = client:Webhook():create({
-  event = {}, -- table
+  events = {}, -- table
   url = "example_url", -- string
 })
 ```
@@ -1168,10 +1134,10 @@ Create an instance: `local webhook_endpoint = client:WebhookEndpoint(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | `number` |  |
-| `event` | `table` |  |
+| `createdAt` | `number` |  |
+| `events` | `table` |  |
 | `id` | `string` |  |
-| `updated_at` | `number|nil` |  |
+| `updatedAt` | `number|nil` |  |
 | `url` | `string` |  |
 
 #### Example: Load

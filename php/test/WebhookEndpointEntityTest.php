@@ -57,7 +57,7 @@ class WebhookEndpointEntityTest extends TestCase
         $webhook_endpoint_ref01_data_up0_up[$webhook_endpoint_ref01_markdef_up0_name] = $webhook_endpoint_ref01_markdef_up0_value;
 
         $webhook_endpoint_ref01_resdata_up0_result = $webhook_endpoint_ref01_ent->update($webhook_endpoint_ref01_data_up0_up, null);
-        $webhook_endpoint_ref01_resdata_up0 = Helpers::to_map($webhook_endpoint_ref01_resdata_up0_result);
+        $webhook_endpoint_ref01_resdata_up0 = Helpers::to_map(is_object($webhook_endpoint_ref01_resdata_up0_result) && method_exists($webhook_endpoint_ref01_resdata_up0_result, 'data_get') ? $webhook_endpoint_ref01_resdata_up0_result->data_get() : $webhook_endpoint_ref01_resdata_up0_result);
         $this->assertNotNull($webhook_endpoint_ref01_resdata_up0);
         $this->assertEquals($webhook_endpoint_ref01_resdata_up0["id"], $webhook_endpoint_ref01_data_up0_up["id"]);
         $this->assertEquals($webhook_endpoint_ref01_resdata_up0[$webhook_endpoint_ref01_markdef_up0_name], $webhook_endpoint_ref01_markdef_up0_value);
@@ -67,7 +67,7 @@ class WebhookEndpointEntityTest extends TestCase
             "id" => $webhook_endpoint_ref01_data["id"],
         ];
         $webhook_endpoint_ref01_data_dt0_loaded = $webhook_endpoint_ref01_ent->load($webhook_endpoint_ref01_match_dt0, null);
-        $webhook_endpoint_ref01_data_dt0_load_result = Helpers::to_map($webhook_endpoint_ref01_data_dt0_loaded);
+        $webhook_endpoint_ref01_data_dt0_load_result = Helpers::to_map(is_object($webhook_endpoint_ref01_data_dt0_loaded) && method_exists($webhook_endpoint_ref01_data_dt0_loaded, 'data_get') ? $webhook_endpoint_ref01_data_dt0_loaded->data_get() : $webhook_endpoint_ref01_data_dt0_loaded);
         $this->assertNotNull($webhook_endpoint_ref01_data_dt0_load_result);
         $this->assertEquals($webhook_endpoint_ref01_data_dt0_load_result["id"], $webhook_endpoint_ref01_data["id"]);
 

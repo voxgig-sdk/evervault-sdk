@@ -41,7 +41,7 @@ describe("BinLookupEntity", function()
 
     local bin_lookup_ref01_data_result, err = bin_lookup_ref01_ent:create(bin_lookup_ref01_data, nil)
     assert.is_nil(err)
-    bin_lookup_ref01_data = helpers.to_map(bin_lookup_ref01_data_result)
+    bin_lookup_ref01_data = helpers.to_map(type(bin_lookup_ref01_data_result) == 'table' and bin_lookup_ref01_data_result.data_get and bin_lookup_ref01_data_result:data_get() or bin_lookup_ref01_data_result)
     assert.is_not_nil(bin_lookup_ref01_data)
 
   end)

@@ -59,7 +59,7 @@ func TestMerchantEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("create failed: %v", err)
 		}
-		merchantRef01Data = core.ToMapAny(merchantRef01DataResult)
+		merchantRef01Data = core.ToMapAny(entityData(merchantRef01DataResult))
 		if merchantRef01Data == nil {
 			t.Fatal("expected create result to be a map")
 		}
@@ -72,7 +72,7 @@ func TestMerchantEntity(t *testing.T) {
 			"id": merchantRef01Data["id"],
 		}
 
-		merchantRef01MarkdefUp0Name := "category_code"
+		merchantRef01MarkdefUp0Name := "categoryCode"
 		merchantRef01MarkdefUp0Value := fmt.Sprintf("Mark01-merchant_ref01_%d", setup.now)
 		merchantRef01DataUp0Up[merchantRef01MarkdefUp0Name] = merchantRef01MarkdefUp0Value
 
@@ -80,7 +80,7 @@ func TestMerchantEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("update failed: %v", err)
 		}
-		merchantRef01ResdataUp0 := core.ToMapAny(merchantRef01ResdataUp0Result)
+		merchantRef01ResdataUp0 := core.ToMapAny(entityData(merchantRef01ResdataUp0Result))
 		if merchantRef01ResdataUp0 == nil {
 			t.Fatal("expected update result to be a map")
 		}
@@ -99,7 +99,7 @@ func TestMerchantEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("load failed: %v", err)
 		}
-		merchantRef01DataDt0LoadResult := core.ToMapAny(merchantRef01DataDt0Loaded)
+		merchantRef01DataDt0LoadResult := core.ToMapAny(entityData(merchantRef01DataDt0Loaded))
 		if merchantRef01DataDt0LoadResult == nil {
 			t.Fatal("expected load result to be a map")
 		}

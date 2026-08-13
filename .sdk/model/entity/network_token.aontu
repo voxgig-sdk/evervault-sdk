@@ -11,7 +11,7 @@ main: kit: entity: network_token: {
       type: "`$OBJECT`"
     }
     {
-      name: "created_at"
+      name: "createdAt"
       req: true
       type: "`$INTEGER`"
     }
@@ -36,7 +36,7 @@ main: kit: entity: network_token: {
       type: "`$STRING`"
     }
     {
-      name: "payment_account_reference"
+      name: "paymentAccountReference"
       req: false
       type: "`$STRING`"
     }
@@ -46,22 +46,22 @@ main: kit: entity: network_token: {
       type: "`$STRING`"
     }
     {
-      name: "token_requestor_identifier"
+      name: "tokenRequestorIdentifier"
       req: true
       type: "`$STRING`"
     }
     {
-      name: "token_service_provider"
+      name: "tokenServiceProvider"
       req: true
       type: "`$STRING`"
     }
     {
-      name: "update_type"
+      name: "updateType"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "updated_at"
+      name: "updatedAt"
       req: false
       type: "`$INTEGER`"
     }

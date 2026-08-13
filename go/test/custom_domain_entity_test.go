@@ -59,7 +59,7 @@ func TestCustomDomainEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("create failed: %v", err)
 		}
-		customDomainRef01Data = core.ToMapAny(customDomainRef01DataResult)
+		customDomainRef01Data = core.ToMapAny(entityData(customDomainRef01DataResult))
 		if customDomainRef01Data == nil {
 			t.Fatal("expected create result to be a map")
 		}
@@ -75,7 +75,7 @@ func TestCustomDomainEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("load failed: %v", err)
 		}
-		customDomainRef01DataDt0LoadResult := core.ToMapAny(customDomainRef01DataDt0Loaded)
+		customDomainRef01DataDt0LoadResult := core.ToMapAny(entityData(customDomainRef01DataDt0Loaded))
 		if customDomainRef01DataDt0LoadResult == nil {
 			t.Fatal("expected load result to be a map")
 		}

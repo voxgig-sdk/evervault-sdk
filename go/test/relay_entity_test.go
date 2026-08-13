@@ -74,7 +74,7 @@ func TestRelayEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("update failed: %v", err)
 		}
-		relayRef01ResdataUp0 := core.ToMapAny(relayRef01ResdataUp0Result)
+		relayRef01ResdataUp0 := core.ToMapAny(entityData(relayRef01ResdataUp0Result))
 		if relayRef01ResdataUp0 == nil {
 			t.Fatal("expected update result to be a map")
 		}
@@ -93,7 +93,7 @@ func TestRelayEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("load failed: %v", err)
 		}
-		relayRef01DataDt0LoadResult := core.ToMapAny(relayRef01DataDt0Loaded)
+		relayRef01DataDt0LoadResult := core.ToMapAny(entityData(relayRef01DataDt0Loaded))
 		if relayRef01DataDt0LoadResult == nil {
 			t.Fatal("expected load result to be a map")
 		}

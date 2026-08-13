@@ -58,7 +58,7 @@ func TestClientSideTokenEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("create failed: %v", err)
 		}
-		clientSideTokenRef01Data = core.ToMapAny(clientSideTokenRef01DataResult)
+		clientSideTokenRef01Data = core.ToMapAny(entityData(clientSideTokenRef01DataResult))
 		if clientSideTokenRef01Data == nil {
 			t.Fatal("expected create result to be a map")
 		}

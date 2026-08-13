@@ -83,7 +83,7 @@ describe("CoreEntity", function()
 
     local core_ref01_data_result, err = core_ref01_ent:create(core_ref01_data, nil)
     assert.is_nil(err)
-    core_ref01_data = helpers.to_map(core_ref01_data_result)
+    core_ref01_data = helpers.to_map(type(core_ref01_data_result) == 'table' and core_ref01_data_result.data_get and core_ref01_data_result:data_get() or core_ref01_data_result)
     assert.is_not_nil(core_ref01_data)
     assert.is_not_nil(core_ref01_data["id"])
 

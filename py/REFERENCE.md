@@ -148,7 +148,7 @@ acquirer = client.Acquirer()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `configuration` | `list` | Yes |  |
+| `configurations` | `list` | Yes |  |
 | `default` | `bool` | Yes |  |
 | `description` | `str` | No |  |
 | `id` | `str` | Yes |  |
@@ -158,7 +158,7 @@ acquirer = client.Acquirer()
 
 | Field | load | create | update |
 | --- | --- | --- | --- |
-| `configuration` | - | - | Yes |
+| `configurations` | - | - | Yes |
 | `default` | - | Yes | Yes |
 | `description` | - | - | - |
 | `id` | - | - | - |
@@ -172,7 +172,7 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.Acquirer().create({
-    "configuration": [],  # list
+    "configurations": [],  # list
     "default": True,  # bool
     "id": "example_id",  # str
     "name": "example_name",  # str
@@ -291,25 +291,13 @@ card = client.Card()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `address` | `dict` | Yes |  |
-| `automatic_update` | `str` | No |  |
-| `bin` | `str` | Yes |  |
-| `brand` | `str` | No |  |
 | `card` | `dict` | Yes |  |
 | `cardholder` | `dict` | No |  |
-| `country` | `str` | No |  |
-| `created_at` | `int` | Yes |  |
-| `currency` | `str` | No |  |
 | `expiry` | `dict` | Yes |  |
-| `extension` | `list` | No |  |
-| `funding` | `str` | No |  |
-| `id` | `str` | No |  |
-| `issuer` | `str` | No |  |
-| `last_four` | `str` | Yes |  |
+| `extensions` | `list` | No |  |
+| `month` | `str` | Yes |  |
 | `number` | `str` | Yes |  |
-| `replacement` | `str | None` | No |  |
-| `segment` | `str` | No |  |
-| `status` | `str` | No |  |
-| `updated_at` | `int | None` | No |  |
+| `year` | `str` | Yes |  |
 
 ### Operations
 
@@ -320,12 +308,11 @@ Create a new entity with the given data. Returns the created entity data and rai
 ```python
 result = client.Card().create({
     "address": {},  # dict
-    "bin": "example_bin",  # str
     "card": {},  # dict
-    "created_at": 1,  # int
     "expiry": {},  # dict
-    "last_four": "example_last_four",  # str
+    "month": "example_month",  # str
     "number": "example_number",  # str
+    "year": "example_year",  # str
 })
 ```
 
@@ -487,25 +474,19 @@ core = client.Core()
 | --- | --- | --- | --- |
 | `app` | `str` | No |  |
 | `authentication` | `str | None` | No |  |
-| `category` | `str` | No |  |
-| `created_at` | `int` | No |  |
-| `custom_domain` | `str` | No |  |
-| `destination_domain` | `str` | Yes |  |
-| `encrypt_empty_string` | `bool` | No |  |
-| `encrypted_at` | `int` | No |  |
-| `evervault_domain` | `str` | No |  |
-| `fingerprint` | `str` | No |  |
+| `createdAt` | `int` | No |  |
+| `customDomain` | `str` | No |  |
+| `destinationDomain` | `str` | Yes |  |
+| `encryptEmptyStrings` | `bool` | No |  |
+| `evervaultDomain` | `str` | No |  |
 | `id` | `str` | No |  |
-| `metadata` | `Any` | No |  |
-| `phone_number` | `str` | No |  |
+| `phoneNumber` | `str` | No |  |
 | `relay` | `str` | No |  |
-| `role` | `str` | No |  |
-| `route` | `list` | Yes |  |
+| `routes` | `list` | Yes |  |
 | `status` | `str` | No |  |
 | `token` | `str` | Yes |  |
-| `type` | `str` | No |  |
-| `updated_at` | `int` | No |  |
-| `validation_record` | `str` | No |  |
+| `updatedAt` | `int` | No |  |
+| `validationRecord` | `str` | No |  |
 
 ### Field Usage by Operation
 
@@ -513,25 +494,19 @@ core = client.Core()
 | --- | --- | --- | --- |
 | `app` | - | - | - |
 | `authentication` | - | - | - |
-| `category` | - | - | - |
-| `created_at` | - | - | - |
-| `custom_domain` | - | - | - |
-| `destination_domain` | Yes | - | - |
-| `encrypt_empty_string` | - | - | - |
-| `encrypted_at` | - | - | - |
-| `evervault_domain` | - | - | - |
-| `fingerprint` | - | - | - |
+| `createdAt` | - | - | - |
+| `customDomain` | - | - | - |
+| `destinationDomain` | Yes | - | - |
+| `encryptEmptyStrings` | - | - | - |
+| `evervaultDomain` | - | - | - |
 | `id` | - | - | - |
-| `metadata` | - | - | - |
-| `phone_number` | - | - | - |
+| `phoneNumber` | - | - | - |
 | `relay` | - | - | - |
-| `role` | - | - | - |
-| `route` | Yes | - | - |
+| `routes` | Yes | - | - |
 | `status` | - | - | - |
 | `token` | - | - | - |
-| `type` | - | - | - |
-| `updated_at` | - | - | - |
-| `validation_record` | - | - | - |
+| `updatedAt` | - | - | - |
+| `validationRecord` | - | - | - |
 
 ### Operations
 
@@ -541,8 +516,8 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.Core().create({
-    "destination_domain": "example_destination_domain",  # str
-    "route": [],  # list
+    "destinationDomain": "example_destinationDomain",  # str
+    "routes": [],  # list
     "token": "example_token",  # str
 })
 ```
@@ -604,25 +579,25 @@ custom_domain = client.CustomDomain()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | `int` | No |  |
-| `custom_domain` | `str` | No |  |
+| `createdAt` | `int` | No |  |
+| `customDomain` | `str` | No |  |
 | `id` | `str` | No |  |
 | `relay` | `str` | No |  |
 | `status` | `str` | No |  |
-| `updated_at` | `int` | No |  |
-| `validation_record` | `str` | No |  |
+| `updatedAt` | `int` | No |  |
+| `validationRecord` | `str` | No |  |
 
 ### Field Usage by Operation
 
 | Field | load | create |
 | --- | --- | --- |
-| `created_at` | - | - |
-| `custom_domain` | - | Yes |
+| `createdAt` | - | - |
+| `customDomain` | - | Yes |
 | `id` | - | - |
 | `relay` | - | - |
 | `status` | - | - |
-| `updated_at` | - | - |
-| `validation_record` | - | - |
+| `updatedAt` | - | - |
+| `validationRecord` | - | - |
 
 ### Operations
 
@@ -684,7 +659,7 @@ function_run = client.FunctionRun()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `async` | `bool` | No |  |
-| `created_at` | `int` | No |  |
+| `createdAt` | `int` | No |  |
 | `error` | `dict | None` | No |  |
 | `id` | `str` | No |  |
 | `payload` | `dict` | Yes |  |
@@ -700,6 +675,7 @@ Create a new entity with the given data. Returns the created entity data and rai
 ```python
 result = client.FunctionRun().create({
     "function_name": "example_function_name",  # str
+    "payload": {},  # dict
 })
 ```
 
@@ -742,30 +718,30 @@ merchant = client.Merchant()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `apple_pay` | `dict` | No |  |
+| `applePay` | `dict` | No |  |
 | `business` | `dict` | No |  |
-| `category_code` | `str` | No |  |
-| `created_at` | `int` | Yes |  |
+| `categoryCode` | `str` | No |  |
+| `createdAt` | `int` | Yes |  |
 | `id` | `str` | Yes |  |
 | `name` | `str` | Yes |  |
-| `network_token` | `dict` | No |  |
-| `short_name` | `str` | No |  |
-| `updated_at` | `int` | No |  |
+| `networkTokens` | `dict` | No |  |
+| `shortName` | `str` | No |  |
+| `updatedAt` | `int` | No |  |
 | `website` | `str` | Yes |  |
 
 ### Field Usage by Operation
 
 | Field | load | create | update |
 | --- | --- | --- | --- |
-| `apple_pay` | - | - | - |
+| `applePay` | - | - | - |
 | `business` | - | Yes | - |
-| `category_code` | - | Yes | - |
-| `created_at` | - | - | - |
+| `categoryCode` | - | Yes | - |
+| `createdAt` | - | - | - |
 | `id` | - | - | - |
 | `name` | - | - | - |
-| `network_token` | - | - | - |
-| `short_name` | - | - | - |
-| `updated_at` | - | - | - |
+| `networkTokens` | - | - | - |
+| `shortName` | - | - | - |
+| `updatedAt` | - | - | - |
 | `website` | - | - | - |
 
 ### Operations
@@ -776,7 +752,7 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.Merchant().create({
-    "created_at": 1,  # int
+    "createdAt": 1,  # int
     "id": "example_id",  # str
     "name": "example_name",  # str
     "website": "example_website",  # str
@@ -842,17 +818,17 @@ network_token = client.NetworkToken()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `card` | `dict` | Yes |  |
-| `created_at` | `int` | Yes |  |
+| `createdAt` | `int` | Yes |  |
 | `expiry` | `dict` | Yes |  |
 | `id` | `str` | Yes |  |
 | `merchant` | `str` | Yes |  |
 | `number` | `str` | Yes |  |
-| `payment_account_reference` | `str` | No |  |
+| `paymentAccountReference` | `str` | No |  |
 | `status` | `str` | Yes |  |
-| `token_requestor_identifier` | `str` | Yes |  |
-| `token_service_provider` | `str` | Yes |  |
-| `update_type` | `str` | No |  |
-| `updated_at` | `int` | No |  |
+| `tokenRequestorIdentifier` | `str` | Yes |  |
+| `tokenServiceProvider` | `str` | Yes |  |
+| `updateType` | `str` | No |  |
+| `updatedAt` | `int` | No |  |
 
 ### Operations
 
@@ -863,14 +839,14 @@ Create a new entity with the given data. Returns the created entity data and rai
 ```python
 result = client.NetworkToken().create({
     "card": {},  # dict
-    "created_at": 1,  # int
+    "createdAt": 1,  # int
     "expiry": {},  # dict
     "id": "example_id",  # str
     "merchant": "example_merchant",  # str
     "number": "example_number",  # str
     "status": "example_status",  # str
-    "token_requestor_identifier": "example_token_requestor_identifier",  # str
-    "token_service_provider": "example_token_service_provider",  # str
+    "tokenRequestorIdentifier": "example_tokenRequestorIdentifier",  # str
+    "tokenServiceProvider": "example_tokenServiceProvider",  # str
 })
 ```
 
@@ -921,7 +897,7 @@ network_token_cryptogram = client.NetworkTokenCryptogram()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | `int` | No |  |
+| `createdAt` | `int` | No |  |
 | `cryptogram` | `str` | No |  |
 | `id` | `str` | No |  |
 
@@ -976,41 +952,22 @@ payment = client.Payment()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `apple_pay` | `dict` | No |  |
+| `applePay` | `dict` | No |  |
 | `business` | `dict` | No |  |
-| `category_code` | `str` | No |  |
-| `configuration` | `list` | Yes |  |
-| `created_at` | `int` | Yes |  |
+| `categoryCode` | `str` | No |  |
+| `configurations` | `list` | Yes |  |
+| `createdAt` | `int` | Yes |  |
+| `created_at` | `int` | No |  |
 | `data` | `dict` | No |  |
 | `default` | `bool` | Yes |  |
 | `description` | `str` | No |  |
 | `id` | `str` | Yes |  |
 | `name` | `str` | Yes |  |
-| `network_token` | `dict` | No |  |
-| `short_name` | `str` | No |  |
+| `networkTokens` | `dict` | No |  |
+| `shortName` | `str` | No |  |
 | `type` | `str` | No |  |
-| `updated_at` | `int` | No |  |
+| `updatedAt` | `int` | No |  |
 | `website` | `str` | Yes |  |
-
-### Field Usage by Operation
-
-| Field | list | remove |
-| --- | --- | --- |
-| `apple_pay` | - | - |
-| `business` | - | - |
-| `category_code` | - | - |
-| `configuration` | - | - |
-| `created_at` | Yes | - |
-| `data` | - | - |
-| `default` | - | - |
-| `description` | - | - |
-| `id` | - | - |
-| `name` | - | - |
-| `network_token` | - | - |
-| `short_name` | - | - |
-| `type` | - | - |
-| `updated_at` | - | - |
-| `website` | - | - |
 
 ### Operations
 
@@ -1019,7 +976,7 @@ payment = client.Payment()
 List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.Payment().list()
+results = client.Payment().list({"3ds_session_id": "example"})
 for payment in results:
     print(payment)
 ```
@@ -1073,13 +1030,13 @@ relay = client.Relay()
 | --- | --- | --- | --- |
 | `app` | `str` | No |  |
 | `authentication` | `str | None` | No |  |
-| `created_at` | `int` | No |  |
-| `destination_domain` | `str` | No |  |
-| `encrypt_empty_string` | `bool` | No |  |
-| `evervault_domain` | `str` | No |  |
+| `createdAt` | `int` | No |  |
+| `destinationDomain` | `str` | No |  |
+| `encryptEmptyStrings` | `bool` | No |  |
+| `evervaultDomain` | `str` | No |  |
 | `id` | `str` | No |  |
-| `route` | `list` | No |  |
-| `updated_at` | `int` | No |  |
+| `routes` | `list` | No |  |
+| `updatedAt` | `int` | No |  |
 
 ### Operations
 
@@ -1141,58 +1098,58 @@ three_ds_session = client.ThreeDsSession()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `access_control_server` | `dict` | No |  |
+| `accessControlServer` | `dict` | No |  |
 | `acquirer` | `dict` | Yes |  |
-| `are` | `dict` | No |  |
+| `ares` | `dict` | No |  |
 | `authentication` | `dict` | Yes |  |
 | `card` | `dict` | Yes |  |
 | `challenge` | `dict` | Yes |  |
-| `cre` | `None | dict` | No |  |
-| `created_at` | `int` | Yes |  |
+| `createdAt` | `int` | Yes |  |
+| `cres` | `None | dict` | No |  |
 | `cryptogram` | `str` | No |  |
 | `customer` | `dict` | No |  |
-| `directory_server` | `dict` | No |  |
+| `directoryServer` | `dict` | No |  |
 | `eci` | `dict` | No |  |
-| `failure_reason` | `str` | No |  |
+| `failureReason` | `str` | No |  |
 | `id` | `str` | Yes |  |
 | `initiator` | `dict` | No |  |
 | `merchant` | `dict` | Yes |  |
-| `next_action` | `dict` | Yes |  |
+| `nextAction` | `dict` | Yes |  |
 | `payment` | `dict` | No |  |
-| `preferred_version` | `list` | No |  |
+| `preferredVersions` | `list` | No |  |
 | `rreq` | `None | dict` | No |  |
 | `status` | `str` | Yes |  |
-| `three_ds_server` | `dict` | No |  |
-| `updated_at` | `int` | No |  |
+| `threeDSServer` | `dict` | No |  |
+| `updatedAt` | `int` | No |  |
 | `version` | `str` | Yes |  |
 
 ### Field Usage by Operation
 
 | Field | load | create |
 | --- | --- | --- |
-| `access_control_server` | - | - |
+| `accessControlServer` | - | - |
 | `acquirer` | - | Yes |
-| `are` | - | - |
+| `ares` | - | - |
 | `authentication` | - | - |
 | `card` | - | - |
 | `challenge` | - | - |
-| `cre` | - | - |
-| `created_at` | - | - |
+| `createdAt` | - | - |
+| `cres` | - | - |
 | `cryptogram` | - | - |
 | `customer` | - | - |
-| `directory_server` | - | - |
+| `directoryServer` | - | - |
 | `eci` | - | - |
-| `failure_reason` | - | - |
+| `failureReason` | - | - |
 | `id` | - | - |
 | `initiator` | - | - |
 | `merchant` | - | - |
-| `next_action` | - | - |
+| `nextAction` | - | - |
 | `payment` | - | - |
-| `preferred_version` | - | - |
+| `preferredVersions` | - | - |
 | `rreq` | - | - |
 | `status` | - | - |
-| `three_ds_server` | - | - |
-| `updated_at` | - | - |
+| `threeDSServer` | - | - |
+| `updatedAt` | - | - |
 | `version` | - | - |
 
 ### Operations
@@ -1207,10 +1164,10 @@ result = client.ThreeDsSession().create({
     "authentication": {},  # dict
     "card": {},  # dict
     "challenge": {},  # dict
-    "created_at": 1,  # int
+    "createdAt": 1,  # int
     "id": "example_id",  # str
     "merchant": {},  # dict
-    "next_action": {},  # dict
+    "nextAction": {},  # dict
     "status": "example_status",  # str
     "version": "example_version",  # str
 })
@@ -1263,20 +1220,20 @@ webhook = client.Webhook()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | `int` | No |  |
-| `event` | `list` | Yes |  |
+| `createdAt` | `int` | No |  |
+| `events` | `list` | Yes |  |
 | `id` | `str` | No |  |
-| `updated_at` | `int | None` | No |  |
+| `updatedAt` | `int | None` | No |  |
 | `url` | `str` | Yes |  |
 
 ### Field Usage by Operation
 
 | Field | list | create | remove |
 | --- | --- | --- | --- |
-| `created_at` | - | - | - |
-| `event` | Yes | - | - |
+| `createdAt` | - | - | - |
+| `events` | Yes | - | - |
 | `id` | - | - | - |
-| `updated_at` | - | - | - |
+| `updatedAt` | - | - | - |
 | `url` | Yes | - | - |
 
 ### Operations
@@ -1287,7 +1244,7 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.Webhook().create({
-    "event": [],  # list
+    "events": [],  # list
     "url": "example_url",  # str
 })
 ```
@@ -1349,20 +1306,20 @@ webhook_endpoint = client.WebhookEndpoint()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | `int` | No |  |
-| `event` | `list` | No |  |
+| `createdAt` | `int` | No |  |
+| `events` | `list` | No |  |
 | `id` | `str` | No |  |
-| `updated_at` | `int | None` | No |  |
+| `updatedAt` | `int | None` | No |  |
 | `url` | `str` | No |  |
 
 ### Field Usage by Operation
 
 | Field | load | update |
 | --- | --- | --- |
-| `created_at` | - | - |
-| `event` | - | Yes |
+| `createdAt` | - | - |
+| `events` | - | Yes |
 | `id` | - | - |
-| `updated_at` | - | - |
+| `updatedAt` | - | - |
 | `url` | - | - |
 
 ### Operations

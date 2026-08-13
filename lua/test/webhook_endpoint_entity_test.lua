@@ -54,7 +54,7 @@ describe("WebhookEndpointEntity", function()
 
     local webhook_endpoint_ref01_resdata_up0_result, err = webhook_endpoint_ref01_ent:update(webhook_endpoint_ref01_data_up0_up, nil)
     assert.is_nil(err)
-    local webhook_endpoint_ref01_resdata_up0 = helpers.to_map(webhook_endpoint_ref01_resdata_up0_result)
+    local webhook_endpoint_ref01_resdata_up0 = helpers.to_map(type(webhook_endpoint_ref01_resdata_up0_result) == 'table' and webhook_endpoint_ref01_resdata_up0_result.data_get and webhook_endpoint_ref01_resdata_up0_result:data_get() or webhook_endpoint_ref01_resdata_up0_result)
     assert.is_not_nil(webhook_endpoint_ref01_resdata_up0)
     assert.are.equal(webhook_endpoint_ref01_resdata_up0["id"], webhook_endpoint_ref01_data_up0_up["id"])
     assert.are.equal(webhook_endpoint_ref01_resdata_up0[webhook_endpoint_ref01_markdef_up0_name], webhook_endpoint_ref01_markdef_up0_value)
@@ -65,7 +65,7 @@ describe("WebhookEndpointEntity", function()
     }
     local webhook_endpoint_ref01_data_dt0_loaded, err = webhook_endpoint_ref01_ent:load(webhook_endpoint_ref01_match_dt0, nil)
     assert.is_nil(err)
-    local webhook_endpoint_ref01_data_dt0_load_result = helpers.to_map(webhook_endpoint_ref01_data_dt0_loaded)
+    local webhook_endpoint_ref01_data_dt0_load_result = helpers.to_map(type(webhook_endpoint_ref01_data_dt0_loaded) == 'table' and webhook_endpoint_ref01_data_dt0_loaded.data_get and webhook_endpoint_ref01_data_dt0_loaded:data_get() or webhook_endpoint_ref01_data_dt0_loaded)
     assert.is_not_nil(webhook_endpoint_ref01_data_dt0_load_result)
     assert.are.equal(webhook_endpoint_ref01_data_dt0_load_result["id"], webhook_endpoint_ref01_data["id"])
 

@@ -6,11 +6,15 @@
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 package entity
 
-import "encoding/json"
+import (
+	"encoding/json"
+
+	"github.com/voxgig-sdk/evervault-sdk/go/core"
+)
 
 // Acquirer is the typed data model for the acquirer entity.
 type Acquirer struct {
-	Configuration []any `json:"configuration"`
+	Configurations []any `json:"configurations"`
 	Default bool `json:"default"`
 	Description *string `json:"description,omitempty"`
 	Id string `json:"id"`
@@ -24,7 +28,7 @@ type AcquirerLoadMatch struct {
 
 // AcquirerCreateData is the typed request payload for Acquirer.CreateTyped.
 type AcquirerCreateData struct {
-	Configuration []any `json:"configuration"`
+	Configurations []any `json:"configurations"`
 	Default bool `json:"default"`
 	Description *string `json:"description,omitempty"`
 	Id string `json:"id"`
@@ -34,6 +38,10 @@ type AcquirerCreateData struct {
 // AcquirerUpdateData is the typed request payload for Acquirer.UpdateTyped.
 type AcquirerUpdateData struct {
 	Id string `json:"id"`
+	Configurations *[]any `json:"configurations,omitempty"`
+	Default *bool `json:"default,omitempty"`
+	Description *string `json:"description,omitempty"`
+	Name *string `json:"name,omitempty"`
 }
 
 // BinLookup is the typed data model for the bin_lookup entity.
@@ -49,25 +57,13 @@ type BinLookupCreateData struct {
 // Card is the typed data model for the card entity.
 type Card struct {
 	Address map[string]any `json:"address"`
-	AutomaticUpdate *string `json:"automatic_update,omitempty"`
-	Bin string `json:"bin"`
-	Brand *string `json:"brand,omitempty"`
 	Card map[string]any `json:"card"`
 	Cardholder *map[string]any `json:"cardholder,omitempty"`
-	Country *string `json:"country,omitempty"`
-	CreatedAt int `json:"created_at"`
-	Currency *string `json:"currency,omitempty"`
 	Expiry map[string]any `json:"expiry"`
-	Extension *[]any `json:"extension,omitempty"`
-	Funding *string `json:"funding,omitempty"`
-	Id *string `json:"id,omitempty"`
-	Issuer *string `json:"issuer,omitempty"`
-	LastFour string `json:"last_four"`
+	Extensions *[]any `json:"extensions,omitempty"`
+	Month string `json:"month"`
 	Number string `json:"number"`
-	Replacement *any `json:"replacement,omitempty"`
-	Segment *string `json:"segment,omitempty"`
-	Status *string `json:"status,omitempty"`
-	UpdatedAt *any `json:"updated_at,omitempty"`
+	Year string `json:"year"`
 }
 
 // CardLoadMatch is the typed request payload for Card.LoadTyped.
@@ -78,25 +74,13 @@ type CardLoadMatch struct {
 // CardCreateData is the typed request payload for Card.CreateTyped.
 type CardCreateData struct {
 	Address map[string]any `json:"address"`
-	AutomaticUpdate *string `json:"automatic_update,omitempty"`
-	Bin string `json:"bin"`
-	Brand *string `json:"brand,omitempty"`
 	Card map[string]any `json:"card"`
 	Cardholder *map[string]any `json:"cardholder,omitempty"`
-	Country *string `json:"country,omitempty"`
-	CreatedAt int `json:"created_at"`
-	Currency *string `json:"currency,omitempty"`
 	Expiry map[string]any `json:"expiry"`
-	Extension *[]any `json:"extension,omitempty"`
-	Funding *string `json:"funding,omitempty"`
-	Id *string `json:"id,omitempty"`
-	Issuer *string `json:"issuer,omitempty"`
-	LastFour string `json:"last_four"`
+	Extensions *[]any `json:"extensions,omitempty"`
+	Month string `json:"month"`
 	Number string `json:"number"`
-	Replacement *any `json:"replacement,omitempty"`
-	Segment *string `json:"segment,omitempty"`
-	Status *string `json:"status,omitempty"`
-	UpdatedAt *any `json:"updated_at,omitempty"`
+	Year string `json:"year"`
 }
 
 // CardArt is the typed data model for the card_art entity.
@@ -130,25 +114,19 @@ type ClientSideTokenCreateData struct {
 type Core struct {
 	App *string `json:"app,omitempty"`
 	Authentication *any `json:"authentication,omitempty"`
-	Category *string `json:"category,omitempty"`
-	CreatedAt *int `json:"created_at,omitempty"`
-	CustomDomain *string `json:"custom_domain,omitempty"`
-	DestinationDomain string `json:"destination_domain"`
-	EncryptEmptyString *bool `json:"encrypt_empty_string,omitempty"`
-	EncryptedAt *int `json:"encrypted_at,omitempty"`
-	EvervaultDomain *string `json:"evervault_domain,omitempty"`
-	Fingerprint *string `json:"fingerprint,omitempty"`
+	CreatedAt *int `json:"createdAt,omitempty"`
+	CustomDomain *string `json:"customDomain,omitempty"`
+	DestinationDomain string `json:"destinationDomain"`
+	EncryptEmptyStrings *bool `json:"encryptEmptyStrings,omitempty"`
+	EvervaultDomain *string `json:"evervaultDomain,omitempty"`
 	Id *string `json:"id,omitempty"`
-	Metadata *any `json:"metadata,omitempty"`
-	PhoneNumber *string `json:"phone_number,omitempty"`
+	PhoneNumber *string `json:"phoneNumber,omitempty"`
 	Relay *string `json:"relay,omitempty"`
-	Role *string `json:"role,omitempty"`
-	Route []any `json:"route"`
+	Routes []any `json:"routes"`
 	Status *string `json:"status,omitempty"`
 	Token string `json:"token"`
-	Type *string `json:"type,omitempty"`
-	UpdatedAt *int `json:"updated_at,omitempty"`
-	ValidationRecord *string `json:"validation_record,omitempty"`
+	UpdatedAt *int `json:"updatedAt,omitempty"`
+	ValidationRecord *string `json:"validationRecord,omitempty"`
 }
 
 // CoreListMatch is the typed request payload for Core.ListTyped.
@@ -160,25 +138,19 @@ type CoreListMatch struct {
 type CoreCreateData struct {
 	App *string `json:"app,omitempty"`
 	Authentication *any `json:"authentication,omitempty"`
-	Category *string `json:"category,omitempty"`
-	CreatedAt *int `json:"created_at,omitempty"`
-	CustomDomain *string `json:"custom_domain,omitempty"`
-	DestinationDomain string `json:"destination_domain"`
-	EncryptEmptyString *bool `json:"encrypt_empty_string,omitempty"`
-	EncryptedAt *int `json:"encrypted_at,omitempty"`
-	EvervaultDomain *string `json:"evervault_domain,omitempty"`
-	Fingerprint *string `json:"fingerprint,omitempty"`
+	CreatedAt *int `json:"createdAt,omitempty"`
+	CustomDomain *string `json:"customDomain,omitempty"`
+	DestinationDomain string `json:"destinationDomain"`
+	EncryptEmptyStrings *bool `json:"encryptEmptyStrings,omitempty"`
+	EvervaultDomain *string `json:"evervaultDomain,omitempty"`
 	Id *string `json:"id,omitempty"`
-	Metadata *any `json:"metadata,omitempty"`
-	PhoneNumber *string `json:"phone_number,omitempty"`
+	PhoneNumber *string `json:"phoneNumber,omitempty"`
 	Relay *string `json:"relay,omitempty"`
-	Role *string `json:"role,omitempty"`
-	Route []any `json:"route"`
+	Routes []any `json:"routes"`
 	Status *string `json:"status,omitempty"`
 	Token string `json:"token"`
-	Type *string `json:"type,omitempty"`
-	UpdatedAt *int `json:"updated_at,omitempty"`
-	ValidationRecord *string `json:"validation_record,omitempty"`
+	UpdatedAt *int `json:"updatedAt,omitempty"`
+	ValidationRecord *string `json:"validationRecord,omitempty"`
 }
 
 // CoreRemoveMatch is the typed request payload for Core.RemoveTyped.
@@ -189,13 +161,13 @@ type CoreRemoveMatch struct {
 
 // CustomDomain is the typed data model for the custom_domain entity.
 type CustomDomain struct {
-	CreatedAt *int `json:"created_at,omitempty"`
-	CustomDomain *string `json:"custom_domain,omitempty"`
+	CreatedAt *int `json:"createdAt,omitempty"`
+	CustomDomain *string `json:"customDomain,omitempty"`
 	Id *string `json:"id,omitempty"`
 	Relay *string `json:"relay,omitempty"`
 	Status *string `json:"status,omitempty"`
-	UpdatedAt *int `json:"updated_at,omitempty"`
-	ValidationRecord *string `json:"validation_record,omitempty"`
+	UpdatedAt *int `json:"updatedAt,omitempty"`
+	ValidationRecord *string `json:"validationRecord,omitempty"`
 }
 
 // CustomDomainLoadMatch is the typed request payload for CustomDomain.LoadTyped.
@@ -207,12 +179,19 @@ type CustomDomainLoadMatch struct {
 // CustomDomainCreateData is the typed request payload for CustomDomain.CreateTyped.
 type CustomDomainCreateData struct {
 	RelayId string `json:"relay_id"`
+	CreatedAt *int `json:"createdAt,omitempty"`
+	CustomDomain *string `json:"customDomain,omitempty"`
+	Id *string `json:"id,omitempty"`
+	Relay *string `json:"relay,omitempty"`
+	Status *string `json:"status,omitempty"`
+	UpdatedAt *int `json:"updatedAt,omitempty"`
+	ValidationRecord *string `json:"validationRecord,omitempty"`
 }
 
 // FunctionRun is the typed data model for the function_run entity.
 type FunctionRun struct {
 	Async *bool `json:"async,omitempty"`
-	CreatedAt *int `json:"created_at,omitempty"`
+	CreatedAt *int `json:"createdAt,omitempty"`
 	Error *any `json:"error,omitempty"`
 	Id *string `json:"id,omitempty"`
 	Payload map[string]any `json:"payload"`
@@ -223,19 +202,26 @@ type FunctionRun struct {
 // FunctionRunCreateData is the typed request payload for FunctionRun.CreateTyped.
 type FunctionRunCreateData struct {
 	FunctionName string `json:"function_name"`
+	Async *bool `json:"async,omitempty"`
+	CreatedAt *int `json:"createdAt,omitempty"`
+	Error *any `json:"error,omitempty"`
+	Id *string `json:"id,omitempty"`
+	Payload map[string]any `json:"payload"`
+	Result *map[string]any `json:"result,omitempty"`
+	Status *string `json:"status,omitempty"`
 }
 
 // Merchant is the typed data model for the merchant entity.
 type Merchant struct {
-	ApplePay *map[string]any `json:"apple_pay,omitempty"`
+	ApplePay *map[string]any `json:"applePay,omitempty"`
 	Business *map[string]any `json:"business,omitempty"`
-	CategoryCode *string `json:"category_code,omitempty"`
-	CreatedAt int `json:"created_at"`
+	CategoryCode *string `json:"categoryCode,omitempty"`
+	CreatedAt int `json:"createdAt"`
 	Id string `json:"id"`
 	Name string `json:"name"`
-	NetworkToken *map[string]any `json:"network_token,omitempty"`
-	ShortName *string `json:"short_name,omitempty"`
-	UpdatedAt *int `json:"updated_at,omitempty"`
+	NetworkTokens *map[string]any `json:"networkTokens,omitempty"`
+	ShortName *string `json:"shortName,omitempty"`
+	UpdatedAt *int `json:"updatedAt,omitempty"`
 	Website string `json:"website"`
 }
 
@@ -246,37 +232,46 @@ type MerchantLoadMatch struct {
 
 // MerchantCreateData is the typed request payload for Merchant.CreateTyped.
 type MerchantCreateData struct {
-	ApplePay *map[string]any `json:"apple_pay,omitempty"`
+	ApplePay *map[string]any `json:"applePay,omitempty"`
 	Business *map[string]any `json:"business,omitempty"`
-	CategoryCode *string `json:"category_code,omitempty"`
-	CreatedAt int `json:"created_at"`
+	CategoryCode *string `json:"categoryCode,omitempty"`
+	CreatedAt int `json:"createdAt"`
 	Id string `json:"id"`
 	Name string `json:"name"`
-	NetworkToken *map[string]any `json:"network_token,omitempty"`
-	ShortName *string `json:"short_name,omitempty"`
-	UpdatedAt *int `json:"updated_at,omitempty"`
+	NetworkTokens *map[string]any `json:"networkTokens,omitempty"`
+	ShortName *string `json:"shortName,omitempty"`
+	UpdatedAt *int `json:"updatedAt,omitempty"`
 	Website string `json:"website"`
 }
 
 // MerchantUpdateData is the typed request payload for Merchant.UpdateTyped.
 type MerchantUpdateData struct {
 	Id string `json:"id"`
+	ApplePay *map[string]any `json:"applePay,omitempty"`
+	Business *map[string]any `json:"business,omitempty"`
+	CategoryCode *string `json:"categoryCode,omitempty"`
+	CreatedAt *int `json:"createdAt,omitempty"`
+	Name *string `json:"name,omitempty"`
+	NetworkTokens *map[string]any `json:"networkTokens,omitempty"`
+	ShortName *string `json:"shortName,omitempty"`
+	UpdatedAt *int `json:"updatedAt,omitempty"`
+	Website *string `json:"website,omitempty"`
 }
 
 // NetworkToken is the typed data model for the network_token entity.
 type NetworkToken struct {
 	Card map[string]any `json:"card"`
-	CreatedAt int `json:"created_at"`
+	CreatedAt int `json:"createdAt"`
 	Expiry map[string]any `json:"expiry"`
 	Id string `json:"id"`
 	Merchant string `json:"merchant"`
 	Number string `json:"number"`
-	PaymentAccountReference *string `json:"payment_account_reference,omitempty"`
+	PaymentAccountReference *string `json:"paymentAccountReference,omitempty"`
 	Status string `json:"status"`
-	TokenRequestorIdentifier string `json:"token_requestor_identifier"`
-	TokenServiceProvider string `json:"token_service_provider"`
-	UpdateType *string `json:"update_type,omitempty"`
-	UpdatedAt *int `json:"updated_at,omitempty"`
+	TokenRequestorIdentifier string `json:"tokenRequestorIdentifier"`
+	TokenServiceProvider string `json:"tokenServiceProvider"`
+	UpdateType *string `json:"updateType,omitempty"`
+	UpdatedAt *int `json:"updatedAt,omitempty"`
 }
 
 // NetworkTokenLoadMatch is the typed request payload for NetworkToken.LoadTyped.
@@ -287,22 +282,22 @@ type NetworkTokenLoadMatch struct {
 // NetworkTokenCreateData is the typed request payload for NetworkToken.CreateTyped.
 type NetworkTokenCreateData struct {
 	Card map[string]any `json:"card"`
-	CreatedAt int `json:"created_at"`
+	CreatedAt int `json:"createdAt"`
 	Expiry map[string]any `json:"expiry"`
 	Id string `json:"id"`
 	Merchant string `json:"merchant"`
 	Number string `json:"number"`
-	PaymentAccountReference *string `json:"payment_account_reference,omitempty"`
+	PaymentAccountReference *string `json:"paymentAccountReference,omitempty"`
 	Status string `json:"status"`
-	TokenRequestorIdentifier string `json:"token_requestor_identifier"`
-	TokenServiceProvider string `json:"token_service_provider"`
-	UpdateType *string `json:"update_type,omitempty"`
-	UpdatedAt *int `json:"updated_at,omitempty"`
+	TokenRequestorIdentifier string `json:"tokenRequestorIdentifier"`
+	TokenServiceProvider string `json:"tokenServiceProvider"`
+	UpdateType *string `json:"updateType,omitempty"`
+	UpdatedAt *int `json:"updatedAt,omitempty"`
 }
 
 // NetworkTokenCryptogram is the typed data model for the network_token_cryptogram entity.
 type NetworkTokenCryptogram struct {
-	CreatedAt *int `json:"created_at,omitempty"`
+	CreatedAt *int `json:"createdAt,omitempty"`
 	Cryptogram *string `json:"cryptogram,omitempty"`
 	Id *string `json:"id,omitempty"`
 }
@@ -310,24 +305,27 @@ type NetworkTokenCryptogram struct {
 // NetworkTokenCryptogramCreateData is the typed request payload for NetworkTokenCryptogram.CreateTyped.
 type NetworkTokenCryptogramCreateData struct {
 	Id string `json:"id"`
+	CreatedAt *int `json:"createdAt,omitempty"`
+	Cryptogram *string `json:"cryptogram,omitempty"`
 }
 
 // Payment is the typed data model for the payment entity.
 type Payment struct {
-	ApplePay *map[string]any `json:"apple_pay,omitempty"`
+	ApplePay *map[string]any `json:"applePay,omitempty"`
 	Business *map[string]any `json:"business,omitempty"`
-	CategoryCode *string `json:"category_code,omitempty"`
-	Configuration []any `json:"configuration"`
-	CreatedAt int `json:"created_at"`
+	CategoryCode *string `json:"categoryCode,omitempty"`
+	Configurations []any `json:"configurations"`
+	CreatedAt int `json:"createdAt"`
+	CreatedAt2 *int `json:"created_at,omitempty"`
 	Data *map[string]any `json:"data,omitempty"`
 	Default bool `json:"default"`
 	Description *string `json:"description,omitempty"`
 	Id string `json:"id"`
 	Name string `json:"name"`
-	NetworkToken *map[string]any `json:"network_token,omitempty"`
-	ShortName *string `json:"short_name,omitempty"`
+	NetworkTokens *map[string]any `json:"networkTokens,omitempty"`
+	ShortName *string `json:"shortName,omitempty"`
 	Type *string `json:"type,omitempty"`
-	UpdatedAt *int `json:"updated_at,omitempty"`
+	UpdatedAt *int `json:"updatedAt,omitempty"`
 	Website string `json:"website"`
 }
 
@@ -348,13 +346,13 @@ type PaymentRemoveMatch struct {
 type Relay struct {
 	App *string `json:"app,omitempty"`
 	Authentication *any `json:"authentication,omitempty"`
-	CreatedAt *int `json:"created_at,omitempty"`
-	DestinationDomain *string `json:"destination_domain,omitempty"`
-	EncryptEmptyString *bool `json:"encrypt_empty_string,omitempty"`
-	EvervaultDomain *string `json:"evervault_domain,omitempty"`
+	CreatedAt *int `json:"createdAt,omitempty"`
+	DestinationDomain *string `json:"destinationDomain,omitempty"`
+	EncryptEmptyStrings *bool `json:"encryptEmptyStrings,omitempty"`
+	EvervaultDomain *string `json:"evervaultDomain,omitempty"`
 	Id *string `json:"id,omitempty"`
-	Route *[]any `json:"route,omitempty"`
-	UpdatedAt *int `json:"updated_at,omitempty"`
+	Routes *[]any `json:"routes,omitempty"`
+	UpdatedAt *int `json:"updatedAt,omitempty"`
 }
 
 // RelayLoadMatch is the typed request payload for Relay.LoadTyped.
@@ -365,33 +363,41 @@ type RelayLoadMatch struct {
 // RelayUpdateData is the typed request payload for Relay.UpdateTyped.
 type RelayUpdateData struct {
 	Id string `json:"id"`
+	App *string `json:"app,omitempty"`
+	Authentication *any `json:"authentication,omitempty"`
+	CreatedAt *int `json:"createdAt,omitempty"`
+	DestinationDomain *string `json:"destinationDomain,omitempty"`
+	EncryptEmptyStrings *bool `json:"encryptEmptyStrings,omitempty"`
+	EvervaultDomain *string `json:"evervaultDomain,omitempty"`
+	Routes *[]any `json:"routes,omitempty"`
+	UpdatedAt *int `json:"updatedAt,omitempty"`
 }
 
 // ThreeDsSession is the typed data model for the three_ds_session entity.
 type ThreeDsSession struct {
-	AccessControlServer *map[string]any `json:"access_control_server,omitempty"`
+	AccessControlServer *map[string]any `json:"accessControlServer,omitempty"`
 	Acquirer map[string]any `json:"acquirer"`
-	Are *map[string]any `json:"are,omitempty"`
+	Ares *map[string]any `json:"ares,omitempty"`
 	Authentication map[string]any `json:"authentication"`
 	Card map[string]any `json:"card"`
 	Challenge map[string]any `json:"challenge"`
-	Cre *any `json:"cre,omitempty"`
-	CreatedAt int `json:"created_at"`
+	CreatedAt int `json:"createdAt"`
+	Cres *any `json:"cres,omitempty"`
 	Cryptogram *string `json:"cryptogram,omitempty"`
 	Customer *map[string]any `json:"customer,omitempty"`
-	DirectoryServer *map[string]any `json:"directory_server,omitempty"`
+	DirectoryServer *map[string]any `json:"directoryServer,omitempty"`
 	Eci *map[string]any `json:"eci,omitempty"`
-	FailureReason *string `json:"failure_reason,omitempty"`
+	FailureReason *string `json:"failureReason,omitempty"`
 	Id string `json:"id"`
 	Initiator *map[string]any `json:"initiator,omitempty"`
 	Merchant map[string]any `json:"merchant"`
-	NextAction map[string]any `json:"next_action"`
+	NextAction map[string]any `json:"nextAction"`
 	Payment *map[string]any `json:"payment,omitempty"`
-	PreferredVersion *[]any `json:"preferred_version,omitempty"`
+	PreferredVersions *[]any `json:"preferredVersions,omitempty"`
 	Rreq *any `json:"rreq,omitempty"`
 	Status string `json:"status"`
-	ThreeDsServer *map[string]any `json:"three_ds_server,omitempty"`
-	UpdatedAt *int `json:"updated_at,omitempty"`
+	ThreeDSServer *map[string]any `json:"threeDSServer,omitempty"`
+	UpdatedAt *int `json:"updatedAt,omitempty"`
 	Version string `json:"version"`
 }
 
@@ -402,56 +408,56 @@ type ThreeDsSessionLoadMatch struct {
 
 // ThreeDsSessionCreateData is the typed request payload for ThreeDsSession.CreateTyped.
 type ThreeDsSessionCreateData struct {
-	AccessControlServer *map[string]any `json:"access_control_server,omitempty"`
+	AccessControlServer *map[string]any `json:"accessControlServer,omitempty"`
 	Acquirer map[string]any `json:"acquirer"`
-	Are *map[string]any `json:"are,omitempty"`
+	Ares *map[string]any `json:"ares,omitempty"`
 	Authentication map[string]any `json:"authentication"`
 	Card map[string]any `json:"card"`
 	Challenge map[string]any `json:"challenge"`
-	Cre *any `json:"cre,omitempty"`
-	CreatedAt int `json:"created_at"`
+	CreatedAt int `json:"createdAt"`
+	Cres *any `json:"cres,omitempty"`
 	Cryptogram *string `json:"cryptogram,omitempty"`
 	Customer *map[string]any `json:"customer,omitempty"`
-	DirectoryServer *map[string]any `json:"directory_server,omitempty"`
+	DirectoryServer *map[string]any `json:"directoryServer,omitempty"`
 	Eci *map[string]any `json:"eci,omitempty"`
-	FailureReason *string `json:"failure_reason,omitempty"`
+	FailureReason *string `json:"failureReason,omitempty"`
 	Id string `json:"id"`
 	Initiator *map[string]any `json:"initiator,omitempty"`
 	Merchant map[string]any `json:"merchant"`
-	NextAction map[string]any `json:"next_action"`
+	NextAction map[string]any `json:"nextAction"`
 	Payment *map[string]any `json:"payment,omitempty"`
-	PreferredVersion *[]any `json:"preferred_version,omitempty"`
+	PreferredVersions *[]any `json:"preferredVersions,omitempty"`
 	Rreq *any `json:"rreq,omitempty"`
 	Status string `json:"status"`
-	ThreeDsServer *map[string]any `json:"three_ds_server,omitempty"`
-	UpdatedAt *int `json:"updated_at,omitempty"`
+	ThreeDSServer *map[string]any `json:"threeDSServer,omitempty"`
+	UpdatedAt *int `json:"updatedAt,omitempty"`
 	Version string `json:"version"`
 }
 
 // Webhook is the typed data model for the webhook entity.
 type Webhook struct {
-	CreatedAt *int `json:"created_at,omitempty"`
-	Event []any `json:"event"`
+	CreatedAt *int `json:"createdAt,omitempty"`
+	Events []any `json:"events"`
 	Id *string `json:"id,omitempty"`
-	UpdatedAt *any `json:"updated_at,omitempty"`
+	UpdatedAt *any `json:"updatedAt,omitempty"`
 	Url string `json:"url"`
 }
 
 // WebhookListMatch is the typed request payload for Webhook.ListTyped.
 type WebhookListMatch struct {
-	CreatedAt *int `json:"created_at,omitempty"`
-	Event *[]any `json:"event,omitempty"`
+	CreatedAt *int `json:"createdAt,omitempty"`
+	Events *[]any `json:"events,omitempty"`
 	Id *string `json:"id,omitempty"`
-	UpdatedAt *any `json:"updated_at,omitempty"`
+	UpdatedAt *any `json:"updatedAt,omitempty"`
 	Url *string `json:"url,omitempty"`
 }
 
 // WebhookCreateData is the typed request payload for Webhook.CreateTyped.
 type WebhookCreateData struct {
-	CreatedAt *int `json:"created_at,omitempty"`
-	Event []any `json:"event"`
+	CreatedAt *int `json:"createdAt,omitempty"`
+	Events []any `json:"events"`
 	Id *string `json:"id,omitempty"`
-	UpdatedAt *any `json:"updated_at,omitempty"`
+	UpdatedAt *any `json:"updatedAt,omitempty"`
 	Url string `json:"url"`
 }
 
@@ -462,10 +468,10 @@ type WebhookRemoveMatch struct {
 
 // WebhookEndpoint is the typed data model for the webhook_endpoint entity.
 type WebhookEndpoint struct {
-	CreatedAt *int `json:"created_at,omitempty"`
-	Event *[]any `json:"event,omitempty"`
+	CreatedAt *int `json:"createdAt,omitempty"`
+	Events *[]any `json:"events,omitempty"`
 	Id *string `json:"id,omitempty"`
-	UpdatedAt *any `json:"updated_at,omitempty"`
+	UpdatedAt *any `json:"updatedAt,omitempty"`
 	Url *string `json:"url,omitempty"`
 }
 
@@ -477,6 +483,10 @@ type WebhookEndpointLoadMatch struct {
 // WebhookEndpointUpdateData is the typed request payload for WebhookEndpoint.UpdateTyped.
 type WebhookEndpointUpdateData struct {
 	Id string `json:"id"`
+	CreatedAt *int `json:"createdAt,omitempty"`
+	Events *[]any `json:"events,omitempty"`
+	UpdatedAt *any `json:"updatedAt,omitempty"`
+	Url *string `json:"url,omitempty"`
 }
 
 // asMap turns a typed request/data struct into the map[string]any the
@@ -491,12 +501,26 @@ func asMap(v any) map[string]any {
 	return out
 }
 
-// typedFrom decodes a runtime value (a map[string]any produced by the op
-// pipeline) into a typed model T via a JSON round-trip. On any error it
-// returns the zero value of T; the op's own (value, error) tuple carries the
-// real error.
+// entityData unwraps an entity to its data map.
+//
+// Operations resolve to the ENTITY, not the raw data (see AGENTS.md), and an
+// entity's fields are UNEXPORTED — marshalling one directly yields `{}`, so
+// every typed accessor would silently hand back a zero-valued struct. The
+// typed boundary therefore takes the data hop first.
+func entityData(v any) any {
+	if ent, ok := v.(core.Entity); ok {
+		return ent.Data()
+	}
+	return v
+}
+
+// typedFrom decodes a runtime value (an entity, or the map[string]any the op
+// pipeline produced) into a typed model T via a JSON round-trip. On any error
+// it returns the zero value of T; the op's own (value, error) tuple carries
+// the real error.
 func typedFrom[T any](v any) T {
 	var out T
+	v = entityData(v)
 	if v == nil {
 		return out
 	}
@@ -508,12 +532,20 @@ func typedFrom[T any](v any) T {
 	return out
 }
 
-// typedSliceFrom decodes a runtime list value ([]any of maps) into a typed
-// slice []T via a JSON round-trip, for list ops.
+// typedSliceFrom decodes a runtime list value into a typed slice []T via a
+// JSON round-trip, for list ops. `list` resolves to a slice of ENTITY
+// instances, so each element takes the data hop.
 func typedSliceFrom[T any](v any) []T {
 	var out []T
 	if v == nil {
 		return out
+	}
+	if list, ok := v.([]any); ok {
+		unwrapped := make([]any, 0, len(list))
+		for _, item := range list {
+			unwrapped = append(unwrapped, entityData(item))
+		}
+		v = unwrapped
 	}
 	b, err := json.Marshal(v)
 	if err != nil {

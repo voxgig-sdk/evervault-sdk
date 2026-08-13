@@ -45,7 +45,7 @@ class CustomDomainEntityTest extends TestCase
         $custom_domain_ref01_data["relay_id"] = $setup["idmap"]["relay01"];
 
         $custom_domain_ref01_data_result = $custom_domain_ref01_ent->create($custom_domain_ref01_data, null);
-        $custom_domain_ref01_data = Helpers::to_map($custom_domain_ref01_data_result);
+        $custom_domain_ref01_data = Helpers::to_map(is_object($custom_domain_ref01_data_result) && method_exists($custom_domain_ref01_data_result, 'data_get') ? $custom_domain_ref01_data_result->data_get() : $custom_domain_ref01_data_result);
         $this->assertNotNull($custom_domain_ref01_data);
         $this->assertNotNull($custom_domain_ref01_data["id"]);
 
@@ -54,7 +54,7 @@ class CustomDomainEntityTest extends TestCase
             "id" => $custom_domain_ref01_data["id"],
         ];
         $custom_domain_ref01_data_dt0_loaded = $custom_domain_ref01_ent->load($custom_domain_ref01_match_dt0, null);
-        $custom_domain_ref01_data_dt0_load_result = Helpers::to_map($custom_domain_ref01_data_dt0_loaded);
+        $custom_domain_ref01_data_dt0_load_result = Helpers::to_map(is_object($custom_domain_ref01_data_dt0_loaded) && method_exists($custom_domain_ref01_data_dt0_loaded, 'data_get') ? $custom_domain_ref01_data_dt0_loaded->data_get() : $custom_domain_ref01_data_dt0_loaded);
         $this->assertNotNull($custom_domain_ref01_data_dt0_load_result);
         $this->assertEquals($custom_domain_ref01_data_dt0_load_result["id"], $custom_domain_ref01_data["id"]);
 

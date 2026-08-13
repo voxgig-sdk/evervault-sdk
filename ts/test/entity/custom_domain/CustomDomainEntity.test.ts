@@ -63,14 +63,14 @@ describe('CustomDomainEntity', async () => {
     let custom_domain_ref01_data = setup.data.new.custom_domain['custom_domain_ref01']
     custom_domain_ref01_data['relay_id'] = setup.idmap['relay01']
 
-    custom_domain_ref01_data = await custom_domain_ref01_ent.create(custom_domain_ref01_data)
+    custom_domain_ref01_data = (await custom_domain_ref01_ent.create(custom_domain_ref01_data)).data()
     assert(null != custom_domain_ref01_data.id)
 
 
     // LOAD
     const custom_domain_ref01_match_dt0: any = {}
     custom_domain_ref01_match_dt0.id = custom_domain_ref01_data.id
-    const custom_domain_ref01_data_dt0 = await custom_domain_ref01_ent.load(custom_domain_ref01_match_dt0)
+    const custom_domain_ref01_data_dt0 = (await custom_domain_ref01_ent.load(custom_domain_ref01_match_dt0)).data()
     assert(custom_domain_ref01_data_dt0.id === custom_domain_ref01_data.id)
 
 

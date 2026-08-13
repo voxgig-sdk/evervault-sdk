@@ -2,17 +2,17 @@
   "existing": {
     "network_token_cryptogram": {
       "NETWORK_TOKEN_CRYPTOGRAM00": {
-        "created_at": "s1e",
+        "createdAt": "s1e",
         "cryptogram": "s1f",
         "id": "NETWORK_TOKEN_CRYPTOGRAM00"
       },
       "NETWORK_TOKEN_CRYPTOGRAM01": {
-        "created_at": "s3c",
+        "createdAt": "s3c",
         "cryptogram": "s3d",
         "id": "NETWORK_TOKEN_CRYPTOGRAM01"
       },
       "NETWORK_TOKEN_CRYPTOGRAM02": {
-        "created_at": "s5a",
+        "createdAt": "s5a",
         "cryptogram": "s5b",
         "id": "NETWORK_TOKEN_CRYPTOGRAM02"
       }
@@ -21,7 +21,7 @@
   "new": {
     "network_token_cryptogram": {
       "network_token_cryptogram_ref01": {
-        "created_at": "s78",
+        "createdAt": "s78",
         "cryptogram": "s79"
       }
     }

@@ -151,7 +151,7 @@ local acquirer = client:Acquirer(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `configuration` | `table` | Yes |  |
+| `configurations` | `table` | Yes |  |
 | `default` | `boolean` | Yes |  |
 | `description` | `string` | No |  |
 | `id` | `string` | Yes |  |
@@ -161,7 +161,7 @@ local acquirer = client:Acquirer(nil)
 
 | Field | load | create | update |
 | --- | --- | --- | --- |
-| `configuration` | - | - | Yes |
+| `configurations` | - | - | Yes |
 | `default` | - | Yes | Yes |
 | `description` | - | - | - |
 | `id` | - | - | - |
@@ -175,7 +175,7 @@ Create a new entity with the given data.
 
 ```lua
 local result, err = client:Acquirer():create({
-  configuration = --[[ table ]],
+  configurations = --[[ table ]],
   default = --[[ boolean ]],
   id = --[[ string ]],
   name = --[[ string ]],
@@ -296,25 +296,13 @@ local card = client:Card(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `address` | `table` | Yes |  |
-| `automatic_update` | `string` | No |  |
-| `bin` | `string` | Yes |  |
-| `brand` | `string` | No |  |
 | `card` | `table` | Yes |  |
 | `cardholder` | `table` | No |  |
-| `country` | `string` | No |  |
-| `created_at` | `number` | Yes |  |
-| `currency` | `string` | No |  |
 | `expiry` | `table` | Yes |  |
-| `extension` | `table` | No |  |
-| `funding` | `string` | No |  |
-| `id` | `string` | No |  |
-| `issuer` | `string` | No |  |
-| `last_four` | `string` | Yes |  |
+| `extensions` | `table` | No |  |
+| `month` | `string` | Yes |  |
 | `number` | `string` | Yes |  |
-| `replacement` | `string|nil` | No |  |
-| `segment` | `string` | No |  |
-| `status` | `string` | No |  |
-| `updated_at` | `number|nil` | No |  |
+| `year` | `string` | Yes |  |
 
 ### Operations
 
@@ -325,12 +313,11 @@ Create a new entity with the given data.
 ```lua
 local result, err = client:Card():create({
   address = --[[ table ]],
-  bin = --[[ string ]],
   card = --[[ table ]],
-  created_at = --[[ number ]],
   expiry = --[[ table ]],
-  last_four = --[[ string ]],
+  month = --[[ string ]],
   number = --[[ string ]],
+  year = --[[ string ]],
 })
 ```
 
@@ -495,25 +482,19 @@ local core = client:Core(nil)
 | --- | --- | --- | --- |
 | `app` | `string` | No |  |
 | `authentication` | `string|nil` | No |  |
-| `category` | `string` | No |  |
-| `created_at` | `number` | No |  |
-| `custom_domain` | `string` | No |  |
-| `destination_domain` | `string` | Yes |  |
-| `encrypt_empty_string` | `boolean` | No |  |
-| `encrypted_at` | `number` | No |  |
-| `evervault_domain` | `string` | No |  |
-| `fingerprint` | `string` | No |  |
+| `createdAt` | `number` | No |  |
+| `customDomain` | `string` | No |  |
+| `destinationDomain` | `string` | Yes |  |
+| `encryptEmptyStrings` | `boolean` | No |  |
+| `evervaultDomain` | `string` | No |  |
 | `id` | `string` | No |  |
-| `metadata` | `any` | No |  |
-| `phone_number` | `string` | No |  |
+| `phoneNumber` | `string` | No |  |
 | `relay` | `string` | No |  |
-| `role` | `string` | No |  |
-| `route` | `table` | Yes |  |
+| `routes` | `table` | Yes |  |
 | `status` | `string` | No |  |
 | `token` | `string` | Yes |  |
-| `type` | `string` | No |  |
-| `updated_at` | `number` | No |  |
-| `validation_record` | `string` | No |  |
+| `updatedAt` | `number` | No |  |
+| `validationRecord` | `string` | No |  |
 
 ### Field Usage by Operation
 
@@ -521,25 +502,19 @@ local core = client:Core(nil)
 | --- | --- | --- | --- |
 | `app` | - | - | - |
 | `authentication` | - | - | - |
-| `category` | - | - | - |
-| `created_at` | - | - | - |
-| `custom_domain` | - | - | - |
-| `destination_domain` | Yes | - | - |
-| `encrypt_empty_string` | - | - | - |
-| `encrypted_at` | - | - | - |
-| `evervault_domain` | - | - | - |
-| `fingerprint` | - | - | - |
+| `createdAt` | - | - | - |
+| `customDomain` | - | - | - |
+| `destinationDomain` | Yes | - | - |
+| `encryptEmptyStrings` | - | - | - |
+| `evervaultDomain` | - | - | - |
 | `id` | - | - | - |
-| `metadata` | - | - | - |
-| `phone_number` | - | - | - |
+| `phoneNumber` | - | - | - |
 | `relay` | - | - | - |
-| `role` | - | - | - |
-| `route` | Yes | - | - |
+| `routes` | Yes | - | - |
 | `status` | - | - | - |
 | `token` | - | - | - |
-| `type` | - | - | - |
-| `updated_at` | - | - | - |
-| `validation_record` | - | - | - |
+| `updatedAt` | - | - | - |
+| `validationRecord` | - | - | - |
 
 ### Operations
 
@@ -549,8 +524,8 @@ Create a new entity with the given data.
 
 ```lua
 local result, err = client:Core():create({
-  destination_domain = --[[ string ]],
-  route = --[[ table ]],
+  destinationDomain = --[[ string ]],
+  routes = --[[ table ]],
   token = --[[ string ]],
 })
 ```
@@ -611,25 +586,25 @@ local custom_domain = client:CustomDomain(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | `number` | No |  |
-| `custom_domain` | `string` | No |  |
+| `createdAt` | `number` | No |  |
+| `customDomain` | `string` | No |  |
 | `id` | `string` | No |  |
 | `relay` | `string` | No |  |
 | `status` | `string` | No |  |
-| `updated_at` | `number` | No |  |
-| `validation_record` | `string` | No |  |
+| `updatedAt` | `number` | No |  |
+| `validationRecord` | `string` | No |  |
 
 ### Field Usage by Operation
 
 | Field | load | create |
 | --- | --- | --- |
-| `created_at` | - | - |
-| `custom_domain` | - | Yes |
+| `createdAt` | - | - |
+| `customDomain` | - | Yes |
 | `id` | - | - |
 | `relay` | - | - |
 | `status` | - | - |
-| `updated_at` | - | - |
-| `validation_record` | - | - |
+| `updatedAt` | - | - |
+| `validationRecord` | - | - |
 
 ### Operations
 
@@ -692,7 +667,7 @@ local function_run = client:FunctionRun(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `async` | `boolean` | No |  |
-| `created_at` | `number` | No |  |
+| `createdAt` | `number` | No |  |
 | `error` | `table|nil` | No |  |
 | `id` | `string` | No |  |
 | `payload` | `table` | Yes |  |
@@ -708,6 +683,7 @@ Create a new entity with the given data.
 ```lua
 local result, err = client:FunctionRun():create({
   function_name = --[[ string ]],
+  payload = --[[ table ]],
 })
 ```
 
@@ -751,30 +727,30 @@ local merchant = client:Merchant(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `apple_pay` | `table` | No |  |
+| `applePay` | `table` | No |  |
 | `business` | `table` | No |  |
-| `category_code` | `string` | No |  |
-| `created_at` | `number` | Yes |  |
+| `categoryCode` | `string` | No |  |
+| `createdAt` | `number` | Yes |  |
 | `id` | `string` | Yes |  |
 | `name` | `string` | Yes |  |
-| `network_token` | `table` | No |  |
-| `short_name` | `string` | No |  |
-| `updated_at` | `number` | No |  |
+| `networkTokens` | `table` | No |  |
+| `shortName` | `string` | No |  |
+| `updatedAt` | `number` | No |  |
 | `website` | `string` | Yes |  |
 
 ### Field Usage by Operation
 
 | Field | load | create | update |
 | --- | --- | --- | --- |
-| `apple_pay` | - | - | - |
+| `applePay` | - | - | - |
 | `business` | - | Yes | - |
-| `category_code` | - | Yes | - |
-| `created_at` | - | - | - |
+| `categoryCode` | - | Yes | - |
+| `createdAt` | - | - | - |
 | `id` | - | - | - |
 | `name` | - | - | - |
-| `network_token` | - | - | - |
-| `short_name` | - | - | - |
-| `updated_at` | - | - | - |
+| `networkTokens` | - | - | - |
+| `shortName` | - | - | - |
+| `updatedAt` | - | - | - |
 | `website` | - | - | - |
 
 ### Operations
@@ -785,7 +761,7 @@ Create a new entity with the given data.
 
 ```lua
 local result, err = client:Merchant():create({
-  created_at = --[[ number ]],
+  createdAt = --[[ number ]],
   id = --[[ string ]],
   name = --[[ string ]],
   website = --[[ string ]],
@@ -852,17 +828,17 @@ local network_token = client:NetworkToken(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `card` | `table` | Yes |  |
-| `created_at` | `number` | Yes |  |
+| `createdAt` | `number` | Yes |  |
 | `expiry` | `table` | Yes |  |
 | `id` | `string` | Yes |  |
 | `merchant` | `string` | Yes |  |
 | `number` | `string` | Yes |  |
-| `payment_account_reference` | `string` | No |  |
+| `paymentAccountReference` | `string` | No |  |
 | `status` | `string` | Yes |  |
-| `token_requestor_identifier` | `string` | Yes |  |
-| `token_service_provider` | `string` | Yes |  |
-| `update_type` | `string` | No |  |
-| `updated_at` | `number` | No |  |
+| `tokenRequestorIdentifier` | `string` | Yes |  |
+| `tokenServiceProvider` | `string` | Yes |  |
+| `updateType` | `string` | No |  |
+| `updatedAt` | `number` | No |  |
 
 ### Operations
 
@@ -873,14 +849,14 @@ Create a new entity with the given data.
 ```lua
 local result, err = client:NetworkToken():create({
   card = --[[ table ]],
-  created_at = --[[ number ]],
+  createdAt = --[[ number ]],
   expiry = --[[ table ]],
   id = --[[ string ]],
   merchant = --[[ string ]],
   number = --[[ string ]],
   status = --[[ string ]],
-  token_requestor_identifier = --[[ string ]],
-  token_service_provider = --[[ string ]],
+  tokenRequestorIdentifier = --[[ string ]],
+  tokenServiceProvider = --[[ string ]],
 })
 ```
 
@@ -932,7 +908,7 @@ local network_token_cryptogram = client:NetworkTokenCryptogram(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | `number` | No |  |
+| `createdAt` | `number` | No |  |
 | `cryptogram` | `string` | No |  |
 | `id` | `string` | No |  |
 
@@ -988,41 +964,22 @@ local payment = client:Payment(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `apple_pay` | `table` | No |  |
+| `applePay` | `table` | No |  |
 | `business` | `table` | No |  |
-| `category_code` | `string` | No |  |
-| `configuration` | `table` | Yes |  |
-| `created_at` | `number` | Yes |  |
+| `categoryCode` | `string` | No |  |
+| `configurations` | `table` | Yes |  |
+| `createdAt` | `number` | Yes |  |
+| `created_at` | `number` | No |  |
 | `data` | `table` | No |  |
 | `default` | `boolean` | Yes |  |
 | `description` | `string` | No |  |
 | `id` | `string` | Yes |  |
 | `name` | `string` | Yes |  |
-| `network_token` | `table` | No |  |
-| `short_name` | `string` | No |  |
+| `networkTokens` | `table` | No |  |
+| `shortName` | `string` | No |  |
 | `type` | `string` | No |  |
-| `updated_at` | `number` | No |  |
+| `updatedAt` | `number` | No |  |
 | `website` | `string` | Yes |  |
-
-### Field Usage by Operation
-
-| Field | list | remove |
-| --- | --- | --- |
-| `apple_pay` | - | - |
-| `business` | - | - |
-| `category_code` | - | - |
-| `configuration` | - | - |
-| `created_at` | Yes | - |
-| `data` | - | - |
-| `default` | - | - |
-| `description` | - | - |
-| `id` | - | - |
-| `name` | - | - |
-| `network_token` | - | - |
-| `short_name` | - | - |
-| `type` | - | - |
-| `updated_at` | - | - |
-| `website` | - | - |
 
 ### Operations
 
@@ -1084,13 +1041,13 @@ local relay = client:Relay(nil)
 | --- | --- | --- | --- |
 | `app` | `string` | No |  |
 | `authentication` | `string|nil` | No |  |
-| `created_at` | `number` | No |  |
-| `destination_domain` | `string` | No |  |
-| `encrypt_empty_string` | `boolean` | No |  |
-| `evervault_domain` | `string` | No |  |
+| `createdAt` | `number` | No |  |
+| `destinationDomain` | `string` | No |  |
+| `encryptEmptyStrings` | `boolean` | No |  |
+| `evervaultDomain` | `string` | No |  |
 | `id` | `string` | No |  |
-| `route` | `table` | No |  |
-| `updated_at` | `number` | No |  |
+| `routes` | `table` | No |  |
+| `updatedAt` | `number` | No |  |
 
 ### Operations
 
@@ -1153,58 +1110,58 @@ local three_ds_session = client:ThreeDsSession(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `access_control_server` | `table` | No |  |
+| `accessControlServer` | `table` | No |  |
 | `acquirer` | `table` | Yes |  |
-| `are` | `table` | No |  |
+| `ares` | `table` | No |  |
 | `authentication` | `table` | Yes |  |
 | `card` | `table` | Yes |  |
 | `challenge` | `table` | Yes |  |
-| `cre` | `nil|table` | No |  |
-| `created_at` | `number` | Yes |  |
+| `createdAt` | `number` | Yes |  |
+| `cres` | `nil|table` | No |  |
 | `cryptogram` | `string` | No |  |
 | `customer` | `table` | No |  |
-| `directory_server` | `table` | No |  |
+| `directoryServer` | `table` | No |  |
 | `eci` | `table` | No |  |
-| `failure_reason` | `string` | No |  |
+| `failureReason` | `string` | No |  |
 | `id` | `string` | Yes |  |
 | `initiator` | `table` | No |  |
 | `merchant` | `table` | Yes |  |
-| `next_action` | `table` | Yes |  |
+| `nextAction` | `table` | Yes |  |
 | `payment` | `table` | No |  |
-| `preferred_version` | `table` | No |  |
+| `preferredVersions` | `table` | No |  |
 | `rreq` | `nil|table` | No |  |
 | `status` | `string` | Yes |  |
-| `three_ds_server` | `table` | No |  |
-| `updated_at` | `number` | No |  |
+| `threeDSServer` | `table` | No |  |
+| `updatedAt` | `number` | No |  |
 | `version` | `string` | Yes |  |
 
 ### Field Usage by Operation
 
 | Field | load | create |
 | --- | --- | --- |
-| `access_control_server` | - | - |
+| `accessControlServer` | - | - |
 | `acquirer` | - | Yes |
-| `are` | - | - |
+| `ares` | - | - |
 | `authentication` | - | - |
 | `card` | - | - |
 | `challenge` | - | - |
-| `cre` | - | - |
-| `created_at` | - | - |
+| `createdAt` | - | - |
+| `cres` | - | - |
 | `cryptogram` | - | - |
 | `customer` | - | - |
-| `directory_server` | - | - |
+| `directoryServer` | - | - |
 | `eci` | - | - |
-| `failure_reason` | - | - |
+| `failureReason` | - | - |
 | `id` | - | - |
 | `initiator` | - | - |
 | `merchant` | - | - |
-| `next_action` | - | - |
+| `nextAction` | - | - |
 | `payment` | - | - |
-| `preferred_version` | - | - |
+| `preferredVersions` | - | - |
 | `rreq` | - | - |
 | `status` | - | - |
-| `three_ds_server` | - | - |
-| `updated_at` | - | - |
+| `threeDSServer` | - | - |
+| `updatedAt` | - | - |
 | `version` | - | - |
 
 ### Operations
@@ -1219,10 +1176,10 @@ local result, err = client:ThreeDsSession():create({
   authentication = --[[ table ]],
   card = --[[ table ]],
   challenge = --[[ table ]],
-  created_at = --[[ number ]],
+  createdAt = --[[ number ]],
   id = --[[ string ]],
   merchant = --[[ table ]],
-  next_action = --[[ table ]],
+  nextAction = --[[ table ]],
   status = --[[ string ]],
   version = --[[ string ]],
 })
@@ -1276,20 +1233,20 @@ local webhook = client:Webhook(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | `number` | No |  |
-| `event` | `table` | Yes |  |
+| `createdAt` | `number` | No |  |
+| `events` | `table` | Yes |  |
 | `id` | `string` | No |  |
-| `updated_at` | `number|nil` | No |  |
+| `updatedAt` | `number|nil` | No |  |
 | `url` | `string` | Yes |  |
 
 ### Field Usage by Operation
 
 | Field | list | create | remove |
 | --- | --- | --- | --- |
-| `created_at` | - | - | - |
-| `event` | Yes | - | - |
+| `createdAt` | - | - | - |
+| `events` | Yes | - | - |
 | `id` | - | - | - |
-| `updated_at` | - | - | - |
+| `updatedAt` | - | - | - |
 | `url` | Yes | - | - |
 
 ### Operations
@@ -1300,7 +1257,7 @@ Create a new entity with the given data.
 
 ```lua
 local result, err = client:Webhook():create({
-  event = --[[ table ]],
+  events = --[[ table ]],
   url = --[[ string ]],
 })
 ```
@@ -1361,20 +1318,20 @@ local webhook_endpoint = client:WebhookEndpoint(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | `number` | No |  |
-| `event` | `table` | No |  |
+| `createdAt` | `number` | No |  |
+| `events` | `table` | No |  |
 | `id` | `string` | No |  |
-| `updated_at` | `number|nil` | No |  |
+| `updatedAt` | `number|nil` | No |  |
 | `url` | `string` | No |  |
 
 ### Field Usage by Operation
 
 | Field | load | update |
 | --- | --- | --- |
-| `created_at` | - | - |
-| `event` | - | Yes |
+| `createdAt` | - | - |
+| `events` | - | Yes |
 | `id` | - | - |
-| `updated_at` | - | - |
+| `updatedAt` | - | - |
 | `url` | - | - |
 
 ### Operations

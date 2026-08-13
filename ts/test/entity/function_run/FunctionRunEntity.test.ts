@@ -63,7 +63,7 @@ describe('FunctionRunEntity', async () => {
     let function_run_ref01_data = setup.data.new.function_run['function_run_ref01']
     function_run_ref01_data['function_name'] = setup.idmap['function_name01']
 
-    function_run_ref01_data = await function_run_ref01_ent.create(function_run_ref01_data)
+    function_run_ref01_data = (await function_run_ref01_ent.create(function_run_ref01_data)).data()
     assert(null != function_run_ref01_data.id)
 
 

@@ -6,7 +6,7 @@ main: kit: entity: merchant: {
 
   fields: [
     {
-      name: "apple_pay"
+      name: "applePay"
       req: false
       type: "`$OBJECT`"
     }
@@ -22,7 +22,7 @@ main: kit: entity: merchant: {
       type: "`$OBJECT`"
     }
     {
-      name: "category_code"
+      name: "categoryCode"
       op: {
         create: {
           req: true
@@ -33,7 +33,7 @@ main: kit: entity: merchant: {
       type: "`$STRING`"
     }
     {
-      name: "created_at"
+      name: "createdAt"
       req: true
       type: "`$INTEGER`"
     }
@@ -48,17 +48,17 @@ main: kit: entity: merchant: {
       type: "`$STRING`"
     }
     {
-      name: "network_token"
+      name: "networkTokens"
       req: false
       type: "`$OBJECT`"
     }
     {
-      name: "short_name"
+      name: "shortName"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "updated_at"
+      name: "updatedAt"
       req: false
       type: "`$INTEGER`"
     }

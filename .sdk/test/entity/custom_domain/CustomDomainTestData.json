@@ -2,33 +2,33 @@
   "existing": {
     "custom_domain": {
       "CUSTOM_DOMAIN00": {
-        "created_at": "s46",
-        "custom_domain": "s47",
+        "createdAt": "s46",
+        "customDomain": "s47",
         "id": "CUSTOM_DOMAIN00",
         "relay": "s49",
         "status": "s4a",
-        "updated_at": "s4b",
-        "validation_record": "s4c",
+        "updatedAt": "s4b",
+        "validationRecord": "s4c",
         "relay_id": "RELAY01"
       },
       "CUSTOM_DOMAIN01": {
-        "created_at": "s8c",
-        "custom_domain": "s8d",
+        "createdAt": "s8c",
+        "customDomain": "s8d",
         "id": "CUSTOM_DOMAIN01",
         "relay": "s8f",
         "status": "s90",
-        "updated_at": "s91",
-        "validation_record": "s92",
+        "updatedAt": "s91",
+        "validationRecord": "s92",
         "relay_id": "RELAY01"
       },
       "CUSTOM_DOMAIN02": {
-        "created_at": "sd2",
-        "custom_domain": "sd3",
+        "createdAt": "sd2",
+        "customDomain": "sd3",
         "id": "CUSTOM_DOMAIN02",
         "relay": "sd5",
         "status": "sd6",
-        "updated_at": "sd7",
-        "validation_record": "sd8",
+        "updatedAt": "sd7",
+        "validationRecord": "sd8",
         "relay_id": "RELAY01"
       }
     }
@@ -36,12 +36,12 @@
   "new": {
     "custom_domain": {
       "custom_domain_ref01": {
-        "created_at": "s118",
-        "custom_domain": "s119",
+        "createdAt": "s118",
+        "customDomain": "s119",
         "relay": "s11b",
         "status": "s11c",
-        "updated_at": "s11d",
-        "validation_record": "s11e"
+        "updatedAt": "s11d",
+        "validationRecord": "s11e"
       }
     }
   }

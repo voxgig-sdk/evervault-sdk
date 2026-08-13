@@ -59,7 +59,7 @@ func TestFunctionRunEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("create failed: %v", err)
 		}
-		functionRunRef01Data = core.ToMapAny(functionRunRef01DataResult)
+		functionRunRef01Data = core.ToMapAny(entityData(functionRunRef01DataResult))
 		if functionRunRef01Data == nil {
 			t.Fatal("expected create result to be a map")
 		}

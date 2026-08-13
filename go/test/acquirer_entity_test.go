@@ -59,7 +59,7 @@ func TestAcquirerEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("create failed: %v", err)
 		}
-		acquirerRef01Data = core.ToMapAny(acquirerRef01DataResult)
+		acquirerRef01Data = core.ToMapAny(entityData(acquirerRef01DataResult))
 		if acquirerRef01Data == nil {
 			t.Fatal("expected create result to be a map")
 		}
@@ -80,7 +80,7 @@ func TestAcquirerEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("update failed: %v", err)
 		}
-		acquirerRef01ResdataUp0 := core.ToMapAny(acquirerRef01ResdataUp0Result)
+		acquirerRef01ResdataUp0 := core.ToMapAny(entityData(acquirerRef01ResdataUp0Result))
 		if acquirerRef01ResdataUp0 == nil {
 			t.Fatal("expected update result to be a map")
 		}
@@ -99,7 +99,7 @@ func TestAcquirerEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("load failed: %v", err)
 		}
-		acquirerRef01DataDt0LoadResult := core.ToMapAny(acquirerRef01DataDt0Loaded)
+		acquirerRef01DataDt0LoadResult := core.ToMapAny(entityData(acquirerRef01DataDt0Loaded))
 		if acquirerRef01DataDt0LoadResult == nil {
 			t.Fatal("expected load result to be a map")
 		}

@@ -44,7 +44,7 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "configuration",
+						"name": "configurations",
 						"op": map[string]any{
 							"update": map[string]any{
 								"req": false,
@@ -109,6 +109,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/payments/acquirers",
 								"parts": []any{
@@ -123,7 +124,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "create",
 					},
 					"load": map[string]any{
 						"input": "data",
@@ -144,6 +144,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/payments/acquirers/{acquirer_id}",
 								"parts": []any{
@@ -168,7 +169,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 					"update": map[string]any{
 						"input": "data",
@@ -189,6 +189,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "PATCH",
 								"orig": "/payments/acquirers/{acquirer_id}",
 								"parts": []any{
@@ -213,7 +214,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "update",
 					},
 				},
 				"relations": map[string]any{
@@ -239,6 +239,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/payments/bin-lookups",
 								"parts": []any{
@@ -253,7 +254,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "create",
 					},
 				},
 				"relations": map[string]any{
@@ -271,148 +271,52 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "automatic_update",
-						"req": false,
-						"type": "`$STRING`",
-						"index$": 1,
-					},
-					map[string]any{
-						"active": true,
-						"name": "bin",
-						"req": true,
-						"type": "`$STRING`",
-						"index$": 2,
-					},
-					map[string]any{
-						"active": true,
-						"name": "brand",
-						"req": false,
-						"type": "`$STRING`",
-						"index$": 3,
-					},
-					map[string]any{
-						"active": true,
 						"name": "card",
 						"req": true,
 						"type": "`$OBJECT`",
-						"index$": 4,
+						"index$": 1,
 					},
 					map[string]any{
 						"active": true,
 						"name": "cardholder",
 						"req": false,
 						"type": "`$OBJECT`",
-						"index$": 5,
-					},
-					map[string]any{
-						"active": true,
-						"name": "country",
-						"req": false,
-						"type": "`$STRING`",
-						"index$": 6,
-					},
-					map[string]any{
-						"active": true,
-						"name": "created_at",
-						"req": true,
-						"type": "`$INTEGER`",
-						"index$": 7,
-					},
-					map[string]any{
-						"active": true,
-						"name": "currency",
-						"req": false,
-						"type": "`$STRING`",
-						"index$": 8,
+						"index$": 2,
 					},
 					map[string]any{
 						"active": true,
 						"name": "expiry",
 						"req": true,
 						"type": "`$OBJECT`",
-						"index$": 9,
+						"index$": 3,
 					},
 					map[string]any{
 						"active": true,
-						"name": "extension",
+						"name": "extensions",
 						"req": false,
 						"type": "`$ARRAY`",
-						"index$": 10,
+						"index$": 4,
 					},
 					map[string]any{
 						"active": true,
-						"name": "funding",
-						"req": false,
-						"type": "`$STRING`",
-						"index$": 11,
-					},
-					map[string]any{
-						"active": true,
-						"name": "id",
-						"req": false,
-						"type": "`$STRING`",
-						"index$": 12,
-					},
-					map[string]any{
-						"active": true,
-						"name": "issuer",
-						"req": false,
-						"type": "`$STRING`",
-						"index$": 13,
-					},
-					map[string]any{
-						"active": true,
-						"name": "last_four",
+						"name": "month",
 						"req": true,
 						"type": "`$STRING`",
-						"index$": 14,
+						"index$": 5,
 					},
 					map[string]any{
 						"active": true,
 						"name": "number",
 						"req": true,
 						"type": "`$STRING`",
-						"index$": 15,
+						"index$": 6,
 					},
 					map[string]any{
 						"active": true,
-						"name": "replacement",
-						"req": false,
-						"type": []any{
-							"`$ONE`",
-							[]any{
-								"`$STRING`",
-								"`$NULL`",
-							},
-						},
-						"index$": 16,
-					},
-					map[string]any{
-						"active": true,
-						"name": "segment",
-						"req": false,
+						"name": "year",
+						"req": true,
 						"type": "`$STRING`",
-						"index$": 17,
-					},
-					map[string]any{
-						"active": true,
-						"name": "status",
-						"req": false,
-						"type": "`$STRING`",
-						"index$": 18,
-					},
-					map[string]any{
-						"active": true,
-						"name": "updated_at",
-						"req": false,
-						"type": []any{
-							"`$ONE`",
-							[]any{
-								"`$INTEGER`",
-								"`$NULL`",
-							},
-						},
-						"index$": 19,
+						"index$": 7,
 					},
 				},
 				"name": "card",
@@ -435,6 +339,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/payments/cards/{card_id}/simulate",
 								"parts": []any{
@@ -456,13 +361,14 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.expiry`",
 								},
 								"index$": 0,
 							},
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/insights/cards",
 								"parts": []any{
@@ -471,7 +377,9 @@ func MakeConfig() map[string]any {
 								},
 								"select": map[string]any{},
 								"transform": map[string]any{
-									"req": "`reqdata`",
+									"req": map[string]any{
+										"card": "`reqdata`",
+									},
 									"res": "`body`",
 								},
 								"index$": 1,
@@ -479,6 +387,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/payments/cards",
 								"parts": []any{
@@ -488,12 +397,11 @@ func MakeConfig() map[string]any {
 								"select": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.expiry`",
 								},
 								"index$": 2,
 							},
 						},
-						"key$": "create",
 					},
 					"load": map[string]any{
 						"input": "data",
@@ -514,6 +422,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/payments/cards/{card_id}",
 								"parts": []any{
@@ -533,12 +442,11 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.expiry`",
 								},
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 				},
 				"relations": map[string]any{
@@ -597,6 +505,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/payments/network-tokens/{network_token_id}/card-art",
 								"parts": []any{
@@ -617,7 +526,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 				},
 				"relations": map[string]any{
@@ -661,6 +569,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/client-side-tokens",
 								"parts": []any{
@@ -674,7 +583,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "create",
 					},
 				},
 				"relations": map[string]any{
@@ -705,28 +613,21 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "category",
+						"name": "createdAt",
 						"req": false,
-						"type": "`$STRING`",
+						"type": "`$INTEGER`",
 						"index$": 2,
 					},
 					map[string]any{
 						"active": true,
-						"name": "created_at",
+						"name": "customDomain",
 						"req": false,
-						"type": "`$INTEGER`",
+						"type": "`$STRING`",
 						"index$": 3,
 					},
 					map[string]any{
 						"active": true,
-						"name": "custom_domain",
-						"req": false,
-						"type": "`$STRING`",
-						"index$": 4,
-					},
-					map[string]any{
-						"active": true,
-						"name": "destination_domain",
+						"name": "destinationDomain",
 						"op": map[string]any{
 							"list": map[string]any{
 								"req": false,
@@ -735,74 +636,46 @@ func MakeConfig() map[string]any {
 						},
 						"req": true,
 						"type": "`$STRING`",
+						"index$": 4,
+					},
+					map[string]any{
+						"active": true,
+						"name": "encryptEmptyStrings",
+						"req": false,
+						"type": "`$BOOLEAN`",
 						"index$": 5,
 					},
 					map[string]any{
 						"active": true,
-						"name": "encrypt_empty_string",
+						"name": "evervaultDomain",
 						"req": false,
-						"type": "`$BOOLEAN`",
+						"type": "`$STRING`",
 						"index$": 6,
-					},
-					map[string]any{
-						"active": true,
-						"name": "encrypted_at",
-						"req": false,
-						"type": "`$INTEGER`",
-						"index$": 7,
-					},
-					map[string]any{
-						"active": true,
-						"name": "evervault_domain",
-						"req": false,
-						"type": "`$STRING`",
-						"index$": 8,
-					},
-					map[string]any{
-						"active": true,
-						"name": "fingerprint",
-						"req": false,
-						"type": "`$STRING`",
-						"index$": 9,
 					},
 					map[string]any{
 						"active": true,
 						"name": "id",
 						"req": false,
 						"type": "`$STRING`",
-						"index$": 10,
+						"index$": 7,
 					},
 					map[string]any{
 						"active": true,
-						"name": "metadata",
-						"req": false,
-						"type": "`$ANY`",
-						"index$": 11,
-					},
-					map[string]any{
-						"active": true,
-						"name": "phone_number",
+						"name": "phoneNumber",
 						"req": false,
 						"type": "`$STRING`",
-						"index$": 12,
+						"index$": 8,
 					},
 					map[string]any{
 						"active": true,
 						"name": "relay",
 						"req": false,
 						"type": "`$STRING`",
-						"index$": 13,
+						"index$": 9,
 					},
 					map[string]any{
 						"active": true,
-						"name": "role",
-						"req": false,
-						"type": "`$STRING`",
-						"index$": 14,
-					},
-					map[string]any{
-						"active": true,
-						"name": "route",
+						"name": "routes",
 						"op": map[string]any{
 							"list": map[string]any{
 								"req": false,
@@ -811,42 +684,35 @@ func MakeConfig() map[string]any {
 						},
 						"req": true,
 						"type": "`$ARRAY`",
-						"index$": 15,
+						"index$": 10,
 					},
 					map[string]any{
 						"active": true,
 						"name": "status",
 						"req": false,
 						"type": "`$STRING`",
-						"index$": 16,
+						"index$": 11,
 					},
 					map[string]any{
 						"active": true,
 						"name": "token",
 						"req": true,
 						"type": "`$STRING`",
-						"index$": 17,
+						"index$": 12,
 					},
 					map[string]any{
 						"active": true,
-						"name": "type",
-						"req": false,
-						"type": "`$STRING`",
-						"index$": 18,
-					},
-					map[string]any{
-						"active": true,
-						"name": "updated_at",
+						"name": "updatedAt",
 						"req": false,
 						"type": "`$INTEGER`",
-						"index$": 19,
+						"index$": 13,
 					},
 					map[string]any{
 						"active": true,
-						"name": "validation_record",
+						"name": "validationRecord",
 						"req": false,
 						"type": "`$STRING`",
-						"index$": 20,
+						"index$": 14,
 					},
 				},
 				"name": "core",
@@ -858,6 +724,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/decrypt",
 								"parts": []any{
@@ -873,6 +740,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/encrypt",
 								"parts": []any{
@@ -888,6 +756,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/inspect",
 								"parts": []any{
@@ -896,13 +765,14 @@ func MakeConfig() map[string]any {
 								"select": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.metadata`",
 								},
 								"index$": 2,
 							},
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/relays",
 								"parts": []any{
@@ -916,7 +786,6 @@ func MakeConfig() map[string]any {
 								"index$": 3,
 							},
 						},
-						"key$": "create",
 					},
 					"list": map[string]any{
 						"input": "data",
@@ -937,6 +806,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/relays/{relay_id}/custom-domains",
 								"parts": []any{
@@ -951,13 +821,14 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 0,
 							},
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/relays",
 								"parts": []any{
@@ -966,12 +837,11 @@ func MakeConfig() map[string]any {
 								"select": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 1,
 							},
 						},
-						"key$": "list",
 					},
 					"remove": map[string]any{
 						"input": "data",
@@ -1001,6 +871,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "DELETE",
 								"orig": "/relays/{relay_id}/custom-domains/{id}",
 								"parts": []any{
@@ -1036,6 +907,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "DELETE",
 								"orig": "/relays/{id}",
 								"parts": []any{
@@ -1054,7 +926,6 @@ func MakeConfig() map[string]any {
 								"index$": 1,
 							},
 						},
-						"key$": "remove",
 					},
 				},
 				"relations": map[string]any{
@@ -1069,14 +940,14 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "created_at",
+						"name": "createdAt",
 						"req": false,
 						"type": "`$INTEGER`",
 						"index$": 0,
 					},
 					map[string]any{
 						"active": true,
-						"name": "custom_domain",
+						"name": "customDomain",
 						"op": map[string]any{
 							"create": map[string]any{
 								"req": true,
@@ -1110,14 +981,14 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "updated_at",
+						"name": "updatedAt",
 						"req": false,
 						"type": "`$INTEGER`",
 						"index$": 5,
 					},
 					map[string]any{
 						"active": true,
-						"name": "validation_record",
+						"name": "validationRecord",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 6,
@@ -1144,6 +1015,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/relays/{relay_id}/custom-domains",
 								"parts": []any{
@@ -1163,7 +1035,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "create",
 					},
 					"load": map[string]any{
 						"input": "data",
@@ -1193,6 +1064,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/relays/{relay_id}/custom-domains/{id}",
 								"parts": []any{
@@ -1214,7 +1086,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 				},
 				"relations": map[string]any{
@@ -1236,7 +1107,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "created_at",
+						"name": "createdAt",
 						"req": false,
 						"type": "`$INTEGER`",
 						"index$": 1,
@@ -1304,6 +1175,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/functions/{function_name}/runs",
 								"parts": []any{
@@ -1323,7 +1195,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "create",
 					},
 				},
 				"relations": map[string]any{
@@ -1338,7 +1209,7 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "apple_pay",
+						"name": "applePay",
 						"req": false,
 						"type": "`$OBJECT`",
 						"index$": 0,
@@ -1358,7 +1229,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "category_code",
+						"name": "categoryCode",
 						"op": map[string]any{
 							"create": map[string]any{
 								"req": true,
@@ -1371,7 +1242,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "created_at",
+						"name": "createdAt",
 						"req": true,
 						"type": "`$INTEGER`",
 						"index$": 3,
@@ -1392,21 +1263,21 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "network_token",
+						"name": "networkTokens",
 						"req": false,
 						"type": "`$OBJECT`",
 						"index$": 6,
 					},
 					map[string]any{
 						"active": true,
-						"name": "short_name",
+						"name": "shortName",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 7,
 					},
 					map[string]any{
 						"active": true,
-						"name": "updated_at",
+						"name": "updatedAt",
 						"req": false,
 						"type": "`$INTEGER`",
 						"index$": 8,
@@ -1428,6 +1299,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/payments/merchants",
 								"parts": []any{
@@ -1442,7 +1314,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "create",
 					},
 					"load": map[string]any{
 						"input": "data",
@@ -1463,6 +1334,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/payments/merchants/{merchant_id}",
 								"parts": []any{
@@ -1487,7 +1359,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 					"update": map[string]any{
 						"input": "data",
@@ -1508,6 +1379,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "PATCH",
 								"orig": "/payments/merchants/{merchant_id}",
 								"parts": []any{
@@ -1532,7 +1404,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "update",
 					},
 				},
 				"relations": map[string]any{
@@ -1550,7 +1421,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "created_at",
+						"name": "createdAt",
 						"req": true,
 						"type": "`$INTEGER`",
 						"index$": 1,
@@ -1585,7 +1456,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "payment_account_reference",
+						"name": "paymentAccountReference",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 6,
@@ -1599,28 +1470,28 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "token_requestor_identifier",
+						"name": "tokenRequestorIdentifier",
 						"req": true,
 						"type": "`$STRING`",
 						"index$": 8,
 					},
 					map[string]any{
 						"active": true,
-						"name": "token_service_provider",
+						"name": "tokenServiceProvider",
 						"req": true,
 						"type": "`$STRING`",
 						"index$": 9,
 					},
 					map[string]any{
 						"active": true,
-						"name": "update_type",
+						"name": "updateType",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 10,
 					},
 					map[string]any{
 						"active": true,
-						"name": "updated_at",
+						"name": "updatedAt",
 						"req": false,
 						"type": "`$INTEGER`",
 						"index$": 11,
@@ -1646,6 +1517,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/payments/network-tokens/{network_token_id}/simulate",
 								"parts": []any{
@@ -1674,6 +1546,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/payments/network-tokens",
 								"parts": []any{
@@ -1688,7 +1561,6 @@ func MakeConfig() map[string]any {
 								"index$": 1,
 							},
 						},
-						"key$": "create",
 					},
 					"load": map[string]any{
 						"input": "data",
@@ -1709,6 +1581,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/payments/network-tokens/{network_token_id}",
 								"parts": []any{
@@ -1733,7 +1606,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 				},
 				"relations": map[string]any{
@@ -1744,7 +1616,7 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "created_at",
+						"name": "createdAt",
 						"req": false,
 						"type": "`$INTEGER`",
 						"index$": 0,
@@ -1785,6 +1657,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/payments/network-tokens/{network_token_id}/cryptograms",
 								"parts": []any{
@@ -1810,7 +1683,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "create",
 					},
 				},
 				"relations": map[string]any{
@@ -1821,7 +1693,7 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "apple_pay",
+						"name": "applePay",
 						"req": false,
 						"type": "`$OBJECT`",
 						"index$": 0,
@@ -1835,100 +1707,101 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "category_code",
+						"name": "categoryCode",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 2,
 					},
 					map[string]any{
 						"active": true,
-						"name": "configuration",
+						"name": "configurations",
 						"req": true,
 						"type": "`$ARRAY`",
 						"index$": 3,
 					},
 					map[string]any{
 						"active": true,
-						"name": "created_at",
-						"op": map[string]any{
-							"list": map[string]any{
-								"req": false,
-								"type": "`$INTEGER`",
-							},
-						},
+						"name": "createdAt",
 						"req": true,
 						"type": "`$INTEGER`",
 						"index$": 4,
 					},
 					map[string]any{
 						"active": true,
+						"name": "created_at",
+						"req": false,
+						"type": "`$INTEGER`",
+						"index$": 5,
+					},
+					map[string]any{
+						"active": true,
 						"name": "data",
 						"req": false,
 						"type": "`$OBJECT`",
-						"index$": 5,
+						"index$": 6,
 					},
 					map[string]any{
 						"active": true,
 						"name": "default",
 						"req": true,
 						"type": "`$BOOLEAN`",
-						"index$": 6,
+						"index$": 7,
 					},
 					map[string]any{
 						"active": true,
 						"name": "description",
 						"req": false,
 						"type": "`$STRING`",
-						"index$": 7,
+						"index$": 8,
 					},
 					map[string]any{
 						"active": true,
 						"name": "id",
 						"req": true,
 						"type": "`$STRING`",
-						"index$": 8,
+						"index$": 9,
 					},
 					map[string]any{
 						"active": true,
 						"name": "name",
 						"req": true,
 						"type": "`$STRING`",
-						"index$": 9,
-					},
-					map[string]any{
-						"active": true,
-						"name": "network_token",
-						"req": false,
-						"type": "`$OBJECT`",
 						"index$": 10,
 					},
 					map[string]any{
 						"active": true,
-						"name": "short_name",
+						"name": "networkTokens",
 						"req": false,
-						"type": "`$STRING`",
+						"type": "`$OBJECT`",
 						"index$": 11,
 					},
 					map[string]any{
 						"active": true,
-						"name": "type",
+						"name": "shortName",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 12,
 					},
 					map[string]any{
 						"active": true,
-						"name": "updated_at",
+						"name": "type",
+						"req": false,
+						"type": "`$STRING`",
+						"index$": 13,
+					},
+					map[string]any{
+						"active": true,
+						"name": "updatedAt",
 						"req": false,
 						"type": "`$INTEGER`",
-						"index$": 13,
+						"index$": 14,
 					},
 					map[string]any{
 						"active": true,
 						"name": "website",
 						"req": true,
 						"type": "`$STRING`",
-						"index$": 14,
+						"index$": 15,
 					},
 				},
 				"name": "payment",
@@ -1969,6 +1842,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/payments/merchants",
 								"parts": []any{
@@ -1985,7 +1859,7 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 0,
 							},
@@ -2013,6 +1887,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/payments/acquirers",
 								"parts": []any{
@@ -2028,7 +1903,7 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 1,
 							},
@@ -2047,6 +1922,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/payments/3ds-sessions/{3ds_session_id}/messages",
 								"parts": []any{
@@ -2062,12 +1938,11 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.messages`",
 								},
 								"index$": 2,
 							},
 						},
-						"key$": "list",
 					},
 					"remove": map[string]any{
 						"input": "data",
@@ -2088,6 +1963,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "DELETE",
 								"orig": "/payments/acquirers/{acquirer_id}",
 								"parts": []any{
@@ -2121,6 +1997,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "DELETE",
 								"orig": "/payments/cards/{card_id}",
 								"parts": []any{
@@ -2154,6 +2031,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "DELETE",
 								"orig": "/payments/merchants/{merchant_id}",
 								"parts": []any{
@@ -2187,6 +2065,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "DELETE",
 								"orig": "/payments/network-tokens/{network_token_id}",
 								"parts": []any{
@@ -2206,7 +2085,6 @@ func MakeConfig() map[string]any {
 								"index$": 3,
 							},
 						},
-						"key$": "remove",
 					},
 				},
 				"relations": map[string]any{
@@ -2253,28 +2131,28 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "created_at",
+						"name": "createdAt",
 						"req": false,
 						"type": "`$INTEGER`",
 						"index$": 2,
 					},
 					map[string]any{
 						"active": true,
-						"name": "destination_domain",
+						"name": "destinationDomain",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 3,
 					},
 					map[string]any{
 						"active": true,
-						"name": "encrypt_empty_string",
+						"name": "encryptEmptyStrings",
 						"req": false,
 						"type": "`$BOOLEAN`",
 						"index$": 4,
 					},
 					map[string]any{
 						"active": true,
-						"name": "evervault_domain",
+						"name": "evervaultDomain",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 5,
@@ -2288,14 +2166,14 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "route",
+						"name": "routes",
 						"req": false,
 						"type": "`$ARRAY`",
 						"index$": 7,
 					},
 					map[string]any{
 						"active": true,
-						"name": "updated_at",
+						"name": "updatedAt",
 						"req": false,
 						"type": "`$INTEGER`",
 						"index$": 8,
@@ -2322,6 +2200,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/relays/{id}",
 								"parts": []any{
@@ -2340,7 +2219,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 					"update": map[string]any{
 						"input": "data",
@@ -2361,6 +2239,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "PATCH",
 								"orig": "/relays/{id}",
 								"parts": []any{
@@ -2379,7 +2258,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "update",
 					},
 				},
 				"relations": map[string]any{
@@ -2390,7 +2268,7 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "access_control_server",
+						"name": "accessControlServer",
 						"req": false,
 						"type": "`$OBJECT`",
 						"index$": 0,
@@ -2410,7 +2288,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "are",
+						"name": "ares",
 						"req": false,
 						"type": "`$OBJECT`",
 						"index$": 2,
@@ -2438,7 +2316,14 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "cre",
+						"name": "createdAt",
+						"req": true,
+						"type": "`$INTEGER`",
+						"index$": 6,
+					},
+					map[string]any{
+						"active": true,
+						"name": "cres",
 						"req": false,
 						"type": []any{
 							"`$ONE`",
@@ -2447,13 +2332,6 @@ func MakeConfig() map[string]any {
 								"`$OBJECT`",
 							},
 						},
-						"index$": 6,
-					},
-					map[string]any{
-						"active": true,
-						"name": "created_at",
-						"req": true,
-						"type": "`$INTEGER`",
 						"index$": 7,
 					},
 					map[string]any{
@@ -2472,7 +2350,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "directory_server",
+						"name": "directoryServer",
 						"req": false,
 						"type": "`$OBJECT`",
 						"index$": 10,
@@ -2486,7 +2364,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "failure_reason",
+						"name": "failureReason",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 12,
@@ -2514,7 +2392,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "next_action",
+						"name": "nextAction",
 						"req": true,
 						"type": "`$OBJECT`",
 						"index$": 16,
@@ -2528,7 +2406,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "preferred_version",
+						"name": "preferredVersions",
 						"req": false,
 						"type": "`$ARRAY`",
 						"index$": 18,
@@ -2555,14 +2433,14 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "three_ds_server",
+						"name": "threeDSServer",
 						"req": false,
 						"type": "`$OBJECT`",
 						"index$": 21,
 					},
 					map[string]any{
 						"active": true,
-						"name": "updated_at",
+						"name": "updatedAt",
 						"req": false,
 						"type": "`$INTEGER`",
 						"index$": 22,
@@ -2584,6 +2462,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/payments/3ds-sessions",
 								"parts": []any{
@@ -2598,7 +2477,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "create",
 					},
 					"load": map[string]any{
 						"input": "data",
@@ -2619,6 +2497,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/payments/3ds-sessions/{3ds_session_id}",
 								"parts": []any{
@@ -2638,7 +2517,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 				},
 				"relations": map[string]any{
@@ -2653,14 +2531,14 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "created_at",
+						"name": "createdAt",
 						"req": false,
 						"type": "`$INTEGER`",
 						"index$": 0,
 					},
 					map[string]any{
 						"active": true,
-						"name": "event",
+						"name": "events",
 						"op": map[string]any{
 							"list": map[string]any{
 								"req": false,
@@ -2680,7 +2558,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "updated_at",
+						"name": "updatedAt",
 						"req": false,
 						"type": []any{
 							"`$ONE`",
@@ -2714,6 +2592,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/webhook-endpoints",
 								"parts": []any{
@@ -2727,7 +2606,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "create",
 					},
 					"list": map[string]any{
 						"input": "data",
@@ -2757,6 +2635,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/webhook-endpoints",
 								"parts": []any{
@@ -2770,12 +2649,11 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 0,
 							},
 						},
-						"key$": "list",
 					},
 					"remove": map[string]any{
 						"input": "data",
@@ -2797,6 +2675,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "DELETE",
 								"orig": "/webhook-endpoints/{webhook_endpoint_id}",
 								"parts": []any{
@@ -2815,7 +2694,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "remove",
 					},
 				},
 				"relations": map[string]any{
@@ -2830,14 +2708,14 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "created_at",
+						"name": "createdAt",
 						"req": false,
 						"type": "`$INTEGER`",
 						"index$": 0,
 					},
 					map[string]any{
 						"active": true,
-						"name": "event",
+						"name": "events",
 						"op": map[string]any{
 							"update": map[string]any{
 								"req": true,
@@ -2857,7 +2735,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "updated_at",
+						"name": "updatedAt",
 						"req": false,
 						"type": []any{
 							"`$ONE`",
@@ -2898,6 +2776,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/webhook-endpoints/{webhook_endpoint_id}",
 								"parts": []any{
@@ -2921,7 +2800,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 					"update": map[string]any{
 						"input": "data",
@@ -2943,6 +2821,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "PATCH",
 								"orig": "/webhook-endpoints/{webhook_endpoint_id}",
 								"parts": []any{
@@ -2966,7 +2845,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "update",
 					},
 				},
 				"relations": map[string]any{

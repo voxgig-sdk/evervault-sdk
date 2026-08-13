@@ -62,7 +62,7 @@ describe('MerchantEntity', async () => {
     const merchant_ref01_ent = client.Merchant()
     let merchant_ref01_data = setup.data.new.merchant['merchant_ref01']
 
-    merchant_ref01_data = await merchant_ref01_ent.create(merchant_ref01_data)
+    merchant_ref01_data = (await merchant_ref01_ent.create(merchant_ref01_data)).data()
     assert(null != merchant_ref01_data.id)
 
 
@@ -70,10 +70,10 @@ describe('MerchantEntity', async () => {
     const merchant_ref01_data_up0: any = {}
     merchant_ref01_data_up0.id = merchant_ref01_data.id
 
-    const merchant_ref01_markdef_up0 = { name: 'category_code', value: 'Mark01-merchant_ref01_' + setup.now }
+    const merchant_ref01_markdef_up0 = { name: 'categoryCode', value: 'Mark01-merchant_ref01_' + setup.now }
     ;(merchant_ref01_data_up0 as any)[merchant_ref01_markdef_up0.name] = merchant_ref01_markdef_up0.value
 
-    const merchant_ref01_resdata_up0 = await merchant_ref01_ent.update(merchant_ref01_data_up0)
+    const merchant_ref01_resdata_up0 = (await merchant_ref01_ent.update(merchant_ref01_data_up0)).data()
     assert(merchant_ref01_resdata_up0.id === merchant_ref01_data_up0.id)
 
     assert((merchant_ref01_resdata_up0 as any)[merchant_ref01_markdef_up0.name] === merchant_ref01_markdef_up0.value)
@@ -82,7 +82,7 @@ describe('MerchantEntity', async () => {
     // LOAD
     const merchant_ref01_match_dt0: any = {}
     merchant_ref01_match_dt0.id = merchant_ref01_data.id
-    const merchant_ref01_data_dt0 = await merchant_ref01_ent.load(merchant_ref01_match_dt0)
+    const merchant_ref01_data_dt0 = (await merchant_ref01_ent.load(merchant_ref01_match_dt0)).data()
     assert(merchant_ref01_data_dt0.id === merchant_ref01_data.id)
 
 

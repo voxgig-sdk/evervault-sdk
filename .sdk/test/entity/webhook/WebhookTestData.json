@@ -2,26 +2,26 @@
   "existing": {
     "webhook": {
       "WEBHOOK00": {
-        "created_at": "s32",
-        "event": [],
+        "createdAt": "s32",
+        "events": [],
         "id": "WEBHOOK00",
-        "updated_at": "s35",
+        "updatedAt": "s35",
         "url": "s36",
         "webhook_endpoint_id": "WEBHOOK_ENDPOINT01"
       },
       "WEBHOOK01": {
-        "created_at": "s64",
-        "event": [],
+        "createdAt": "s64",
+        "events": [],
         "id": "WEBHOOK01",
-        "updated_at": "s67",
+        "updatedAt": "s67",
         "url": "s68",
         "webhook_endpoint_id": "WEBHOOK_ENDPOINT01"
       },
       "WEBHOOK02": {
-        "created_at": "s96",
-        "event": [],
+        "createdAt": "s96",
+        "events": [],
         "id": "WEBHOOK02",
-        "updated_at": "s99",
+        "updatedAt": "s99",
         "url": "s9a",
         "webhook_endpoint_id": "WEBHOOK_ENDPOINT01"
       }
@@ -30,9 +30,9 @@
   "new": {
     "webhook": {
       "webhook_ref01": {
-        "created_at": "sc8",
-        "event": [],
-        "updated_at": "scb",
+        "createdAt": "sc8",
+        "events": [],
+        "updatedAt": "scb",
         "url": "scc"
       }
     }

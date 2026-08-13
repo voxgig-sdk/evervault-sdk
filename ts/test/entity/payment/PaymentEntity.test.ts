@@ -64,7 +64,7 @@ describe('PaymentEntity', async () => {
     const payment_ref01_match: any = {}
     payment_ref01_match['3ds_session_id'] = setup.idmap['3ds_session01']
 
-    const payment_ref01_list = await payment_ref01_ent.list(payment_ref01_match)
+    const payment_ref01_list = (await payment_ref01_ent.list(payment_ref01_match)).map((e: any) => e.data())
 
 
   })

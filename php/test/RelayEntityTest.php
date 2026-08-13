@@ -57,7 +57,7 @@ class RelayEntityTest extends TestCase
         $relay_ref01_data_up0_up[$relay_ref01_markdef_up0_name] = $relay_ref01_markdef_up0_value;
 
         $relay_ref01_resdata_up0_result = $relay_ref01_ent->update($relay_ref01_data_up0_up, null);
-        $relay_ref01_resdata_up0 = Helpers::to_map($relay_ref01_resdata_up0_result);
+        $relay_ref01_resdata_up0 = Helpers::to_map(is_object($relay_ref01_resdata_up0_result) && method_exists($relay_ref01_resdata_up0_result, 'data_get') ? $relay_ref01_resdata_up0_result->data_get() : $relay_ref01_resdata_up0_result);
         $this->assertNotNull($relay_ref01_resdata_up0);
         $this->assertEquals($relay_ref01_resdata_up0["id"], $relay_ref01_data_up0_up["id"]);
         $this->assertEquals($relay_ref01_resdata_up0[$relay_ref01_markdef_up0_name], $relay_ref01_markdef_up0_value);
@@ -67,7 +67,7 @@ class RelayEntityTest extends TestCase
             "id" => $relay_ref01_data["id"],
         ];
         $relay_ref01_data_dt0_loaded = $relay_ref01_ent->load($relay_ref01_match_dt0, null);
-        $relay_ref01_data_dt0_load_result = Helpers::to_map($relay_ref01_data_dt0_loaded);
+        $relay_ref01_data_dt0_load_result = Helpers::to_map(is_object($relay_ref01_data_dt0_loaded) && method_exists($relay_ref01_data_dt0_loaded, 'data_get') ? $relay_ref01_data_dt0_loaded->data_get() : $relay_ref01_data_dt0_loaded);
         $this->assertNotNull($relay_ref01_data_dt0_load_result);
         $this->assertEquals($relay_ref01_data_dt0_load_result["id"], $relay_ref01_data["id"]);
 

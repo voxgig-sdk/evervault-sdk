@@ -11,21 +11,6 @@ main: kit: entity: card: {
       type: "`$OBJECT`"
     }
     {
-      name: "automatic_update"
-      req: false
-      type: "`$STRING`"
-    }
-    {
-      name: "bin"
-      req: true
-      type: "`$STRING`"
-    }
-    {
-      name: "brand"
-      req: false
-      type: "`$STRING`"
-    }
-    {
       name: "card"
       req: true
       type: "`$OBJECT`"
@@ -36,47 +21,17 @@ main: kit: entity: card: {
       type: "`$OBJECT`"
     }
     {
-      name: "country"
-      req: false
-      type: "`$STRING`"
-    }
-    {
-      name: "created_at"
-      req: true
-      type: "`$INTEGER`"
-    }
-    {
-      name: "currency"
-      req: false
-      type: "`$STRING`"
-    }
-    {
       name: "expiry"
       req: true
       type: "`$OBJECT`"
     }
     {
-      name: "extension"
+      name: "extensions"
       req: false
       type: "`$ARRAY`"
     }
     {
-      name: "funding"
-      req: false
-      type: "`$STRING`"
-    }
-    {
-      name: "id"
-      req: false
-      type: "`$STRING`"
-    }
-    {
-      name: "issuer"
-      req: false
-      type: "`$STRING`"
-    }
-    {
-      name: "last_four"
+      name: "month"
       req: true
       type: "`$STRING`"
     }
@@ -86,43 +41,11 @@ main: kit: entity: card: {
       type: "`$STRING`"
     }
     {
-      name: "replacement"
-      req: false
-      type: [
-        "`$ONE`"
-        [
-          "`$STRING`"
-          "`$NULL`"
-        ]
-      ]
-    }
-    {
-      name: "segment"
-      req: false
+      name: "year"
+      req: true
       type: "`$STRING`"
-    }
-    {
-      name: "status"
-      req: false
-      type: "`$STRING`"
-    }
-    {
-      name: "updated_at"
-      req: false
-      type: [
-        "`$ONE`"
-        [
-          "`$INTEGER`"
-          "`$NULL`"
-        ]
-      ]
     }
   ]
-
-  id: {
-    field: "id"
-    name: "id"
-  }
 
   name: "card"
   op: {
@@ -162,7 +85,7 @@ main: kit: entity: card: {
           }
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.expiry`"
           }
         }
         {
@@ -173,7 +96,9 @@ main: kit: entity: card: {
             "cards"
           ]
           transform: {
-            req: "`reqdata`"
+            req: {
+              card: "`reqdata`"
+            }
             res: "`body`"
           }
         }
@@ -186,7 +111,7 @@ main: kit: entity: card: {
           ]
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.expiry`"
           }
         }
       ]
@@ -225,7 +150,7 @@ main: kit: entity: card: {
           }
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.expiry`"
           }
         }
       ]

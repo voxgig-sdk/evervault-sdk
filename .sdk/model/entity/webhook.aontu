@@ -6,12 +6,12 @@ main: kit: entity: webhook: {
 
   fields: [
     {
-      name: "created_at"
+      name: "createdAt"
       req: false
       type: "`$INTEGER`"
     }
     {
-      name: "event"
+      name: "events"
       op: {
         list: {
           req: false
@@ -27,7 +27,7 @@ main: kit: entity: webhook: {
       type: "`$STRING`"
     }
     {
-      name: "updated_at"
+      name: "updatedAt"
       req: false
       type: [
         "`$ONE`"
@@ -110,7 +110,7 @@ main: kit: entity: webhook: {
           }
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.data`"
           }
         }
       ]

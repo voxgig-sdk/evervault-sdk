@@ -153,7 +153,7 @@ $acquirer = $client->Acquirer();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `configuration` | `array` | Yes |  |
+| `configurations` | `array` | Yes |  |
 | `default` | `bool` | Yes |  |
 | `description` | `string` | No |  |
 | `id` | `string` | Yes |  |
@@ -163,7 +163,7 @@ $acquirer = $client->Acquirer();
 
 | Field | load | create | update |
 | --- | --- | --- | --- |
-| `configuration` | - | - | Yes |
+| `configurations` | - | - | Yes |
 | `default` | - | Yes | Yes |
 | `description` | - | - | - |
 | `id` | - | - | - |
@@ -177,7 +177,7 @@ Create a new entity with the given data. Throws on error.
 
 ```php
 $result = $client->Acquirer()->create([
-  "configuration" => null, // array
+  "configurations" => null, // array
   "default" => null, // bool
   "id" => null, // string
   "name" => null, // string
@@ -298,25 +298,13 @@ $card = $client->Card();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `address` | `array` | Yes |  |
-| `automatic_update` | `string` | No |  |
-| `bin` | `string` | Yes |  |
-| `brand` | `string` | No |  |
 | `card` | `array` | Yes |  |
 | `cardholder` | `array` | No |  |
-| `country` | `string` | No |  |
-| `created_at` | `int` | Yes |  |
-| `currency` | `string` | No |  |
 | `expiry` | `array` | Yes |  |
-| `extension` | `array` | No |  |
-| `funding` | `string` | No |  |
-| `id` | `string` | No |  |
-| `issuer` | `string` | No |  |
-| `last_four` | `string` | Yes |  |
+| `extensions` | `array` | No |  |
+| `month` | `string` | Yes |  |
 | `number` | `string` | Yes |  |
-| `replacement` | `mixed` | No |  |
-| `segment` | `string` | No |  |
-| `status` | `string` | No |  |
-| `updated_at` | `mixed` | No |  |
+| `year` | `string` | Yes |  |
 
 ### Operations
 
@@ -327,12 +315,11 @@ Create a new entity with the given data. Throws on error.
 ```php
 $result = $client->Card()->create([
   "address" => null, // array
-  "bin" => null, // string
   "card" => null, // array
-  "created_at" => null, // int
   "expiry" => null, // array
-  "last_four" => null, // string
+  "month" => null, // string
   "number" => null, // string
+  "year" => null, // string
 ]);
 ```
 
@@ -497,25 +484,19 @@ $core = $client->Core();
 | --- | --- | --- | --- |
 | `app` | `string` | No |  |
 | `authentication` | `mixed` | No |  |
-| `category` | `string` | No |  |
-| `created_at` | `int` | No |  |
-| `custom_domain` | `string` | No |  |
-| `destination_domain` | `string` | Yes |  |
-| `encrypt_empty_string` | `bool` | No |  |
-| `encrypted_at` | `int` | No |  |
-| `evervault_domain` | `string` | No |  |
-| `fingerprint` | `string` | No |  |
+| `createdAt` | `int` | No |  |
+| `customDomain` | `string` | No |  |
+| `destinationDomain` | `string` | Yes |  |
+| `encryptEmptyStrings` | `bool` | No |  |
+| `evervaultDomain` | `string` | No |  |
 | `id` | `string` | No |  |
-| `metadata` | `mixed` | No |  |
-| `phone_number` | `string` | No |  |
+| `phoneNumber` | `string` | No |  |
 | `relay` | `string` | No |  |
-| `role` | `string` | No |  |
-| `route` | `array` | Yes |  |
+| `routes` | `array` | Yes |  |
 | `status` | `string` | No |  |
 | `token` | `string` | Yes |  |
-| `type` | `string` | No |  |
-| `updated_at` | `int` | No |  |
-| `validation_record` | `string` | No |  |
+| `updatedAt` | `int` | No |  |
+| `validationRecord` | `string` | No |  |
 
 ### Field Usage by Operation
 
@@ -523,25 +504,19 @@ $core = $client->Core();
 | --- | --- | --- | --- |
 | `app` | - | - | - |
 | `authentication` | - | - | - |
-| `category` | - | - | - |
-| `created_at` | - | - | - |
-| `custom_domain` | - | - | - |
-| `destination_domain` | Yes | - | - |
-| `encrypt_empty_string` | - | - | - |
-| `encrypted_at` | - | - | - |
-| `evervault_domain` | - | - | - |
-| `fingerprint` | - | - | - |
+| `createdAt` | - | - | - |
+| `customDomain` | - | - | - |
+| `destinationDomain` | Yes | - | - |
+| `encryptEmptyStrings` | - | - | - |
+| `evervaultDomain` | - | - | - |
 | `id` | - | - | - |
-| `metadata` | - | - | - |
-| `phone_number` | - | - | - |
+| `phoneNumber` | - | - | - |
 | `relay` | - | - | - |
-| `role` | - | - | - |
-| `route` | Yes | - | - |
+| `routes` | Yes | - | - |
 | `status` | - | - | - |
 | `token` | - | - | - |
-| `type` | - | - | - |
-| `updated_at` | - | - | - |
-| `validation_record` | - | - | - |
+| `updatedAt` | - | - | - |
+| `validationRecord` | - | - | - |
 
 ### Operations
 
@@ -551,8 +526,8 @@ Create a new entity with the given data. Throws on error.
 
 ```php
 $result = $client->Core()->create([
-  "destination_domain" => null, // string
-  "route" => null, // array
+  "destinationDomain" => null, // string
+  "routes" => null, // array
   "token" => null, // string
 ]);
 ```
@@ -613,25 +588,25 @@ $custom_domain = $client->CustomDomain();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | `int` | No |  |
-| `custom_domain` | `string` | No |  |
+| `createdAt` | `int` | No |  |
+| `customDomain` | `string` | No |  |
 | `id` | `string` | No |  |
 | `relay` | `string` | No |  |
 | `status` | `string` | No |  |
-| `updated_at` | `int` | No |  |
-| `validation_record` | `string` | No |  |
+| `updatedAt` | `int` | No |  |
+| `validationRecord` | `string` | No |  |
 
 ### Field Usage by Operation
 
 | Field | load | create |
 | --- | --- | --- |
-| `created_at` | - | - |
-| `custom_domain` | - | Yes |
+| `createdAt` | - | - |
+| `customDomain` | - | Yes |
 | `id` | - | - |
 | `relay` | - | - |
 | `status` | - | - |
-| `updated_at` | - | - |
-| `validation_record` | - | - |
+| `updatedAt` | - | - |
+| `validationRecord` | - | - |
 
 ### Operations
 
@@ -694,7 +669,7 @@ $function_run = $client->FunctionRun();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `async` | `bool` | No |  |
-| `created_at` | `int` | No |  |
+| `createdAt` | `int` | No |  |
 | `error` | `mixed` | No |  |
 | `id` | `string` | No |  |
 | `payload` | `array` | Yes |  |
@@ -710,6 +685,7 @@ Create a new entity with the given data. Throws on error.
 ```php
 $result = $client->FunctionRun()->create([
   "function_name" => null, // string
+  "payload" => null, // array
 ]);
 ```
 
@@ -753,30 +729,30 @@ $merchant = $client->Merchant();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `apple_pay` | `array` | No |  |
+| `applePay` | `array` | No |  |
 | `business` | `array` | No |  |
-| `category_code` | `string` | No |  |
-| `created_at` | `int` | Yes |  |
+| `categoryCode` | `string` | No |  |
+| `createdAt` | `int` | Yes |  |
 | `id` | `string` | Yes |  |
 | `name` | `string` | Yes |  |
-| `network_token` | `array` | No |  |
-| `short_name` | `string` | No |  |
-| `updated_at` | `int` | No |  |
+| `networkTokens` | `array` | No |  |
+| `shortName` | `string` | No |  |
+| `updatedAt` | `int` | No |  |
 | `website` | `string` | Yes |  |
 
 ### Field Usage by Operation
 
 | Field | load | create | update |
 | --- | --- | --- | --- |
-| `apple_pay` | - | - | - |
+| `applePay` | - | - | - |
 | `business` | - | Yes | - |
-| `category_code` | - | Yes | - |
-| `created_at` | - | - | - |
+| `categoryCode` | - | Yes | - |
+| `createdAt` | - | - | - |
 | `id` | - | - | - |
 | `name` | - | - | - |
-| `network_token` | - | - | - |
-| `short_name` | - | - | - |
-| `updated_at` | - | - | - |
+| `networkTokens` | - | - | - |
+| `shortName` | - | - | - |
+| `updatedAt` | - | - | - |
 | `website` | - | - | - |
 
 ### Operations
@@ -787,7 +763,7 @@ Create a new entity with the given data. Throws on error.
 
 ```php
 $result = $client->Merchant()->create([
-  "created_at" => null, // int
+  "createdAt" => null, // int
   "id" => null, // string
   "name" => null, // string
   "website" => null, // string
@@ -854,17 +830,17 @@ $network_token = $client->NetworkToken();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `card` | `array` | Yes |  |
-| `created_at` | `int` | Yes |  |
+| `createdAt` | `int` | Yes |  |
 | `expiry` | `array` | Yes |  |
 | `id` | `string` | Yes |  |
 | `merchant` | `string` | Yes |  |
 | `number` | `string` | Yes |  |
-| `payment_account_reference` | `string` | No |  |
+| `paymentAccountReference` | `string` | No |  |
 | `status` | `string` | Yes |  |
-| `token_requestor_identifier` | `string` | Yes |  |
-| `token_service_provider` | `string` | Yes |  |
-| `update_type` | `string` | No |  |
-| `updated_at` | `int` | No |  |
+| `tokenRequestorIdentifier` | `string` | Yes |  |
+| `tokenServiceProvider` | `string` | Yes |  |
+| `updateType` | `string` | No |  |
+| `updatedAt` | `int` | No |  |
 
 ### Operations
 
@@ -875,14 +851,14 @@ Create a new entity with the given data. Throws on error.
 ```php
 $result = $client->NetworkToken()->create([
   "card" => null, // array
-  "created_at" => null, // int
+  "createdAt" => null, // int
   "expiry" => null, // array
   "id" => null, // string
   "merchant" => null, // string
   "number" => null, // string
   "status" => null, // string
-  "token_requestor_identifier" => null, // string
-  "token_service_provider" => null, // string
+  "tokenRequestorIdentifier" => null, // string
+  "tokenServiceProvider" => null, // string
 ]);
 ```
 
@@ -934,7 +910,7 @@ $network_token_cryptogram = $client->NetworkTokenCryptogram();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | `int` | No |  |
+| `createdAt` | `int` | No |  |
 | `cryptogram` | `string` | No |  |
 | `id` | `string` | No |  |
 
@@ -990,41 +966,22 @@ $payment = $client->Payment();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `apple_pay` | `array` | No |  |
+| `applePay` | `array` | No |  |
 | `business` | `array` | No |  |
-| `category_code` | `string` | No |  |
-| `configuration` | `array` | Yes |  |
-| `created_at` | `int` | Yes |  |
+| `categoryCode` | `string` | No |  |
+| `configurations` | `array` | Yes |  |
+| `createdAt` | `int` | Yes |  |
+| `created_at` | `int` | No |  |
 | `data` | `array` | No |  |
 | `default` | `bool` | Yes |  |
 | `description` | `string` | No |  |
 | `id` | `string` | Yes |  |
 | `name` | `string` | Yes |  |
-| `network_token` | `array` | No |  |
-| `short_name` | `string` | No |  |
+| `networkTokens` | `array` | No |  |
+| `shortName` | `string` | No |  |
 | `type` | `string` | No |  |
-| `updated_at` | `int` | No |  |
+| `updatedAt` | `int` | No |  |
 | `website` | `string` | Yes |  |
-
-### Field Usage by Operation
-
-| Field | list | remove |
-| --- | --- | --- |
-| `apple_pay` | - | - |
-| `business` | - | - |
-| `category_code` | - | - |
-| `configuration` | - | - |
-| `created_at` | Yes | - |
-| `data` | - | - |
-| `default` | - | - |
-| `description` | - | - |
-| `id` | - | - |
-| `name` | - | - |
-| `network_token` | - | - |
-| `short_name` | - | - |
-| `type` | - | - |
-| `updated_at` | - | - |
-| `website` | - | - |
 
 ### Operations
 
@@ -1086,13 +1043,13 @@ $relay = $client->Relay();
 | --- | --- | --- | --- |
 | `app` | `string` | No |  |
 | `authentication` | `mixed` | No |  |
-| `created_at` | `int` | No |  |
-| `destination_domain` | `string` | No |  |
-| `encrypt_empty_string` | `bool` | No |  |
-| `evervault_domain` | `string` | No |  |
+| `createdAt` | `int` | No |  |
+| `destinationDomain` | `string` | No |  |
+| `encryptEmptyStrings` | `bool` | No |  |
+| `evervaultDomain` | `string` | No |  |
 | `id` | `string` | No |  |
-| `route` | `array` | No |  |
-| `updated_at` | `int` | No |  |
+| `routes` | `array` | No |  |
+| `updatedAt` | `int` | No |  |
 
 ### Operations
 
@@ -1155,58 +1112,58 @@ $three_ds_session = $client->ThreeDsSession();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `access_control_server` | `array` | No |  |
+| `accessControlServer` | `array` | No |  |
 | `acquirer` | `array` | Yes |  |
-| `are` | `array` | No |  |
+| `ares` | `array` | No |  |
 | `authentication` | `array` | Yes |  |
 | `card` | `array` | Yes |  |
 | `challenge` | `array` | Yes |  |
-| `cre` | `mixed` | No |  |
-| `created_at` | `int` | Yes |  |
+| `createdAt` | `int` | Yes |  |
+| `cres` | `mixed` | No |  |
 | `cryptogram` | `string` | No |  |
 | `customer` | `array` | No |  |
-| `directory_server` | `array` | No |  |
+| `directoryServer` | `array` | No |  |
 | `eci` | `array` | No |  |
-| `failure_reason` | `string` | No |  |
+| `failureReason` | `string` | No |  |
 | `id` | `string` | Yes |  |
 | `initiator` | `array` | No |  |
 | `merchant` | `array` | Yes |  |
-| `next_action` | `array` | Yes |  |
+| `nextAction` | `array` | Yes |  |
 | `payment` | `array` | No |  |
-| `preferred_version` | `array` | No |  |
+| `preferredVersions` | `array` | No |  |
 | `rreq` | `mixed` | No |  |
 | `status` | `string` | Yes |  |
-| `three_ds_server` | `array` | No |  |
-| `updated_at` | `int` | No |  |
+| `threeDSServer` | `array` | No |  |
+| `updatedAt` | `int` | No |  |
 | `version` | `string` | Yes |  |
 
 ### Field Usage by Operation
 
 | Field | load | create |
 | --- | --- | --- |
-| `access_control_server` | - | - |
+| `accessControlServer` | - | - |
 | `acquirer` | - | Yes |
-| `are` | - | - |
+| `ares` | - | - |
 | `authentication` | - | - |
 | `card` | - | - |
 | `challenge` | - | - |
-| `cre` | - | - |
-| `created_at` | - | - |
+| `createdAt` | - | - |
+| `cres` | - | - |
 | `cryptogram` | - | - |
 | `customer` | - | - |
-| `directory_server` | - | - |
+| `directoryServer` | - | - |
 | `eci` | - | - |
-| `failure_reason` | - | - |
+| `failureReason` | - | - |
 | `id` | - | - |
 | `initiator` | - | - |
 | `merchant` | - | - |
-| `next_action` | - | - |
+| `nextAction` | - | - |
 | `payment` | - | - |
-| `preferred_version` | - | - |
+| `preferredVersions` | - | - |
 | `rreq` | - | - |
 | `status` | - | - |
-| `three_ds_server` | - | - |
-| `updated_at` | - | - |
+| `threeDSServer` | - | - |
+| `updatedAt` | - | - |
 | `version` | - | - |
 
 ### Operations
@@ -1221,10 +1178,10 @@ $result = $client->ThreeDsSession()->create([
   "authentication" => null, // array
   "card" => null, // array
   "challenge" => null, // array
-  "created_at" => null, // int
+  "createdAt" => null, // int
   "id" => null, // string
   "merchant" => null, // array
-  "next_action" => null, // array
+  "nextAction" => null, // array
   "status" => null, // string
   "version" => null, // string
 ]);
@@ -1278,20 +1235,20 @@ $webhook = $client->Webhook();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | `int` | No |  |
-| `event` | `array` | Yes |  |
+| `createdAt` | `int` | No |  |
+| `events` | `array` | Yes |  |
 | `id` | `string` | No |  |
-| `updated_at` | `mixed` | No |  |
+| `updatedAt` | `mixed` | No |  |
 | `url` | `string` | Yes |  |
 
 ### Field Usage by Operation
 
 | Field | list | create | remove |
 | --- | --- | --- | --- |
-| `created_at` | - | - | - |
-| `event` | Yes | - | - |
+| `createdAt` | - | - | - |
+| `events` | Yes | - | - |
 | `id` | - | - | - |
-| `updated_at` | - | - | - |
+| `updatedAt` | - | - | - |
 | `url` | Yes | - | - |
 
 ### Operations
@@ -1302,7 +1259,7 @@ Create a new entity with the given data. Throws on error.
 
 ```php
 $result = $client->Webhook()->create([
-  "event" => null, // array
+  "events" => null, // array
   "url" => null, // string
 ]);
 ```
@@ -1363,20 +1320,20 @@ $webhook_endpoint = $client->WebhookEndpoint();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | `int` | No |  |
-| `event` | `array` | No |  |
+| `createdAt` | `int` | No |  |
+| `events` | `array` | No |  |
 | `id` | `string` | No |  |
-| `updated_at` | `mixed` | No |  |
+| `updatedAt` | `mixed` | No |  |
 | `url` | `string` | No |  |
 
 ### Field Usage by Operation
 
 | Field | load | update |
 | --- | --- | --- |
-| `created_at` | - | - |
-| `event` | - | Yes |
+| `createdAt` | - | - |
+| `events` | - | Yes |
 | `id` | - | - |
-| `updated_at` | - | - |
+| `updatedAt` | - | - |
 | `url` | - | - |
 
 ### Operations

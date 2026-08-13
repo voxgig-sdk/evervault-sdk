@@ -37,7 +37,7 @@ class AcquirerEntityTest < Minitest::Test
       Vs.getpath(setup[:data], "new.acquirer"), "acquirer_ref01"))
 
     acquirer_ref01_data_result = acquirer_ref01_ent.create(acquirer_ref01_data, nil)
-    acquirer_ref01_data = Helpers.to_map(acquirer_ref01_data_result)
+    acquirer_ref01_data = Helpers.to_map(acquirer_ref01_data_result.respond_to?(:data_get) ? acquirer_ref01_data_result.data_get : acquirer_ref01_data_result)
     assert !acquirer_ref01_data.nil?
     assert !acquirer_ref01_data["id"].nil?
 
@@ -51,7 +51,7 @@ class AcquirerEntityTest < Minitest::Test
     acquirer_ref01_data_up0_up[acquirer_ref01_markdef_up0_name] = acquirer_ref01_markdef_up0_value
 
     acquirer_ref01_resdata_up0_result = acquirer_ref01_ent.update(acquirer_ref01_data_up0_up, nil)
-    acquirer_ref01_resdata_up0 = Helpers.to_map(acquirer_ref01_resdata_up0_result)
+    acquirer_ref01_resdata_up0 = Helpers.to_map(acquirer_ref01_resdata_up0_result.respond_to?(:data_get) ? acquirer_ref01_resdata_up0_result.data_get : acquirer_ref01_resdata_up0_result)
     assert !acquirer_ref01_resdata_up0.nil?
     assert_equal acquirer_ref01_resdata_up0["id"], acquirer_ref01_data_up0_up["id"]
     assert_equal acquirer_ref01_resdata_up0[acquirer_ref01_markdef_up0_name], acquirer_ref01_markdef_up0_value
@@ -61,7 +61,7 @@ class AcquirerEntityTest < Minitest::Test
       "id" => acquirer_ref01_data["id"],
     }
     acquirer_ref01_data_dt0_loaded = acquirer_ref01_ent.load(acquirer_ref01_match_dt0, nil)
-    acquirer_ref01_data_dt0_load_result = Helpers.to_map(acquirer_ref01_data_dt0_loaded)
+    acquirer_ref01_data_dt0_load_result = Helpers.to_map(acquirer_ref01_data_dt0_loaded.respond_to?(:data_get) ? acquirer_ref01_data_dt0_loaded.data_get : acquirer_ref01_data_dt0_loaded)
     assert !acquirer_ref01_data_dt0_load_result.nil?
     assert_equal acquirer_ref01_data_dt0_load_result["id"], acquirer_ref01_data["id"]
 

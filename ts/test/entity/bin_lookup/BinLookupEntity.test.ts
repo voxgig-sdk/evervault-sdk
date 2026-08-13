@@ -62,7 +62,7 @@ describe('BinLookupEntity', async () => {
     const bin_lookup_ref01_ent = client.BinLookup()
     let bin_lookup_ref01_data = setup.data.new.bin_lookup['bin_lookup_ref01']
 
-    bin_lookup_ref01_data = await bin_lookup_ref01_ent.create(bin_lookup_ref01_data)
+    bin_lookup_ref01_data = (await bin_lookup_ref01_ent.create(bin_lookup_ref01_data)).data()
     assert(null != bin_lookup_ref01_data)
 
 

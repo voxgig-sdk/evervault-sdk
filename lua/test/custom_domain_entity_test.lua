@@ -42,7 +42,7 @@ describe("CustomDomainEntity", function()
 
     local custom_domain_ref01_data_result, err = custom_domain_ref01_ent:create(custom_domain_ref01_data, nil)
     assert.is_nil(err)
-    custom_domain_ref01_data = helpers.to_map(custom_domain_ref01_data_result)
+    custom_domain_ref01_data = helpers.to_map(type(custom_domain_ref01_data_result) == 'table' and custom_domain_ref01_data_result.data_get and custom_domain_ref01_data_result:data_get() or custom_domain_ref01_data_result)
     assert.is_not_nil(custom_domain_ref01_data)
     assert.is_not_nil(custom_domain_ref01_data["id"])
 
@@ -52,7 +52,7 @@ describe("CustomDomainEntity", function()
     }
     local custom_domain_ref01_data_dt0_loaded, err = custom_domain_ref01_ent:load(custom_domain_ref01_match_dt0, nil)
     assert.is_nil(err)
-    local custom_domain_ref01_data_dt0_load_result = helpers.to_map(custom_domain_ref01_data_dt0_loaded)
+    local custom_domain_ref01_data_dt0_load_result = helpers.to_map(type(custom_domain_ref01_data_dt0_loaded) == 'table' and custom_domain_ref01_data_dt0_loaded.data_get and custom_domain_ref01_data_dt0_loaded:data_get() or custom_domain_ref01_data_dt0_loaded)
     assert.is_not_nil(custom_domain_ref01_data_dt0_load_result)
     assert.are.equal(custom_domain_ref01_data_dt0_load_result["id"], custom_domain_ref01_data["id"])
 

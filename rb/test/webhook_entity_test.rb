@@ -73,7 +73,7 @@ class WebhookEntityTest < Minitest::Test
       Vs.getpath(setup[:data], "new.webhook"), "webhook_ref01"))
 
     webhook_ref01_data_result = webhook_ref01_ent.create(webhook_ref01_data, nil)
-    webhook_ref01_data = Helpers.to_map(webhook_ref01_data_result)
+    webhook_ref01_data = Helpers.to_map(webhook_ref01_data_result.respond_to?(:data_get) ? webhook_ref01_data_result.data_get : webhook_ref01_data_result)
     assert !webhook_ref01_data.nil?
     assert !webhook_ref01_data["id"].nil?
 

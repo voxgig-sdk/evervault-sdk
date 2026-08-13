@@ -19,7 +19,7 @@ main: kit: flow: BasicMerchantFlow:
         ref: "merchant_ref01",
         srcdatavar: "merchant_ref01_data",
         suffix: "_up0",
-        textfield: "category_code"
+        textfield: "categoryCode"
       }
 
       op: "update",

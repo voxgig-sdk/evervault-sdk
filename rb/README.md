@@ -38,7 +38,7 @@ CardArt is nested under network_token, so provide the `network_token_id`.
 
 ```ruby
 begin
-  # load returns the bare CardArt record (raises on error).
+  # load returns the ENTITY — call data_get for the CardArt record (raises on error).
   cardart = client.CardArt.load({ "network_token_id" => "example_network_token_id" })
   puts cardart
 rescue => err
@@ -49,11 +49,11 @@ end
 ### 4. Create, update, and remove
 
 ```ruby
-# create returns the bare created Acquirer record.
-created = client.Acquirer.create({ "configuration" => [], "default" => true, "id" => "example_id", "name" => "example_name" })
+# create returns the ENTITY — call data_get for the created Acquirer record.
+created = client.Acquirer.create({ "configurations" => [], "default" => true, "id" => "example_id", "name" => "example_name" })
 
-# Update — index the bare record directly (created["id"]).
-client.Acquirer.update({ "id" => created["id"] })
+# Update — index the record via data_get (created.data_get["id"]).
+client.Acquirer.update({ "id" => created.data_get["id"], "configurations" => [], "default" => true })
 
 ```
 
@@ -135,7 +135,8 @@ client = EvervaultSDK.test({
   "entity" => { "merchant" => { "test01" => { "id" => "test01" } } },
 })
 
-# Entity ops return the bare mock record (raises on error).
+# Entity ops return the ENTITY (raises on error);
+# call data_get for the mock record.
 merchant = client.Merchant.load({ "id" => "test01" })
 puts merchant
 ```
@@ -273,7 +274,7 @@ returns a result `Hash` with these keys:
 
 | Field | Description |
 | --- | --- |
-| `configuration` |  |
+| `configurations` |  |
 | `default` |  |
 | `description` |  |
 | `id` |  |
@@ -298,25 +299,13 @@ API path: `/payments/bin-lookups`
 | Field | Description |
 | --- | --- |
 | `address` |  |
-| `automatic_update` |  |
-| `bin` |  |
-| `brand` |  |
 | `card` |  |
 | `cardholder` |  |
-| `country` |  |
-| `created_at` |  |
-| `currency` |  |
 | `expiry` |  |
-| `extension` |  |
-| `funding` |  |
-| `id` |  |
-| `issuer` |  |
-| `last_four` |  |
+| `extensions` |  |
+| `month` |  |
 | `number` |  |
-| `replacement` |  |
-| `segment` |  |
-| `status` |  |
-| `updated_at` |  |
+| `year` |  |
 
 Operations: Create, Load.
 
@@ -353,25 +342,19 @@ API path: `/client-side-tokens`
 | --- | --- |
 | `app` |  |
 | `authentication` |  |
-| `category` |  |
-| `created_at` |  |
-| `custom_domain` |  |
-| `destination_domain` |  |
-| `encrypt_empty_string` |  |
-| `encrypted_at` |  |
-| `evervault_domain` |  |
-| `fingerprint` |  |
+| `createdAt` |  |
+| `customDomain` |  |
+| `destinationDomain` |  |
+| `encryptEmptyStrings` |  |
+| `evervaultDomain` |  |
 | `id` |  |
-| `metadata` |  |
-| `phone_number` |  |
+| `phoneNumber` |  |
 | `relay` |  |
-| `role` |  |
-| `route` |  |
+| `routes` |  |
 | `status` |  |
 | `token` |  |
-| `type` |  |
-| `updated_at` |  |
-| `validation_record` |  |
+| `updatedAt` |  |
+| `validationRecord` |  |
 
 Operations: Create, List, Remove.
 
@@ -381,13 +364,13 @@ API path: `/decrypt`
 
 | Field | Description |
 | --- | --- |
-| `created_at` |  |
-| `custom_domain` |  |
+| `createdAt` |  |
+| `customDomain` |  |
 | `id` |  |
 | `relay` |  |
 | `status` |  |
-| `updated_at` |  |
-| `validation_record` |  |
+| `updatedAt` |  |
+| `validationRecord` |  |
 
 Operations: Create, Load.
 
@@ -398,7 +381,7 @@ API path: `/relays/{relay_id}/custom-domains`
 | Field | Description |
 | --- | --- |
 | `async` |  |
-| `created_at` |  |
+| `createdAt` |  |
 | `error` |  |
 | `id` |  |
 | `payload` |  |
@@ -413,15 +396,15 @@ API path: `/functions/{function_name}/runs`
 
 | Field | Description |
 | --- | --- |
-| `apple_pay` |  |
+| `applePay` |  |
 | `business` |  |
-| `category_code` |  |
-| `created_at` |  |
+| `categoryCode` |  |
+| `createdAt` |  |
 | `id` |  |
 | `name` |  |
-| `network_token` |  |
-| `short_name` |  |
-| `updated_at` |  |
+| `networkTokens` |  |
+| `shortName` |  |
+| `updatedAt` |  |
 | `website` |  |
 
 Operations: Create, Load, Update.
@@ -433,17 +416,17 @@ API path: `/payments/merchants`
 | Field | Description |
 | --- | --- |
 | `card` |  |
-| `created_at` |  |
+| `createdAt` |  |
 | `expiry` |  |
 | `id` |  |
 | `merchant` |  |
 | `number` |  |
-| `payment_account_reference` |  |
+| `paymentAccountReference` |  |
 | `status` |  |
-| `token_requestor_identifier` |  |
-| `token_service_provider` |  |
-| `update_type` |  |
-| `updated_at` |  |
+| `tokenRequestorIdentifier` |  |
+| `tokenServiceProvider` |  |
+| `updateType` |  |
+| `updatedAt` |  |
 
 Operations: Create, Load.
 
@@ -453,7 +436,7 @@ API path: `/payments/network-tokens/{network_token_id}/simulate`
 
 | Field | Description |
 | --- | --- |
-| `created_at` |  |
+| `createdAt` |  |
 | `cryptogram` |  |
 | `id` |  |
 
@@ -465,20 +448,21 @@ API path: `/payments/network-tokens/{network_token_id}/cryptograms`
 
 | Field | Description |
 | --- | --- |
-| `apple_pay` |  |
+| `applePay` |  |
 | `business` |  |
-| `category_code` |  |
-| `configuration` |  |
+| `categoryCode` |  |
+| `configurations` |  |
+| `createdAt` |  |
 | `created_at` |  |
 | `data` |  |
 | `default` |  |
 | `description` |  |
 | `id` |  |
 | `name` |  |
-| `network_token` |  |
-| `short_name` |  |
+| `networkTokens` |  |
+| `shortName` |  |
 | `type` |  |
-| `updated_at` |  |
+| `updatedAt` |  |
 | `website` |  |
 
 Operations: List, Remove.
@@ -491,13 +475,13 @@ API path: `/payments/merchants`
 | --- | --- |
 | `app` |  |
 | `authentication` |  |
-| `created_at` |  |
-| `destination_domain` |  |
-| `encrypt_empty_string` |  |
-| `evervault_domain` |  |
+| `createdAt` |  |
+| `destinationDomain` |  |
+| `encryptEmptyStrings` |  |
+| `evervaultDomain` |  |
 | `id` |  |
-| `route` |  |
-| `updated_at` |  |
+| `routes` |  |
+| `updatedAt` |  |
 
 Operations: Load, Update.
 
@@ -507,29 +491,29 @@ API path: `/relays/{id}`
 
 | Field | Description |
 | --- | --- |
-| `access_control_server` |  |
+| `accessControlServer` |  |
 | `acquirer` |  |
-| `are` |  |
+| `ares` |  |
 | `authentication` |  |
 | `card` |  |
 | `challenge` |  |
-| `cre` |  |
-| `created_at` |  |
+| `createdAt` |  |
+| `cres` |  |
 | `cryptogram` |  |
 | `customer` |  |
-| `directory_server` |  |
+| `directoryServer` |  |
 | `eci` |  |
-| `failure_reason` |  |
+| `failureReason` |  |
 | `id` |  |
 | `initiator` |  |
 | `merchant` |  |
-| `next_action` |  |
+| `nextAction` |  |
 | `payment` |  |
-| `preferred_version` |  |
+| `preferredVersions` |  |
 | `rreq` |  |
 | `status` |  |
-| `three_ds_server` |  |
-| `updated_at` |  |
+| `threeDSServer` |  |
+| `updatedAt` |  |
 | `version` |  |
 
 Operations: Create, Load.
@@ -540,10 +524,10 @@ API path: `/payments/3ds-sessions`
 
 | Field | Description |
 | --- | --- |
-| `created_at` |  |
-| `event` |  |
+| `createdAt` |  |
+| `events` |  |
 | `id` |  |
-| `updated_at` |  |
+| `updatedAt` |  |
 | `url` |  |
 
 Operations: Create, List, Remove.
@@ -554,10 +538,10 @@ API path: `/webhook-endpoints`
 
 | Field | Description |
 | --- | --- |
-| `created_at` |  |
-| `event` |  |
+| `createdAt` |  |
+| `events` |  |
 | `id` |  |
-| `updated_at` |  |
+| `updatedAt` |  |
 | `url` |  |
 
 Operations: Load, Update.
@@ -585,7 +569,7 @@ Create an instance: `acquirer = client.Acquirer`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `configuration` | `Array` |  |
+| `configurations` | `Array` |  |
 | `default` | `Boolean` |  |
 | `description` | `String` |  |
 | `id` | `String` |  |
@@ -594,7 +578,7 @@ Create an instance: `acquirer = client.Acquirer`
 #### Example: Load
 
 ```ruby
-# load returns the bare Acquirer record (raises on error).
+# load returns the ENTITY — call data_get for the Acquirer record (raises on error).
 acquirer = client.Acquirer.load({ "id" => "acquirer_id" })
 ```
 
@@ -602,7 +586,7 @@ acquirer = client.Acquirer.load({ "id" => "acquirer_id" })
 
 ```ruby
 acquirer = client.Acquirer.create({
-  "configuration" => [], # Array
+  "configurations" => [], # Array
   "default" => true, # Boolean
   "id" => "example_id", # String
   "name" => "example_name", # String
@@ -651,30 +635,18 @@ Create an instance: `card = client.Card`
 | Field | Type | Description |
 | --- | --- | --- |
 | `address` | `Hash` |  |
-| `automatic_update` | `String` |  |
-| `bin` | `String` |  |
-| `brand` | `String` |  |
 | `card` | `Hash` |  |
 | `cardholder` | `Hash` |  |
-| `country` | `String` |  |
-| `created_at` | `Integer` |  |
-| `currency` | `String` |  |
 | `expiry` | `Hash` |  |
-| `extension` | `Array` |  |
-| `funding` | `String` |  |
-| `id` | `String` |  |
-| `issuer` | `String` |  |
-| `last_four` | `String` |  |
+| `extensions` | `Array` |  |
+| `month` | `String` |  |
 | `number` | `String` |  |
-| `replacement` | `Object` |  |
-| `segment` | `String` |  |
-| `status` | `String` |  |
-| `updated_at` | `Object` |  |
+| `year` | `String` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare Card record (raises on error).
+# load returns the ENTITY — call data_get for the Card record (raises on error).
 card = client.Card.load({ "id" => "card_id" })
 ```
 
@@ -683,12 +655,11 @@ card = client.Card.load({ "id" => "card_id" })
 ```ruby
 card = client.Card.create({
   "address" => {}, # Hash
-  "bin" => "example_bin", # String
   "card" => {}, # Hash
-  "created_at" => 1, # Integer
   "expiry" => {}, # Hash
-  "last_four" => "example_last_four", # String
+  "month" => "example_month", # String
   "number" => "example_number", # String
+  "year" => "example_year", # String
 })
 ```
 
@@ -715,7 +686,7 @@ Create an instance: `card_art = client.CardArt`
 #### Example: Load
 
 ```ruby
-# load returns the bare CardArt record (raises on error).
+# load returns the ENTITY — call data_get for the CardArt record (raises on error).
 card_art = client.CardArt.load({ "network_token_id" => "network_token_id" })
 ```
 
@@ -765,25 +736,19 @@ Create an instance: `core = client.Core`
 | --- | --- | --- |
 | `app` | `String` |  |
 | `authentication` | `Object` |  |
-| `category` | `String` |  |
-| `created_at` | `Integer` |  |
-| `custom_domain` | `String` |  |
-| `destination_domain` | `String` |  |
-| `encrypt_empty_string` | `Boolean` |  |
-| `encrypted_at` | `Integer` |  |
-| `evervault_domain` | `String` |  |
-| `fingerprint` | `String` |  |
+| `createdAt` | `Integer` |  |
+| `customDomain` | `String` |  |
+| `destinationDomain` | `String` |  |
+| `encryptEmptyStrings` | `Boolean` |  |
+| `evervaultDomain` | `String` |  |
 | `id` | `String` |  |
-| `metadata` | `Object` |  |
-| `phone_number` | `String` |  |
+| `phoneNumber` | `String` |  |
 | `relay` | `String` |  |
-| `role` | `String` |  |
-| `route` | `Array` |  |
+| `routes` | `Array` |  |
 | `status` | `String` |  |
 | `token` | `String` |  |
-| `type` | `String` |  |
-| `updated_at` | `Integer` |  |
-| `validation_record` | `String` |  |
+| `updatedAt` | `Integer` |  |
+| `validationRecord` | `String` |  |
 
 #### Example: List
 
@@ -796,8 +761,8 @@ cores = client.Core.list
 
 ```ruby
 core = client.Core.create({
-  "destination_domain" => "example_destination_domain", # String
-  "route" => [], # Array
+  "destinationDomain" => "example_destinationDomain", # String
+  "routes" => [], # Array
   "token" => "example_token", # String
 })
 ```
@@ -818,18 +783,18 @@ Create an instance: `custom_domain = client.CustomDomain`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | `Integer` |  |
-| `custom_domain` | `String` |  |
+| `createdAt` | `Integer` |  |
+| `customDomain` | `String` |  |
 | `id` | `String` |  |
 | `relay` | `String` |  |
 | `status` | `String` |  |
-| `updated_at` | `Integer` |  |
-| `validation_record` | `String` |  |
+| `updatedAt` | `Integer` |  |
+| `validationRecord` | `String` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare CustomDomain record (raises on error).
+# load returns the ENTITY — call data_get for the CustomDomain record (raises on error).
 custom_domain = client.CustomDomain.load({ "id" => "custom_domain_id", "relay_id" => "relay_id" })
 ```
 
@@ -857,7 +822,7 @@ Create an instance: `function_run = client.FunctionRun`
 | Field | Type | Description |
 | --- | --- | --- |
 | `async` | `Boolean` |  |
-| `created_at` | `Integer` |  |
+| `createdAt` | `Integer` |  |
 | `error` | `Object` |  |
 | `id` | `String` |  |
 | `payload` | `Hash` |  |
@@ -869,6 +834,7 @@ Create an instance: `function_run = client.FunctionRun`
 ```ruby
 function_run = client.FunctionRun.create({
   "function_name" => "example_function_name", # String
+  "payload" => {}, # Hash
 })
 ```
 
@@ -889,21 +855,21 @@ Create an instance: `merchant = client.Merchant`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `apple_pay` | `Hash` |  |
+| `applePay` | `Hash` |  |
 | `business` | `Hash` |  |
-| `category_code` | `String` |  |
-| `created_at` | `Integer` |  |
+| `categoryCode` | `String` |  |
+| `createdAt` | `Integer` |  |
 | `id` | `String` |  |
 | `name` | `String` |  |
-| `network_token` | `Hash` |  |
-| `short_name` | `String` |  |
-| `updated_at` | `Integer` |  |
+| `networkTokens` | `Hash` |  |
+| `shortName` | `String` |  |
+| `updatedAt` | `Integer` |  |
 | `website` | `String` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare Merchant record (raises on error).
+# load returns the ENTITY — call data_get for the Merchant record (raises on error).
 merchant = client.Merchant.load({ "id" => "merchant_id" })
 ```
 
@@ -911,7 +877,7 @@ merchant = client.Merchant.load({ "id" => "merchant_id" })
 
 ```ruby
 merchant = client.Merchant.create({
-  "created_at" => 1, # Integer
+  "createdAt" => 1, # Integer
   "id" => "example_id", # String
   "name" => "example_name", # String
   "website" => "example_website", # String
@@ -935,22 +901,22 @@ Create an instance: `network_token = client.NetworkToken`
 | Field | Type | Description |
 | --- | --- | --- |
 | `card` | `Hash` |  |
-| `created_at` | `Integer` |  |
+| `createdAt` | `Integer` |  |
 | `expiry` | `Hash` |  |
 | `id` | `String` |  |
 | `merchant` | `String` |  |
 | `number` | `String` |  |
-| `payment_account_reference` | `String` |  |
+| `paymentAccountReference` | `String` |  |
 | `status` | `String` |  |
-| `token_requestor_identifier` | `String` |  |
-| `token_service_provider` | `String` |  |
-| `update_type` | `String` |  |
-| `updated_at` | `Integer` |  |
+| `tokenRequestorIdentifier` | `String` |  |
+| `tokenServiceProvider` | `String` |  |
+| `updateType` | `String` |  |
+| `updatedAt` | `Integer` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare NetworkToken record (raises on error).
+# load returns the ENTITY — call data_get for the NetworkToken record (raises on error).
 network_token = client.NetworkToken.load({ "id" => "network_token_id" })
 ```
 
@@ -959,14 +925,14 @@ network_token = client.NetworkToken.load({ "id" => "network_token_id" })
 ```ruby
 network_token = client.NetworkToken.create({
   "card" => {}, # Hash
-  "created_at" => 1, # Integer
+  "createdAt" => 1, # Integer
   "expiry" => {}, # Hash
   "id" => "example_id", # String
   "merchant" => "example_merchant", # String
   "number" => "example_number", # String
   "status" => "example_status", # String
-  "token_requestor_identifier" => "example_token_requestor_identifier", # String
-  "token_service_provider" => "example_token_service_provider", # String
+  "tokenRequestorIdentifier" => "example_tokenRequestorIdentifier", # String
+  "tokenServiceProvider" => "example_tokenServiceProvider", # String
 })
 ```
 
@@ -985,7 +951,7 @@ Create an instance: `network_token_cryptogram = client.NetworkTokenCryptogram`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | `Integer` |  |
+| `createdAt` | `Integer` |  |
 | `cryptogram` | `String` |  |
 | `id` | `String` |  |
 
@@ -1013,20 +979,21 @@ Create an instance: `payment = client.Payment`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `apple_pay` | `Hash` |  |
+| `applePay` | `Hash` |  |
 | `business` | `Hash` |  |
-| `category_code` | `String` |  |
-| `configuration` | `Array` |  |
+| `categoryCode` | `String` |  |
+| `configurations` | `Array` |  |
+| `createdAt` | `Integer` |  |
 | `created_at` | `Integer` |  |
 | `data` | `Hash` |  |
 | `default` | `Boolean` |  |
 | `description` | `String` |  |
 | `id` | `String` |  |
 | `name` | `String` |  |
-| `network_token` | `Hash` |  |
-| `short_name` | `String` |  |
+| `networkTokens` | `Hash` |  |
+| `shortName` | `String` |  |
 | `type` | `String` |  |
-| `updated_at` | `Integer` |  |
+| `updatedAt` | `Integer` |  |
 | `website` | `String` |  |
 
 #### Example: List
@@ -1054,18 +1021,18 @@ Create an instance: `relay = client.Relay`
 | --- | --- | --- |
 | `app` | `String` |  |
 | `authentication` | `Object` |  |
-| `created_at` | `Integer` |  |
-| `destination_domain` | `String` |  |
-| `encrypt_empty_string` | `Boolean` |  |
-| `evervault_domain` | `String` |  |
+| `createdAt` | `Integer` |  |
+| `destinationDomain` | `String` |  |
+| `encryptEmptyStrings` | `Boolean` |  |
+| `evervaultDomain` | `String` |  |
 | `id` | `String` |  |
-| `route` | `Array` |  |
-| `updated_at` | `Integer` |  |
+| `routes` | `Array` |  |
+| `updatedAt` | `Integer` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare Relay record (raises on error).
+# load returns the ENTITY — call data_get for the Relay record (raises on error).
 relay = client.Relay.load({ "id" => "relay_id" })
 ```
 
@@ -1085,35 +1052,35 @@ Create an instance: `three_ds_session = client.ThreeDsSession`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `access_control_server` | `Hash` |  |
+| `accessControlServer` | `Hash` |  |
 | `acquirer` | `Hash` |  |
-| `are` | `Hash` |  |
+| `ares` | `Hash` |  |
 | `authentication` | `Hash` |  |
 | `card` | `Hash` |  |
 | `challenge` | `Hash` |  |
-| `cre` | `Object` |  |
-| `created_at` | `Integer` |  |
+| `createdAt` | `Integer` |  |
+| `cres` | `Object` |  |
 | `cryptogram` | `String` |  |
 | `customer` | `Hash` |  |
-| `directory_server` | `Hash` |  |
+| `directoryServer` | `Hash` |  |
 | `eci` | `Hash` |  |
-| `failure_reason` | `String` |  |
+| `failureReason` | `String` |  |
 | `id` | `String` |  |
 | `initiator` | `Hash` |  |
 | `merchant` | `Hash` |  |
-| `next_action` | `Hash` |  |
+| `nextAction` | `Hash` |  |
 | `payment` | `Hash` |  |
-| `preferred_version` | `Array` |  |
+| `preferredVersions` | `Array` |  |
 | `rreq` | `Object` |  |
 | `status` | `String` |  |
-| `three_ds_server` | `Hash` |  |
-| `updated_at` | `Integer` |  |
+| `threeDSServer` | `Hash` |  |
+| `updatedAt` | `Integer` |  |
 | `version` | `String` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare ThreeDsSession record (raises on error).
+# load returns the ENTITY — call data_get for the ThreeDsSession record (raises on error).
 three_ds_session = client.ThreeDsSession.load({ "3ds_session_id" => "3ds_session_id" })
 ```
 
@@ -1125,10 +1092,10 @@ three_ds_session = client.ThreeDsSession.create({
   "authentication" => {}, # Hash
   "card" => {}, # Hash
   "challenge" => {}, # Hash
-  "created_at" => 1, # Integer
+  "createdAt" => 1, # Integer
   "id" => "example_id", # String
   "merchant" => {}, # Hash
-  "next_action" => {}, # Hash
+  "nextAction" => {}, # Hash
   "status" => "example_status", # String
   "version" => "example_version", # String
 })
@@ -1151,10 +1118,10 @@ Create an instance: `webhook = client.Webhook`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | `Integer` |  |
-| `event` | `Array` |  |
+| `createdAt` | `Integer` |  |
+| `events` | `Array` |  |
 | `id` | `String` |  |
-| `updated_at` | `Object` |  |
+| `updatedAt` | `Object` |  |
 | `url` | `String` |  |
 
 #### Example: List
@@ -1168,7 +1135,7 @@ webhooks = client.Webhook.list
 
 ```ruby
 webhook = client.Webhook.create({
-  "event" => [], # Array
+  "events" => [], # Array
   "url" => "example_url", # String
 })
 ```
@@ -1189,16 +1156,16 @@ Create an instance: `webhook_endpoint = client.WebhookEndpoint`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | `Integer` |  |
-| `event` | `Array` |  |
+| `createdAt` | `Integer` |  |
+| `events` | `Array` |  |
 | `id` | `String` |  |
-| `updated_at` | `Object` |  |
+| `updatedAt` | `Object` |  |
 | `url` | `String` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare WebhookEndpoint record (raises on error).
+# load returns the ENTITY — call data_get for the WebhookEndpoint record (raises on error).
 webhook_endpoint = client.WebhookEndpoint.load({ "id" => "webhook_endpoint_id" })
 ```
 

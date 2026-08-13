@@ -44,7 +44,7 @@ class ClientSideTokenEntityTest extends TestCase
             Vs::getpath($setup["data"], "new.client_side_token"), "client_side_token_ref01"));
 
         $client_side_token_ref01_data_result = $client_side_token_ref01_ent->create($client_side_token_ref01_data, null);
-        $client_side_token_ref01_data = Helpers::to_map($client_side_token_ref01_data_result);
+        $client_side_token_ref01_data = Helpers::to_map(is_object($client_side_token_ref01_data_result) && method_exists($client_side_token_ref01_data_result, 'data_get') ? $client_side_token_ref01_data_result->data_get() : $client_side_token_ref01_data_result);
         $this->assertNotNull($client_side_token_ref01_data);
 
     }

@@ -41,7 +41,7 @@ describe("ClientSideTokenEntity", function()
 
     local client_side_token_ref01_data_result, err = client_side_token_ref01_ent:create(client_side_token_ref01_data, nil)
     assert.is_nil(err)
-    client_side_token_ref01_data = helpers.to_map(client_side_token_ref01_data_result)
+    client_side_token_ref01_data = helpers.to_map(type(client_side_token_ref01_data_result) == 'table' and client_side_token_ref01_data_result.data_get and client_side_token_ref01_data_result:data_get() or client_side_token_ref01_data_result)
     assert.is_not_nil(client_side_token_ref01_data)
 
   end)

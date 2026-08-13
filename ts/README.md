@@ -54,17 +54,19 @@ try {
 ### 4. Create, update, and remove
 
 ```ts
-// Create — returns the created Acquirer
+// Create — returns the created Acquirer ENTITY (.data() for the record)
 const created = await client.Acquirer().create({
-  configuration: [],
+  configurations: [],
   default: true,
   id: 'example_id',
   name: 'example_name',
 })
 
-// Update — the id comes straight off the returned entity
+// Update — the id comes off the returned entity's data()
 const updated = await client.Acquirer().update({
-  id: created.id!,
+  id: created.data().id!,
+  configurations: [],
+  default: true,
 })
 
 ```
@@ -144,7 +146,8 @@ Create a mock client for unit testing — no server required:
 const client = EvervaultSDK.test()
 
 const merchant = await client.Merchant().load({ id: 'test01' })
-// merchant is a bare entity populated with mock response data
+// merchant is the entity, populated with mock response data
+// — call merchant.data() for the record itself
 console.log(merchant)
 ```
 
@@ -333,7 +336,7 @@ The `prepare()` method returns:
 
 | Field | Description |
 | --- | --- |
-| `configuration` |  |
+| `configurations` |  |
 | `default` |  |
 | `description` |  |
 | `id` |  |
@@ -358,25 +361,13 @@ API path: `/payments/bin-lookups`
 | Field | Description |
 | --- | --- |
 | `address` |  |
-| `automatic_update` |  |
-| `bin` |  |
-| `brand` |  |
 | `card` |  |
 | `cardholder` |  |
-| `country` |  |
-| `created_at` |  |
-| `currency` |  |
 | `expiry` |  |
-| `extension` |  |
-| `funding` |  |
-| `id` |  |
-| `issuer` |  |
-| `last_four` |  |
+| `extensions` |  |
+| `month` |  |
 | `number` |  |
-| `replacement` |  |
-| `segment` |  |
-| `status` |  |
-| `updated_at` |  |
+| `year` |  |
 
 Operations: create, load.
 
@@ -413,25 +404,19 @@ API path: `/client-side-tokens`
 | --- | --- |
 | `app` |  |
 | `authentication` |  |
-| `category` |  |
-| `created_at` |  |
-| `custom_domain` |  |
-| `destination_domain` |  |
-| `encrypt_empty_string` |  |
-| `encrypted_at` |  |
-| `evervault_domain` |  |
-| `fingerprint` |  |
+| `createdAt` |  |
+| `customDomain` |  |
+| `destinationDomain` |  |
+| `encryptEmptyStrings` |  |
+| `evervaultDomain` |  |
 | `id` |  |
-| `metadata` |  |
-| `phone_number` |  |
+| `phoneNumber` |  |
 | `relay` |  |
-| `role` |  |
-| `route` |  |
+| `routes` |  |
 | `status` |  |
 | `token` |  |
-| `type` |  |
-| `updated_at` |  |
-| `validation_record` |  |
+| `updatedAt` |  |
+| `validationRecord` |  |
 
 Operations: create, list, remove.
 
@@ -441,13 +426,13 @@ API path: `/decrypt`
 
 | Field | Description |
 | --- | --- |
-| `created_at` |  |
-| `custom_domain` |  |
+| `createdAt` |  |
+| `customDomain` |  |
 | `id` |  |
 | `relay` |  |
 | `status` |  |
-| `updated_at` |  |
-| `validation_record` |  |
+| `updatedAt` |  |
+| `validationRecord` |  |
 
 Operations: create, load.
 
@@ -458,7 +443,7 @@ API path: `/relays/{relay_id}/custom-domains`
 | Field | Description |
 | --- | --- |
 | `async` |  |
-| `created_at` |  |
+| `createdAt` |  |
 | `error` |  |
 | `id` |  |
 | `payload` |  |
@@ -473,15 +458,15 @@ API path: `/functions/{function_name}/runs`
 
 | Field | Description |
 | --- | --- |
-| `apple_pay` |  |
+| `applePay` |  |
 | `business` |  |
-| `category_code` |  |
-| `created_at` |  |
+| `categoryCode` |  |
+| `createdAt` |  |
 | `id` |  |
 | `name` |  |
-| `network_token` |  |
-| `short_name` |  |
-| `updated_at` |  |
+| `networkTokens` |  |
+| `shortName` |  |
+| `updatedAt` |  |
 | `website` |  |
 
 Operations: create, load, update.
@@ -493,17 +478,17 @@ API path: `/payments/merchants`
 | Field | Description |
 | --- | --- |
 | `card` |  |
-| `created_at` |  |
+| `createdAt` |  |
 | `expiry` |  |
 | `id` |  |
 | `merchant` |  |
 | `number` |  |
-| `payment_account_reference` |  |
+| `paymentAccountReference` |  |
 | `status` |  |
-| `token_requestor_identifier` |  |
-| `token_service_provider` |  |
-| `update_type` |  |
-| `updated_at` |  |
+| `tokenRequestorIdentifier` |  |
+| `tokenServiceProvider` |  |
+| `updateType` |  |
+| `updatedAt` |  |
 
 Operations: create, load.
 
@@ -513,7 +498,7 @@ API path: `/payments/network-tokens/{network_token_id}/simulate`
 
 | Field | Description |
 | --- | --- |
-| `created_at` |  |
+| `createdAt` |  |
 | `cryptogram` |  |
 | `id` |  |
 
@@ -525,20 +510,21 @@ API path: `/payments/network-tokens/{network_token_id}/cryptograms`
 
 | Field | Description |
 | --- | --- |
-| `apple_pay` |  |
+| `applePay` |  |
 | `business` |  |
-| `category_code` |  |
-| `configuration` |  |
+| `categoryCode` |  |
+| `configurations` |  |
+| `createdAt` |  |
 | `created_at` |  |
 | `data` |  |
 | `default` |  |
 | `description` |  |
 | `id` |  |
 | `name` |  |
-| `network_token` |  |
-| `short_name` |  |
+| `networkTokens` |  |
+| `shortName` |  |
 | `type` |  |
-| `updated_at` |  |
+| `updatedAt` |  |
 | `website` |  |
 
 Operations: list, remove.
@@ -551,13 +537,13 @@ API path: `/payments/merchants`
 | --- | --- |
 | `app` |  |
 | `authentication` |  |
-| `created_at` |  |
-| `destination_domain` |  |
-| `encrypt_empty_string` |  |
-| `evervault_domain` |  |
+| `createdAt` |  |
+| `destinationDomain` |  |
+| `encryptEmptyStrings` |  |
+| `evervaultDomain` |  |
 | `id` |  |
-| `route` |  |
-| `updated_at` |  |
+| `routes` |  |
+| `updatedAt` |  |
 
 Operations: load, update.
 
@@ -567,29 +553,29 @@ API path: `/relays/{id}`
 
 | Field | Description |
 | --- | --- |
-| `access_control_server` |  |
+| `accessControlServer` |  |
 | `acquirer` |  |
-| `are` |  |
+| `ares` |  |
 | `authentication` |  |
 | `card` |  |
 | `challenge` |  |
-| `cre` |  |
-| `created_at` |  |
+| `createdAt` |  |
+| `cres` |  |
 | `cryptogram` |  |
 | `customer` |  |
-| `directory_server` |  |
+| `directoryServer` |  |
 | `eci` |  |
-| `failure_reason` |  |
+| `failureReason` |  |
 | `id` |  |
 | `initiator` |  |
 | `merchant` |  |
-| `next_action` |  |
+| `nextAction` |  |
 | `payment` |  |
-| `preferred_version` |  |
+| `preferredVersions` |  |
 | `rreq` |  |
 | `status` |  |
-| `three_ds_server` |  |
-| `updated_at` |  |
+| `threeDSServer` |  |
+| `updatedAt` |  |
 | `version` |  |
 
 Operations: create, load.
@@ -600,10 +586,10 @@ API path: `/payments/3ds-sessions`
 
 | Field | Description |
 | --- | --- |
-| `created_at` |  |
-| `event` |  |
+| `createdAt` |  |
+| `events` |  |
 | `id` |  |
-| `updated_at` |  |
+| `updatedAt` |  |
 | `url` |  |
 
 Operations: create, list, remove.
@@ -614,10 +600,10 @@ API path: `/webhook-endpoints`
 
 | Field | Description |
 | --- | --- |
-| `created_at` |  |
-| `event` |  |
+| `createdAt` |  |
+| `events` |  |
 | `id` |  |
-| `updated_at` |  |
+| `updatedAt` |  |
 | `url` |  |
 
 Operations: load, update.
@@ -645,7 +631,7 @@ Create an instance: `const acquirer = client.Acquirer()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `configuration` | `any[]` |  |
+| `configurations` | `any[]` |  |
 | `default` | `boolean` |  |
 | `description` | `string` |  |
 | `id` | `string` |  |
@@ -661,7 +647,7 @@ const acquirer = await client.Acquirer().load({ id: 'acquirer_id' })
 
 ```ts
 const acquirer = await client.Acquirer().create({
-  configuration: [],
+  configurations: [],
   default: true,
   id: 'example_id',
   name: 'example_name',
@@ -710,25 +696,13 @@ Create an instance: `const card = client.Card()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `address` | `Record<string, any>` |  |
-| `automatic_update` | `string` |  |
-| `bin` | `string` |  |
-| `brand` | `string` |  |
 | `card` | `Record<string, any>` |  |
 | `cardholder` | `Record<string, any>` |  |
-| `country` | `string` |  |
-| `created_at` | `number` |  |
-| `currency` | `string` |  |
 | `expiry` | `Record<string, any>` |  |
-| `extension` | `any[]` |  |
-| `funding` | `string` |  |
-| `id` | `string` |  |
-| `issuer` | `string` |  |
-| `last_four` | `string` |  |
+| `extensions` | `any[]` |  |
+| `month` | `string` |  |
 | `number` | `string` |  |
-| `replacement` | `string | null` |  |
-| `segment` | `string` |  |
-| `status` | `string` |  |
-| `updated_at` | `number | null` |  |
+| `year` | `string` |  |
 
 #### Example: Load
 
@@ -741,12 +715,11 @@ const card = await client.Card().load({ id: 'card_id' })
 ```ts
 const card = await client.Card().create({
   address: {},
-  bin: 'example_bin',
   card: {},
-  created_at: 1,
   expiry: {},
-  last_four: 'example_last_four',
+  month: 'example_month',
   number: 'example_number',
+  year: 'example_year',
 })
 ```
 
@@ -822,25 +795,19 @@ Create an instance: `const core = client.Core()`
 | --- | --- | --- |
 | `app` | `string` |  |
 | `authentication` | `string | null` |  |
-| `category` | `string` |  |
-| `created_at` | `number` |  |
-| `custom_domain` | `string` |  |
-| `destination_domain` | `string` |  |
-| `encrypt_empty_string` | `boolean` |  |
-| `encrypted_at` | `number` |  |
-| `evervault_domain` | `string` |  |
-| `fingerprint` | `string` |  |
+| `createdAt` | `number` |  |
+| `customDomain` | `string` |  |
+| `destinationDomain` | `string` |  |
+| `encryptEmptyStrings` | `boolean` |  |
+| `evervaultDomain` | `string` |  |
 | `id` | `string` |  |
-| `metadata` | `any` |  |
-| `phone_number` | `string` |  |
+| `phoneNumber` | `string` |  |
 | `relay` | `string` |  |
-| `role` | `string` |  |
-| `route` | `any[]` |  |
+| `routes` | `any[]` |  |
 | `status` | `string` |  |
 | `token` | `string` |  |
-| `type` | `string` |  |
-| `updated_at` | `number` |  |
-| `validation_record` | `string` |  |
+| `updatedAt` | `number` |  |
+| `validationRecord` | `string` |  |
 
 #### Example: List
 
@@ -852,8 +819,8 @@ const cores = await client.Core().list()
 
 ```ts
 const core = await client.Core().create({
-  destination_domain: 'example_destination_domain',
-  route: [],
+  destinationDomain: 'example_destinationDomain',
+  routes: [],
   token: 'example_token',
 })
 ```
@@ -874,13 +841,13 @@ Create an instance: `const custom_domain = client.CustomDomain()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | `number` |  |
-| `custom_domain` | `string` |  |
+| `createdAt` | `number` |  |
+| `customDomain` | `string` |  |
 | `id` | `string` |  |
 | `relay` | `string` |  |
 | `status` | `string` |  |
-| `updated_at` | `number` |  |
-| `validation_record` | `string` |  |
+| `updatedAt` | `number` |  |
+| `validationRecord` | `string` |  |
 
 #### Example: Load
 
@@ -912,7 +879,7 @@ Create an instance: `const function_run = client.FunctionRun()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `async` | `boolean` |  |
-| `created_at` | `number` |  |
+| `createdAt` | `number` |  |
 | `error` | `Record<string, any> | null` |  |
 | `id` | `string` |  |
 | `payload` | `Record<string, any>` |  |
@@ -924,6 +891,7 @@ Create an instance: `const function_run = client.FunctionRun()`
 ```ts
 const function_run = await client.FunctionRun().create({
   function_name: 'example_function_name',
+  payload: {},
 })
 ```
 
@@ -944,15 +912,15 @@ Create an instance: `const merchant = client.Merchant()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `apple_pay` | `Record<string, any>` |  |
+| `applePay` | `Record<string, any>` |  |
 | `business` | `Record<string, any>` |  |
-| `category_code` | `string` |  |
-| `created_at` | `number` |  |
+| `categoryCode` | `string` |  |
+| `createdAt` | `number` |  |
 | `id` | `string` |  |
 | `name` | `string` |  |
-| `network_token` | `Record<string, any>` |  |
-| `short_name` | `string` |  |
-| `updated_at` | `number` |  |
+| `networkTokens` | `Record<string, any>` |  |
+| `shortName` | `string` |  |
+| `updatedAt` | `number` |  |
 | `website` | `string` |  |
 
 #### Example: Load
@@ -965,7 +933,7 @@ const merchant = await client.Merchant().load({ id: 'merchant_id' })
 
 ```ts
 const merchant = await client.Merchant().create({
-  created_at: 1,
+  createdAt: 1,
   id: 'example_id',
   name: 'example_name',
   website: 'example_website',
@@ -989,17 +957,17 @@ Create an instance: `const network_token = client.NetworkToken()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `card` | `Record<string, any>` |  |
-| `created_at` | `number` |  |
+| `createdAt` | `number` |  |
 | `expiry` | `Record<string, any>` |  |
 | `id` | `string` |  |
 | `merchant` | `string` |  |
 | `number` | `string` |  |
-| `payment_account_reference` | `string` |  |
+| `paymentAccountReference` | `string` |  |
 | `status` | `string` |  |
-| `token_requestor_identifier` | `string` |  |
-| `token_service_provider` | `string` |  |
-| `update_type` | `string` |  |
-| `updated_at` | `number` |  |
+| `tokenRequestorIdentifier` | `string` |  |
+| `tokenServiceProvider` | `string` |  |
+| `updateType` | `string` |  |
+| `updatedAt` | `number` |  |
 
 #### Example: Load
 
@@ -1012,14 +980,14 @@ const network_token = await client.NetworkToken().load({ id: 'network_token_id' 
 ```ts
 const network_token = await client.NetworkToken().create({
   card: {},
-  created_at: 1,
+  createdAt: 1,
   expiry: {},
   id: 'example_id',
   merchant: 'example_merchant',
   number: 'example_number',
   status: 'example_status',
-  token_requestor_identifier: 'example_token_requestor_identifier',
-  token_service_provider: 'example_token_service_provider',
+  tokenRequestorIdentifier: 'example_tokenRequestorIdentifier',
+  tokenServiceProvider: 'example_tokenServiceProvider',
 })
 ```
 
@@ -1038,7 +1006,7 @@ Create an instance: `const network_token_cryptogram = client.NetworkTokenCryptog
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | `number` |  |
+| `createdAt` | `number` |  |
 | `cryptogram` | `string` |  |
 | `id` | `string` |  |
 
@@ -1066,26 +1034,27 @@ Create an instance: `const payment = client.Payment()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `apple_pay` | `Record<string, any>` |  |
+| `applePay` | `Record<string, any>` |  |
 | `business` | `Record<string, any>` |  |
-| `category_code` | `string` |  |
-| `configuration` | `any[]` |  |
+| `categoryCode` | `string` |  |
+| `configurations` | `any[]` |  |
+| `createdAt` | `number` |  |
 | `created_at` | `number` |  |
 | `data` | `Record<string, any>` |  |
 | `default` | `boolean` |  |
 | `description` | `string` |  |
 | `id` | `string` |  |
 | `name` | `string` |  |
-| `network_token` | `Record<string, any>` |  |
-| `short_name` | `string` |  |
+| `networkTokens` | `Record<string, any>` |  |
+| `shortName` | `string` |  |
 | `type` | `string` |  |
-| `updated_at` | `number` |  |
+| `updatedAt` | `number` |  |
 | `website` | `string` |  |
 
 #### Example: List
 
 ```ts
-const payments = await client.Payment().list()
+const payments = await client.Payment().list({ '3ds_session_id': "example" })
 ```
 
 
@@ -1106,13 +1075,13 @@ Create an instance: `const relay = client.Relay()`
 | --- | --- | --- |
 | `app` | `string` |  |
 | `authentication` | `string | null` |  |
-| `created_at` | `number` |  |
-| `destination_domain` | `string` |  |
-| `encrypt_empty_string` | `boolean` |  |
-| `evervault_domain` | `string` |  |
+| `createdAt` | `number` |  |
+| `destinationDomain` | `string` |  |
+| `encryptEmptyStrings` | `boolean` |  |
+| `evervaultDomain` | `string` |  |
 | `id` | `string` |  |
-| `route` | `any[]` |  |
-| `updated_at` | `number` |  |
+| `routes` | `any[]` |  |
+| `updatedAt` | `number` |  |
 
 #### Example: Load
 
@@ -1136,29 +1105,29 @@ Create an instance: `const three_ds_session = client.ThreeDsSession()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `access_control_server` | `Record<string, any>` |  |
+| `accessControlServer` | `Record<string, any>` |  |
 | `acquirer` | `Record<string, any>` |  |
-| `are` | `Record<string, any>` |  |
+| `ares` | `Record<string, any>` |  |
 | `authentication` | `Record<string, any>` |  |
 | `card` | `Record<string, any>` |  |
 | `challenge` | `Record<string, any>` |  |
-| `cre` | `null | Record<string, any>` |  |
-| `created_at` | `number` |  |
+| `createdAt` | `number` |  |
+| `cres` | `null | Record<string, any>` |  |
 | `cryptogram` | `string` |  |
 | `customer` | `Record<string, any>` |  |
-| `directory_server` | `Record<string, any>` |  |
+| `directoryServer` | `Record<string, any>` |  |
 | `eci` | `Record<string, any>` |  |
-| `failure_reason` | `string` |  |
+| `failureReason` | `string` |  |
 | `id` | `string` |  |
 | `initiator` | `Record<string, any>` |  |
 | `merchant` | `Record<string, any>` |  |
-| `next_action` | `Record<string, any>` |  |
+| `nextAction` | `Record<string, any>` |  |
 | `payment` | `Record<string, any>` |  |
-| `preferred_version` | `any[]` |  |
+| `preferredVersions` | `any[]` |  |
 | `rreq` | `null | Record<string, any>` |  |
 | `status` | `string` |  |
-| `three_ds_server` | `Record<string, any>` |  |
-| `updated_at` | `number` |  |
+| `threeDSServer` | `Record<string, any>` |  |
+| `updatedAt` | `number` |  |
 | `version` | `string` |  |
 
 #### Example: Load
@@ -1175,10 +1144,10 @@ const three_ds_session = await client.ThreeDsSession().create({
   authentication: {},
   card: {},
   challenge: {},
-  created_at: 1,
+  createdAt: 1,
   id: 'example_id',
   merchant: {},
-  next_action: {},
+  nextAction: {},
   status: 'example_status',
   version: 'example_version',
 })
@@ -1201,10 +1170,10 @@ Create an instance: `const webhook = client.Webhook()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | `number` |  |
-| `event` | `any[]` |  |
+| `createdAt` | `number` |  |
+| `events` | `any[]` |  |
 | `id` | `string` |  |
-| `updated_at` | `number | null` |  |
+| `updatedAt` | `number | null` |  |
 | `url` | `string` |  |
 
 #### Example: List
@@ -1217,7 +1186,7 @@ const webhooks = await client.Webhook().list()
 
 ```ts
 const webhook = await client.Webhook().create({
-  event: [],
+  events: [],
   url: 'example_url',
 })
 ```
@@ -1238,10 +1207,10 @@ Create an instance: `const webhook_endpoint = client.WebhookEndpoint()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | `number` |  |
-| `event` | `any[]` |  |
+| `createdAt` | `number` |  |
+| `events` | `any[]` |  |
 | `id` | `string` |  |
-| `updated_at` | `number | null` |  |
+| `updatedAt` | `number | null` |  |
 | `url` | `string` |  |
 
 #### Example: Load

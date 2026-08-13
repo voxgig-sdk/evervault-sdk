@@ -38,7 +38,7 @@ class FunctionRunEntityTest < Minitest::Test
     function_run_ref01_data["function_name"] = setup[:idmap]["function_name01"]
 
     function_run_ref01_data_result = function_run_ref01_ent.create(function_run_ref01_data, nil)
-    function_run_ref01_data = Helpers.to_map(function_run_ref01_data_result)
+    function_run_ref01_data = Helpers.to_map(function_run_ref01_data_result.respond_to?(:data_get) ? function_run_ref01_data_result.data_get : function_run_ref01_data_result)
     assert !function_run_ref01_data.nil?
     assert !function_run_ref01_data["id"].nil?
 

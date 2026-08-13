@@ -4,35 +4,35 @@
       "RELAY00": {
         "app": "s5a",
         "authentication": "s5b",
-        "created_at": "s5c",
-        "destination_domain": "s5d",
-        "encrypt_empty_string": true,
-        "evervault_domain": "s5f",
+        "createdAt": "s5c",
+        "destinationDomain": "s5d",
+        "encryptEmptyStrings": true,
+        "evervaultDomain": "s5f",
         "id": "RELAY00",
-        "route": [],
-        "updated_at": "s62"
+        "routes": [],
+        "updatedAt": "s62"
       },
       "RELAY01": {
         "app": "sb4",
         "authentication": "sb5",
-        "created_at": "sb6",
-        "destination_domain": "sb7",
-        "encrypt_empty_string": true,
-        "evervault_domain": "sb9",
+        "createdAt": "sb6",
+        "destinationDomain": "sb7",
+        "encryptEmptyStrings": true,
+        "evervaultDomain": "sb9",
         "id": "RELAY01",
-        "route": [],
-        "updated_at": "sbc"
+        "routes": [],
+        "updatedAt": "sbc"
       },
       "RELAY02": {
         "app": "s10e",
         "authentication": "s10f",
-        "created_at": "s110",
-        "destination_domain": "s111",
-        "encrypt_empty_string": true,
-        "evervault_domain": "s113",
+        "createdAt": "s110",
+        "destinationDomain": "s111",
+        "encryptEmptyStrings": true,
+        "evervaultDomain": "s113",
         "id": "RELAY02",
-        "route": [],
-        "updated_at": "s116"
+        "routes": [],
+        "updatedAt": "s116"
       }
     }
   },
@@ -41,12 +41,12 @@
       "relay_ref01": {
         "app": "s168",
         "authentication": "s169",
-        "created_at": "s16a",
-        "destination_domain": "s16b",
-        "encrypt_empty_string": true,
-        "evervault_domain": "s16d",
-        "route": [],
-        "updated_at": "s170"
+        "createdAt": "s16a",
+        "destinationDomain": "s16b",
+        "encryptEmptyStrings": true,
+        "evervaultDomain": "s16d",
+        "routes": [],
+        "updatedAt": "s170"
       }
     }
   }

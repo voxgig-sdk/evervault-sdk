@@ -6,12 +6,12 @@ main: kit: entity: webhook_endpoint: {
 
   fields: [
     {
-      name: "created_at"
+      name: "createdAt"
       req: false
       type: "`$INTEGER`"
     }
     {
-      name: "event"
+      name: "events"
       op: {
         update: {
           req: true
@@ -27,7 +27,7 @@ main: kit: entity: webhook_endpoint: {
       type: "`$STRING`"
     }
     {
-      name: "updated_at"
+      name: "updatedAt"
       req: false
       type: [
         "`$ONE`"

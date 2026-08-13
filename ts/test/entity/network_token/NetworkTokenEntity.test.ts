@@ -62,14 +62,14 @@ describe('NetworkTokenEntity', async () => {
     const network_token_ref01_ent = client.NetworkToken()
     let network_token_ref01_data = setup.data.new.network_token['network_token_ref01']
 
-    network_token_ref01_data = await network_token_ref01_ent.create(network_token_ref01_data)
+    network_token_ref01_data = (await network_token_ref01_ent.create(network_token_ref01_data)).data()
     assert(null != network_token_ref01_data.id)
 
 
     // LOAD
     const network_token_ref01_match_dt0: any = {}
     network_token_ref01_match_dt0.id = network_token_ref01_data.id
-    const network_token_ref01_data_dt0 = await network_token_ref01_ent.load(network_token_ref01_match_dt0)
+    const network_token_ref01_data_dt0 = (await network_token_ref01_ent.load(network_token_ref01_match_dt0)).data()
     assert(network_token_ref01_data_dt0.id === network_token_ref01_data.id)
 
 

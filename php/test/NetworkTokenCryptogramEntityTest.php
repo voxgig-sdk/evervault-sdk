@@ -45,7 +45,7 @@ class NetworkTokenCryptogramEntityTest extends TestCase
         $network_token_cryptogram_ref01_data["network_token_id"] = $setup["idmap"]["network_token01"];
 
         $network_token_cryptogram_ref01_data_result = $network_token_cryptogram_ref01_ent->create($network_token_cryptogram_ref01_data, null);
-        $network_token_cryptogram_ref01_data = Helpers::to_map($network_token_cryptogram_ref01_data_result);
+        $network_token_cryptogram_ref01_data = Helpers::to_map(is_object($network_token_cryptogram_ref01_data_result) && method_exists($network_token_cryptogram_ref01_data_result, 'data_get') ? $network_token_cryptogram_ref01_data_result->data_get() : $network_token_cryptogram_ref01_data_result);
         $this->assertNotNull($network_token_cryptogram_ref01_data);
         $this->assertNotNull($network_token_cryptogram_ref01_data["id"]);
 

@@ -38,7 +38,7 @@ class NetworkTokenCryptogramEntityTest < Minitest::Test
     network_token_cryptogram_ref01_data["network_token_id"] = setup[:idmap]["network_token01"]
 
     network_token_cryptogram_ref01_data_result = network_token_cryptogram_ref01_ent.create(network_token_cryptogram_ref01_data, nil)
-    network_token_cryptogram_ref01_data = Helpers.to_map(network_token_cryptogram_ref01_data_result)
+    network_token_cryptogram_ref01_data = Helpers.to_map(network_token_cryptogram_ref01_data_result.respond_to?(:data_get) ? network_token_cryptogram_ref01_data_result.data_get : network_token_cryptogram_ref01_data_result)
     assert !network_token_cryptogram_ref01_data.nil?
     assert !network_token_cryptogram_ref01_data["id"].nil?
 

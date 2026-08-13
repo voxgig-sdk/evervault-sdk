@@ -14,12 +14,12 @@ from __future__ import annotations
 
 from urllib.parse import quote
 
-from config import make_config
-from features import _make_feature
-from core.control import EvervaultControl
-from core.error import EvervaultError
-from core.result import EvervaultResult
-from core.spec import EvervaultSpec
+from evervault_sdk.config import make_config
+from evervault_sdk.features import _make_feature
+from evervault_sdk.core.control import EvervaultControl
+from evervault_sdk.core.error import EvervaultError
+from evervault_sdk.core.result import EvervaultResult
+from evervault_sdk.core.spec import EvervaultSpec
 
 
 # True when this SDK was generated with the named feature.

@@ -62,14 +62,14 @@ describe('ThreeDsSessionEntity', async () => {
     const three_ds_session_ref01_ent = client.ThreeDsSession()
     let three_ds_session_ref01_data = setup.data.new.three_ds_session['three_ds_session_ref01']
 
-    three_ds_session_ref01_data = await three_ds_session_ref01_ent.create(three_ds_session_ref01_data)
+    three_ds_session_ref01_data = (await three_ds_session_ref01_ent.create(three_ds_session_ref01_data)).data()
     assert(null != three_ds_session_ref01_data.id)
 
 
     // LOAD
     const three_ds_session_ref01_match_dt0: any = {}
     three_ds_session_ref01_match_dt0.id = three_ds_session_ref01_data.id
-    const three_ds_session_ref01_data_dt0 = await three_ds_session_ref01_ent.load(three_ds_session_ref01_match_dt0)
+    const three_ds_session_ref01_data_dt0 = (await three_ds_session_ref01_ent.load(three_ds_session_ref01_match_dt0)).data()
     assert(three_ds_session_ref01_data_dt0.id === three_ds_session_ref01_data.id)
 
 

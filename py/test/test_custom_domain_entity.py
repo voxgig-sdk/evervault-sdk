@@ -6,9 +6,9 @@ import time
 
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from evervault_sdk.utility.voxgig_struct import voxgig_struct as vs
 from evervault_sdk import EvervaultSDK
-from core import helpers
+from evervault_sdk.core import helpers
 
 _TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 from test import runner
@@ -45,7 +45,7 @@ class TestCustomDomainEntity:
             vs.getpath(setup["data"], "new.custom_domain"), "custom_domain_ref01"))
         custom_domain_ref01_data["relay_id"] = setup["idmap"]["relay01"]
 
-        custom_domain_ref01_data = helpers.to_map(custom_domain_ref01_ent.create(custom_domain_ref01_data, None))
+        custom_domain_ref01_data = helpers.to_map(runner.entity_data(custom_domain_ref01_ent.create(custom_domain_ref01_data, None)))
         assert custom_domain_ref01_data is not None
         assert custom_domain_ref01_data["id"] is not None
 
@@ -54,7 +54,7 @@ class TestCustomDomainEntity:
             "id": custom_domain_ref01_data["id"],
         }
         custom_domain_ref01_data_dt0_loaded = custom_domain_ref01_ent.load(custom_domain_ref01_match_dt0, None)
-        custom_domain_ref01_data_dt0_load_result = helpers.to_map(custom_domain_ref01_data_dt0_loaded)
+        custom_domain_ref01_data_dt0_load_result = helpers.to_map(runner.entity_data(custom_domain_ref01_data_dt0_loaded))
         assert custom_domain_ref01_data_dt0_load_result is not None
         assert custom_domain_ref01_data_dt0_load_result["id"] == custom_domain_ref01_data["id"]
 

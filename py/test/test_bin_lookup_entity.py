@@ -6,9 +6,9 @@ import time
 
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from evervault_sdk.utility.voxgig_struct import voxgig_struct as vs
 from evervault_sdk import EvervaultSDK
-from core import helpers
+from evervault_sdk.core import helpers
 
 _TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 from test import runner
@@ -44,7 +44,7 @@ class TestBinLookupEntity:
         bin_lookup_ref01_data = helpers.to_map(vs.getprop(
             vs.getpath(setup["data"], "new.bin_lookup"), "bin_lookup_ref01"))
 
-        bin_lookup_ref01_data = helpers.to_map(bin_lookup_ref01_ent.create(bin_lookup_ref01_data, None))
+        bin_lookup_ref01_data = helpers.to_map(runner.entity_data(bin_lookup_ref01_ent.create(bin_lookup_ref01_data, None)))
         assert bin_lookup_ref01_data is not None
 
 

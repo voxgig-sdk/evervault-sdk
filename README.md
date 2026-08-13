@@ -21,7 +21,7 @@ support (`list`, `load`, `create`, `update`, `remove`):
 
 ```ts
 const client = new EvervaultSDK()
-const acquirer = await client.Acquirer().load()
+const acquirer = await client.Acquirer().load({ id: "example_id" })
 ```
 
 Thinking in entities keeps the mental model small — for people and AI agents alike —
@@ -36,9 +36,18 @@ network, and no credentials:
 ### TypeScript
 
 ```ts
-const client = EvervaultSDK.test()
+// The offline mock starts EMPTY — seed it with the records the test needs.
+// Shape: { entity: { <entity-name>: { <id>: <record> } } }
+const client = EvervaultSDK.test({
+  entity: {
+    merchant: {
+      test01: { id: 'test01', createdAt: 1, name: 'example_name' },
+    },
+  },
+})
 const merchant = await client.Merchant().load({ id: 'test01' })
-// merchant is a bare Merchant populated with mock data
+// merchant is the Merchant entity, populated with mock data
+// — call merchant.data() for the record itself
 console.log(merchant)
 ```
 
@@ -156,20 +165,20 @@ The API exposes 16 entities:
 
 | Entity | Description | API path |
 | --- | --- | --- |
-| **Acquirer** | The Acquirer entity (create, load, update). | `/payments/acquirers` |
+| **Acquirer** | The Acquirer entity (create, load, update). | `/payments/acquirers/{acquirer_id}` |
 | **BinLookup** | The BinLookup entity (create). | `/payments/bin-lookups` |
-| **Card** | The Card entity (create, load). | `/payments/cards/{card_id}/simulate` |
+| **Card** | The Card entity (create, load). | `/payments/cards/{card_id}` |
 | **CardArt** | The CardArt entity (load). | `/payments/network-tokens/{network_token_id}/card-art` |
 | **ClientSideToken** | The ClientSideToken entity (create). | `/client-side-tokens` |
-| **Core** | The Core entity (create, list, remove). | `/decrypt` |
-| **CustomDomain** | The CustomDomain entity (create, load). | `/relays/{relay_id}/custom-domains` |
+| **Core** | The Core entity (create, list, remove). | `/relays/{relay_id}/custom-domains` |
+| **CustomDomain** | The CustomDomain entity (create, load). | `/relays/{relay_id}/custom-domains/{id}` |
 | **FunctionRun** | The FunctionRun entity (create). | `/functions/{function_name}/runs` |
-| **Merchant** | The Merchant entity (create, load, update). | `/payments/merchants` |
-| **NetworkToken** | The NetworkToken entity (create, load). | `/payments/network-tokens/{network_token_id}/simulate` |
+| **Merchant** | The Merchant entity (create, load, update). | `/payments/merchants/{merchant_id}` |
+| **NetworkToken** | The NetworkToken entity (create, load). | `/payments/network-tokens/{network_token_id}` |
 | **NetworkTokenCryptogram** | The NetworkTokenCryptogram entity (create). | `/payments/network-tokens/{network_token_id}/cryptograms` |
-| **Payment** | The Payment entity (list, remove). | `/payments/merchants` |
+| **Payment** | The Payment entity (list, remove). | `/payments/3ds-sessions/{3ds_session_id}/messages` |
 | **Relay** | The Relay entity (load, update). | `/relays/{id}` |
-| **ThreeDsSession** | The ThreeDsSession entity (create, load). | `/payments/3ds-sessions` |
+| **ThreeDsSession** | The ThreeDsSession entity (create, load). | `/payments/3ds-sessions/{3ds_session_id}` |
 | **Webhook** | The Webhook entity (create, list, remove). | `/webhook-endpoints` |
 | **WebhookEndpoint** | The WebhookEndpoint entity (load, update). | `/webhook-endpoints/{webhook_endpoint_id}` |
 
@@ -205,7 +214,7 @@ $client = new EvervaultSDK([
 ]);
 
 
-// Load a specific acquirer (returns the bare record; throws on error)
+// Load a specific acquirer (returns the ENTITY; call data_get() for the record; throws on error)
 $acquirer = $client->Acquirer()->load(["id" => "example_id"]);
 print_r($acquirer);
 ```
@@ -240,7 +249,7 @@ client = EvervaultSDK.new({
 })
 
 
-# Load a specific acquirer (returns the bare record; raises on error)
+# Load a specific acquirer (returns the ENTITY; call data_get for the record)
 acquirer = client.Acquirer.load({ "id" => "example_id" })
 puts acquirer
 ```
@@ -376,6 +385,9 @@ Pass custom features via the `extend` option at construction time.
 
 This SDK is generated from the upstream OpenAPI specification. It is an
 unofficial client and is not affiliated with the API provider.
+
+The OpenAPI spec(s) this SDK was generated from are kept in the
+[`.sdk/def/`](.sdk/def/) folder.
 
 - Upstream API: [https://evervault.com](https://evervault.com)
 

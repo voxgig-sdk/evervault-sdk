@@ -74,7 +74,7 @@ class CoreEntityTest < Minitest::Test
     core_ref01_data["relay_id"] = setup[:idmap]["relay01"]
 
     core_ref01_data_result = core_ref01_ent.create(core_ref01_data, nil)
-    core_ref01_data = Helpers.to_map(core_ref01_data_result)
+    core_ref01_data = Helpers.to_map(core_ref01_data_result.respond_to?(:data_get) ? core_ref01_data_result.data_get : core_ref01_data_result)
     assert !core_ref01_data.nil?
     assert !core_ref01_data["id"].nil?
 

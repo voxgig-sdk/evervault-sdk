@@ -154,7 +154,7 @@ acquirer = client.Acquirer
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `configuration` | `Array` | Yes |  |
+| `configurations` | `Array` | Yes |  |
 | `default` | `Boolean` | Yes |  |
 | `description` | `String` | No |  |
 | `id` | `String` | Yes |  |
@@ -164,7 +164,7 @@ acquirer = client.Acquirer
 
 | Field | load | create | update |
 | --- | --- | --- | --- |
-| `configuration` | - | - | Yes |
+| `configurations` | - | - | Yes |
 | `default` | - | Yes | Yes |
 | `description` | - | - | - |
 | `id` | - | - | - |
@@ -178,7 +178,7 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.Acquirer.create({
-  "configuration" => [], # Array
+  "configurations" => [], # Array
   "default" => true, # Boolean
   "id" => "example_id", # String
   "name" => "example_name", # String
@@ -299,25 +299,13 @@ card = client.Card
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `address` | `Hash` | Yes |  |
-| `automatic_update` | `String` | No |  |
-| `bin` | `String` | Yes |  |
-| `brand` | `String` | No |  |
 | `card` | `Hash` | Yes |  |
 | `cardholder` | `Hash` | No |  |
-| `country` | `String` | No |  |
-| `created_at` | `Integer` | Yes |  |
-| `currency` | `String` | No |  |
 | `expiry` | `Hash` | Yes |  |
-| `extension` | `Array` | No |  |
-| `funding` | `String` | No |  |
-| `id` | `String` | No |  |
-| `issuer` | `String` | No |  |
-| `last_four` | `String` | Yes |  |
+| `extensions` | `Array` | No |  |
+| `month` | `String` | Yes |  |
 | `number` | `String` | Yes |  |
-| `replacement` | `Object` | No |  |
-| `segment` | `String` | No |  |
-| `status` | `String` | No |  |
-| `updated_at` | `Object` | No |  |
+| `year` | `String` | Yes |  |
 
 ### Operations
 
@@ -328,12 +316,11 @@ Create a new entity with the given data. Raises on error.
 ```ruby
 result = client.Card.create({
   "address" => {}, # Hash
-  "bin" => "example_bin", # String
   "card" => {}, # Hash
-  "created_at" => 1, # Integer
   "expiry" => {}, # Hash
-  "last_four" => "example_last_four", # String
+  "month" => "example_month", # String
   "number" => "example_number", # String
+  "year" => "example_year", # String
 })
 ```
 
@@ -498,25 +485,19 @@ core = client.Core
 | --- | --- | --- | --- |
 | `app` | `String` | No |  |
 | `authentication` | `Object` | No |  |
-| `category` | `String` | No |  |
-| `created_at` | `Integer` | No |  |
-| `custom_domain` | `String` | No |  |
-| `destination_domain` | `String` | Yes |  |
-| `encrypt_empty_string` | `Boolean` | No |  |
-| `encrypted_at` | `Integer` | No |  |
-| `evervault_domain` | `String` | No |  |
-| `fingerprint` | `String` | No |  |
+| `createdAt` | `Integer` | No |  |
+| `customDomain` | `String` | No |  |
+| `destinationDomain` | `String` | Yes |  |
+| `encryptEmptyStrings` | `Boolean` | No |  |
+| `evervaultDomain` | `String` | No |  |
 | `id` | `String` | No |  |
-| `metadata` | `Object` | No |  |
-| `phone_number` | `String` | No |  |
+| `phoneNumber` | `String` | No |  |
 | `relay` | `String` | No |  |
-| `role` | `String` | No |  |
-| `route` | `Array` | Yes |  |
+| `routes` | `Array` | Yes |  |
 | `status` | `String` | No |  |
 | `token` | `String` | Yes |  |
-| `type` | `String` | No |  |
-| `updated_at` | `Integer` | No |  |
-| `validation_record` | `String` | No |  |
+| `updatedAt` | `Integer` | No |  |
+| `validationRecord` | `String` | No |  |
 
 ### Field Usage by Operation
 
@@ -524,25 +505,19 @@ core = client.Core
 | --- | --- | --- | --- |
 | `app` | - | - | - |
 | `authentication` | - | - | - |
-| `category` | - | - | - |
-| `created_at` | - | - | - |
-| `custom_domain` | - | - | - |
-| `destination_domain` | Yes | - | - |
-| `encrypt_empty_string` | - | - | - |
-| `encrypted_at` | - | - | - |
-| `evervault_domain` | - | - | - |
-| `fingerprint` | - | - | - |
+| `createdAt` | - | - | - |
+| `customDomain` | - | - | - |
+| `destinationDomain` | Yes | - | - |
+| `encryptEmptyStrings` | - | - | - |
+| `evervaultDomain` | - | - | - |
 | `id` | - | - | - |
-| `metadata` | - | - | - |
-| `phone_number` | - | - | - |
+| `phoneNumber` | - | - | - |
 | `relay` | - | - | - |
-| `role` | - | - | - |
-| `route` | Yes | - | - |
+| `routes` | Yes | - | - |
 | `status` | - | - | - |
 | `token` | - | - | - |
-| `type` | - | - | - |
-| `updated_at` | - | - | - |
-| `validation_record` | - | - | - |
+| `updatedAt` | - | - | - |
+| `validationRecord` | - | - | - |
 
 ### Operations
 
@@ -552,8 +527,8 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.Core.create({
-  "destination_domain" => "example_destination_domain", # String
-  "route" => [], # Array
+  "destinationDomain" => "example_destinationDomain", # String
+  "routes" => [], # Array
   "token" => "example_token", # String
 })
 ```
@@ -614,25 +589,25 @@ custom_domain = client.CustomDomain
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | `Integer` | No |  |
-| `custom_domain` | `String` | No |  |
+| `createdAt` | `Integer` | No |  |
+| `customDomain` | `String` | No |  |
 | `id` | `String` | No |  |
 | `relay` | `String` | No |  |
 | `status` | `String` | No |  |
-| `updated_at` | `Integer` | No |  |
-| `validation_record` | `String` | No |  |
+| `updatedAt` | `Integer` | No |  |
+| `validationRecord` | `String` | No |  |
 
 ### Field Usage by Operation
 
 | Field | load | create |
 | --- | --- | --- |
-| `created_at` | - | - |
-| `custom_domain` | - | Yes |
+| `createdAt` | - | - |
+| `customDomain` | - | Yes |
 | `id` | - | - |
 | `relay` | - | - |
 | `status` | - | - |
-| `updated_at` | - | - |
-| `validation_record` | - | - |
+| `updatedAt` | - | - |
+| `validationRecord` | - | - |
 
 ### Operations
 
@@ -695,7 +670,7 @@ function_run = client.FunctionRun
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `async` | `Boolean` | No |  |
-| `created_at` | `Integer` | No |  |
+| `createdAt` | `Integer` | No |  |
 | `error` | `Object` | No |  |
 | `id` | `String` | No |  |
 | `payload` | `Hash` | Yes |  |
@@ -711,6 +686,7 @@ Create a new entity with the given data. Raises on error.
 ```ruby
 result = client.FunctionRun.create({
   "function_name" => "example_function_name", # String
+  "payload" => {}, # Hash
 })
 ```
 
@@ -754,30 +730,30 @@ merchant = client.Merchant
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `apple_pay` | `Hash` | No |  |
+| `applePay` | `Hash` | No |  |
 | `business` | `Hash` | No |  |
-| `category_code` | `String` | No |  |
-| `created_at` | `Integer` | Yes |  |
+| `categoryCode` | `String` | No |  |
+| `createdAt` | `Integer` | Yes |  |
 | `id` | `String` | Yes |  |
 | `name` | `String` | Yes |  |
-| `network_token` | `Hash` | No |  |
-| `short_name` | `String` | No |  |
-| `updated_at` | `Integer` | No |  |
+| `networkTokens` | `Hash` | No |  |
+| `shortName` | `String` | No |  |
+| `updatedAt` | `Integer` | No |  |
 | `website` | `String` | Yes |  |
 
 ### Field Usage by Operation
 
 | Field | load | create | update |
 | --- | --- | --- | --- |
-| `apple_pay` | - | - | - |
+| `applePay` | - | - | - |
 | `business` | - | Yes | - |
-| `category_code` | - | Yes | - |
-| `created_at` | - | - | - |
+| `categoryCode` | - | Yes | - |
+| `createdAt` | - | - | - |
 | `id` | - | - | - |
 | `name` | - | - | - |
-| `network_token` | - | - | - |
-| `short_name` | - | - | - |
-| `updated_at` | - | - | - |
+| `networkTokens` | - | - | - |
+| `shortName` | - | - | - |
+| `updatedAt` | - | - | - |
 | `website` | - | - | - |
 
 ### Operations
@@ -788,7 +764,7 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.Merchant.create({
-  "created_at" => 1, # Integer
+  "createdAt" => 1, # Integer
   "id" => "example_id", # String
   "name" => "example_name", # String
   "website" => "example_website", # String
@@ -855,17 +831,17 @@ network_token = client.NetworkToken
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `card` | `Hash` | Yes |  |
-| `created_at` | `Integer` | Yes |  |
+| `createdAt` | `Integer` | Yes |  |
 | `expiry` | `Hash` | Yes |  |
 | `id` | `String` | Yes |  |
 | `merchant` | `String` | Yes |  |
 | `number` | `String` | Yes |  |
-| `payment_account_reference` | `String` | No |  |
+| `paymentAccountReference` | `String` | No |  |
 | `status` | `String` | Yes |  |
-| `token_requestor_identifier` | `String` | Yes |  |
-| `token_service_provider` | `String` | Yes |  |
-| `update_type` | `String` | No |  |
-| `updated_at` | `Integer` | No |  |
+| `tokenRequestorIdentifier` | `String` | Yes |  |
+| `tokenServiceProvider` | `String` | Yes |  |
+| `updateType` | `String` | No |  |
+| `updatedAt` | `Integer` | No |  |
 
 ### Operations
 
@@ -876,14 +852,14 @@ Create a new entity with the given data. Raises on error.
 ```ruby
 result = client.NetworkToken.create({
   "card" => {}, # Hash
-  "created_at" => 1, # Integer
+  "createdAt" => 1, # Integer
   "expiry" => {}, # Hash
   "id" => "example_id", # String
   "merchant" => "example_merchant", # String
   "number" => "example_number", # String
   "status" => "example_status", # String
-  "token_requestor_identifier" => "example_token_requestor_identifier", # String
-  "token_service_provider" => "example_token_service_provider", # String
+  "tokenRequestorIdentifier" => "example_tokenRequestorIdentifier", # String
+  "tokenServiceProvider" => "example_tokenServiceProvider", # String
 })
 ```
 
@@ -935,7 +911,7 @@ network_token_cryptogram = client.NetworkTokenCryptogram
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | `Integer` | No |  |
+| `createdAt` | `Integer` | No |  |
 | `cryptogram` | `String` | No |  |
 | `id` | `String` | No |  |
 
@@ -991,41 +967,22 @@ payment = client.Payment
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `apple_pay` | `Hash` | No |  |
+| `applePay` | `Hash` | No |  |
 | `business` | `Hash` | No |  |
-| `category_code` | `String` | No |  |
-| `configuration` | `Array` | Yes |  |
-| `created_at` | `Integer` | Yes |  |
+| `categoryCode` | `String` | No |  |
+| `configurations` | `Array` | Yes |  |
+| `createdAt` | `Integer` | Yes |  |
+| `created_at` | `Integer` | No |  |
 | `data` | `Hash` | No |  |
 | `default` | `Boolean` | Yes |  |
 | `description` | `String` | No |  |
 | `id` | `String` | Yes |  |
 | `name` | `String` | Yes |  |
-| `network_token` | `Hash` | No |  |
-| `short_name` | `String` | No |  |
+| `networkTokens` | `Hash` | No |  |
+| `shortName` | `String` | No |  |
 | `type` | `String` | No |  |
-| `updated_at` | `Integer` | No |  |
+| `updatedAt` | `Integer` | No |  |
 | `website` | `String` | Yes |  |
-
-### Field Usage by Operation
-
-| Field | list | remove |
-| --- | --- | --- |
-| `apple_pay` | - | - |
-| `business` | - | - |
-| `category_code` | - | - |
-| `configuration` | - | - |
-| `created_at` | Yes | - |
-| `data` | - | - |
-| `default` | - | - |
-| `description` | - | - |
-| `id` | - | - |
-| `name` | - | - |
-| `network_token` | - | - |
-| `short_name` | - | - |
-| `type` | - | - |
-| `updated_at` | - | - |
-| `website` | - | - |
 
 ### Operations
 
@@ -1087,13 +1044,13 @@ relay = client.Relay
 | --- | --- | --- | --- |
 | `app` | `String` | No |  |
 | `authentication` | `Object` | No |  |
-| `created_at` | `Integer` | No |  |
-| `destination_domain` | `String` | No |  |
-| `encrypt_empty_string` | `Boolean` | No |  |
-| `evervault_domain` | `String` | No |  |
+| `createdAt` | `Integer` | No |  |
+| `destinationDomain` | `String` | No |  |
+| `encryptEmptyStrings` | `Boolean` | No |  |
+| `evervaultDomain` | `String` | No |  |
 | `id` | `String` | No |  |
-| `route` | `Array` | No |  |
-| `updated_at` | `Integer` | No |  |
+| `routes` | `Array` | No |  |
+| `updatedAt` | `Integer` | No |  |
 
 ### Operations
 
@@ -1156,58 +1113,58 @@ three_ds_session = client.ThreeDsSession
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `access_control_server` | `Hash` | No |  |
+| `accessControlServer` | `Hash` | No |  |
 | `acquirer` | `Hash` | Yes |  |
-| `are` | `Hash` | No |  |
+| `ares` | `Hash` | No |  |
 | `authentication` | `Hash` | Yes |  |
 | `card` | `Hash` | Yes |  |
 | `challenge` | `Hash` | Yes |  |
-| `cre` | `Object` | No |  |
-| `created_at` | `Integer` | Yes |  |
+| `createdAt` | `Integer` | Yes |  |
+| `cres` | `Object` | No |  |
 | `cryptogram` | `String` | No |  |
 | `customer` | `Hash` | No |  |
-| `directory_server` | `Hash` | No |  |
+| `directoryServer` | `Hash` | No |  |
 | `eci` | `Hash` | No |  |
-| `failure_reason` | `String` | No |  |
+| `failureReason` | `String` | No |  |
 | `id` | `String` | Yes |  |
 | `initiator` | `Hash` | No |  |
 | `merchant` | `Hash` | Yes |  |
-| `next_action` | `Hash` | Yes |  |
+| `nextAction` | `Hash` | Yes |  |
 | `payment` | `Hash` | No |  |
-| `preferred_version` | `Array` | No |  |
+| `preferredVersions` | `Array` | No |  |
 | `rreq` | `Object` | No |  |
 | `status` | `String` | Yes |  |
-| `three_ds_server` | `Hash` | No |  |
-| `updated_at` | `Integer` | No |  |
+| `threeDSServer` | `Hash` | No |  |
+| `updatedAt` | `Integer` | No |  |
 | `version` | `String` | Yes |  |
 
 ### Field Usage by Operation
 
 | Field | load | create |
 | --- | --- | --- |
-| `access_control_server` | - | - |
+| `accessControlServer` | - | - |
 | `acquirer` | - | Yes |
-| `are` | - | - |
+| `ares` | - | - |
 | `authentication` | - | - |
 | `card` | - | - |
 | `challenge` | - | - |
-| `cre` | - | - |
-| `created_at` | - | - |
+| `createdAt` | - | - |
+| `cres` | - | - |
 | `cryptogram` | - | - |
 | `customer` | - | - |
-| `directory_server` | - | - |
+| `directoryServer` | - | - |
 | `eci` | - | - |
-| `failure_reason` | - | - |
+| `failureReason` | - | - |
 | `id` | - | - |
 | `initiator` | - | - |
 | `merchant` | - | - |
-| `next_action` | - | - |
+| `nextAction` | - | - |
 | `payment` | - | - |
-| `preferred_version` | - | - |
+| `preferredVersions` | - | - |
 | `rreq` | - | - |
 | `status` | - | - |
-| `three_ds_server` | - | - |
-| `updated_at` | - | - |
+| `threeDSServer` | - | - |
+| `updatedAt` | - | - |
 | `version` | - | - |
 
 ### Operations
@@ -1222,10 +1179,10 @@ result = client.ThreeDsSession.create({
   "authentication" => {}, # Hash
   "card" => {}, # Hash
   "challenge" => {}, # Hash
-  "created_at" => 1, # Integer
+  "createdAt" => 1, # Integer
   "id" => "example_id", # String
   "merchant" => {}, # Hash
-  "next_action" => {}, # Hash
+  "nextAction" => {}, # Hash
   "status" => "example_status", # String
   "version" => "example_version", # String
 })
@@ -1279,20 +1236,20 @@ webhook = client.Webhook
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | `Integer` | No |  |
-| `event` | `Array` | Yes |  |
+| `createdAt` | `Integer` | No |  |
+| `events` | `Array` | Yes |  |
 | `id` | `String` | No |  |
-| `updated_at` | `Object` | No |  |
+| `updatedAt` | `Object` | No |  |
 | `url` | `String` | Yes |  |
 
 ### Field Usage by Operation
 
 | Field | list | create | remove |
 | --- | --- | --- | --- |
-| `created_at` | - | - | - |
-| `event` | Yes | - | - |
+| `createdAt` | - | - | - |
+| `events` | Yes | - | - |
 | `id` | - | - | - |
-| `updated_at` | - | - | - |
+| `updatedAt` | - | - | - |
 | `url` | Yes | - | - |
 
 ### Operations
@@ -1303,7 +1260,7 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.Webhook.create({
-  "event" => [], # Array
+  "events" => [], # Array
   "url" => "example_url", # String
 })
 ```
@@ -1364,20 +1321,20 @@ webhook_endpoint = client.WebhookEndpoint
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | `Integer` | No |  |
-| `event` | `Array` | No |  |
+| `createdAt` | `Integer` | No |  |
+| `events` | `Array` | No |  |
 | `id` | `String` | No |  |
-| `updated_at` | `Object` | No |  |
+| `updatedAt` | `Object` | No |  |
 | `url` | `String` | No |  |
 
 ### Field Usage by Operation
 
 | Field | load | update |
 | --- | --- | --- |
-| `created_at` | - | - |
-| `event` | - | Yes |
+| `createdAt` | - | - |
+| `events` | - | Yes |
 | `id` | - | - |
-| `updated_at` | - | - |
+| `updatedAt` | - | - |
 | `url` | - | - |
 
 ### Operations

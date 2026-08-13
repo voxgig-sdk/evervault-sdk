@@ -11,7 +11,7 @@ main: kit: entity: function_run: {
       type: "`$BOOLEAN`"
     }
     {
-      name: "created_at"
+      name: "createdAt"
       req: false
       type: "`$INTEGER`"
     }

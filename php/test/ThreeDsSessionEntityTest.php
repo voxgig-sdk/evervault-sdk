@@ -44,7 +44,7 @@ class ThreeDsSessionEntityTest extends TestCase
             Vs::getpath($setup["data"], "new.three_ds_session"), "three_ds_session_ref01"));
 
         $three_ds_session_ref01_data_result = $three_ds_session_ref01_ent->create($three_ds_session_ref01_data, null);
-        $three_ds_session_ref01_data = Helpers::to_map($three_ds_session_ref01_data_result);
+        $three_ds_session_ref01_data = Helpers::to_map(is_object($three_ds_session_ref01_data_result) && method_exists($three_ds_session_ref01_data_result, 'data_get') ? $three_ds_session_ref01_data_result->data_get() : $three_ds_session_ref01_data_result);
         $this->assertNotNull($three_ds_session_ref01_data);
         $this->assertNotNull($three_ds_session_ref01_data["id"]);
 
@@ -53,7 +53,7 @@ class ThreeDsSessionEntityTest extends TestCase
             "id" => $three_ds_session_ref01_data["id"],
         ];
         $three_ds_session_ref01_data_dt0_loaded = $three_ds_session_ref01_ent->load($three_ds_session_ref01_match_dt0, null);
-        $three_ds_session_ref01_data_dt0_load_result = Helpers::to_map($three_ds_session_ref01_data_dt0_loaded);
+        $three_ds_session_ref01_data_dt0_load_result = Helpers::to_map(is_object($three_ds_session_ref01_data_dt0_loaded) && method_exists($three_ds_session_ref01_data_dt0_loaded, 'data_get') ? $three_ds_session_ref01_data_dt0_loaded->data_get() : $three_ds_session_ref01_data_dt0_loaded);
         $this->assertNotNull($three_ds_session_ref01_data_dt0_load_result);
         $this->assertEquals($three_ds_session_ref01_data_dt0_load_result["id"], $three_ds_session_ref01_data["id"]);
 

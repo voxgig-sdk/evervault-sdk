@@ -42,7 +42,7 @@ describe("FunctionRunEntity", function()
 
     local function_run_ref01_data_result, err = function_run_ref01_ent:create(function_run_ref01_data, nil)
     assert.is_nil(err)
-    function_run_ref01_data = helpers.to_map(function_run_ref01_data_result)
+    function_run_ref01_data = helpers.to_map(type(function_run_ref01_data_result) == 'table' and function_run_ref01_data_result.data_get and function_run_ref01_data_result:data_get() or function_run_ref01_data_result)
     assert.is_not_nil(function_run_ref01_data)
     assert.is_not_nil(function_run_ref01_data["id"])
 

@@ -41,7 +41,7 @@ describe("AcquirerEntity", function()
 
     local acquirer_ref01_data_result, err = acquirer_ref01_ent:create(acquirer_ref01_data, nil)
     assert.is_nil(err)
-    acquirer_ref01_data = helpers.to_map(acquirer_ref01_data_result)
+    acquirer_ref01_data = helpers.to_map(type(acquirer_ref01_data_result) == 'table' and acquirer_ref01_data_result.data_get and acquirer_ref01_data_result:data_get() or acquirer_ref01_data_result)
     assert.is_not_nil(acquirer_ref01_data)
     assert.is_not_nil(acquirer_ref01_data["id"])
 
@@ -56,7 +56,7 @@ describe("AcquirerEntity", function()
 
     local acquirer_ref01_resdata_up0_result, err = acquirer_ref01_ent:update(acquirer_ref01_data_up0_up, nil)
     assert.is_nil(err)
-    local acquirer_ref01_resdata_up0 = helpers.to_map(acquirer_ref01_resdata_up0_result)
+    local acquirer_ref01_resdata_up0 = helpers.to_map(type(acquirer_ref01_resdata_up0_result) == 'table' and acquirer_ref01_resdata_up0_result.data_get and acquirer_ref01_resdata_up0_result:data_get() or acquirer_ref01_resdata_up0_result)
     assert.is_not_nil(acquirer_ref01_resdata_up0)
     assert.are.equal(acquirer_ref01_resdata_up0["id"], acquirer_ref01_data_up0_up["id"])
     assert.are.equal(acquirer_ref01_resdata_up0[acquirer_ref01_markdef_up0_name], acquirer_ref01_markdef_up0_value)
@@ -67,7 +67,7 @@ describe("AcquirerEntity", function()
     }
     local acquirer_ref01_data_dt0_loaded, err = acquirer_ref01_ent:load(acquirer_ref01_match_dt0, nil)
     assert.is_nil(err)
-    local acquirer_ref01_data_dt0_load_result = helpers.to_map(acquirer_ref01_data_dt0_loaded)
+    local acquirer_ref01_data_dt0_load_result = helpers.to_map(type(acquirer_ref01_data_dt0_loaded) == 'table' and acquirer_ref01_data_dt0_loaded.data_get and acquirer_ref01_data_dt0_loaded:data_get() or acquirer_ref01_data_dt0_loaded)
     assert.is_not_nil(acquirer_ref01_data_dt0_load_result)
     assert.are.equal(acquirer_ref01_data_dt0_load_result["id"], acquirer_ref01_data["id"])
 
