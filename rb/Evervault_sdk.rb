@@ -28,7 +28,7 @@ class EvervaultSDK
     utility = EvervaultUtility.new
     @_utility = utility
 
-    config = EvervaultConfig.make_config
+    config = EvervaultConfig.shared_config
 
     @_rootctx = utility.make_context.call({
       "client" => self,

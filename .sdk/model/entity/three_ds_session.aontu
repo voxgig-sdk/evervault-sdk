@@ -91,6 +91,11 @@ main: kit: entity: three_ds_session: {
       name: "initiator"
       req: false
       type: "`$OBJECT`"
+      union: {
+        branches: 2
+        count: 1
+        depth: 0
+      }
     }
     {
       name: "merchant"
@@ -106,6 +111,11 @@ main: kit: entity: three_ds_session: {
       name: "payment"
       req: false
       type: "`$OBJECT`"
+      union: {
+        branches: 3
+        count: 1
+        depth: 0
+      }
     }
     {
       name: "preferredVersions"

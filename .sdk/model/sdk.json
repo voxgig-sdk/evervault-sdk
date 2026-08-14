@@ -2282,7 +2282,12 @@
               "active": true,
               "name": "initiator",
               "req": false,
-              "type": "`$OBJECT`"
+              "type": "`$OBJECT`",
+              "union": {
+                "branches": 2,
+                "count": 1,
+                "depth": 0
+              }
             },
             {
               "active": true,
@@ -2300,7 +2305,12 @@
               "active": true,
               "name": "payment",
               "req": false,
-              "type": "`$OBJECT`"
+              "type": "`$OBJECT`",
+              "union": {
+                "branches": 3,
+                "count": 1,
+                "depth": 0
+              }
             },
             {
               "active": true,

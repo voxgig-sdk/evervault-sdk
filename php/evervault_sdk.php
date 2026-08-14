@@ -40,7 +40,7 @@ class EvervaultSDK
         $utility = new EvervaultUtility();
         $this->_utility = $utility;
 
-        $config = EvervaultConfig::make_config();
+        $config = EvervaultConfig::shared_config();
 
         $this->_rootctx = ($utility->make_context)([
             "client" => $this,
