@@ -29,7 +29,7 @@ def make_config():
         "main": {
             "name": "Evervault",
             "slug": "evervault",
-            "version": "0.0.1",
+            "version": "0.1.1",
             "target": "py",
         },
         "feature": {
