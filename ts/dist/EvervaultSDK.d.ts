@@ -1,0 +1,87 @@
+import { AcquirerEntity } from './entity/AcquirerEntity';
+import { BinLookupEntity } from './entity/BinLookupEntity';
+import { CardEntity } from './entity/CardEntity';
+import { CardArtEntity } from './entity/CardArtEntity';
+import { ClientSideTokenEntity } from './entity/ClientSideTokenEntity';
+import { CoreEntity } from './entity/CoreEntity';
+import { CustomDomainEntity } from './entity/CustomDomainEntity';
+import { FunctionRunEntity } from './entity/FunctionRunEntity';
+import { MerchantEntity } from './entity/MerchantEntity';
+import { NetworkTokenEntity } from './entity/NetworkTokenEntity';
+import { NetworkTokenCryptogramEntity } from './entity/NetworkTokenCryptogramEntity';
+import { PaymentEntity } from './entity/PaymentEntity';
+import { RelayEntity } from './entity/RelayEntity';
+import { ThreeDsSessionEntity } from './entity/ThreeDsSessionEntity';
+import { WebhookEntity } from './entity/WebhookEntity';
+import { WebhookEndpointEntity } from './entity/WebhookEndpointEntity';
+export type * from './EvervaultTypes';
+import { inspect } from 'node:util';
+import type { Context, Feature } from './types';
+import { config } from './Config';
+import { EvervaultEntityBase } from './EvervaultEntityBase';
+import { Utility } from './utility/Utility';
+import { BaseFeature } from './feature/base/BaseFeature';
+declare const stdutil: Utility;
+declare class EvervaultSDK {
+    _mode: string;
+    _options: any;
+    _utility: Utility;
+    _features: Feature[];
+    _rootctx: Context;
+    constructor(options?: any);
+    options(): any;
+    utility(): any;
+    prepare(fetchargs?: any): Promise<any>;
+    direct(fetchargs?: any): Promise<Error | {
+        ok: boolean;
+        status: number;
+        headers: any;
+        data: any;
+        err?: undefined;
+    } | {
+        ok: boolean;
+        err: any;
+        status?: undefined;
+        headers?: undefined;
+        data?: undefined;
+    }>;
+    _rawRequest(fetchargs?: any): Promise<Error | {
+        ok: boolean;
+        status: number;
+        headers: any;
+        data: any;
+        err?: undefined;
+    } | {
+        ok: boolean;
+        err: any;
+        status?: undefined;
+        headers?: undefined;
+        data?: undefined;
+    }>;
+    graphql(query: string, variables?: any, ctrl?: any): Promise<any>;
+    Acquirer(entopts?: Record<string, any>): AcquirerEntity;
+    BinLookup(entopts?: Record<string, any>): BinLookupEntity;
+    Card(entopts?: Record<string, any>): CardEntity;
+    CardArt(entopts?: Record<string, any>): CardArtEntity;
+    ClientSideToken(entopts?: Record<string, any>): ClientSideTokenEntity;
+    Core(entopts?: Record<string, any>): CoreEntity;
+    CustomDomain(entopts?: Record<string, any>): CustomDomainEntity;
+    FunctionRun(entopts?: Record<string, any>): FunctionRunEntity;
+    Merchant(entopts?: Record<string, any>): MerchantEntity;
+    NetworkToken(entopts?: Record<string, any>): NetworkTokenEntity;
+    NetworkTokenCryptogram(entopts?: Record<string, any>): NetworkTokenCryptogramEntity;
+    Payment(entopts?: Record<string, any>): PaymentEntity;
+    Relay(entopts?: Record<string, any>): RelayEntity;
+    ThreeDsSession(entopts?: Record<string, any>): ThreeDsSessionEntity;
+    Webhook(entopts?: Record<string, any>): WebhookEntity;
+    WebhookEndpoint(entopts?: Record<string, any>): WebhookEndpointEntity;
+    static test(testoptsarg?: any, sdkoptsarg?: any): EvervaultSDK;
+    tester(testopts?: any, sdkopts?: any): EvervaultSDK;
+    toJSON(): {
+        name: string;
+    };
+    toString(): string;
+    [inspect.custom](): string;
+}
+declare const SDK: typeof EvervaultSDK;
+export { stdutil, config, BaseFeature, EvervaultEntityBase, EvervaultSDK, SDK, };
