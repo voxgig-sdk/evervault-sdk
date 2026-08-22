@@ -146,7 +146,21 @@ class Core
 /** Request payload for Core#list. */
 class CoreListMatch
 {
-    public ?string $relay_id = null;
+    public ?string $app = null;
+    public mixed $authentication = null;
+    public ?int $createdAt = null;
+    public ?string $customDomain = null;
+    public ?string $destinationDomain = null;
+    public ?bool $encryptEmptyStrings = null;
+    public ?string $evervaultDomain = null;
+    public ?string $id = null;
+    public ?string $phoneNumber = null;
+    public ?string $relay = null;
+    public ?array $routes = null;
+    public ?string $status = null;
+    public ?string $token = null;
+    public ?int $updatedAt = null;
+    public ?string $validationRecord = null;
 }
 
 /** Request payload for Core#create. */
@@ -369,10 +383,7 @@ class PaymentListMatch
 /** Request payload for Payment#remove. */
 class PaymentRemoveMatch
 {
-    public ?string $acquirer_id = null;
-    public ?string $card_id = null;
-    public ?string $merchant_id = null;
-    public ?string $network_token_id = null;
+    public string $acquirer_id;
 }
 
 /** Relay entity data model. */

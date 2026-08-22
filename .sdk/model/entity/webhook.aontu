@@ -8,6 +8,7 @@ main: kit: entity: webhook: {
     {
       name: "createdAt"
       req: false
+      short: "The exact time, in epoch milliseconds, when this Webhook Endpoint was created."
       type: "`$INTEGER`"
     }
     {
@@ -19,16 +20,19 @@ main: kit: entity: webhook: {
         }
       }
       req: true
+      short: "A list of Events that the Webhook Endpoint should subscribe to."
       type: "`$ARRAY`"
     }
     {
       name: "id"
       req: false
+      short: "A unique identifier representing a specific Webhook Endpoint."
       type: "`$STRING`"
     }
     {
       name: "updatedAt"
       req: false
+      short: "The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated."
       type: [
         "`$ONE`"
         [
@@ -46,6 +50,7 @@ main: kit: entity: webhook: {
         }
       }
       req: true
+      short: "The URL of the Webhook Endpoint."
       type: "`$STRING`"
     }
   ]

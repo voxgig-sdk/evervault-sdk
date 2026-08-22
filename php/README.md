@@ -284,11 +284,11 @@ On error, `ok` is `false` and `$err` contains the error value.
 
 | Field | Description |
 | --- | --- |
-| `configurations` |  |
-| `default` |  |
-| `description` |  |
-| `id` |  |
-| `name` |  |
+| `configurations` | The acquirer configuration settings. |
+| `default` | Specifies whether this Acquirer is the default. |
+| `description` | The description of the acquirer configuration. |
+| `id` | The unique identifier of the acquirer configuration. |
+| `name` | The name of the acquirer configuration. |
 
 Operations: Create, Load, Update.
 
@@ -298,7 +298,7 @@ API path: `/payments/acquirers`
 
 | Field | Description |
 | --- | --- |
-| `number` |  |
+| `number` | The card number for which the BIN lookup is being requested. |
 
 Operations: Create.
 
@@ -308,14 +308,14 @@ API path: `/payments/bin-lookups`
 
 | Field | Description |
 | --- | --- |
-| `address` |  |
-| `card` |  |
-| `cardholder` |  |
+| `address` | Details about the cardholder's address that the address verification (AVS) is for. |
+| `card` | The card details. |
+| `cardholder` | Details about the cardholder that the name verification (ANI) is for. |
 | `expiry` |  |
-| `extensions` |  |
-| `month` |  |
-| `number` |  |
-| `year` |  |
+| `extensions` | The extensions to the card insight request. |
+| `month` | The card expiry month, in MM format (e.g. |
+| `number` | The card number. |
+| `year` | The card expiry year, in YY format (e.g. |
 
 Operations: Create, Load.
 
@@ -325,10 +325,10 @@ API path: `/payments/cards/{card_id}/simulate`
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
-| `height` |  |
-| `type` |  |
-| `width` |  |
+| `data` | The base64-encoded image data of the card art. |
+| `height` | The height of the card art image in pixels. |
+| `type` | The MIME type of the card art image. |
+| `width` | The width of the card art image in pixels. |
 
 Operations: Load.
 
@@ -338,9 +338,9 @@ API path: `/payments/network-tokens/{network_token_id}/card-art`
 
 | Field | Description |
 | --- | --- |
-| `action` |  |
-| `expiry` |  |
-| `payload` |  |
+| `action` | The action that the token should permit |
+| `expiry` | The expiry of the token in milliseconds format. |
+| `payload` | The payload that the token must be used with |
 
 Operations: Create.
 
@@ -350,21 +350,21 @@ API path: `/client-side-tokens`
 
 | Field | Description |
 | --- | --- |
-| `app` |  |
-| `authentication` |  |
-| `createdAt` |  |
-| `customDomain` |  |
-| `destinationDomain` |  |
-| `encryptEmptyStrings` |  |
-| `evervaultDomain` |  |
-| `id` |  |
+| `app` | The unique identifier for the app to which the Relay belongs. |
+| `authentication` | The type of authentication required for the Relay |
+| `createdAt` | The exact time, in epoch milliseconds, when this custom domain was created. |
+| `customDomain` | The customer managed domain to which requests to be relayed to your domain should be sent. |
+| `destinationDomain` | The domain in front of which you would like to configure a Relay |
+| `encryptEmptyStrings` | Whether or not empty strings should be encrypted. |
+| `evervaultDomain` | The Evervault managed domain to which requests to be relayed to the destination domain should be sent. |
+| `id` | The unique identifier for the custom domain. |
 | `phoneNumber` |  |
-| `relay` |  |
-| `routes` |  |
-| `status` |  |
-| `token` |  |
-| `updatedAt` |  |
-| `validationRecord` |  |
+| `relay` | The ID of the Relay with which this custom domain is associated. |
+| `routes` | A collection of route configurations for the Relay. |
+| `status` | The status of the domains DNS verification. |
+| `token` | The encrypted data to be inspected. |
+| `updatedAt` | The exact time, in epoch milliseconds, when this custom domain was last updated. |
+| `validationRecord` | Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain |
 
 Operations: Create, List, Remove.
 
@@ -374,13 +374,13 @@ API path: `/decrypt`
 
 | Field | Description |
 | --- | --- |
-| `createdAt` |  |
-| `customDomain` |  |
-| `id` |  |
-| `relay` |  |
-| `status` |  |
-| `updatedAt` |  |
-| `validationRecord` |  |
+| `createdAt` | The exact time, in epoch milliseconds, when this custom domain was created. |
+| `customDomain` | The customer managed domain to which requests to be relayed to your domain should be sent. |
+| `id` | The unique identifier for the custom domain. |
+| `relay` | The ID of the Relay with which this custom domain is associated. |
+| `status` | The status of the domains DNS verification. |
+| `updatedAt` | The exact time, in epoch milliseconds, when this custom domain was last updated. |
+| `validationRecord` | Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain |
 
 Operations: Create, Load.
 
@@ -390,13 +390,13 @@ API path: `/relays/{relay_id}/custom-domains`
 
 | Field | Description |
 | --- | --- |
-| `async` |  |
-| `createdAt` |  |
-| `error` |  |
-| `id` |  |
-| `payload` |  |
-| `result` |  |
-| `status` |  |
+| `async` | If you want your Function to run asynchronously and notify a callback URL, this can be set to `true` and the API will queue your Function run and return a `202` response code. |
+| `createdAt` | The exact time, in epoch milliseconds, when this Function execution was triggered. |
+| `error` | This field details any error that occurred during Function execution. |
+| `id` | A unique identifier representing this specific Function execution instance. |
+| `payload` | The data payload that the Function will use during its execution. |
+| `result` | This field represents the output returned by the Function. |
+| `status` | The outcome of the Function execution. |
 
 Operations: Create.
 
@@ -406,16 +406,16 @@ API path: `/functions/{function_name}/runs`
 
 | Field | Description |
 | --- | --- |
-| `applePay` |  |
-| `business` |  |
-| `categoryCode` |  |
-| `createdAt` |  |
-| `id` |  |
-| `name` |  |
-| `networkTokens` |  |
-| `shortName` |  |
-| `updatedAt` |  |
-| `website` |  |
+| `applePay` | The Merchant's Apple Pay configuration. |
+| `business` | The business details of the Merchant. |
+| `categoryCode` | The 4-digit Merchant Category Code (MCC). |
+| `createdAt` | The exact time, in epoch milliseconds, when this Merchant was created. |
+| `id` | A unique identifier assigned to each Merchant. |
+| `name` | The official name of the Merchant as recognized in transactions and communications. |
+| `networkTokens` | The Merchant's Network Token configuration. |
+| `shortName` | A shorter version of the Merchant's name. |
+| `updatedAt` | The exact time, in epoch milliseconds, when this Merchant was last updated. |
+| `website` | The official website URL of the Merchant. |
 
 Operations: Create, Load, Update.
 
@@ -425,18 +425,18 @@ API path: `/payments/merchants`
 
 | Field | Description |
 | --- | --- |
-| `card` |  |
-| `createdAt` |  |
-| `expiry` |  |
-| `id` |  |
-| `merchant` |  |
-| `number` |  |
-| `paymentAccountReference` |  |
-| `status` |  |
-| `tokenRequestorIdentifier` |  |
-| `tokenServiceProvider` |  |
-| `updateType` |  |
-| `updatedAt` |  |
+| `card` | The details of the underlying encrypted card. |
+| `createdAt` | The exact time, in epoch milliseconds, when this Network Token was created. |
+| `expiry` | The expiry details of the Network Token. |
+| `id` | A unique identifier representing a specific Network Token. |
+| `merchant` | The unique identifier of the Merchant associated with this Network Token. |
+| `number` | The unique number of the Network Token. |
+| `paymentAccountReference` | The unique identifier of the Payment Account associated with this Network Token. |
+| `status` | The status of the Network Token. |
+| `tokenRequestorIdentifier` | The identifier of the Token Requestor (TRID) that requested the Network Token. |
+| `tokenServiceProvider` | The Token Service Provider (TSP) that issued the Network Token. |
+| `updateType` | The type of update to simulate. |
+| `updatedAt` | The exact time, in epoch milliseconds, when this Network Token was last updated. |
 
 Operations: Create, Load.
 
@@ -458,22 +458,22 @@ API path: `/payments/network-tokens/{network_token_id}/cryptograms`
 
 | Field | Description |
 | --- | --- |
-| `applePay` |  |
-| `business` |  |
-| `categoryCode` |  |
-| `configurations` |  |
-| `createdAt` |  |
-| `created_at` |  |
-| `data` |  |
+| `applePay` | The Merchant's Apple Pay configuration. |
+| `business` | The business details of the Merchant. |
+| `categoryCode` | The 4-digit Merchant Category Code (MCC). |
+| `configurations` | The acquirer configuration settings. |
+| `createdAt` | The exact time, in epoch milliseconds, when this Merchant was created. |
+| `created_at` | Timestamp when the message was created |
+| `data` | The message data payload |
 | `default` |  |
-| `description` |  |
-| `id` |  |
-| `name` |  |
-| `networkTokens` |  |
-| `shortName` |  |
-| `type` |  |
-| `updatedAt` |  |
-| `website` |  |
+| `description` | The description of the acquirer configuration. |
+| `id` | A unique identifier assigned to each Merchant. |
+| `name` | The official name of the Merchant as recognized in transactions and communications. |
+| `networkTokens` | The Merchant's Network Token configuration. |
+| `shortName` | A shorter version of the Merchant's name. |
+| `type` | The type of 3DS message (e.g., AReq, ARes, CReq, CRes, RReq, RRes) |
+| `updatedAt` | The exact time, in epoch milliseconds, when this Merchant was last updated. |
+| `website` | The official website URL of the Merchant. |
 
 Operations: List, Remove.
 
@@ -483,15 +483,15 @@ API path: `/payments/merchants`
 
 | Field | Description |
 | --- | --- |
-| `app` |  |
-| `authentication` |  |
-| `createdAt` |  |
-| `destinationDomain` |  |
-| `encryptEmptyStrings` |  |
-| `evervaultDomain` |  |
-| `id` |  |
-| `routes` |  |
-| `updatedAt` |  |
+| `app` | The unique identifier for the app to which the Relay belongs. |
+| `authentication` | The type of authentication required for the Relay |
+| `createdAt` | The exact time, in epoch milliseconds, when this Relay was created. |
+| `destinationDomain` | The domain in front of which the Relay should be configured. |
+| `encryptEmptyStrings` | Whether or not empty strings should be encrypted. |
+| `evervaultDomain` | The Evervault managed domain to which requests to be relayed to the destination domain should be sent. |
+| `id` | The unique identifier for the Relay. |
+| `routes` | A collection of route configurations for the Relay. |
+| `updatedAt` | The exact time, in epoch milliseconds, when this Relay was updated. |
 
 Operations: Load, Update.
 
@@ -501,30 +501,30 @@ API path: `/relays/{id}`
 
 | Field | Description |
 | --- | --- |
-| `accessControlServer` |  |
-| `acquirer` |  |
-| `ares` |  |
-| `authentication` |  |
-| `card` |  |
-| `challenge` |  |
-| `createdAt` |  |
-| `cres` |  |
-| `cryptogram` |  |
-| `customer` |  |
-| `directoryServer` |  |
-| `eci` |  |
-| `failureReason` |  |
-| `id` |  |
-| `initiator` |  |
-| `merchant` |  |
-| `nextAction` |  |
-| `payment` |  |
-| `preferredVersions` |  |
-| `rreq` |  |
-| `status` |  |
-| `threeDSServer` |  |
-| `updatedAt` |  |
-| `version` |  |
+| `accessControlServer` | Details about the Access Control Server involved in the 3DS transaction. |
+| `acquirer` | The acquirer of the payment. |
+| `ares` | The details of the 3DS Authentication Response (ARes). |
+| `authentication` | The details of the 3DS Authentication. |
+| `card` | The card details. |
+| `challenge` | Details about the 3DS challenge. |
+| `createdAt` | The exact time, in epoch milliseconds, when this 3DS-Session was created. |
+| `cres` | The details of the 3DS Challenge Response (CRes). |
+| `cryptogram` | The 3DS cryptogram (also called Authentication Value). |
+| `customer` | The details of the customer who initiated the transaction. |
+| `directoryServer` | Details about the Directory Server involved in the 3DS transaction. |
+| `eci` | The details of the Electronic Commerce Indicator. |
+| `failureReason` | The reason for the 3DS Authentication failure. |
+| `id` | A unique identifier assigned to each 3DS Authentication. |
+| `initiator` | Details about the transaction initiation process. |
+| `merchant` | The merchant details. |
+| `nextAction` | The next action required to complete the 3DS Authentication. |
+| `payment` | The payment details of the 3D Secure Authentication. |
+| `preferredVersions` | A prioritized list of preferred 3D Secure versions. |
+| `rreq` | The result of the 3DS authentication when a challenge has occurred. |
+| `status` | The status of the 3DS Authentication. |
+| `threeDSServer` | Details about the 3DS Server involved in the 3DS transaction. |
+| `updatedAt` | The exact time, in epoch milliseconds, when this 3DS-Session was last updated. |
+| `version` | The 3D Secure version used to authenticate the session. |
 
 Operations: Create, Load.
 
@@ -534,11 +534,11 @@ API path: `/payments/3ds-sessions`
 
 | Field | Description |
 | --- | --- |
-| `createdAt` |  |
-| `events` |  |
-| `id` |  |
-| `updatedAt` |  |
-| `url` |  |
+| `createdAt` | The exact time, in epoch milliseconds, when this Webhook Endpoint was created. |
+| `events` | A list of Events that the Webhook Endpoint should subscribe to. |
+| `id` | A unique identifier representing a specific Webhook Endpoint. |
+| `updatedAt` | The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated. |
+| `url` | The URL of the Webhook Endpoint. |
 
 Operations: Create, List, Remove.
 
@@ -548,11 +548,11 @@ API path: `/webhook-endpoints`
 
 | Field | Description |
 | --- | --- |
-| `createdAt` |  |
-| `events` |  |
-| `id` |  |
-| `updatedAt` |  |
-| `url` |  |
+| `createdAt` | The exact time, in epoch milliseconds, when this Webhook Endpoint was created. |
+| `events` | A list of Events that the Webhook Endpoint is subscribed to. |
+| `id` | A unique identifier representing a specific Webhook Endpoint. |
+| `updatedAt` | The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated. |
+| `url` | The URL of the Webhook Endpoint. |
 
 Operations: Load, Update.
 
@@ -579,11 +579,11 @@ Create an instance: `$acquirer = $client->Acquirer();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `configurations` | `array` |  |
-| `default` | `bool` |  |
-| `description` | `string` |  |
-| `id` | `string` |  |
-| `name` | `string` |  |
+| `configurations` | `array` | The acquirer configuration settings. |
+| `default` | `bool` | Specifies whether this Acquirer is the default. |
+| `description` | `string` | The description of the acquirer configuration. |
+| `id` | `string` | The unique identifier of the acquirer configuration. |
+| `name` | `string` | The name of the acquirer configuration. |
 
 #### Example: Load
 
@@ -618,7 +618,7 @@ Create an instance: `$bin_lookup = $client->BinLookup();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `number` | `string` |  |
+| `number` | `string` | The card number for which the BIN lookup is being requested. |
 
 #### Example: Create
 
@@ -644,14 +644,14 @@ Create an instance: `$card = $client->Card();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `address` | `array` |  |
-| `card` | `array` |  |
-| `cardholder` | `array` |  |
+| `address` | `array` | Details about the cardholder's address that the address verification (AVS) is for. |
+| `card` | `array` | The card details. |
+| `cardholder` | `array` | Details about the cardholder that the name verification (ANI) is for. |
 | `expiry` | `array` |  |
-| `extensions` | `array` |  |
-| `month` | `string` |  |
-| `number` | `string` |  |
-| `year` | `string` |  |
+| `extensions` | `array` | The extensions to the card insight request. |
+| `month` | `string` | The card expiry month, in MM format (e.g. |
+| `number` | `string` | The card number. |
+| `year` | `string` | The card expiry year, in YY format (e.g. |
 
 #### Example: Load
 
@@ -688,10 +688,10 @@ Create an instance: `$card_art = $client->CardArt();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `string` |  |
-| `height` | `int` |  |
-| `type` | `string` |  |
-| `width` | `int` |  |
+| `data` | `string` | The base64-encoded image data of the card art. |
+| `height` | `int` | The height of the card art image in pixels. |
+| `type` | `string` | The MIME type of the card art image. |
+| `width` | `int` | The width of the card art image in pixels. |
 
 #### Example: Load
 
@@ -715,9 +715,9 @@ Create an instance: `$client_side_token = $client->ClientSideToken();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `action` | `string` |  |
-| `expiry` | `int` |  |
-| `payload` | `array` |  |
+| `action` | `string` | The action that the token should permit |
+| `expiry` | `int` | The expiry of the token in milliseconds format. |
+| `payload` | `array` | The payload that the token must be used with |
 
 #### Example: Create
 
@@ -744,21 +744,21 @@ Create an instance: `$core = $client->Core();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `app` | `string` |  |
-| `authentication` | `mixed` |  |
-| `createdAt` | `int` |  |
-| `customDomain` | `string` |  |
-| `destinationDomain` | `string` |  |
-| `encryptEmptyStrings` | `bool` |  |
-| `evervaultDomain` | `string` |  |
-| `id` | `string` |  |
+| `app` | `string` | The unique identifier for the app to which the Relay belongs. |
+| `authentication` | `mixed` | The type of authentication required for the Relay |
+| `createdAt` | `int` | The exact time, in epoch milliseconds, when this custom domain was created. |
+| `customDomain` | `string` | The customer managed domain to which requests to be relayed to your domain should be sent. |
+| `destinationDomain` | `string` | The domain in front of which you would like to configure a Relay |
+| `encryptEmptyStrings` | `bool` | Whether or not empty strings should be encrypted. |
+| `evervaultDomain` | `string` | The Evervault managed domain to which requests to be relayed to the destination domain should be sent. |
+| `id` | `string` | The unique identifier for the custom domain. |
 | `phoneNumber` | `string` |  |
-| `relay` | `string` |  |
-| `routes` | `array` |  |
-| `status` | `string` |  |
-| `token` | `string` |  |
-| `updatedAt` | `int` |  |
-| `validationRecord` | `string` |  |
+| `relay` | `string` | The ID of the Relay with which this custom domain is associated. |
+| `routes` | `array` | A collection of route configurations for the Relay. |
+| `status` | `string` | The status of the domains DNS verification. |
+| `token` | `string` | The encrypted data to be inspected. |
+| `updatedAt` | `int` | The exact time, in epoch milliseconds, when this custom domain was last updated. |
+| `validationRecord` | `string` | Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain |
 
 #### Example: List
 
@@ -793,13 +793,13 @@ Create an instance: `$custom_domain = $client->CustomDomain();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `createdAt` | `int` |  |
-| `customDomain` | `string` |  |
-| `id` | `string` |  |
-| `relay` | `string` |  |
-| `status` | `string` |  |
-| `updatedAt` | `int` |  |
-| `validationRecord` | `string` |  |
+| `createdAt` | `int` | The exact time, in epoch milliseconds, when this custom domain was created. |
+| `customDomain` | `string` | The customer managed domain to which requests to be relayed to your domain should be sent. |
+| `id` | `string` | The unique identifier for the custom domain. |
+| `relay` | `string` | The ID of the Relay with which this custom domain is associated. |
+| `status` | `string` | The status of the domains DNS verification. |
+| `updatedAt` | `int` | The exact time, in epoch milliseconds, when this custom domain was last updated. |
+| `validationRecord` | `string` | Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain |
 
 #### Example: Load
 
@@ -831,13 +831,13 @@ Create an instance: `$function_run = $client->FunctionRun();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `async` | `bool` |  |
-| `createdAt` | `int` |  |
-| `error` | `mixed` |  |
-| `id` | `string` |  |
-| `payload` | `array` |  |
-| `result` | `array` |  |
-| `status` | `string` |  |
+| `async` | `bool` | If you want your Function to run asynchronously and notify a callback URL, this can be set to `true` and the API will queue your Function run and return a `202` response code. |
+| `createdAt` | `int` | The exact time, in epoch milliseconds, when this Function execution was triggered. |
+| `error` | `mixed` | This field details any error that occurred during Function execution. |
+| `id` | `string` | A unique identifier representing this specific Function execution instance. |
+| `payload` | `array` | The data payload that the Function will use during its execution. |
+| `result` | `array` | This field represents the output returned by the Function. |
+| `status` | `string` | The outcome of the Function execution. |
 
 #### Example: Create
 
@@ -865,16 +865,16 @@ Create an instance: `$merchant = $client->Merchant();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `applePay` | `array` |  |
-| `business` | `array` |  |
-| `categoryCode` | `string` |  |
-| `createdAt` | `int` |  |
-| `id` | `string` |  |
-| `name` | `string` |  |
-| `networkTokens` | `array` |  |
-| `shortName` | `string` |  |
-| `updatedAt` | `int` |  |
-| `website` | `string` |  |
+| `applePay` | `array` | The Merchant's Apple Pay configuration. |
+| `business` | `array` | The business details of the Merchant. |
+| `categoryCode` | `string` | The 4-digit Merchant Category Code (MCC). |
+| `createdAt` | `int` | The exact time, in epoch milliseconds, when this Merchant was created. |
+| `id` | `string` | A unique identifier assigned to each Merchant. |
+| `name` | `string` | The official name of the Merchant as recognized in transactions and communications. |
+| `networkTokens` | `array` | The Merchant's Network Token configuration. |
+| `shortName` | `string` | A shorter version of the Merchant's name. |
+| `updatedAt` | `int` | The exact time, in epoch milliseconds, when this Merchant was last updated. |
+| `website` | `string` | The official website URL of the Merchant. |
 
 #### Example: Load
 
@@ -910,18 +910,18 @@ Create an instance: `$network_token = $client->NetworkToken();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `card` | `array` |  |
-| `createdAt` | `int` |  |
-| `expiry` | `array` |  |
-| `id` | `string` |  |
-| `merchant` | `string` |  |
-| `number` | `string` |  |
-| `paymentAccountReference` | `string` |  |
-| `status` | `string` |  |
-| `tokenRequestorIdentifier` | `string` |  |
-| `tokenServiceProvider` | `string` |  |
-| `updateType` | `string` |  |
-| `updatedAt` | `int` |  |
+| `card` | `array` | The details of the underlying encrypted card. |
+| `createdAt` | `int` | The exact time, in epoch milliseconds, when this Network Token was created. |
+| `expiry` | `array` | The expiry details of the Network Token. |
+| `id` | `string` | A unique identifier representing a specific Network Token. |
+| `merchant` | `string` | The unique identifier of the Merchant associated with this Network Token. |
+| `number` | `string` | The unique number of the Network Token. |
+| `paymentAccountReference` | `string` | The unique identifier of the Payment Account associated with this Network Token. |
+| `status` | `string` | The status of the Network Token. |
+| `tokenRequestorIdentifier` | `string` | The identifier of the Token Requestor (TRID) that requested the Network Token. |
+| `tokenServiceProvider` | `string` | The Token Service Provider (TSP) that issued the Network Token. |
+| `updateType` | `string` | The type of update to simulate. |
+| `updatedAt` | `int` | The exact time, in epoch milliseconds, when this Network Token was last updated. |
 
 #### Example: Load
 
@@ -989,22 +989,22 @@ Create an instance: `$payment = $client->Payment();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `applePay` | `array` |  |
-| `business` | `array` |  |
-| `categoryCode` | `string` |  |
-| `configurations` | `array` |  |
-| `createdAt` | `int` |  |
-| `created_at` | `int` |  |
-| `data` | `array` |  |
+| `applePay` | `array` | The Merchant's Apple Pay configuration. |
+| `business` | `array` | The business details of the Merchant. |
+| `categoryCode` | `string` | The 4-digit Merchant Category Code (MCC). |
+| `configurations` | `array` | The acquirer configuration settings. |
+| `createdAt` | `int` | The exact time, in epoch milliseconds, when this Merchant was created. |
+| `created_at` | `int` | Timestamp when the message was created |
+| `data` | `array` | The message data payload |
 | `default` | `bool` |  |
-| `description` | `string` |  |
-| `id` | `string` |  |
-| `name` | `string` |  |
-| `networkTokens` | `array` |  |
-| `shortName` | `string` |  |
-| `type` | `string` |  |
-| `updatedAt` | `int` |  |
-| `website` | `string` |  |
+| `description` | `string` | The description of the acquirer configuration. |
+| `id` | `string` | A unique identifier assigned to each Merchant. |
+| `name` | `string` | The official name of the Merchant as recognized in transactions and communications. |
+| `networkTokens` | `array` | The Merchant's Network Token configuration. |
+| `shortName` | `string` | A shorter version of the Merchant's name. |
+| `type` | `string` | The type of 3DS message (e.g., AReq, ARes, CReq, CRes, RReq, RRes) |
+| `updatedAt` | `int` | The exact time, in epoch milliseconds, when this Merchant was last updated. |
+| `website` | `string` | The official website URL of the Merchant. |
 
 #### Example: List
 
@@ -1029,15 +1029,15 @@ Create an instance: `$relay = $client->Relay();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `app` | `string` |  |
-| `authentication` | `mixed` |  |
-| `createdAt` | `int` |  |
-| `destinationDomain` | `string` |  |
-| `encryptEmptyStrings` | `bool` |  |
-| `evervaultDomain` | `string` |  |
-| `id` | `string` |  |
-| `routes` | `array` |  |
-| `updatedAt` | `int` |  |
+| `app` | `string` | The unique identifier for the app to which the Relay belongs. |
+| `authentication` | `mixed` | The type of authentication required for the Relay |
+| `createdAt` | `int` | The exact time, in epoch milliseconds, when this Relay was created. |
+| `destinationDomain` | `string` | The domain in front of which the Relay should be configured. |
+| `encryptEmptyStrings` | `bool` | Whether or not empty strings should be encrypted. |
+| `evervaultDomain` | `string` | The Evervault managed domain to which requests to be relayed to the destination domain should be sent. |
+| `id` | `string` | The unique identifier for the Relay. |
+| `routes` | `array` | A collection of route configurations for the Relay. |
+| `updatedAt` | `int` | The exact time, in epoch milliseconds, when this Relay was updated. |
 
 #### Example: Load
 
@@ -1062,30 +1062,30 @@ Create an instance: `$three_ds_session = $client->ThreeDsSession();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `accessControlServer` | `array` |  |
-| `acquirer` | `array` |  |
-| `ares` | `array` |  |
-| `authentication` | `array` |  |
-| `card` | `array` |  |
-| `challenge` | `array` |  |
-| `createdAt` | `int` |  |
-| `cres` | `mixed` |  |
-| `cryptogram` | `string` |  |
-| `customer` | `array` |  |
-| `directoryServer` | `array` |  |
-| `eci` | `array` |  |
-| `failureReason` | `string` |  |
-| `id` | `string` |  |
-| `initiator` | `array` |  |
-| `merchant` | `array` |  |
-| `nextAction` | `array` |  |
-| `payment` | `array` |  |
-| `preferredVersions` | `array` |  |
-| `rreq` | `mixed` |  |
-| `status` | `string` |  |
-| `threeDSServer` | `array` |  |
-| `updatedAt` | `int` |  |
-| `version` | `string` |  |
+| `accessControlServer` | `array` | Details about the Access Control Server involved in the 3DS transaction. |
+| `acquirer` | `array` | The acquirer of the payment. |
+| `ares` | `array` | The details of the 3DS Authentication Response (ARes). |
+| `authentication` | `array` | The details of the 3DS Authentication. |
+| `card` | `array` | The card details. |
+| `challenge` | `array` | Details about the 3DS challenge. |
+| `createdAt` | `int` | The exact time, in epoch milliseconds, when this 3DS-Session was created. |
+| `cres` | `mixed` | The details of the 3DS Challenge Response (CRes). |
+| `cryptogram` | `string` | The 3DS cryptogram (also called Authentication Value). |
+| `customer` | `array` | The details of the customer who initiated the transaction. |
+| `directoryServer` | `array` | Details about the Directory Server involved in the 3DS transaction. |
+| `eci` | `array` | The details of the Electronic Commerce Indicator. |
+| `failureReason` | `string` | The reason for the 3DS Authentication failure. |
+| `id` | `string` | A unique identifier assigned to each 3DS Authentication. |
+| `initiator` | `array` | Details about the transaction initiation process. |
+| `merchant` | `array` | The merchant details. |
+| `nextAction` | `array` | The next action required to complete the 3DS Authentication. |
+| `payment` | `array` | The payment details of the 3D Secure Authentication. |
+| `preferredVersions` | `array` | A prioritized list of preferred 3D Secure versions. |
+| `rreq` | `mixed` | The result of the 3DS authentication when a challenge has occurred. |
+| `status` | `string` | The status of the 3DS Authentication. |
+| `threeDSServer` | `array` | Details about the 3DS Server involved in the 3DS transaction. |
+| `updatedAt` | `int` | The exact time, in epoch milliseconds, when this 3DS-Session was last updated. |
+| `version` | `string` | The 3D Secure version used to authenticate the session. |
 
 #### Example: Load
 
@@ -1128,11 +1128,11 @@ Create an instance: `$webhook = $client->Webhook();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `createdAt` | `int` |  |
-| `events` | `array` |  |
-| `id` | `string` |  |
-| `updatedAt` | `mixed` |  |
-| `url` | `string` |  |
+| `createdAt` | `int` | The exact time, in epoch milliseconds, when this Webhook Endpoint was created. |
+| `events` | `array` | A list of Events that the Webhook Endpoint should subscribe to. |
+| `id` | `string` | A unique identifier representing a specific Webhook Endpoint. |
+| `updatedAt` | `mixed` | The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated. |
+| `url` | `string` | The URL of the Webhook Endpoint. |
 
 #### Example: List
 
@@ -1166,11 +1166,11 @@ Create an instance: `$webhook_endpoint = $client->WebhookEndpoint();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `createdAt` | `int` |  |
-| `events` | `array` |  |
-| `id` | `string` |  |
-| `updatedAt` | `mixed` |  |
-| `url` | `string` |  |
+| `createdAt` | `int` | The exact time, in epoch milliseconds, when this Webhook Endpoint was created. |
+| `events` | `array` | A list of Events that the Webhook Endpoint is subscribed to. |
+| `id` | `string` | A unique identifier representing a specific Webhook Endpoint. |
+| `updatedAt` | `mixed` | The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated. |
+| `url` | `string` | The URL of the Webhook Endpoint. |
 
 #### Example: Load
 

@@ -8,16 +8,19 @@ main: kit: entity: client_side_token: {
     {
       name: "action"
       req: true
+      short: "The action that the token should permit"
       type: "`$STRING`"
     }
     {
       name: "expiry"
       req: false
+      short: "The expiry of the token in milliseconds format."
       type: "`$INTEGER`"
     }
     {
       name: "payload"
       req: false
+      short: "The payload that the token must be used with"
       type: "`$OBJECT`"
     }
   ]

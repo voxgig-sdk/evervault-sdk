@@ -153,11 +153,11 @@ $acquirer = $client->Acquirer();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `configurations` | `array` | Yes |  |
-| `default` | `bool` | Yes |  |
-| `description` | `string` | No |  |
-| `id` | `string` | Yes |  |
-| `name` | `string` | Yes |  |
+| `configurations` | `array` | Yes | The acquirer configuration settings. |
+| `default` | `bool` | Yes | Specifies whether this Acquirer is the default. |
+| `description` | `string` | No | The description of the acquirer configuration. |
+| `id` | `string` | Yes | The unique identifier of the acquirer configuration. |
+| `name` | `string` | Yes | The name of the acquirer configuration. |
 
 ### Field Usage by Operation
 
@@ -243,7 +243,7 @@ $bin_lookup = $client->BinLookup();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `number` | `string` | Yes |  |
+| `number` | `string` | Yes | The card number for which the BIN lookup is being requested. |
 
 ### Operations
 
@@ -297,14 +297,14 @@ $card = $client->Card();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `address` | `array` | Yes |  |
-| `card` | `array` | Yes |  |
-| `cardholder` | `array` | No |  |
+| `address` | `array` | Yes | Details about the cardholder's address that the address verification (AVS) is for. |
+| `card` | `array` | Yes | The card details. |
+| `cardholder` | `array` | No | Details about the cardholder that the name verification (ANI) is for. |
 | `expiry` | `array` | Yes |  |
-| `extensions` | `array` | No |  |
-| `month` | `string` | Yes |  |
-| `number` | `string` | Yes |  |
-| `year` | `string` | Yes |  |
+| `extensions` | `array` | No | The extensions to the card insight request. |
+| `month` | `string` | Yes | The card expiry month, in MM format (e.g. |
+| `number` | `string` | Yes | The card number. |
+| `year` | `string` | Yes | The card expiry year, in YY format (e.g. |
 
 ### Operations
 
@@ -371,10 +371,10 @@ $card_art = $client->CardArt();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `string` | Yes |  |
-| `height` | `int` | Yes |  |
-| `type` | `string` | Yes |  |
-| `width` | `int` | Yes |  |
+| `data` | `string` | Yes | The base64-encoded image data of the card art. |
+| `height` | `int` | Yes | The height of the card art image in pixels. |
+| `type` | `string` | Yes | The MIME type of the card art image. |
+| `width` | `int` | Yes | The width of the card art image in pixels. |
 
 ### Operations
 
@@ -426,9 +426,9 @@ $client_side_token = $client->ClientSideToken();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `action` | `string` | Yes |  |
-| `expiry` | `int` | No |  |
-| `payload` | `array` | No |  |
+| `action` | `string` | Yes | The action that the token should permit |
+| `expiry` | `int` | No | The expiry of the token in milliseconds format. |
+| `payload` | `array` | No | The payload that the token must be used with |
 
 ### Operations
 
@@ -482,21 +482,21 @@ $core = $client->Core();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app` | `string` | No |  |
-| `authentication` | `mixed` | No |  |
-| `createdAt` | `int` | No |  |
-| `customDomain` | `string` | No |  |
-| `destinationDomain` | `string` | Yes |  |
-| `encryptEmptyStrings` | `bool` | No |  |
-| `evervaultDomain` | `string` | No |  |
-| `id` | `string` | No |  |
+| `app` | `string` | No | The unique identifier for the app to which the Relay belongs. |
+| `authentication` | `mixed` | No | The type of authentication required for the Relay |
+| `createdAt` | `int` | No | The exact time, in epoch milliseconds, when this custom domain was created. |
+| `customDomain` | `string` | No | The customer managed domain to which requests to be relayed to your domain should be sent. |
+| `destinationDomain` | `string` | Yes | The domain in front of which you would like to configure a Relay |
+| `encryptEmptyStrings` | `bool` | No | Whether or not empty strings should be encrypted. |
+| `evervaultDomain` | `string` | No | The Evervault managed domain to which requests to be relayed to the destination domain should be sent. |
+| `id` | `string` | No | The unique identifier for the custom domain. |
 | `phoneNumber` | `string` | No |  |
-| `relay` | `string` | No |  |
-| `routes` | `array` | Yes |  |
-| `status` | `string` | No |  |
-| `token` | `string` | Yes |  |
-| `updatedAt` | `int` | No |  |
-| `validationRecord` | `string` | No |  |
+| `relay` | `string` | No | The ID of the Relay with which this custom domain is associated. |
+| `routes` | `array` | Yes | A collection of route configurations for the Relay. |
+| `status` | `string` | No | The status of the domains DNS verification. |
+| `token` | `string` | Yes | The encrypted data to be inspected. |
+| `updatedAt` | `int` | No | The exact time, in epoch milliseconds, when this custom domain was last updated. |
+| `validationRecord` | `string` | No | Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain |
 
 ### Field Usage by Operation
 
@@ -588,13 +588,13 @@ $custom_domain = $client->CustomDomain();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `createdAt` | `int` | No |  |
-| `customDomain` | `string` | No |  |
-| `id` | `string` | No |  |
-| `relay` | `string` | No |  |
-| `status` | `string` | No |  |
-| `updatedAt` | `int` | No |  |
-| `validationRecord` | `string` | No |  |
+| `createdAt` | `int` | No | The exact time, in epoch milliseconds, when this custom domain was created. |
+| `customDomain` | `string` | No | The customer managed domain to which requests to be relayed to your domain should be sent. |
+| `id` | `string` | No | The unique identifier for the custom domain. |
+| `relay` | `string` | No | The ID of the Relay with which this custom domain is associated. |
+| `status` | `string` | No | The status of the domains DNS verification. |
+| `updatedAt` | `int` | No | The exact time, in epoch milliseconds, when this custom domain was last updated. |
+| `validationRecord` | `string` | No | Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain |
 
 ### Field Usage by Operation
 
@@ -668,13 +668,13 @@ $function_run = $client->FunctionRun();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `async` | `bool` | No |  |
-| `createdAt` | `int` | No |  |
-| `error` | `mixed` | No |  |
-| `id` | `string` | No |  |
-| `payload` | `array` | Yes |  |
-| `result` | `array` | No |  |
-| `status` | `string` | No |  |
+| `async` | `bool` | No | If you want your Function to run asynchronously and notify a callback URL, this can be set to `true` and the API will queue your Function run and return a `202` response code. |
+| `createdAt` | `int` | No | The exact time, in epoch milliseconds, when this Function execution was triggered. |
+| `error` | `mixed` | No | This field details any error that occurred during Function execution. |
+| `id` | `string` | No | A unique identifier representing this specific Function execution instance. |
+| `payload` | `array` | Yes | The data payload that the Function will use during its execution. |
+| `result` | `array` | No | This field represents the output returned by the Function. |
+| `status` | `string` | No | The outcome of the Function execution. |
 
 ### Operations
 
@@ -729,16 +729,16 @@ $merchant = $client->Merchant();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `applePay` | `array` | No |  |
-| `business` | `array` | No |  |
-| `categoryCode` | `string` | No |  |
-| `createdAt` | `int` | Yes |  |
-| `id` | `string` | Yes |  |
-| `name` | `string` | Yes |  |
-| `networkTokens` | `array` | No |  |
-| `shortName` | `string` | No |  |
-| `updatedAt` | `int` | No |  |
-| `website` | `string` | Yes |  |
+| `applePay` | `array` | No | The Merchant's Apple Pay configuration. |
+| `business` | `array` | No | The business details of the Merchant. |
+| `categoryCode` | `string` | No | The 4-digit Merchant Category Code (MCC). |
+| `createdAt` | `int` | Yes | The exact time, in epoch milliseconds, when this Merchant was created. |
+| `id` | `string` | Yes | A unique identifier assigned to each Merchant. |
+| `name` | `string` | Yes | The official name of the Merchant as recognized in transactions and communications. |
+| `networkTokens` | `array` | No | The Merchant's Network Token configuration. |
+| `shortName` | `string` | No | A shorter version of the Merchant's name. |
+| `updatedAt` | `int` | No | The exact time, in epoch milliseconds, when this Merchant was last updated. |
+| `website` | `string` | Yes | The official website URL of the Merchant. |
 
 ### Field Usage by Operation
 
@@ -829,18 +829,18 @@ $network_token = $client->NetworkToken();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `card` | `array` | Yes |  |
-| `createdAt` | `int` | Yes |  |
-| `expiry` | `array` | Yes |  |
-| `id` | `string` | Yes |  |
-| `merchant` | `string` | Yes |  |
-| `number` | `string` | Yes |  |
-| `paymentAccountReference` | `string` | No |  |
-| `status` | `string` | Yes |  |
-| `tokenRequestorIdentifier` | `string` | Yes |  |
-| `tokenServiceProvider` | `string` | Yes |  |
-| `updateType` | `string` | No |  |
-| `updatedAt` | `int` | No |  |
+| `card` | `array` | Yes | The details of the underlying encrypted card. |
+| `createdAt` | `int` | Yes | The exact time, in epoch milliseconds, when this Network Token was created. |
+| `expiry` | `array` | Yes | The expiry details of the Network Token. |
+| `id` | `string` | Yes | A unique identifier representing a specific Network Token. |
+| `merchant` | `string` | Yes | The unique identifier of the Merchant associated with this Network Token. |
+| `number` | `string` | Yes | The unique number of the Network Token. |
+| `paymentAccountReference` | `string` | No | The unique identifier of the Payment Account associated with this Network Token. |
+| `status` | `string` | Yes | The status of the Network Token. |
+| `tokenRequestorIdentifier` | `string` | Yes | The identifier of the Token Requestor (TRID) that requested the Network Token. |
+| `tokenServiceProvider` | `string` | Yes | The Token Service Provider (TSP) that issued the Network Token. |
+| `updateType` | `string` | No | The type of update to simulate. |
+| `updatedAt` | `int` | No | The exact time, in epoch milliseconds, when this Network Token was last updated. |
 
 ### Operations
 
@@ -966,22 +966,22 @@ $payment = $client->Payment();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `applePay` | `array` | No |  |
-| `business` | `array` | No |  |
-| `categoryCode` | `string` | No |  |
-| `configurations` | `array` | Yes |  |
-| `createdAt` | `int` | Yes |  |
-| `created_at` | `int` | No |  |
-| `data` | `array` | No |  |
+| `applePay` | `array` | No | The Merchant's Apple Pay configuration. |
+| `business` | `array` | No | The business details of the Merchant. |
+| `categoryCode` | `string` | No | The 4-digit Merchant Category Code (MCC). |
+| `configurations` | `array` | Yes | The acquirer configuration settings. |
+| `createdAt` | `int` | Yes | The exact time, in epoch milliseconds, when this Merchant was created. |
+| `created_at` | `int` | No | Timestamp when the message was created |
+| `data` | `array` | No | The message data payload |
 | `default` | `bool` | Yes |  |
-| `description` | `string` | No |  |
-| `id` | `string` | Yes |  |
-| `name` | `string` | Yes |  |
-| `networkTokens` | `array` | No |  |
-| `shortName` | `string` | No |  |
-| `type` | `string` | No |  |
-| `updatedAt` | `int` | No |  |
-| `website` | `string` | Yes |  |
+| `description` | `string` | No | The description of the acquirer configuration. |
+| `id` | `string` | Yes | A unique identifier assigned to each Merchant. |
+| `name` | `string` | Yes | The official name of the Merchant as recognized in transactions and communications. |
+| `networkTokens` | `array` | No | The Merchant's Network Token configuration. |
+| `shortName` | `string` | No | A shorter version of the Merchant's name. |
+| `type` | `string` | No | The type of 3DS message (e.g., AReq, ARes, CReq, CRes, RReq, RRes) |
+| `updatedAt` | `int` | No | The exact time, in epoch milliseconds, when this Merchant was last updated. |
+| `website` | `string` | Yes | The official website URL of the Merchant. |
 
 ### Operations
 
@@ -998,7 +998,7 @@ $results = $client->Payment()->list();
 Remove the entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->Payment()->remove();
+$result = $client->Payment()->remove(["acquirer_id" => "acquirer_id"]);
 ```
 
 ### Common Methods
@@ -1041,15 +1041,15 @@ $relay = $client->Relay();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app` | `string` | No |  |
-| `authentication` | `mixed` | No |  |
-| `createdAt` | `int` | No |  |
-| `destinationDomain` | `string` | No |  |
-| `encryptEmptyStrings` | `bool` | No |  |
-| `evervaultDomain` | `string` | No |  |
-| `id` | `string` | No |  |
-| `routes` | `array` | No |  |
-| `updatedAt` | `int` | No |  |
+| `app` | `string` | No | The unique identifier for the app to which the Relay belongs. |
+| `authentication` | `mixed` | No | The type of authentication required for the Relay |
+| `createdAt` | `int` | No | The exact time, in epoch milliseconds, when this Relay was created. |
+| `destinationDomain` | `string` | No | The domain in front of which the Relay should be configured. |
+| `encryptEmptyStrings` | `bool` | No | Whether or not empty strings should be encrypted. |
+| `evervaultDomain` | `string` | No | The Evervault managed domain to which requests to be relayed to the destination domain should be sent. |
+| `id` | `string` | No | The unique identifier for the Relay. |
+| `routes` | `array` | No | A collection of route configurations for the Relay. |
+| `updatedAt` | `int` | No | The exact time, in epoch milliseconds, when this Relay was updated. |
 
 ### Operations
 
@@ -1112,30 +1112,30 @@ $three_ds_session = $client->ThreeDsSession();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `accessControlServer` | `array` | No |  |
-| `acquirer` | `array` | Yes |  |
-| `ares` | `array` | No |  |
-| `authentication` | `array` | Yes |  |
-| `card` | `array` | Yes |  |
-| `challenge` | `array` | Yes |  |
-| `createdAt` | `int` | Yes |  |
-| `cres` | `mixed` | No |  |
-| `cryptogram` | `string` | No |  |
-| `customer` | `array` | No |  |
-| `directoryServer` | `array` | No |  |
-| `eci` | `array` | No |  |
-| `failureReason` | `string` | No |  |
-| `id` | `string` | Yes |  |
-| `initiator` | `array` | No |  |
-| `merchant` | `array` | Yes |  |
-| `nextAction` | `array` | Yes |  |
-| `payment` | `array` | No |  |
-| `preferredVersions` | `array` | No |  |
-| `rreq` | `mixed` | No |  |
-| `status` | `string` | Yes |  |
-| `threeDSServer` | `array` | No |  |
-| `updatedAt` | `int` | No |  |
-| `version` | `string` | Yes |  |
+| `accessControlServer` | `array` | No | Details about the Access Control Server involved in the 3DS transaction. |
+| `acquirer` | `array` | Yes | The acquirer of the payment. |
+| `ares` | `array` | No | The details of the 3DS Authentication Response (ARes). |
+| `authentication` | `array` | Yes | The details of the 3DS Authentication. |
+| `card` | `array` | Yes | The card details. |
+| `challenge` | `array` | Yes | Details about the 3DS challenge. |
+| `createdAt` | `int` | Yes | The exact time, in epoch milliseconds, when this 3DS-Session was created. |
+| `cres` | `mixed` | No | The details of the 3DS Challenge Response (CRes). |
+| `cryptogram` | `string` | No | The 3DS cryptogram (also called Authentication Value). |
+| `customer` | `array` | No | The details of the customer who initiated the transaction. |
+| `directoryServer` | `array` | No | Details about the Directory Server involved in the 3DS transaction. |
+| `eci` | `array` | No | The details of the Electronic Commerce Indicator. |
+| `failureReason` | `string` | No | The reason for the 3DS Authentication failure. |
+| `id` | `string` | Yes | A unique identifier assigned to each 3DS Authentication. |
+| `initiator` | `array` | No | Details about the transaction initiation process. |
+| `merchant` | `array` | Yes | The merchant details. |
+| `nextAction` | `array` | Yes | The next action required to complete the 3DS Authentication. |
+| `payment` | `array` | No | The payment details of the 3D Secure Authentication. |
+| `preferredVersions` | `array` | No | A prioritized list of preferred 3D Secure versions. |
+| `rreq` | `mixed` | No | The result of the 3DS authentication when a challenge has occurred. |
+| `status` | `string` | Yes | The status of the 3DS Authentication. |
+| `threeDSServer` | `array` | No | Details about the 3DS Server involved in the 3DS transaction. |
+| `updatedAt` | `int` | No | The exact time, in epoch milliseconds, when this 3DS-Session was last updated. |
+| `version` | `string` | Yes | The 3D Secure version used to authenticate the session. |
 
 ### Field Usage by Operation
 
@@ -1235,11 +1235,11 @@ $webhook = $client->Webhook();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `createdAt` | `int` | No |  |
-| `events` | `array` | Yes |  |
-| `id` | `string` | No |  |
-| `updatedAt` | `mixed` | No |  |
-| `url` | `string` | Yes |  |
+| `createdAt` | `int` | No | The exact time, in epoch milliseconds, when this Webhook Endpoint was created. |
+| `events` | `array` | Yes | A list of Events that the Webhook Endpoint should subscribe to. |
+| `id` | `string` | No | A unique identifier representing a specific Webhook Endpoint. |
+| `updatedAt` | `mixed` | No | The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated. |
+| `url` | `string` | Yes | The URL of the Webhook Endpoint. |
 
 ### Field Usage by Operation
 
@@ -1320,11 +1320,11 @@ $webhook_endpoint = $client->WebhookEndpoint();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `createdAt` | `int` | No |  |
-| `events` | `array` | No |  |
-| `id` | `string` | No |  |
-| `updatedAt` | `mixed` | No |  |
-| `url` | `string` | No |  |
+| `createdAt` | `int` | No | The exact time, in epoch milliseconds, when this Webhook Endpoint was created. |
+| `events` | `array` | No | A list of Events that the Webhook Endpoint is subscribed to. |
+| `id` | `string` | No | A unique identifier representing a specific Webhook Endpoint. |
+| `updatedAt` | `mixed` | No | The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated. |
+| `url` | `string` | No | The URL of the Webhook Endpoint. |
 
 ### Field Usage by Operation
 

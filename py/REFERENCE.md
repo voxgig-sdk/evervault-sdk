@@ -148,11 +148,11 @@ acquirer = client.Acquirer()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `configurations` | `list` | Yes |  |
-| `default` | `bool` | Yes |  |
-| `description` | `str` | No |  |
-| `id` | `str` | Yes |  |
-| `name` | `str` | Yes |  |
+| `configurations` | `list` | Yes | The acquirer configuration settings. |
+| `default` | `bool` | Yes | Specifies whether this Acquirer is the default. |
+| `description` | `str` | No | The description of the acquirer configuration. |
+| `id` | `str` | Yes | The unique identifier of the acquirer configuration. |
+| `name` | `str` | Yes | The name of the acquirer configuration. |
 
 ### Field Usage by Operation
 
@@ -237,7 +237,7 @@ bin_lookup = client.BinLookup()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `number` | `str` | Yes |  |
+| `number` | `str` | Yes | The card number for which the BIN lookup is being requested. |
 
 ### Operations
 
@@ -290,14 +290,14 @@ card = client.Card()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `address` | `dict` | Yes |  |
-| `card` | `dict` | Yes |  |
-| `cardholder` | `dict` | No |  |
+| `address` | `dict` | Yes | Details about the cardholder's address that the address verification (AVS) is for. |
+| `card` | `dict` | Yes | The card details. |
+| `cardholder` | `dict` | No | Details about the cardholder that the name verification (ANI) is for. |
 | `expiry` | `dict` | Yes |  |
-| `extensions` | `list` | No |  |
-| `month` | `str` | Yes |  |
-| `number` | `str` | Yes |  |
-| `year` | `str` | Yes |  |
+| `extensions` | `list` | No | The extensions to the card insight request. |
+| `month` | `str` | Yes | The card expiry month, in MM format (e.g. |
+| `number` | `str` | Yes | The card number. |
+| `year` | `str` | Yes | The card expiry year, in YY format (e.g. |
 
 ### Operations
 
@@ -363,10 +363,10 @@ card_art = client.CardArt()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `str` | Yes |  |
-| `height` | `int` | Yes |  |
-| `type` | `str` | Yes |  |
-| `width` | `int` | Yes |  |
+| `data` | `str` | Yes | The base64-encoded image data of the card art. |
+| `height` | `int` | Yes | The height of the card art image in pixels. |
+| `type` | `str` | Yes | The MIME type of the card art image. |
+| `width` | `int` | Yes | The width of the card art image in pixels. |
 
 ### Operations
 
@@ -417,9 +417,9 @@ client_side_token = client.ClientSideToken()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `action` | `str` | Yes |  |
-| `expiry` | `int` | No |  |
-| `payload` | `dict` | No |  |
+| `action` | `str` | Yes | The action that the token should permit |
+| `expiry` | `int` | No | The expiry of the token in milliseconds format. |
+| `payload` | `dict` | No | The payload that the token must be used with |
 
 ### Operations
 
@@ -472,21 +472,21 @@ core = client.Core()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app` | `str` | No |  |
-| `authentication` | `str | None` | No |  |
-| `createdAt` | `int` | No |  |
-| `customDomain` | `str` | No |  |
-| `destinationDomain` | `str` | Yes |  |
-| `encryptEmptyStrings` | `bool` | No |  |
-| `evervaultDomain` | `str` | No |  |
-| `id` | `str` | No |  |
+| `app` | `str` | No | The unique identifier for the app to which the Relay belongs. |
+| `authentication` | `str | None` | No | The type of authentication required for the Relay |
+| `createdAt` | `int` | No | The exact time, in epoch milliseconds, when this custom domain was created. |
+| `customDomain` | `str` | No | The customer managed domain to which requests to be relayed to your domain should be sent. |
+| `destinationDomain` | `str` | Yes | The domain in front of which you would like to configure a Relay |
+| `encryptEmptyStrings` | `bool` | No | Whether or not empty strings should be encrypted. |
+| `evervaultDomain` | `str` | No | The Evervault managed domain to which requests to be relayed to the destination domain should be sent. |
+| `id` | `str` | No | The unique identifier for the custom domain. |
 | `phoneNumber` | `str` | No |  |
-| `relay` | `str` | No |  |
-| `routes` | `list` | Yes |  |
-| `status` | `str` | No |  |
-| `token` | `str` | Yes |  |
-| `updatedAt` | `int` | No |  |
-| `validationRecord` | `str` | No |  |
+| `relay` | `str` | No | The ID of the Relay with which this custom domain is associated. |
+| `routes` | `list` | Yes | A collection of route configurations for the Relay. |
+| `status` | `str` | No | The status of the domains DNS verification. |
+| `token` | `str` | Yes | The encrypted data to be inspected. |
+| `updatedAt` | `int` | No | The exact time, in epoch milliseconds, when this custom domain was last updated. |
+| `validationRecord` | `str` | No | Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain |
 
 ### Field Usage by Operation
 
@@ -579,13 +579,13 @@ custom_domain = client.CustomDomain()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `createdAt` | `int` | No |  |
-| `customDomain` | `str` | No |  |
-| `id` | `str` | No |  |
-| `relay` | `str` | No |  |
-| `status` | `str` | No |  |
-| `updatedAt` | `int` | No |  |
-| `validationRecord` | `str` | No |  |
+| `createdAt` | `int` | No | The exact time, in epoch milliseconds, when this custom domain was created. |
+| `customDomain` | `str` | No | The customer managed domain to which requests to be relayed to your domain should be sent. |
+| `id` | `str` | No | The unique identifier for the custom domain. |
+| `relay` | `str` | No | The ID of the Relay with which this custom domain is associated. |
+| `status` | `str` | No | The status of the domains DNS verification. |
+| `updatedAt` | `int` | No | The exact time, in epoch milliseconds, when this custom domain was last updated. |
+| `validationRecord` | `str` | No | Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain |
 
 ### Field Usage by Operation
 
@@ -658,13 +658,13 @@ function_run = client.FunctionRun()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `async` | `bool` | No |  |
-| `createdAt` | `int` | No |  |
-| `error` | `dict | None` | No |  |
-| `id` | `str` | No |  |
-| `payload` | `dict` | Yes |  |
-| `result` | `dict` | No |  |
-| `status` | `str` | No |  |
+| `async` | `bool` | No | If you want your Function to run asynchronously and notify a callback URL, this can be set to `true` and the API will queue your Function run and return a `202` response code. |
+| `createdAt` | `int` | No | The exact time, in epoch milliseconds, when this Function execution was triggered. |
+| `error` | `dict | None` | No | This field details any error that occurred during Function execution. |
+| `id` | `str` | No | A unique identifier representing this specific Function execution instance. |
+| `payload` | `dict` | Yes | The data payload that the Function will use during its execution. |
+| `result` | `dict` | No | This field represents the output returned by the Function. |
+| `status` | `str` | No | The outcome of the Function execution. |
 
 ### Operations
 
@@ -718,16 +718,16 @@ merchant = client.Merchant()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `applePay` | `dict` | No |  |
-| `business` | `dict` | No |  |
-| `categoryCode` | `str` | No |  |
-| `createdAt` | `int` | Yes |  |
-| `id` | `str` | Yes |  |
-| `name` | `str` | Yes |  |
-| `networkTokens` | `dict` | No |  |
-| `shortName` | `str` | No |  |
-| `updatedAt` | `int` | No |  |
-| `website` | `str` | Yes |  |
+| `applePay` | `dict` | No | The Merchant's Apple Pay configuration. |
+| `business` | `dict` | No | The business details of the Merchant. |
+| `categoryCode` | `str` | No | The 4-digit Merchant Category Code (MCC). |
+| `createdAt` | `int` | Yes | The exact time, in epoch milliseconds, when this Merchant was created. |
+| `id` | `str` | Yes | A unique identifier assigned to each Merchant. |
+| `name` | `str` | Yes | The official name of the Merchant as recognized in transactions and communications. |
+| `networkTokens` | `dict` | No | The Merchant's Network Token configuration. |
+| `shortName` | `str` | No | A shorter version of the Merchant's name. |
+| `updatedAt` | `int` | No | The exact time, in epoch milliseconds, when this Merchant was last updated. |
+| `website` | `str` | Yes | The official website URL of the Merchant. |
 
 ### Field Usage by Operation
 
@@ -817,18 +817,18 @@ network_token = client.NetworkToken()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `card` | `dict` | Yes |  |
-| `createdAt` | `int` | Yes |  |
-| `expiry` | `dict` | Yes |  |
-| `id` | `str` | Yes |  |
-| `merchant` | `str` | Yes |  |
-| `number` | `str` | Yes |  |
-| `paymentAccountReference` | `str` | No |  |
-| `status` | `str` | Yes |  |
-| `tokenRequestorIdentifier` | `str` | Yes |  |
-| `tokenServiceProvider` | `str` | Yes |  |
-| `updateType` | `str` | No |  |
-| `updatedAt` | `int` | No |  |
+| `card` | `dict` | Yes | The details of the underlying encrypted card. |
+| `createdAt` | `int` | Yes | The exact time, in epoch milliseconds, when this Network Token was created. |
+| `expiry` | `dict` | Yes | The expiry details of the Network Token. |
+| `id` | `str` | Yes | A unique identifier representing a specific Network Token. |
+| `merchant` | `str` | Yes | The unique identifier of the Merchant associated with this Network Token. |
+| `number` | `str` | Yes | The unique number of the Network Token. |
+| `paymentAccountReference` | `str` | No | The unique identifier of the Payment Account associated with this Network Token. |
+| `status` | `str` | Yes | The status of the Network Token. |
+| `tokenRequestorIdentifier` | `str` | Yes | The identifier of the Token Requestor (TRID) that requested the Network Token. |
+| `tokenServiceProvider` | `str` | Yes | The Token Service Provider (TSP) that issued the Network Token. |
+| `updateType` | `str` | No | The type of update to simulate. |
+| `updatedAt` | `int` | No | The exact time, in epoch milliseconds, when this Network Token was last updated. |
 
 ### Operations
 
@@ -952,22 +952,22 @@ payment = client.Payment()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `applePay` | `dict` | No |  |
-| `business` | `dict` | No |  |
-| `categoryCode` | `str` | No |  |
-| `configurations` | `list` | Yes |  |
-| `createdAt` | `int` | Yes |  |
-| `created_at` | `int` | No |  |
-| `data` | `dict` | No |  |
+| `applePay` | `dict` | No | The Merchant's Apple Pay configuration. |
+| `business` | `dict` | No | The business details of the Merchant. |
+| `categoryCode` | `str` | No | The 4-digit Merchant Category Code (MCC). |
+| `configurations` | `list` | Yes | The acquirer configuration settings. |
+| `createdAt` | `int` | Yes | The exact time, in epoch milliseconds, when this Merchant was created. |
+| `created_at` | `int` | No | Timestamp when the message was created |
+| `data` | `dict` | No | The message data payload |
 | `default` | `bool` | Yes |  |
-| `description` | `str` | No |  |
-| `id` | `str` | Yes |  |
-| `name` | `str` | Yes |  |
-| `networkTokens` | `dict` | No |  |
-| `shortName` | `str` | No |  |
-| `type` | `str` | No |  |
-| `updatedAt` | `int` | No |  |
-| `website` | `str` | Yes |  |
+| `description` | `str` | No | The description of the acquirer configuration. |
+| `id` | `str` | Yes | A unique identifier assigned to each Merchant. |
+| `name` | `str` | Yes | The official name of the Merchant as recognized in transactions and communications. |
+| `networkTokens` | `dict` | No | The Merchant's Network Token configuration. |
+| `shortName` | `str` | No | A shorter version of the Merchant's name. |
+| `type` | `str` | No | The type of 3DS message (e.g., AReq, ARes, CReq, CRes, RReq, RRes) |
+| `updatedAt` | `int` | No | The exact time, in epoch milliseconds, when this Merchant was last updated. |
+| `website` | `str` | Yes | The official website URL of the Merchant. |
 
 ### Operations
 
@@ -986,7 +986,7 @@ for payment in results:
 Remove the entity matching the given criteria. Raises on error.
 
 ```python
-result = client.Payment().remove()
+result = client.Payment().remove({"acquirer_id": "acquirer_id"})
 ```
 
 ### Common Methods
@@ -1028,15 +1028,15 @@ relay = client.Relay()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app` | `str` | No |  |
-| `authentication` | `str | None` | No |  |
-| `createdAt` | `int` | No |  |
-| `destinationDomain` | `str` | No |  |
-| `encryptEmptyStrings` | `bool` | No |  |
-| `evervaultDomain` | `str` | No |  |
-| `id` | `str` | No |  |
-| `routes` | `list` | No |  |
-| `updatedAt` | `int` | No |  |
+| `app` | `str` | No | The unique identifier for the app to which the Relay belongs. |
+| `authentication` | `str | None` | No | The type of authentication required for the Relay |
+| `createdAt` | `int` | No | The exact time, in epoch milliseconds, when this Relay was created. |
+| `destinationDomain` | `str` | No | The domain in front of which the Relay should be configured. |
+| `encryptEmptyStrings` | `bool` | No | Whether or not empty strings should be encrypted. |
+| `evervaultDomain` | `str` | No | The Evervault managed domain to which requests to be relayed to the destination domain should be sent. |
+| `id` | `str` | No | The unique identifier for the Relay. |
+| `routes` | `list` | No | A collection of route configurations for the Relay. |
+| `updatedAt` | `int` | No | The exact time, in epoch milliseconds, when this Relay was updated. |
 
 ### Operations
 
@@ -1098,30 +1098,30 @@ three_ds_session = client.ThreeDsSession()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `accessControlServer` | `dict` | No |  |
-| `acquirer` | `dict` | Yes |  |
-| `ares` | `dict` | No |  |
-| `authentication` | `dict` | Yes |  |
-| `card` | `dict` | Yes |  |
-| `challenge` | `dict` | Yes |  |
-| `createdAt` | `int` | Yes |  |
-| `cres` | `None | dict` | No |  |
-| `cryptogram` | `str` | No |  |
-| `customer` | `dict` | No |  |
-| `directoryServer` | `dict` | No |  |
-| `eci` | `dict` | No |  |
-| `failureReason` | `str` | No |  |
-| `id` | `str` | Yes |  |
-| `initiator` | `dict` | No |  |
-| `merchant` | `dict` | Yes |  |
-| `nextAction` | `dict` | Yes |  |
-| `payment` | `dict` | No |  |
-| `preferredVersions` | `list` | No |  |
-| `rreq` | `None | dict` | No |  |
-| `status` | `str` | Yes |  |
-| `threeDSServer` | `dict` | No |  |
-| `updatedAt` | `int` | No |  |
-| `version` | `str` | Yes |  |
+| `accessControlServer` | `dict` | No | Details about the Access Control Server involved in the 3DS transaction. |
+| `acquirer` | `dict` | Yes | The acquirer of the payment. |
+| `ares` | `dict` | No | The details of the 3DS Authentication Response (ARes). |
+| `authentication` | `dict` | Yes | The details of the 3DS Authentication. |
+| `card` | `dict` | Yes | The card details. |
+| `challenge` | `dict` | Yes | Details about the 3DS challenge. |
+| `createdAt` | `int` | Yes | The exact time, in epoch milliseconds, when this 3DS-Session was created. |
+| `cres` | `None | dict` | No | The details of the 3DS Challenge Response (CRes). |
+| `cryptogram` | `str` | No | The 3DS cryptogram (also called Authentication Value). |
+| `customer` | `dict` | No | The details of the customer who initiated the transaction. |
+| `directoryServer` | `dict` | No | Details about the Directory Server involved in the 3DS transaction. |
+| `eci` | `dict` | No | The details of the Electronic Commerce Indicator. |
+| `failureReason` | `str` | No | The reason for the 3DS Authentication failure. |
+| `id` | `str` | Yes | A unique identifier assigned to each 3DS Authentication. |
+| `initiator` | `dict` | No | Details about the transaction initiation process. |
+| `merchant` | `dict` | Yes | The merchant details. |
+| `nextAction` | `dict` | Yes | The next action required to complete the 3DS Authentication. |
+| `payment` | `dict` | No | The payment details of the 3D Secure Authentication. |
+| `preferredVersions` | `list` | No | A prioritized list of preferred 3D Secure versions. |
+| `rreq` | `None | dict` | No | The result of the 3DS authentication when a challenge has occurred. |
+| `status` | `str` | Yes | The status of the 3DS Authentication. |
+| `threeDSServer` | `dict` | No | Details about the 3DS Server involved in the 3DS transaction. |
+| `updatedAt` | `int` | No | The exact time, in epoch milliseconds, when this 3DS-Session was last updated. |
+| `version` | `str` | Yes | The 3D Secure version used to authenticate the session. |
 
 ### Field Usage by Operation
 
@@ -1220,11 +1220,11 @@ webhook = client.Webhook()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `createdAt` | `int` | No |  |
-| `events` | `list` | Yes |  |
-| `id` | `str` | No |  |
-| `updatedAt` | `int | None` | No |  |
-| `url` | `str` | Yes |  |
+| `createdAt` | `int` | No | The exact time, in epoch milliseconds, when this Webhook Endpoint was created. |
+| `events` | `list` | Yes | A list of Events that the Webhook Endpoint should subscribe to. |
+| `id` | `str` | No | A unique identifier representing a specific Webhook Endpoint. |
+| `updatedAt` | `int | None` | No | The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated. |
+| `url` | `str` | Yes | The URL of the Webhook Endpoint. |
 
 ### Field Usage by Operation
 
@@ -1306,11 +1306,11 @@ webhook_endpoint = client.WebhookEndpoint()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `createdAt` | `int` | No |  |
-| `events` | `list` | No |  |
-| `id` | `str` | No |  |
-| `updatedAt` | `int | None` | No |  |
-| `url` | `str` | No |  |
+| `createdAt` | `int` | No | The exact time, in epoch milliseconds, when this Webhook Endpoint was created. |
+| `events` | `list` | No | A list of Events that the Webhook Endpoint is subscribed to. |
+| `id` | `str` | No | A unique identifier representing a specific Webhook Endpoint. |
+| `updatedAt` | `int | None` | No | The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated. |
+| `url` | `str` | No | The URL of the Webhook Endpoint. |
 
 ### Field Usage by Operation
 

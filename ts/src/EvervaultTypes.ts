@@ -115,7 +115,21 @@ export interface Core {
 }
 
 export interface CoreListMatch {
-  relay_id?: string
+  app?: string
+  authentication?: string | null
+  createdAt?: number
+  customDomain?: string
+  destinationDomain?: string
+  encryptEmptyStrings?: boolean
+  evervaultDomain?: string
+  id?: string
+  phoneNumber?: string
+  relay?: string
+  routes?: any[]
+  status?: string
+  token?: string
+  updatedAt?: number
+  validationRecord?: string
 }
 
 export interface CoreCreateData {
@@ -313,10 +327,7 @@ export interface PaymentListMatch {
 }
 
 export interface PaymentRemoveMatch {
-  acquirer_id?: string
-  card_id?: string
-  merchant_id?: string
-  network_token_id?: string
+  acquirer_id: string
 }
 
 export interface Relay {

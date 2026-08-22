@@ -28,6 +28,9 @@ def make_config():
     return {
         "main": {
             "name": "Evervault",
+            "slug": "evervault",
+            "version": "0.0.1",
+            "target": "py",
         },
         "feature": {
             "test": {
@@ -74,6 +77,7 @@ def make_config():
               },
             },
             "req": True,
+            "short": "The acquirer configuration settings.",
             "type": "`$ARRAY`",
           },
           {
@@ -87,15 +91,18 @@ def make_config():
               },
             },
             "req": True,
+            "short": "Specifies whether this Acquirer is the default.",
             "type": "`$BOOLEAN`",
           },
           {
             "name": "description",
+            "short": "The description of the acquirer configuration.",
             "type": "`$STRING`",
           },
           {
             "name": "id",
             "req": True,
+            "short": "The unique identifier of the acquirer configuration.",
             "type": "`$STRING`",
           },
           {
@@ -106,6 +113,7 @@ def make_config():
               },
             },
             "req": True,
+            "short": "The name of the acquirer configuration.",
             "type": "`$STRING`",
           },
         ],
@@ -224,6 +232,7 @@ def make_config():
           {
             "name": "number",
             "req": True,
+            "short": "The card number for which the BIN lookup is being requested.",
             "type": "`$STRING`",
           },
         ],
@@ -260,15 +269,18 @@ def make_config():
           {
             "name": "address",
             "req": True,
+            "short": "Details about the cardholder's address that the address verification (AVS) is for.",
             "type": "`$OBJECT`",
           },
           {
             "name": "card",
             "req": True,
+            "short": "The card details.",
             "type": "`$OBJECT`",
           },
           {
             "name": "cardholder",
+            "short": "Details about the cardholder that the name verification (ANI) is for.",
             "type": "`$OBJECT`",
           },
           {
@@ -278,21 +290,25 @@ def make_config():
           },
           {
             "name": "extensions",
+            "short": "The extensions to the card insight request.",
             "type": "`$ARRAY`",
           },
           {
             "name": "month",
             "req": True,
+            "short": "The card expiry month, in MM format (e.g.",
             "type": "`$STRING`",
           },
           {
             "name": "number",
             "req": True,
+            "short": "The card number.",
             "type": "`$STRING`",
           },
           {
             "name": "year",
             "req": True,
+            "short": "The card expiry year, in YY format (e.g.",
             "type": "`$STRING`",
           },
         ],
@@ -424,21 +440,25 @@ def make_config():
           {
             "name": "data",
             "req": True,
+            "short": "The base64-encoded image data of the card art.",
             "type": "`$STRING`",
           },
           {
             "name": "height",
             "req": True,
+            "short": "The height of the card art image in pixels.",
             "type": "`$INTEGER`",
           },
           {
             "name": "type",
             "req": True,
+            "short": "The MIME type of the card art image.",
             "type": "`$STRING`",
           },
           {
             "name": "width",
             "req": True,
+            "short": "The width of the card art image in pixels.",
             "type": "`$INTEGER`",
           },
         ],
@@ -495,14 +515,17 @@ def make_config():
           {
             "name": "action",
             "req": True,
+            "short": "The action that the token should permit",
             "type": "`$STRING`",
           },
           {
             "name": "expiry",
+            "short": "The expiry of the token in milliseconds format.",
             "type": "`$INTEGER`",
           },
           {
             "name": "payload",
+            "short": "The payload that the token must be used with",
             "type": "`$OBJECT`",
           },
         ],
@@ -537,10 +560,12 @@ def make_config():
         "fields": [
           {
             "name": "app",
+            "short": "The unique identifier for the app to which the Relay belongs.",
             "type": "`$STRING`",
           },
           {
             "name": "authentication",
+            "short": "The type of authentication required for the Relay",
             "type": [
               "`$ONE`",
               [
@@ -551,10 +576,12 @@ def make_config():
           },
           {
             "name": "createdAt",
+            "short": "The exact time, in epoch milliseconds, when this custom domain was created.",
             "type": "`$INTEGER`",
           },
           {
             "name": "customDomain",
+            "short": "The customer managed domain to which requests to be relayed to your domain should be sent.",
             "type": "`$STRING`",
           },
           {
@@ -565,18 +592,22 @@ def make_config():
               },
             },
             "req": True,
+            "short": "The domain in front of which you would like to configure a Relay",
             "type": "`$STRING`",
           },
           {
             "name": "encryptEmptyStrings",
+            "short": "Whether or not empty strings should be encrypted.",
             "type": "`$BOOLEAN`",
           },
           {
             "name": "evervaultDomain",
+            "short": "The Evervault managed domain to which requests to be relayed to the destination domain should be sent.",
             "type": "`$STRING`",
           },
           {
             "name": "id",
+            "short": "The unique identifier for the custom domain.",
             "type": "`$STRING`",
           },
           {
@@ -585,6 +616,7 @@ def make_config():
           },
           {
             "name": "relay",
+            "short": "The ID of the Relay with which this custom domain is associated.",
             "type": "`$STRING`",
           },
           {
@@ -595,23 +627,28 @@ def make_config():
               },
             },
             "req": True,
+            "short": "A collection of route configurations for the Relay.",
             "type": "`$ARRAY`",
           },
           {
             "name": "status",
+            "short": "The status of the domains DNS verification.",
             "type": "`$STRING`",
           },
           {
             "name": "token",
             "req": True,
+            "short": "The encrypted data to be inspected.",
             "type": "`$STRING`",
           },
           {
             "name": "updatedAt",
+            "short": "The exact time, in epoch milliseconds, when this custom domain was last updated.",
             "type": "`$INTEGER`",
           },
           {
             "name": "validationRecord",
+            "short": "Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain",
             "type": "`$STRING`",
           },
         ],
@@ -816,6 +853,7 @@ def make_config():
         "fields": [
           {
             "name": "createdAt",
+            "short": "The exact time, in epoch milliseconds, when this custom domain was created.",
             "type": "`$INTEGER`",
           },
           {
@@ -826,26 +864,32 @@ def make_config():
                 "type": "`$STRING`",
               },
             },
+            "short": "The customer managed domain to which requests to be relayed to your domain should be sent.",
             "type": "`$STRING`",
           },
           {
             "name": "id",
+            "short": "The unique identifier for the custom domain.",
             "type": "`$STRING`",
           },
           {
             "name": "relay",
+            "short": "The ID of the Relay with which this custom domain is associated.",
             "type": "`$STRING`",
           },
           {
             "name": "status",
+            "short": "The status of the domains DNS verification.",
             "type": "`$STRING`",
           },
           {
             "name": "updatedAt",
+            "short": "The exact time, in epoch milliseconds, when this custom domain was last updated.",
             "type": "`$INTEGER`",
           },
           {
             "name": "validationRecord",
+            "short": "Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain",
             "type": "`$STRING`",
           },
         ],
@@ -945,14 +989,17 @@ def make_config():
         "fields": [
           {
             "name": "async",
+            "short": "If you want your Function to run asynchronously and notify a callback URL, this can be set to `true` and the API will queue your Function run and return a `202` response code.",
             "type": "`$BOOLEAN`",
           },
           {
             "name": "createdAt",
+            "short": "The exact time, in epoch milliseconds, when this Function execution was triggered.",
             "type": "`$INTEGER`",
           },
           {
             "name": "error",
+            "short": "This field details any error that occurred during Function execution.",
             "type": [
               "`$ONE`",
               [
@@ -963,19 +1010,23 @@ def make_config():
           },
           {
             "name": "id",
+            "short": "A unique identifier representing this specific Function execution instance.",
             "type": "`$STRING`",
           },
           {
             "name": "payload",
             "req": True,
+            "short": "The data payload that the Function will use during its execution.",
             "type": "`$OBJECT`",
           },
           {
             "name": "result",
+            "short": "This field represents the output returned by the Function.",
             "type": "`$OBJECT`",
           },
           {
             "name": "status",
+            "short": "The outcome of the Function execution.",
             "type": "`$STRING`",
           },
         ],
@@ -1030,6 +1081,7 @@ def make_config():
         "fields": [
           {
             "name": "applePay",
+            "short": "The Merchant's Apple Pay configuration.",
             "type": "`$OBJECT`",
           },
           {
@@ -1040,6 +1092,7 @@ def make_config():
                 "type": "`$OBJECT`",
               },
             },
+            "short": "The business details of the Merchant.",
             "type": "`$OBJECT`",
           },
           {
@@ -1050,38 +1103,46 @@ def make_config():
                 "type": "`$STRING`",
               },
             },
+            "short": "The 4-digit Merchant Category Code (MCC).",
             "type": "`$STRING`",
           },
           {
             "name": "createdAt",
             "req": True,
+            "short": "The exact time, in epoch milliseconds, when this Merchant was created.",
             "type": "`$INTEGER`",
           },
           {
             "name": "id",
             "req": True,
+            "short": "A unique identifier assigned to each Merchant.",
             "type": "`$STRING`",
           },
           {
             "name": "name",
             "req": True,
+            "short": "The official name of the Merchant as recognized in transactions and communications.",
             "type": "`$STRING`",
           },
           {
             "name": "networkTokens",
+            "short": "The Merchant's Network Token configuration.",
             "type": "`$OBJECT`",
           },
           {
             "name": "shortName",
+            "short": "A shorter version of the Merchant's name.",
             "type": "`$STRING`",
           },
           {
             "name": "updatedAt",
+            "short": "The exact time, in epoch milliseconds, when this Merchant was last updated.",
             "type": "`$INTEGER`",
           },
           {
             "name": "website",
             "req": True,
+            "short": "The official website URL of the Merchant.",
             "type": "`$STRING`",
           },
         ],
@@ -1200,58 +1261,70 @@ def make_config():
           {
             "name": "card",
             "req": True,
+            "short": "The details of the underlying encrypted card.",
             "type": "`$OBJECT`",
           },
           {
             "name": "createdAt",
             "req": True,
+            "short": "The exact time, in epoch milliseconds, when this Network Token was created.",
             "type": "`$INTEGER`",
           },
           {
             "name": "expiry",
             "req": True,
+            "short": "The expiry details of the Network Token.",
             "type": "`$OBJECT`",
           },
           {
             "name": "id",
             "req": True,
+            "short": "A unique identifier representing a specific Network Token.",
             "type": "`$STRING`",
           },
           {
             "name": "merchant",
             "req": True,
+            "short": "The unique identifier of the Merchant associated with this Network Token.",
             "type": "`$STRING`",
           },
           {
             "name": "number",
             "req": True,
+            "short": "The unique number of the Network Token.",
             "type": "`$STRING`",
           },
           {
             "name": "paymentAccountReference",
+            "short": "The unique identifier of the Payment Account associated with this Network Token.",
             "type": "`$STRING`",
           },
           {
             "name": "status",
             "req": True,
+            "short": "The status of the Network Token.",
             "type": "`$STRING`",
           },
           {
             "name": "tokenRequestorIdentifier",
             "req": True,
+            "short": "The identifier of the Token Requestor (TRID) that requested the Network Token.",
             "type": "`$STRING`",
           },
           {
             "name": "tokenServiceProvider",
             "req": True,
+            "short": "The Token Service Provider (TSP) that issued the Network Token.",
             "type": "`$STRING`",
           },
           {
             "name": "updateType",
+            "short": "The type of update to simulate.",
             "type": "`$STRING`",
           },
           {
             "name": "updatedAt",
+            "short": "The exact time, in epoch milliseconds, when this Network Token was last updated.",
             "type": "`$INTEGER`",
           },
         ],
@@ -1429,32 +1502,39 @@ def make_config():
         "fields": [
           {
             "name": "applePay",
+            "short": "The Merchant's Apple Pay configuration.",
             "type": "`$OBJECT`",
           },
           {
             "name": "business",
+            "short": "The business details of the Merchant.",
             "type": "`$OBJECT`",
           },
           {
             "name": "categoryCode",
+            "short": "The 4-digit Merchant Category Code (MCC).",
             "type": "`$STRING`",
           },
           {
             "name": "configurations",
             "req": True,
+            "short": "The acquirer configuration settings.",
             "type": "`$ARRAY`",
           },
           {
             "name": "createdAt",
             "req": True,
+            "short": "The exact time, in epoch milliseconds, when this Merchant was created.",
             "type": "`$INTEGER`",
           },
           {
             "name": "created_at",
+            "short": "Timestamp when the message was created",
             "type": "`$INTEGER`",
           },
           {
             "name": "data",
+            "short": "The message data payload",
             "type": "`$OBJECT`",
           },
           {
@@ -1464,37 +1544,45 @@ def make_config():
           },
           {
             "name": "description",
+            "short": "The description of the acquirer configuration.",
             "type": "`$STRING`",
           },
           {
             "name": "id",
             "req": True,
+            "short": "A unique identifier assigned to each Merchant.",
             "type": "`$STRING`",
           },
           {
             "name": "name",
             "req": True,
+            "short": "The official name of the Merchant as recognized in transactions and communications.",
             "type": "`$STRING`",
           },
           {
             "name": "networkTokens",
+            "short": "The Merchant's Network Token configuration.",
             "type": "`$OBJECT`",
           },
           {
             "name": "shortName",
+            "short": "A shorter version of the Merchant's name.",
             "type": "`$STRING`",
           },
           {
             "name": "type",
+            "short": "The type of 3DS message (e.g., AReq, ARes, CReq, CRes, RReq, RRes)",
             "type": "`$STRING`",
           },
           {
             "name": "updatedAt",
+            "short": "The exact time, in epoch milliseconds, when this Merchant was last updated.",
             "type": "`$INTEGER`",
           },
           {
             "name": "website",
             "req": True,
+            "short": "The official website URL of the Merchant.",
             "type": "`$STRING`",
           },
         ],
@@ -1771,10 +1859,12 @@ def make_config():
         "fields": [
           {
             "name": "app",
+            "short": "The unique identifier for the app to which the Relay belongs.",
             "type": "`$STRING`",
           },
           {
             "name": "authentication",
+            "short": "The type of authentication required for the Relay",
             "type": [
               "`$ONE`",
               [
@@ -1785,30 +1875,37 @@ def make_config():
           },
           {
             "name": "createdAt",
+            "short": "The exact time, in epoch milliseconds, when this Relay was created.",
             "type": "`$INTEGER`",
           },
           {
             "name": "destinationDomain",
+            "short": "The domain in front of which the Relay should be configured.",
             "type": "`$STRING`",
           },
           {
             "name": "encryptEmptyStrings",
+            "short": "Whether or not empty strings should be encrypted.",
             "type": "`$BOOLEAN`",
           },
           {
             "name": "evervaultDomain",
+            "short": "The Evervault managed domain to which requests to be relayed to the destination domain should be sent.",
             "type": "`$STRING`",
           },
           {
             "name": "id",
+            "short": "The unique identifier for the Relay.",
             "type": "`$STRING`",
           },
           {
             "name": "routes",
+            "short": "A collection of route configurations for the Relay.",
             "type": "`$ARRAY`",
           },
           {
             "name": "updatedAt",
+            "short": "The exact time, in epoch milliseconds, when this Relay was updated.",
             "type": "`$INTEGER`",
           },
         ],
@@ -1893,6 +1990,7 @@ def make_config():
         "fields": [
           {
             "name": "accessControlServer",
+            "short": "Details about the Access Control Server involved in the 3DS transaction.",
             "type": "`$OBJECT`",
           },
           {
@@ -1903,34 +2001,41 @@ def make_config():
               },
             },
             "req": True,
+            "short": "The acquirer of the payment.",
             "type": "`$OBJECT`",
           },
           {
             "name": "ares",
+            "short": "The details of the 3DS Authentication Response (ARes).",
             "type": "`$OBJECT`",
           },
           {
             "name": "authentication",
             "req": True,
+            "short": "The details of the 3DS Authentication.",
             "type": "`$OBJECT`",
           },
           {
             "name": "card",
             "req": True,
+            "short": "The card details.",
             "type": "`$OBJECT`",
           },
           {
             "name": "challenge",
             "req": True,
+            "short": "Details about the 3DS challenge.",
             "type": "`$OBJECT`",
           },
           {
             "name": "createdAt",
             "req": True,
+            "short": "The exact time, in epoch milliseconds, when this 3DS-Session was created.",
             "type": "`$INTEGER`",
           },
           {
             "name": "cres",
+            "short": "The details of the 3DS Challenge Response (CRes).",
             "type": [
               "`$ONE`",
               [
@@ -1941,31 +2046,38 @@ def make_config():
           },
           {
             "name": "cryptogram",
+            "short": "The 3DS cryptogram (also called Authentication Value).",
             "type": "`$STRING`",
           },
           {
             "name": "customer",
+            "short": "The details of the customer who initiated the transaction.",
             "type": "`$OBJECT`",
           },
           {
             "name": "directoryServer",
+            "short": "Details about the Directory Server involved in the 3DS transaction.",
             "type": "`$OBJECT`",
           },
           {
             "name": "eci",
+            "short": "The details of the Electronic Commerce Indicator.",
             "type": "`$OBJECT`",
           },
           {
             "name": "failureReason",
+            "short": "The reason for the 3DS Authentication failure.",
             "type": "`$STRING`",
           },
           {
             "name": "id",
             "req": True,
+            "short": "A unique identifier assigned to each 3DS Authentication.",
             "type": "`$STRING`",
           },
           {
             "name": "initiator",
+            "short": "Details about the transaction initiation process.",
             "type": "`$OBJECT`",
             "union": {
               "branches": 2,
@@ -1976,15 +2088,18 @@ def make_config():
           {
             "name": "merchant",
             "req": True,
+            "short": "The merchant details.",
             "type": "`$OBJECT`",
           },
           {
             "name": "nextAction",
             "req": True,
+            "short": "The next action required to complete the 3DS Authentication.",
             "type": "`$OBJECT`",
           },
           {
             "name": "payment",
+            "short": "The payment details of the 3D Secure Authentication.",
             "type": "`$OBJECT`",
             "union": {
               "branches": 3,
@@ -1994,10 +2109,12 @@ def make_config():
           },
           {
             "name": "preferredVersions",
+            "short": "A prioritized list of preferred 3D Secure versions.",
             "type": "`$ARRAY`",
           },
           {
             "name": "rreq",
+            "short": "The result of the 3DS authentication when a challenge has occurred.",
             "type": [
               "`$ONE`",
               [
@@ -2009,19 +2126,23 @@ def make_config():
           {
             "name": "status",
             "req": True,
+            "short": "The status of the 3DS Authentication.",
             "type": "`$STRING`",
           },
           {
             "name": "threeDSServer",
+            "short": "Details about the 3DS Server involved in the 3DS transaction.",
             "type": "`$OBJECT`",
           },
           {
             "name": "updatedAt",
+            "short": "The exact time, in epoch milliseconds, when this 3DS-Session was last updated.",
             "type": "`$INTEGER`",
           },
           {
             "name": "version",
             "req": True,
+            "short": "The 3D Secure version used to authenticate the session.",
             "type": "`$STRING`",
           },
         ],
@@ -2097,6 +2218,7 @@ def make_config():
         "fields": [
           {
             "name": "createdAt",
+            "short": "The exact time, in epoch milliseconds, when this Webhook Endpoint was created.",
             "type": "`$INTEGER`",
           },
           {
@@ -2107,14 +2229,17 @@ def make_config():
               },
             },
             "req": True,
+            "short": "A list of Events that the Webhook Endpoint should subscribe to.",
             "type": "`$ARRAY`",
           },
           {
             "name": "id",
+            "short": "A unique identifier representing a specific Webhook Endpoint.",
             "type": "`$STRING`",
           },
           {
             "name": "updatedAt",
+            "short": "The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated.",
             "type": [
               "`$ONE`",
               [
@@ -2131,6 +2256,7 @@ def make_config():
               },
             },
             "req": True,
+            "short": "The URL of the Webhook Endpoint.",
             "type": "`$STRING`",
           },
         ],
@@ -2247,6 +2373,7 @@ def make_config():
         "fields": [
           {
             "name": "createdAt",
+            "short": "The exact time, in epoch milliseconds, when this Webhook Endpoint was created.",
             "type": "`$INTEGER`",
           },
           {
@@ -2257,14 +2384,17 @@ def make_config():
                 "type": "`$ARRAY`",
               },
             },
+            "short": "A list of Events that the Webhook Endpoint is subscribed to.",
             "type": "`$ARRAY`",
           },
           {
             "name": "id",
+            "short": "A unique identifier representing a specific Webhook Endpoint.",
             "type": "`$STRING`",
           },
           {
             "name": "updatedAt",
+            "short": "The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated.",
             "type": [
               "`$ONE`",
               [
@@ -2275,6 +2405,7 @@ def make_config():
           },
           {
             "name": "url",
+            "short": "The URL of the Webhook Endpoint.",
             "type": "`$STRING`",
           },
         ],

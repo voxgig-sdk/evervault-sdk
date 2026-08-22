@@ -19,6 +19,9 @@ module EvervaultConfig
     {
       "main" => {
         "name" => "Evervault",
+        "slug" => "evervault",
+        "version" => "0.0.1",
+        "target" => "rb",
       },
       "feature" => {
         "test" => {
@@ -65,6 +68,7 @@ module EvervaultConfig
                 },
               },
               "req" => true,
+              "short" => "The acquirer configuration settings.",
               "type" => "`$ARRAY`",
             },
             {
@@ -78,15 +82,18 @@ module EvervaultConfig
                 },
               },
               "req" => true,
+              "short" => "Specifies whether this Acquirer is the default.",
               "type" => "`$BOOLEAN`",
             },
             {
               "name" => "description",
+              "short" => "The description of the acquirer configuration.",
               "type" => "`$STRING`",
             },
             {
               "name" => "id",
               "req" => true,
+              "short" => "The unique identifier of the acquirer configuration.",
               "type" => "`$STRING`",
             },
             {
@@ -97,6 +104,7 @@ module EvervaultConfig
                 },
               },
               "req" => true,
+              "short" => "The name of the acquirer configuration.",
               "type" => "`$STRING`",
             },
           ],
@@ -215,6 +223,7 @@ module EvervaultConfig
             {
               "name" => "number",
               "req" => true,
+              "short" => "The card number for which the BIN lookup is being requested.",
               "type" => "`$STRING`",
             },
           ],
@@ -251,15 +260,18 @@ module EvervaultConfig
             {
               "name" => "address",
               "req" => true,
+              "short" => "Details about the cardholder's address that the address verification (AVS) is for.",
               "type" => "`$OBJECT`",
             },
             {
               "name" => "card",
               "req" => true,
+              "short" => "The card details.",
               "type" => "`$OBJECT`",
             },
             {
               "name" => "cardholder",
+              "short" => "Details about the cardholder that the name verification (ANI) is for.",
               "type" => "`$OBJECT`",
             },
             {
@@ -269,21 +281,25 @@ module EvervaultConfig
             },
             {
               "name" => "extensions",
+              "short" => "The extensions to the card insight request.",
               "type" => "`$ARRAY`",
             },
             {
               "name" => "month",
               "req" => true,
+              "short" => "The card expiry month, in MM format (e.g.",
               "type" => "`$STRING`",
             },
             {
               "name" => "number",
               "req" => true,
+              "short" => "The card number.",
               "type" => "`$STRING`",
             },
             {
               "name" => "year",
               "req" => true,
+              "short" => "The card expiry year, in YY format (e.g.",
               "type" => "`$STRING`",
             },
           ],
@@ -415,21 +431,25 @@ module EvervaultConfig
             {
               "name" => "data",
               "req" => true,
+              "short" => "The base64-encoded image data of the card art.",
               "type" => "`$STRING`",
             },
             {
               "name" => "height",
               "req" => true,
+              "short" => "The height of the card art image in pixels.",
               "type" => "`$INTEGER`",
             },
             {
               "name" => "type",
               "req" => true,
+              "short" => "The MIME type of the card art image.",
               "type" => "`$STRING`",
             },
             {
               "name" => "width",
               "req" => true,
+              "short" => "The width of the card art image in pixels.",
               "type" => "`$INTEGER`",
             },
           ],
@@ -486,14 +506,17 @@ module EvervaultConfig
             {
               "name" => "action",
               "req" => true,
+              "short" => "The action that the token should permit",
               "type" => "`$STRING`",
             },
             {
               "name" => "expiry",
+              "short" => "The expiry of the token in milliseconds format.",
               "type" => "`$INTEGER`",
             },
             {
               "name" => "payload",
+              "short" => "The payload that the token must be used with",
               "type" => "`$OBJECT`",
             },
           ],
@@ -528,10 +551,12 @@ module EvervaultConfig
           "fields" => [
             {
               "name" => "app",
+              "short" => "The unique identifier for the app to which the Relay belongs.",
               "type" => "`$STRING`",
             },
             {
               "name" => "authentication",
+              "short" => "The type of authentication required for the Relay",
               "type" => [
                 "`$ONE`",
                 [
@@ -542,10 +567,12 @@ module EvervaultConfig
             },
             {
               "name" => "createdAt",
+              "short" => "The exact time, in epoch milliseconds, when this custom domain was created.",
               "type" => "`$INTEGER`",
             },
             {
               "name" => "customDomain",
+              "short" => "The customer managed domain to which requests to be relayed to your domain should be sent.",
               "type" => "`$STRING`",
             },
             {
@@ -556,18 +583,22 @@ module EvervaultConfig
                 },
               },
               "req" => true,
+              "short" => "The domain in front of which you would like to configure a Relay",
               "type" => "`$STRING`",
             },
             {
               "name" => "encryptEmptyStrings",
+              "short" => "Whether or not empty strings should be encrypted.",
               "type" => "`$BOOLEAN`",
             },
             {
               "name" => "evervaultDomain",
+              "short" => "The Evervault managed domain to which requests to be relayed to the destination domain should be sent.",
               "type" => "`$STRING`",
             },
             {
               "name" => "id",
+              "short" => "The unique identifier for the custom domain.",
               "type" => "`$STRING`",
             },
             {
@@ -576,6 +607,7 @@ module EvervaultConfig
             },
             {
               "name" => "relay",
+              "short" => "The ID of the Relay with which this custom domain is associated.",
               "type" => "`$STRING`",
             },
             {
@@ -586,23 +618,28 @@ module EvervaultConfig
                 },
               },
               "req" => true,
+              "short" => "A collection of route configurations for the Relay.",
               "type" => "`$ARRAY`",
             },
             {
               "name" => "status",
+              "short" => "The status of the domains DNS verification.",
               "type" => "`$STRING`",
             },
             {
               "name" => "token",
               "req" => true,
+              "short" => "The encrypted data to be inspected.",
               "type" => "`$STRING`",
             },
             {
               "name" => "updatedAt",
+              "short" => "The exact time, in epoch milliseconds, when this custom domain was last updated.",
               "type" => "`$INTEGER`",
             },
             {
               "name" => "validationRecord",
+              "short" => "Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain",
               "type" => "`$STRING`",
             },
           ],
@@ -807,6 +844,7 @@ module EvervaultConfig
           "fields" => [
             {
               "name" => "createdAt",
+              "short" => "The exact time, in epoch milliseconds, when this custom domain was created.",
               "type" => "`$INTEGER`",
             },
             {
@@ -817,26 +855,32 @@ module EvervaultConfig
                   "type" => "`$STRING`",
                 },
               },
+              "short" => "The customer managed domain to which requests to be relayed to your domain should be sent.",
               "type" => "`$STRING`",
             },
             {
               "name" => "id",
+              "short" => "The unique identifier for the custom domain.",
               "type" => "`$STRING`",
             },
             {
               "name" => "relay",
+              "short" => "The ID of the Relay with which this custom domain is associated.",
               "type" => "`$STRING`",
             },
             {
               "name" => "status",
+              "short" => "The status of the domains DNS verification.",
               "type" => "`$STRING`",
             },
             {
               "name" => "updatedAt",
+              "short" => "The exact time, in epoch milliseconds, when this custom domain was last updated.",
               "type" => "`$INTEGER`",
             },
             {
               "name" => "validationRecord",
+              "short" => "Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain",
               "type" => "`$STRING`",
             },
           ],
@@ -936,14 +980,17 @@ module EvervaultConfig
           "fields" => [
             {
               "name" => "async",
+              "short" => "If you want your Function to run asynchronously and notify a callback URL, this can be set to `true` and the API will queue your Function run and return a `202` response code.",
               "type" => "`$BOOLEAN`",
             },
             {
               "name" => "createdAt",
+              "short" => "The exact time, in epoch milliseconds, when this Function execution was triggered.",
               "type" => "`$INTEGER`",
             },
             {
               "name" => "error",
+              "short" => "This field details any error that occurred during Function execution.",
               "type" => [
                 "`$ONE`",
                 [
@@ -954,19 +1001,23 @@ module EvervaultConfig
             },
             {
               "name" => "id",
+              "short" => "A unique identifier representing this specific Function execution instance.",
               "type" => "`$STRING`",
             },
             {
               "name" => "payload",
               "req" => true,
+              "short" => "The data payload that the Function will use during its execution.",
               "type" => "`$OBJECT`",
             },
             {
               "name" => "result",
+              "short" => "This field represents the output returned by the Function.",
               "type" => "`$OBJECT`",
             },
             {
               "name" => "status",
+              "short" => "The outcome of the Function execution.",
               "type" => "`$STRING`",
             },
           ],
@@ -1021,6 +1072,7 @@ module EvervaultConfig
           "fields" => [
             {
               "name" => "applePay",
+              "short" => "The Merchant's Apple Pay configuration.",
               "type" => "`$OBJECT`",
             },
             {
@@ -1031,6 +1083,7 @@ module EvervaultConfig
                   "type" => "`$OBJECT`",
                 },
               },
+              "short" => "The business details of the Merchant.",
               "type" => "`$OBJECT`",
             },
             {
@@ -1041,38 +1094,46 @@ module EvervaultConfig
                   "type" => "`$STRING`",
                 },
               },
+              "short" => "The 4-digit Merchant Category Code (MCC).",
               "type" => "`$STRING`",
             },
             {
               "name" => "createdAt",
               "req" => true,
+              "short" => "The exact time, in epoch milliseconds, when this Merchant was created.",
               "type" => "`$INTEGER`",
             },
             {
               "name" => "id",
               "req" => true,
+              "short" => "A unique identifier assigned to each Merchant.",
               "type" => "`$STRING`",
             },
             {
               "name" => "name",
               "req" => true,
+              "short" => "The official name of the Merchant as recognized in transactions and communications.",
               "type" => "`$STRING`",
             },
             {
               "name" => "networkTokens",
+              "short" => "The Merchant's Network Token configuration.",
               "type" => "`$OBJECT`",
             },
             {
               "name" => "shortName",
+              "short" => "A shorter version of the Merchant's name.",
               "type" => "`$STRING`",
             },
             {
               "name" => "updatedAt",
+              "short" => "The exact time, in epoch milliseconds, when this Merchant was last updated.",
               "type" => "`$INTEGER`",
             },
             {
               "name" => "website",
               "req" => true,
+              "short" => "The official website URL of the Merchant.",
               "type" => "`$STRING`",
             },
           ],
@@ -1191,58 +1252,70 @@ module EvervaultConfig
             {
               "name" => "card",
               "req" => true,
+              "short" => "The details of the underlying encrypted card.",
               "type" => "`$OBJECT`",
             },
             {
               "name" => "createdAt",
               "req" => true,
+              "short" => "The exact time, in epoch milliseconds, when this Network Token was created.",
               "type" => "`$INTEGER`",
             },
             {
               "name" => "expiry",
               "req" => true,
+              "short" => "The expiry details of the Network Token.",
               "type" => "`$OBJECT`",
             },
             {
               "name" => "id",
               "req" => true,
+              "short" => "A unique identifier representing a specific Network Token.",
               "type" => "`$STRING`",
             },
             {
               "name" => "merchant",
               "req" => true,
+              "short" => "The unique identifier of the Merchant associated with this Network Token.",
               "type" => "`$STRING`",
             },
             {
               "name" => "number",
               "req" => true,
+              "short" => "The unique number of the Network Token.",
               "type" => "`$STRING`",
             },
             {
               "name" => "paymentAccountReference",
+              "short" => "The unique identifier of the Payment Account associated with this Network Token.",
               "type" => "`$STRING`",
             },
             {
               "name" => "status",
               "req" => true,
+              "short" => "The status of the Network Token.",
               "type" => "`$STRING`",
             },
             {
               "name" => "tokenRequestorIdentifier",
               "req" => true,
+              "short" => "The identifier of the Token Requestor (TRID) that requested the Network Token.",
               "type" => "`$STRING`",
             },
             {
               "name" => "tokenServiceProvider",
               "req" => true,
+              "short" => "The Token Service Provider (TSP) that issued the Network Token.",
               "type" => "`$STRING`",
             },
             {
               "name" => "updateType",
+              "short" => "The type of update to simulate.",
               "type" => "`$STRING`",
             },
             {
               "name" => "updatedAt",
+              "short" => "The exact time, in epoch milliseconds, when this Network Token was last updated.",
               "type" => "`$INTEGER`",
             },
           ],
@@ -1420,32 +1493,39 @@ module EvervaultConfig
           "fields" => [
             {
               "name" => "applePay",
+              "short" => "The Merchant's Apple Pay configuration.",
               "type" => "`$OBJECT`",
             },
             {
               "name" => "business",
+              "short" => "The business details of the Merchant.",
               "type" => "`$OBJECT`",
             },
             {
               "name" => "categoryCode",
+              "short" => "The 4-digit Merchant Category Code (MCC).",
               "type" => "`$STRING`",
             },
             {
               "name" => "configurations",
               "req" => true,
+              "short" => "The acquirer configuration settings.",
               "type" => "`$ARRAY`",
             },
             {
               "name" => "createdAt",
               "req" => true,
+              "short" => "The exact time, in epoch milliseconds, when this Merchant was created.",
               "type" => "`$INTEGER`",
             },
             {
               "name" => "created_at",
+              "short" => "Timestamp when the message was created",
               "type" => "`$INTEGER`",
             },
             {
               "name" => "data",
+              "short" => "The message data payload",
               "type" => "`$OBJECT`",
             },
             {
@@ -1455,37 +1535,45 @@ module EvervaultConfig
             },
             {
               "name" => "description",
+              "short" => "The description of the acquirer configuration.",
               "type" => "`$STRING`",
             },
             {
               "name" => "id",
               "req" => true,
+              "short" => "A unique identifier assigned to each Merchant.",
               "type" => "`$STRING`",
             },
             {
               "name" => "name",
               "req" => true,
+              "short" => "The official name of the Merchant as recognized in transactions and communications.",
               "type" => "`$STRING`",
             },
             {
               "name" => "networkTokens",
+              "short" => "The Merchant's Network Token configuration.",
               "type" => "`$OBJECT`",
             },
             {
               "name" => "shortName",
+              "short" => "A shorter version of the Merchant's name.",
               "type" => "`$STRING`",
             },
             {
               "name" => "type",
+              "short" => "The type of 3DS message (e.g., AReq, ARes, CReq, CRes, RReq, RRes)",
               "type" => "`$STRING`",
             },
             {
               "name" => "updatedAt",
+              "short" => "The exact time, in epoch milliseconds, when this Merchant was last updated.",
               "type" => "`$INTEGER`",
             },
             {
               "name" => "website",
               "req" => true,
+              "short" => "The official website URL of the Merchant.",
               "type" => "`$STRING`",
             },
           ],
@@ -1762,10 +1850,12 @@ module EvervaultConfig
           "fields" => [
             {
               "name" => "app",
+              "short" => "The unique identifier for the app to which the Relay belongs.",
               "type" => "`$STRING`",
             },
             {
               "name" => "authentication",
+              "short" => "The type of authentication required for the Relay",
               "type" => [
                 "`$ONE`",
                 [
@@ -1776,30 +1866,37 @@ module EvervaultConfig
             },
             {
               "name" => "createdAt",
+              "short" => "The exact time, in epoch milliseconds, when this Relay was created.",
               "type" => "`$INTEGER`",
             },
             {
               "name" => "destinationDomain",
+              "short" => "The domain in front of which the Relay should be configured.",
               "type" => "`$STRING`",
             },
             {
               "name" => "encryptEmptyStrings",
+              "short" => "Whether or not empty strings should be encrypted.",
               "type" => "`$BOOLEAN`",
             },
             {
               "name" => "evervaultDomain",
+              "short" => "The Evervault managed domain to which requests to be relayed to the destination domain should be sent.",
               "type" => "`$STRING`",
             },
             {
               "name" => "id",
+              "short" => "The unique identifier for the Relay.",
               "type" => "`$STRING`",
             },
             {
               "name" => "routes",
+              "short" => "A collection of route configurations for the Relay.",
               "type" => "`$ARRAY`",
             },
             {
               "name" => "updatedAt",
+              "short" => "The exact time, in epoch milliseconds, when this Relay was updated.",
               "type" => "`$INTEGER`",
             },
           ],
@@ -1884,6 +1981,7 @@ module EvervaultConfig
           "fields" => [
             {
               "name" => "accessControlServer",
+              "short" => "Details about the Access Control Server involved in the 3DS transaction.",
               "type" => "`$OBJECT`",
             },
             {
@@ -1894,34 +1992,41 @@ module EvervaultConfig
                 },
               },
               "req" => true,
+              "short" => "The acquirer of the payment.",
               "type" => "`$OBJECT`",
             },
             {
               "name" => "ares",
+              "short" => "The details of the 3DS Authentication Response (ARes).",
               "type" => "`$OBJECT`",
             },
             {
               "name" => "authentication",
               "req" => true,
+              "short" => "The details of the 3DS Authentication.",
               "type" => "`$OBJECT`",
             },
             {
               "name" => "card",
               "req" => true,
+              "short" => "The card details.",
               "type" => "`$OBJECT`",
             },
             {
               "name" => "challenge",
               "req" => true,
+              "short" => "Details about the 3DS challenge.",
               "type" => "`$OBJECT`",
             },
             {
               "name" => "createdAt",
               "req" => true,
+              "short" => "The exact time, in epoch milliseconds, when this 3DS-Session was created.",
               "type" => "`$INTEGER`",
             },
             {
               "name" => "cres",
+              "short" => "The details of the 3DS Challenge Response (CRes).",
               "type" => [
                 "`$ONE`",
                 [
@@ -1932,31 +2037,38 @@ module EvervaultConfig
             },
             {
               "name" => "cryptogram",
+              "short" => "The 3DS cryptogram (also called Authentication Value).",
               "type" => "`$STRING`",
             },
             {
               "name" => "customer",
+              "short" => "The details of the customer who initiated the transaction.",
               "type" => "`$OBJECT`",
             },
             {
               "name" => "directoryServer",
+              "short" => "Details about the Directory Server involved in the 3DS transaction.",
               "type" => "`$OBJECT`",
             },
             {
               "name" => "eci",
+              "short" => "The details of the Electronic Commerce Indicator.",
               "type" => "`$OBJECT`",
             },
             {
               "name" => "failureReason",
+              "short" => "The reason for the 3DS Authentication failure.",
               "type" => "`$STRING`",
             },
             {
               "name" => "id",
               "req" => true,
+              "short" => "A unique identifier assigned to each 3DS Authentication.",
               "type" => "`$STRING`",
             },
             {
               "name" => "initiator",
+              "short" => "Details about the transaction initiation process.",
               "type" => "`$OBJECT`",
               "union" => {
                 "branches" => 2,
@@ -1967,15 +2079,18 @@ module EvervaultConfig
             {
               "name" => "merchant",
               "req" => true,
+              "short" => "The merchant details.",
               "type" => "`$OBJECT`",
             },
             {
               "name" => "nextAction",
               "req" => true,
+              "short" => "The next action required to complete the 3DS Authentication.",
               "type" => "`$OBJECT`",
             },
             {
               "name" => "payment",
+              "short" => "The payment details of the 3D Secure Authentication.",
               "type" => "`$OBJECT`",
               "union" => {
                 "branches" => 3,
@@ -1985,10 +2100,12 @@ module EvervaultConfig
             },
             {
               "name" => "preferredVersions",
+              "short" => "A prioritized list of preferred 3D Secure versions.",
               "type" => "`$ARRAY`",
             },
             {
               "name" => "rreq",
+              "short" => "The result of the 3DS authentication when a challenge has occurred.",
               "type" => [
                 "`$ONE`",
                 [
@@ -2000,19 +2117,23 @@ module EvervaultConfig
             {
               "name" => "status",
               "req" => true,
+              "short" => "The status of the 3DS Authentication.",
               "type" => "`$STRING`",
             },
             {
               "name" => "threeDSServer",
+              "short" => "Details about the 3DS Server involved in the 3DS transaction.",
               "type" => "`$OBJECT`",
             },
             {
               "name" => "updatedAt",
+              "short" => "The exact time, in epoch milliseconds, when this 3DS-Session was last updated.",
               "type" => "`$INTEGER`",
             },
             {
               "name" => "version",
               "req" => true,
+              "short" => "The 3D Secure version used to authenticate the session.",
               "type" => "`$STRING`",
             },
           ],
@@ -2088,6 +2209,7 @@ module EvervaultConfig
           "fields" => [
             {
               "name" => "createdAt",
+              "short" => "The exact time, in epoch milliseconds, when this Webhook Endpoint was created.",
               "type" => "`$INTEGER`",
             },
             {
@@ -2098,14 +2220,17 @@ module EvervaultConfig
                 },
               },
               "req" => true,
+              "short" => "A list of Events that the Webhook Endpoint should subscribe to.",
               "type" => "`$ARRAY`",
             },
             {
               "name" => "id",
+              "short" => "A unique identifier representing a specific Webhook Endpoint.",
               "type" => "`$STRING`",
             },
             {
               "name" => "updatedAt",
+              "short" => "The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated.",
               "type" => [
                 "`$ONE`",
                 [
@@ -2122,6 +2247,7 @@ module EvervaultConfig
                 },
               },
               "req" => true,
+              "short" => "The URL of the Webhook Endpoint.",
               "type" => "`$STRING`",
             },
           ],
@@ -2238,6 +2364,7 @@ module EvervaultConfig
           "fields" => [
             {
               "name" => "createdAt",
+              "short" => "The exact time, in epoch milliseconds, when this Webhook Endpoint was created.",
               "type" => "`$INTEGER`",
             },
             {
@@ -2248,14 +2375,17 @@ module EvervaultConfig
                   "type" => "`$ARRAY`",
                 },
               },
+              "short" => "A list of Events that the Webhook Endpoint is subscribed to.",
               "type" => "`$ARRAY`",
             },
             {
               "name" => "id",
+              "short" => "A unique identifier representing a specific Webhook Endpoint.",
               "type" => "`$STRING`",
             },
             {
               "name" => "updatedAt",
+              "short" => "The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated.",
               "type" => [
                 "`$ONE`",
                 [
@@ -2266,6 +2396,7 @@ module EvervaultConfig
             },
             {
               "name" => "url",
+              "short" => "The URL of the Webhook Endpoint.",
               "type" => "`$STRING`",
             },
           ],

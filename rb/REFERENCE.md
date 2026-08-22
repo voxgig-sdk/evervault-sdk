@@ -154,11 +154,11 @@ acquirer = client.Acquirer
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `configurations` | `Array` | Yes |  |
-| `default` | `Boolean` | Yes |  |
-| `description` | `String` | No |  |
-| `id` | `String` | Yes |  |
-| `name` | `String` | Yes |  |
+| `configurations` | `Array` | Yes | The acquirer configuration settings. |
+| `default` | `Boolean` | Yes | Specifies whether this Acquirer is the default. |
+| `description` | `String` | No | The description of the acquirer configuration. |
+| `id` | `String` | Yes | The unique identifier of the acquirer configuration. |
+| `name` | `String` | Yes | The name of the acquirer configuration. |
 
 ### Field Usage by Operation
 
@@ -244,7 +244,7 @@ bin_lookup = client.BinLookup
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `number` | `String` | Yes |  |
+| `number` | `String` | Yes | The card number for which the BIN lookup is being requested. |
 
 ### Operations
 
@@ -298,14 +298,14 @@ card = client.Card
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `address` | `Hash` | Yes |  |
-| `card` | `Hash` | Yes |  |
-| `cardholder` | `Hash` | No |  |
+| `address` | `Hash` | Yes | Details about the cardholder's address that the address verification (AVS) is for. |
+| `card` | `Hash` | Yes | The card details. |
+| `cardholder` | `Hash` | No | Details about the cardholder that the name verification (ANI) is for. |
 | `expiry` | `Hash` | Yes |  |
-| `extensions` | `Array` | No |  |
-| `month` | `String` | Yes |  |
-| `number` | `String` | Yes |  |
-| `year` | `String` | Yes |  |
+| `extensions` | `Array` | No | The extensions to the card insight request. |
+| `month` | `String` | Yes | The card expiry month, in MM format (e.g. |
+| `number` | `String` | Yes | The card number. |
+| `year` | `String` | Yes | The card expiry year, in YY format (e.g. |
 
 ### Operations
 
@@ -372,10 +372,10 @@ card_art = client.CardArt
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `String` | Yes |  |
-| `height` | `Integer` | Yes |  |
-| `type` | `String` | Yes |  |
-| `width` | `Integer` | Yes |  |
+| `data` | `String` | Yes | The base64-encoded image data of the card art. |
+| `height` | `Integer` | Yes | The height of the card art image in pixels. |
+| `type` | `String` | Yes | The MIME type of the card art image. |
+| `width` | `Integer` | Yes | The width of the card art image in pixels. |
 
 ### Operations
 
@@ -427,9 +427,9 @@ client_side_token = client.ClientSideToken
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `action` | `String` | Yes |  |
-| `expiry` | `Integer` | No |  |
-| `payload` | `Hash` | No |  |
+| `action` | `String` | Yes | The action that the token should permit |
+| `expiry` | `Integer` | No | The expiry of the token in milliseconds format. |
+| `payload` | `Hash` | No | The payload that the token must be used with |
 
 ### Operations
 
@@ -483,21 +483,21 @@ core = client.Core
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app` | `String` | No |  |
-| `authentication` | `Object` | No |  |
-| `createdAt` | `Integer` | No |  |
-| `customDomain` | `String` | No |  |
-| `destinationDomain` | `String` | Yes |  |
-| `encryptEmptyStrings` | `Boolean` | No |  |
-| `evervaultDomain` | `String` | No |  |
-| `id` | `String` | No |  |
+| `app` | `String` | No | The unique identifier for the app to which the Relay belongs. |
+| `authentication` | `Object` | No | The type of authentication required for the Relay |
+| `createdAt` | `Integer` | No | The exact time, in epoch milliseconds, when this custom domain was created. |
+| `customDomain` | `String` | No | The customer managed domain to which requests to be relayed to your domain should be sent. |
+| `destinationDomain` | `String` | Yes | The domain in front of which you would like to configure a Relay |
+| `encryptEmptyStrings` | `Boolean` | No | Whether or not empty strings should be encrypted. |
+| `evervaultDomain` | `String` | No | The Evervault managed domain to which requests to be relayed to the destination domain should be sent. |
+| `id` | `String` | No | The unique identifier for the custom domain. |
 | `phoneNumber` | `String` | No |  |
-| `relay` | `String` | No |  |
-| `routes` | `Array` | Yes |  |
-| `status` | `String` | No |  |
-| `token` | `String` | Yes |  |
-| `updatedAt` | `Integer` | No |  |
-| `validationRecord` | `String` | No |  |
+| `relay` | `String` | No | The ID of the Relay with which this custom domain is associated. |
+| `routes` | `Array` | Yes | A collection of route configurations for the Relay. |
+| `status` | `String` | No | The status of the domains DNS verification. |
+| `token` | `String` | Yes | The encrypted data to be inspected. |
+| `updatedAt` | `Integer` | No | The exact time, in epoch milliseconds, when this custom domain was last updated. |
+| `validationRecord` | `String` | No | Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain |
 
 ### Field Usage by Operation
 
@@ -589,13 +589,13 @@ custom_domain = client.CustomDomain
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `createdAt` | `Integer` | No |  |
-| `customDomain` | `String` | No |  |
-| `id` | `String` | No |  |
-| `relay` | `String` | No |  |
-| `status` | `String` | No |  |
-| `updatedAt` | `Integer` | No |  |
-| `validationRecord` | `String` | No |  |
+| `createdAt` | `Integer` | No | The exact time, in epoch milliseconds, when this custom domain was created. |
+| `customDomain` | `String` | No | The customer managed domain to which requests to be relayed to your domain should be sent. |
+| `id` | `String` | No | The unique identifier for the custom domain. |
+| `relay` | `String` | No | The ID of the Relay with which this custom domain is associated. |
+| `status` | `String` | No | The status of the domains DNS verification. |
+| `updatedAt` | `Integer` | No | The exact time, in epoch milliseconds, when this custom domain was last updated. |
+| `validationRecord` | `String` | No | Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain |
 
 ### Field Usage by Operation
 
@@ -669,13 +669,13 @@ function_run = client.FunctionRun
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `async` | `Boolean` | No |  |
-| `createdAt` | `Integer` | No |  |
-| `error` | `Object` | No |  |
-| `id` | `String` | No |  |
-| `payload` | `Hash` | Yes |  |
-| `result` | `Hash` | No |  |
-| `status` | `String` | No |  |
+| `async` | `Boolean` | No | If you want your Function to run asynchronously and notify a callback URL, this can be set to `true` and the API will queue your Function run and return a `202` response code. |
+| `createdAt` | `Integer` | No | The exact time, in epoch milliseconds, when this Function execution was triggered. |
+| `error` | `Object` | No | This field details any error that occurred during Function execution. |
+| `id` | `String` | No | A unique identifier representing this specific Function execution instance. |
+| `payload` | `Hash` | Yes | The data payload that the Function will use during its execution. |
+| `result` | `Hash` | No | This field represents the output returned by the Function. |
+| `status` | `String` | No | The outcome of the Function execution. |
 
 ### Operations
 
@@ -730,16 +730,16 @@ merchant = client.Merchant
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `applePay` | `Hash` | No |  |
-| `business` | `Hash` | No |  |
-| `categoryCode` | `String` | No |  |
-| `createdAt` | `Integer` | Yes |  |
-| `id` | `String` | Yes |  |
-| `name` | `String` | Yes |  |
-| `networkTokens` | `Hash` | No |  |
-| `shortName` | `String` | No |  |
-| `updatedAt` | `Integer` | No |  |
-| `website` | `String` | Yes |  |
+| `applePay` | `Hash` | No | The Merchant's Apple Pay configuration. |
+| `business` | `Hash` | No | The business details of the Merchant. |
+| `categoryCode` | `String` | No | The 4-digit Merchant Category Code (MCC). |
+| `createdAt` | `Integer` | Yes | The exact time, in epoch milliseconds, when this Merchant was created. |
+| `id` | `String` | Yes | A unique identifier assigned to each Merchant. |
+| `name` | `String` | Yes | The official name of the Merchant as recognized in transactions and communications. |
+| `networkTokens` | `Hash` | No | The Merchant's Network Token configuration. |
+| `shortName` | `String` | No | A shorter version of the Merchant's name. |
+| `updatedAt` | `Integer` | No | The exact time, in epoch milliseconds, when this Merchant was last updated. |
+| `website` | `String` | Yes | The official website URL of the Merchant. |
 
 ### Field Usage by Operation
 
@@ -830,18 +830,18 @@ network_token = client.NetworkToken
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `card` | `Hash` | Yes |  |
-| `createdAt` | `Integer` | Yes |  |
-| `expiry` | `Hash` | Yes |  |
-| `id` | `String` | Yes |  |
-| `merchant` | `String` | Yes |  |
-| `number` | `String` | Yes |  |
-| `paymentAccountReference` | `String` | No |  |
-| `status` | `String` | Yes |  |
-| `tokenRequestorIdentifier` | `String` | Yes |  |
-| `tokenServiceProvider` | `String` | Yes |  |
-| `updateType` | `String` | No |  |
-| `updatedAt` | `Integer` | No |  |
+| `card` | `Hash` | Yes | The details of the underlying encrypted card. |
+| `createdAt` | `Integer` | Yes | The exact time, in epoch milliseconds, when this Network Token was created. |
+| `expiry` | `Hash` | Yes | The expiry details of the Network Token. |
+| `id` | `String` | Yes | A unique identifier representing a specific Network Token. |
+| `merchant` | `String` | Yes | The unique identifier of the Merchant associated with this Network Token. |
+| `number` | `String` | Yes | The unique number of the Network Token. |
+| `paymentAccountReference` | `String` | No | The unique identifier of the Payment Account associated with this Network Token. |
+| `status` | `String` | Yes | The status of the Network Token. |
+| `tokenRequestorIdentifier` | `String` | Yes | The identifier of the Token Requestor (TRID) that requested the Network Token. |
+| `tokenServiceProvider` | `String` | Yes | The Token Service Provider (TSP) that issued the Network Token. |
+| `updateType` | `String` | No | The type of update to simulate. |
+| `updatedAt` | `Integer` | No | The exact time, in epoch milliseconds, when this Network Token was last updated. |
 
 ### Operations
 
@@ -967,22 +967,22 @@ payment = client.Payment
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `applePay` | `Hash` | No |  |
-| `business` | `Hash` | No |  |
-| `categoryCode` | `String` | No |  |
-| `configurations` | `Array` | Yes |  |
-| `createdAt` | `Integer` | Yes |  |
-| `created_at` | `Integer` | No |  |
-| `data` | `Hash` | No |  |
+| `applePay` | `Hash` | No | The Merchant's Apple Pay configuration. |
+| `business` | `Hash` | No | The business details of the Merchant. |
+| `categoryCode` | `String` | No | The 4-digit Merchant Category Code (MCC). |
+| `configurations` | `Array` | Yes | The acquirer configuration settings. |
+| `createdAt` | `Integer` | Yes | The exact time, in epoch milliseconds, when this Merchant was created. |
+| `created_at` | `Integer` | No | Timestamp when the message was created |
+| `data` | `Hash` | No | The message data payload |
 | `default` | `Boolean` | Yes |  |
-| `description` | `String` | No |  |
-| `id` | `String` | Yes |  |
-| `name` | `String` | Yes |  |
-| `networkTokens` | `Hash` | No |  |
-| `shortName` | `String` | No |  |
-| `type` | `String` | No |  |
-| `updatedAt` | `Integer` | No |  |
-| `website` | `String` | Yes |  |
+| `description` | `String` | No | The description of the acquirer configuration. |
+| `id` | `String` | Yes | A unique identifier assigned to each Merchant. |
+| `name` | `String` | Yes | The official name of the Merchant as recognized in transactions and communications. |
+| `networkTokens` | `Hash` | No | The Merchant's Network Token configuration. |
+| `shortName` | `String` | No | A shorter version of the Merchant's name. |
+| `type` | `String` | No | The type of 3DS message (e.g., AReq, ARes, CReq, CRes, RReq, RRes) |
+| `updatedAt` | `Integer` | No | The exact time, in epoch milliseconds, when this Merchant was last updated. |
+| `website` | `String` | Yes | The official website URL of the Merchant. |
 
 ### Operations
 
@@ -999,7 +999,7 @@ results = client.Payment.list
 Remove the entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.Payment.remove()
+result = client.Payment.remove({ "acquirer_id" => "acquirer_id" })
 ```
 
 ### Common Methods
@@ -1042,15 +1042,15 @@ relay = client.Relay
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app` | `String` | No |  |
-| `authentication` | `Object` | No |  |
-| `createdAt` | `Integer` | No |  |
-| `destinationDomain` | `String` | No |  |
-| `encryptEmptyStrings` | `Boolean` | No |  |
-| `evervaultDomain` | `String` | No |  |
-| `id` | `String` | No |  |
-| `routes` | `Array` | No |  |
-| `updatedAt` | `Integer` | No |  |
+| `app` | `String` | No | The unique identifier for the app to which the Relay belongs. |
+| `authentication` | `Object` | No | The type of authentication required for the Relay |
+| `createdAt` | `Integer` | No | The exact time, in epoch milliseconds, when this Relay was created. |
+| `destinationDomain` | `String` | No | The domain in front of which the Relay should be configured. |
+| `encryptEmptyStrings` | `Boolean` | No | Whether or not empty strings should be encrypted. |
+| `evervaultDomain` | `String` | No | The Evervault managed domain to which requests to be relayed to the destination domain should be sent. |
+| `id` | `String` | No | The unique identifier for the Relay. |
+| `routes` | `Array` | No | A collection of route configurations for the Relay. |
+| `updatedAt` | `Integer` | No | The exact time, in epoch milliseconds, when this Relay was updated. |
 
 ### Operations
 
@@ -1113,30 +1113,30 @@ three_ds_session = client.ThreeDsSession
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `accessControlServer` | `Hash` | No |  |
-| `acquirer` | `Hash` | Yes |  |
-| `ares` | `Hash` | No |  |
-| `authentication` | `Hash` | Yes |  |
-| `card` | `Hash` | Yes |  |
-| `challenge` | `Hash` | Yes |  |
-| `createdAt` | `Integer` | Yes |  |
-| `cres` | `Object` | No |  |
-| `cryptogram` | `String` | No |  |
-| `customer` | `Hash` | No |  |
-| `directoryServer` | `Hash` | No |  |
-| `eci` | `Hash` | No |  |
-| `failureReason` | `String` | No |  |
-| `id` | `String` | Yes |  |
-| `initiator` | `Hash` | No |  |
-| `merchant` | `Hash` | Yes |  |
-| `nextAction` | `Hash` | Yes |  |
-| `payment` | `Hash` | No |  |
-| `preferredVersions` | `Array` | No |  |
-| `rreq` | `Object` | No |  |
-| `status` | `String` | Yes |  |
-| `threeDSServer` | `Hash` | No |  |
-| `updatedAt` | `Integer` | No |  |
-| `version` | `String` | Yes |  |
+| `accessControlServer` | `Hash` | No | Details about the Access Control Server involved in the 3DS transaction. |
+| `acquirer` | `Hash` | Yes | The acquirer of the payment. |
+| `ares` | `Hash` | No | The details of the 3DS Authentication Response (ARes). |
+| `authentication` | `Hash` | Yes | The details of the 3DS Authentication. |
+| `card` | `Hash` | Yes | The card details. |
+| `challenge` | `Hash` | Yes | Details about the 3DS challenge. |
+| `createdAt` | `Integer` | Yes | The exact time, in epoch milliseconds, when this 3DS-Session was created. |
+| `cres` | `Object` | No | The details of the 3DS Challenge Response (CRes). |
+| `cryptogram` | `String` | No | The 3DS cryptogram (also called Authentication Value). |
+| `customer` | `Hash` | No | The details of the customer who initiated the transaction. |
+| `directoryServer` | `Hash` | No | Details about the Directory Server involved in the 3DS transaction. |
+| `eci` | `Hash` | No | The details of the Electronic Commerce Indicator. |
+| `failureReason` | `String` | No | The reason for the 3DS Authentication failure. |
+| `id` | `String` | Yes | A unique identifier assigned to each 3DS Authentication. |
+| `initiator` | `Hash` | No | Details about the transaction initiation process. |
+| `merchant` | `Hash` | Yes | The merchant details. |
+| `nextAction` | `Hash` | Yes | The next action required to complete the 3DS Authentication. |
+| `payment` | `Hash` | No | The payment details of the 3D Secure Authentication. |
+| `preferredVersions` | `Array` | No | A prioritized list of preferred 3D Secure versions. |
+| `rreq` | `Object` | No | The result of the 3DS authentication when a challenge has occurred. |
+| `status` | `String` | Yes | The status of the 3DS Authentication. |
+| `threeDSServer` | `Hash` | No | Details about the 3DS Server involved in the 3DS transaction. |
+| `updatedAt` | `Integer` | No | The exact time, in epoch milliseconds, when this 3DS-Session was last updated. |
+| `version` | `String` | Yes | The 3D Secure version used to authenticate the session. |
 
 ### Field Usage by Operation
 
@@ -1236,11 +1236,11 @@ webhook = client.Webhook
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `createdAt` | `Integer` | No |  |
-| `events` | `Array` | Yes |  |
-| `id` | `String` | No |  |
-| `updatedAt` | `Object` | No |  |
-| `url` | `String` | Yes |  |
+| `createdAt` | `Integer` | No | The exact time, in epoch milliseconds, when this Webhook Endpoint was created. |
+| `events` | `Array` | Yes | A list of Events that the Webhook Endpoint should subscribe to. |
+| `id` | `String` | No | A unique identifier representing a specific Webhook Endpoint. |
+| `updatedAt` | `Object` | No | The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated. |
+| `url` | `String` | Yes | The URL of the Webhook Endpoint. |
 
 ### Field Usage by Operation
 
@@ -1321,11 +1321,11 @@ webhook_endpoint = client.WebhookEndpoint
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `createdAt` | `Integer` | No |  |
-| `events` | `Array` | No |  |
-| `id` | `String` | No |  |
-| `updatedAt` | `Object` | No |  |
-| `url` | `String` | No |  |
+| `createdAt` | `Integer` | No | The exact time, in epoch milliseconds, when this Webhook Endpoint was created. |
+| `events` | `Array` | No | A list of Events that the Webhook Endpoint is subscribed to. |
+| `id` | `String` | No | A unique identifier representing a specific Webhook Endpoint. |
+| `updatedAt` | `Object` | No | The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated. |
+| `url` | `String` | No | The URL of the Webhook Endpoint. |
 
 ### Field Usage by Operation
 

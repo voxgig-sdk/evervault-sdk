@@ -159,11 +159,11 @@ fmt.Println(acquirer.GetName()) // "acquirer"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `configurations` | `[]any` | Yes |  |
-| `default` | `bool` | Yes |  |
-| `description` | `string` | No |  |
-| `id` | `string` | Yes |  |
-| `name` | `string` | Yes |  |
+| `configurations` | `[]any` | Yes | The acquirer configuration settings. |
+| `default` | `bool` | Yes | Specifies whether this Acquirer is the default. |
+| `description` | `string` | No | The description of the acquirer configuration. |
+| `id` | `string` | Yes | The unique identifier of the acquirer configuration. |
+| `name` | `string` | Yes | The name of the acquirer configuration. |
 
 ### Field Usage by Operation
 
@@ -256,7 +256,7 @@ fmt.Println(binLookup.GetName()) // "bin_lookup"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `number` | `string` | Yes |  |
+| `number` | `string` | Yes | The card number for which the BIN lookup is being requested. |
 
 ### Operations
 
@@ -309,14 +309,14 @@ fmt.Println(card.GetName()) // "card"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `address` | `map[string]any` | Yes |  |
-| `card` | `map[string]any` | Yes |  |
-| `cardholder` | `map[string]any` | No |  |
+| `address` | `map[string]any` | Yes | Details about the cardholder's address that the address verification (AVS) is for. |
+| `card` | `map[string]any` | Yes | The card details. |
+| `cardholder` | `map[string]any` | No | Details about the cardholder that the name verification (ANI) is for. |
 | `expiry` | `map[string]any` | Yes |  |
-| `extensions` | `[]any` | No |  |
-| `month` | `string` | Yes |  |
-| `number` | `string` | Yes |  |
-| `year` | `string` | Yes |  |
+| `extensions` | `[]any` | No | The extensions to the card insight request. |
+| `month` | `string` | Yes | The card expiry month, in MM format (e.g. |
+| `number` | `string` | Yes | The card number. |
+| `year` | `string` | Yes | The card expiry year, in YY format (e.g. |
 
 ### Operations
 
@@ -386,10 +386,10 @@ fmt.Println(cardArt.GetName()) // "card_art"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `string` | Yes |  |
-| `height` | `int` | Yes |  |
-| `type` | `string` | Yes |  |
-| `width` | `int` | Yes |  |
+| `data` | `string` | Yes | The base64-encoded image data of the card art. |
+| `height` | `int` | Yes | The height of the card art image in pixels. |
+| `type` | `string` | Yes | The MIME type of the card art image. |
+| `width` | `int` | Yes | The width of the card art image in pixels. |
 
 ### Operations
 
@@ -440,9 +440,9 @@ fmt.Println(clientSideToken.GetName()) // "client_side_token"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `action` | `string` | Yes |  |
-| `expiry` | `int` | No |  |
-| `payload` | `map[string]any` | No |  |
+| `action` | `string` | Yes | The action that the token should permit |
+| `expiry` | `int` | No | The expiry of the token in milliseconds format. |
+| `payload` | `map[string]any` | No | The payload that the token must be used with |
 
 ### Operations
 
@@ -495,21 +495,21 @@ fmt.Println(core.GetName()) // "core"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app` | `string` | No |  |
-| `authentication` | `any` | No |  |
-| `createdAt` | `int` | No |  |
-| `customDomain` | `string` | No |  |
-| `destinationDomain` | `string` | Yes |  |
-| `encryptEmptyStrings` | `bool` | No |  |
-| `evervaultDomain` | `string` | No |  |
-| `id` | `string` | No |  |
+| `app` | `string` | No | The unique identifier for the app to which the Relay belongs. |
+| `authentication` | `any` | No | The type of authentication required for the Relay |
+| `createdAt` | `int` | No | The exact time, in epoch milliseconds, when this custom domain was created. |
+| `customDomain` | `string` | No | The customer managed domain to which requests to be relayed to your domain should be sent. |
+| `destinationDomain` | `string` | Yes | The domain in front of which you would like to configure a Relay |
+| `encryptEmptyStrings` | `bool` | No | Whether or not empty strings should be encrypted. |
+| `evervaultDomain` | `string` | No | The Evervault managed domain to which requests to be relayed to the destination domain should be sent. |
+| `id` | `string` | No | The unique identifier for the custom domain. |
 | `phoneNumber` | `string` | No |  |
-| `relay` | `string` | No |  |
-| `routes` | `[]any` | Yes |  |
-| `status` | `string` | No |  |
-| `token` | `string` | Yes |  |
-| `updatedAt` | `int` | No |  |
-| `validationRecord` | `string` | No |  |
+| `relay` | `string` | No | The ID of the Relay with which this custom domain is associated. |
+| `routes` | `[]any` | Yes | A collection of route configurations for the Relay. |
+| `status` | `string` | No | The status of the domains DNS verification. |
+| `token` | `string` | Yes | The encrypted data to be inspected. |
+| `updatedAt` | `int` | No | The exact time, in epoch milliseconds, when this custom domain was last updated. |
+| `validationRecord` | `string` | No | Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain |
 
 ### Field Usage by Operation
 
@@ -608,13 +608,13 @@ fmt.Println(customDomain.GetName()) // "custom_domain"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `createdAt` | `int` | No |  |
-| `customDomain` | `string` | No |  |
-| `id` | `string` | No |  |
-| `relay` | `string` | No |  |
-| `status` | `string` | No |  |
-| `updatedAt` | `int` | No |  |
-| `validationRecord` | `string` | No |  |
+| `createdAt` | `int` | No | The exact time, in epoch milliseconds, when this custom domain was created. |
+| `customDomain` | `string` | No | The customer managed domain to which requests to be relayed to your domain should be sent. |
+| `id` | `string` | No | The unique identifier for the custom domain. |
+| `relay` | `string` | No | The ID of the Relay with which this custom domain is associated. |
+| `status` | `string` | No | The status of the domains DNS verification. |
+| `updatedAt` | `int` | No | The exact time, in epoch milliseconds, when this custom domain was last updated. |
+| `validationRecord` | `string` | No | Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain |
 
 ### Field Usage by Operation
 
@@ -691,13 +691,13 @@ fmt.Println(functionRun.GetName()) // "function_run"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `async` | `bool` | No |  |
-| `createdAt` | `int` | No |  |
-| `error` | `any` | No |  |
-| `id` | `string` | No |  |
-| `payload` | `map[string]any` | Yes |  |
-| `result` | `map[string]any` | No |  |
-| `status` | `string` | No |  |
+| `async` | `bool` | No | If you want your Function to run asynchronously and notify a callback URL, this can be set to `true` and the API will queue your Function run and return a `202` response code. |
+| `createdAt` | `int` | No | The exact time, in epoch milliseconds, when this Function execution was triggered. |
+| `error` | `any` | No | This field details any error that occurred during Function execution. |
+| `id` | `string` | No | A unique identifier representing this specific Function execution instance. |
+| `payload` | `map[string]any` | Yes | The data payload that the Function will use during its execution. |
+| `result` | `map[string]any` | No | This field represents the output returned by the Function. |
+| `status` | `string` | No | The outcome of the Function execution. |
 
 ### Operations
 
@@ -751,16 +751,16 @@ fmt.Println(merchant.GetName()) // "merchant"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `applePay` | `map[string]any` | No |  |
-| `business` | `map[string]any` | No |  |
-| `categoryCode` | `string` | No |  |
-| `createdAt` | `int` | Yes |  |
-| `id` | `string` | Yes |  |
-| `name` | `string` | Yes |  |
-| `networkTokens` | `map[string]any` | No |  |
-| `shortName` | `string` | No |  |
-| `updatedAt` | `int` | No |  |
-| `website` | `string` | Yes |  |
+| `applePay` | `map[string]any` | No | The Merchant's Apple Pay configuration. |
+| `business` | `map[string]any` | No | The business details of the Merchant. |
+| `categoryCode` | `string` | No | The 4-digit Merchant Category Code (MCC). |
+| `createdAt` | `int` | Yes | The exact time, in epoch milliseconds, when this Merchant was created. |
+| `id` | `string` | Yes | A unique identifier assigned to each Merchant. |
+| `name` | `string` | Yes | The official name of the Merchant as recognized in transactions and communications. |
+| `networkTokens` | `map[string]any` | No | The Merchant's Network Token configuration. |
+| `shortName` | `string` | No | A shorter version of the Merchant's name. |
+| `updatedAt` | `int` | No | The exact time, in epoch milliseconds, when this Merchant was last updated. |
+| `website` | `string` | Yes | The official website URL of the Merchant. |
 
 ### Field Usage by Operation
 
@@ -858,18 +858,18 @@ fmt.Println(networkToken.GetName()) // "network_token"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `card` | `map[string]any` | Yes |  |
-| `createdAt` | `int` | Yes |  |
-| `expiry` | `map[string]any` | Yes |  |
-| `id` | `string` | Yes |  |
-| `merchant` | `string` | Yes |  |
-| `number` | `string` | Yes |  |
-| `paymentAccountReference` | `string` | No |  |
-| `status` | `string` | Yes |  |
-| `tokenRequestorIdentifier` | `string` | Yes |  |
-| `tokenServiceProvider` | `string` | Yes |  |
-| `updateType` | `string` | No |  |
-| `updatedAt` | `int` | No |  |
+| `card` | `map[string]any` | Yes | The details of the underlying encrypted card. |
+| `createdAt` | `int` | Yes | The exact time, in epoch milliseconds, when this Network Token was created. |
+| `expiry` | `map[string]any` | Yes | The expiry details of the Network Token. |
+| `id` | `string` | Yes | A unique identifier representing a specific Network Token. |
+| `merchant` | `string` | Yes | The unique identifier of the Merchant associated with this Network Token. |
+| `number` | `string` | Yes | The unique number of the Network Token. |
+| `paymentAccountReference` | `string` | No | The unique identifier of the Payment Account associated with this Network Token. |
+| `status` | `string` | Yes | The status of the Network Token. |
+| `tokenRequestorIdentifier` | `string` | Yes | The identifier of the Token Requestor (TRID) that requested the Network Token. |
+| `tokenServiceProvider` | `string` | Yes | The Token Service Provider (TSP) that issued the Network Token. |
+| `updateType` | `string` | No | The type of update to simulate. |
+| `updatedAt` | `int` | No | The exact time, in epoch milliseconds, when this Network Token was last updated. |
 
 ### Operations
 
@@ -997,22 +997,22 @@ fmt.Println(payment.GetName()) // "payment"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `applePay` | `map[string]any` | No |  |
-| `business` | `map[string]any` | No |  |
-| `categoryCode` | `string` | No |  |
-| `configurations` | `[]any` | Yes |  |
-| `createdAt` | `int` | Yes |  |
-| `created_at` | `int` | No |  |
-| `data` | `map[string]any` | No |  |
+| `applePay` | `map[string]any` | No | The Merchant's Apple Pay configuration. |
+| `business` | `map[string]any` | No | The business details of the Merchant. |
+| `categoryCode` | `string` | No | The 4-digit Merchant Category Code (MCC). |
+| `configurations` | `[]any` | Yes | The acquirer configuration settings. |
+| `createdAt` | `int` | Yes | The exact time, in epoch milliseconds, when this Merchant was created. |
+| `created_at` | `int` | No | Timestamp when the message was created |
+| `data` | `map[string]any` | No | The message data payload |
 | `default` | `bool` | Yes |  |
-| `description` | `string` | No |  |
-| `id` | `string` | Yes |  |
-| `name` | `string` | Yes |  |
-| `networkTokens` | `map[string]any` | No |  |
-| `shortName` | `string` | No |  |
-| `type` | `string` | No |  |
-| `updatedAt` | `int` | No |  |
-| `website` | `string` | Yes |  |
+| `description` | `string` | No | The description of the acquirer configuration. |
+| `id` | `string` | Yes | A unique identifier assigned to each Merchant. |
+| `name` | `string` | Yes | The official name of the Merchant as recognized in transactions and communications. |
+| `networkTokens` | `map[string]any` | No | The Merchant's Network Token configuration. |
+| `shortName` | `string` | No | A shorter version of the Merchant's name. |
+| `type` | `string` | No | The type of 3DS message (e.g., AReq, ARes, CReq, CRes, RReq, RRes) |
+| `updatedAt` | `int` | No | The exact time, in epoch milliseconds, when this Merchant was last updated. |
+| `website` | `string` | Yes | The official website URL of the Merchant. |
 
 ### Operations
 
@@ -1033,7 +1033,7 @@ fmt.Println(results)
 Remove the entity matching the given criteria.
 
 ```go
-result, err := client.Payment(nil).Remove(nil, nil)
+result, err := client.Payment(nil).Remove(map[string]any{"acquirer_id": "acquirer_id"}, nil)
 if err != nil {
     panic(err)
 }
@@ -1075,15 +1075,15 @@ fmt.Println(relay.GetName()) // "relay"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app` | `string` | No |  |
-| `authentication` | `any` | No |  |
-| `createdAt` | `int` | No |  |
-| `destinationDomain` | `string` | No |  |
-| `encryptEmptyStrings` | `bool` | No |  |
-| `evervaultDomain` | `string` | No |  |
-| `id` | `string` | No |  |
-| `routes` | `[]any` | No |  |
-| `updatedAt` | `int` | No |  |
+| `app` | `string` | No | The unique identifier for the app to which the Relay belongs. |
+| `authentication` | `any` | No | The type of authentication required for the Relay |
+| `createdAt` | `int` | No | The exact time, in epoch milliseconds, when this Relay was created. |
+| `destinationDomain` | `string` | No | The domain in front of which the Relay should be configured. |
+| `encryptEmptyStrings` | `bool` | No | Whether or not empty strings should be encrypted. |
+| `evervaultDomain` | `string` | No | The Evervault managed domain to which requests to be relayed to the destination domain should be sent. |
+| `id` | `string` | No | The unique identifier for the Relay. |
+| `routes` | `[]any` | No | A collection of route configurations for the Relay. |
+| `updatedAt` | `int` | No | The exact time, in epoch milliseconds, when this Relay was updated. |
 
 ### Operations
 
@@ -1149,30 +1149,30 @@ fmt.Println(threeDsSession.GetName()) // "three_ds_session"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `accessControlServer` | `map[string]any` | No |  |
-| `acquirer` | `map[string]any` | Yes |  |
-| `ares` | `map[string]any` | No |  |
-| `authentication` | `map[string]any` | Yes |  |
-| `card` | `map[string]any` | Yes |  |
-| `challenge` | `map[string]any` | Yes |  |
-| `createdAt` | `int` | Yes |  |
-| `cres` | `any` | No |  |
-| `cryptogram` | `string` | No |  |
-| `customer` | `map[string]any` | No |  |
-| `directoryServer` | `map[string]any` | No |  |
-| `eci` | `map[string]any` | No |  |
-| `failureReason` | `string` | No |  |
-| `id` | `string` | Yes |  |
-| `initiator` | `map[string]any` | No |  |
-| `merchant` | `map[string]any` | Yes |  |
-| `nextAction` | `map[string]any` | Yes |  |
-| `payment` | `map[string]any` | No |  |
-| `preferredVersions` | `[]any` | No |  |
-| `rreq` | `any` | No |  |
-| `status` | `string` | Yes |  |
-| `threeDSServer` | `map[string]any` | No |  |
-| `updatedAt` | `int` | No |  |
-| `version` | `string` | Yes |  |
+| `accessControlServer` | `map[string]any` | No | Details about the Access Control Server involved in the 3DS transaction. |
+| `acquirer` | `map[string]any` | Yes | The acquirer of the payment. |
+| `ares` | `map[string]any` | No | The details of the 3DS Authentication Response (ARes). |
+| `authentication` | `map[string]any` | Yes | The details of the 3DS Authentication. |
+| `card` | `map[string]any` | Yes | The card details. |
+| `challenge` | `map[string]any` | Yes | Details about the 3DS challenge. |
+| `createdAt` | `int` | Yes | The exact time, in epoch milliseconds, when this 3DS-Session was created. |
+| `cres` | `any` | No | The details of the 3DS Challenge Response (CRes). |
+| `cryptogram` | `string` | No | The 3DS cryptogram (also called Authentication Value). |
+| `customer` | `map[string]any` | No | The details of the customer who initiated the transaction. |
+| `directoryServer` | `map[string]any` | No | Details about the Directory Server involved in the 3DS transaction. |
+| `eci` | `map[string]any` | No | The details of the Electronic Commerce Indicator. |
+| `failureReason` | `string` | No | The reason for the 3DS Authentication failure. |
+| `id` | `string` | Yes | A unique identifier assigned to each 3DS Authentication. |
+| `initiator` | `map[string]any` | No | Details about the transaction initiation process. |
+| `merchant` | `map[string]any` | Yes | The merchant details. |
+| `nextAction` | `map[string]any` | Yes | The next action required to complete the 3DS Authentication. |
+| `payment` | `map[string]any` | No | The payment details of the 3D Secure Authentication. |
+| `preferredVersions` | `[]any` | No | A prioritized list of preferred 3D Secure versions. |
+| `rreq` | `any` | No | The result of the 3DS authentication when a challenge has occurred. |
+| `status` | `string` | Yes | The status of the 3DS Authentication. |
+| `threeDSServer` | `map[string]any` | No | Details about the 3DS Server involved in the 3DS transaction. |
+| `updatedAt` | `int` | No | The exact time, in epoch milliseconds, when this 3DS-Session was last updated. |
+| `version` | `string` | Yes | The 3D Secure version used to authenticate the session. |
 
 ### Field Usage by Operation
 
@@ -1275,11 +1275,11 @@ fmt.Println(webhook.GetName()) // "webhook"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `createdAt` | `int` | No |  |
-| `events` | `[]any` | Yes |  |
-| `id` | `string` | No |  |
-| `updatedAt` | `any` | No |  |
-| `url` | `string` | Yes |  |
+| `createdAt` | `int` | No | The exact time, in epoch milliseconds, when this Webhook Endpoint was created. |
+| `events` | `[]any` | Yes | A list of Events that the Webhook Endpoint should subscribe to. |
+| `id` | `string` | No | A unique identifier representing a specific Webhook Endpoint. |
+| `updatedAt` | `any` | No | The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated. |
+| `url` | `string` | Yes | The URL of the Webhook Endpoint. |
 
 ### Field Usage by Operation
 
@@ -1367,11 +1367,11 @@ fmt.Println(webhookEndpoint.GetName()) // "webhook_endpoint"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `createdAt` | `int` | No |  |
-| `events` | `[]any` | No |  |
-| `id` | `string` | No |  |
-| `updatedAt` | `any` | No |  |
-| `url` | `string` | No |  |
+| `createdAt` | `int` | No | The exact time, in epoch milliseconds, when this Webhook Endpoint was created. |
+| `events` | `[]any` | No | A list of Events that the Webhook Endpoint is subscribed to. |
+| `id` | `string` | No | A unique identifier representing a specific Webhook Endpoint. |
+| `updatedAt` | `any` | No | The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated. |
+| `url` | `string` | No | The URL of the Webhook Endpoint. |
 
 ### Field Usage by Operation
 

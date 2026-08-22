@@ -324,10 +324,66 @@ Core = Struct.new(
 
 # Request payload for Core#list.
 #
-# @!attribute [rw] relay_id
+# @!attribute [rw] app
+#   @return [String, nil]
+#
+# @!attribute [rw] authentication
+#   @return [Object, nil]
+#
+# @!attribute [rw] createdAt
+#   @return [Integer, nil]
+#
+# @!attribute [rw] customDomain
+#   @return [String, nil]
+#
+# @!attribute [rw] destinationDomain
+#   @return [String, nil]
+#
+# @!attribute [rw] encryptEmptyStrings
+#   @return [Boolean, nil]
+#
+# @!attribute [rw] evervaultDomain
+#   @return [String, nil]
+#
+# @!attribute [rw] id
+#   @return [String, nil]
+#
+# @!attribute [rw] phoneNumber
+#   @return [String, nil]
+#
+# @!attribute [rw] relay
+#   @return [String, nil]
+#
+# @!attribute [rw] routes
+#   @return [Array, nil]
+#
+# @!attribute [rw] status
+#   @return [String, nil]
+#
+# @!attribute [rw] token
+#   @return [String, nil]
+#
+# @!attribute [rw] updatedAt
+#   @return [Integer, nil]
+#
+# @!attribute [rw] validationRecord
 #   @return [String, nil]
 CoreListMatch = Struct.new(
-  :relay_id,
+  :app,
+  :authentication,
+  :createdAt,
+  :customDomain,
+  :destinationDomain,
+  :encryptEmptyStrings,
+  :evervaultDomain,
+  :id,
+  :phoneNumber,
+  :relay,
+  :routes,
+  :status,
+  :token,
+  :updatedAt,
+  :validationRecord,
   keyword_init: true
 )
 
@@ -936,21 +992,9 @@ PaymentListMatch = Struct.new(
 # Request payload for Payment#remove.
 #
 # @!attribute [rw] acquirer_id
-#   @return [String, nil]
-#
-# @!attribute [rw] card_id
-#   @return [String, nil]
-#
-# @!attribute [rw] merchant_id
-#   @return [String, nil]
-#
-# @!attribute [rw] network_token_id
-#   @return [String, nil]
+#   @return [String]
 PaymentRemoveMatch = Struct.new(
   :acquirer_id,
-  :card_id,
-  :merchant_id,
-  :network_token_id,
   keyword_init: true
 )
 

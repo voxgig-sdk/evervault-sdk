@@ -8,6 +8,7 @@ main: kit: entity: merchant: {
     {
       name: "applePay"
       req: false
+      short: "The Merchant's Apple Pay configuration."
       type: "`$OBJECT`"
     }
     {
@@ -19,6 +20,7 @@ main: kit: entity: merchant: {
         }
       }
       req: false
+      short: "The business details of the Merchant."
       type: "`$OBJECT`"
     }
     {
@@ -30,41 +32,49 @@ main: kit: entity: merchant: {
         }
       }
       req: false
+      short: "The 4-digit Merchant Category Code (MCC)."
       type: "`$STRING`"
     }
     {
       name: "createdAt"
       req: true
+      short: "The exact time, in epoch milliseconds, when this Merchant was created."
       type: "`$INTEGER`"
     }
     {
       name: "id"
       req: true
+      short: "A unique identifier assigned to each Merchant."
       type: "`$STRING`"
     }
     {
       name: "name"
       req: true
+      short: "The official name of the Merchant as recognized in transactions and communications."
       type: "`$STRING`"
     }
     {
       name: "networkTokens"
       req: false
+      short: "The Merchant's Network Token configuration."
       type: "`$OBJECT`"
     }
     {
       name: "shortName"
       req: false
+      short: "A shorter version of the Merchant's name."
       type: "`$STRING`"
     }
     {
       name: "updatedAt"
       req: false
+      short: "The exact time, in epoch milliseconds, when this Merchant was last updated."
       type: "`$INTEGER`"
     }
     {
       name: "website"
       req: true
+      short: "The official website URL of the Merchant."
       type: "`$STRING`"
     }
   ]

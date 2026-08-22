@@ -8,21 +8,25 @@ main: kit: entity: card_art: {
     {
       name: "data"
       req: true
+      short: "The base64-encoded image data of the card art."
       type: "`$STRING`"
     }
     {
       name: "height"
       req: true
+      short: "The height of the card art image in pixels."
       type: "`$INTEGER`"
     }
     {
       name: "type"
       req: true
+      short: "The MIME type of the card art image."
       type: "`$STRING`"
     }
     {
       name: "width"
       req: true
+      short: "The width of the card art image in pixels."
       type: "`$INTEGER`"
     }
   ]

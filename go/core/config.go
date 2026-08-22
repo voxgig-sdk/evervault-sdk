@@ -11,6 +11,9 @@ func MakeConfig() map[string]any {
 	return map[string]any{
 		"main": map[string]any{
 			"name": "Evervault",
+			"slug": "evervault",
+			"version": "0.0.1",
+			"target": "go",
 		},
 		"feature": map[string]any{
 			"test": map[string]any{
@@ -57,6 +60,7 @@ func MakeConfig() map[string]any {
 							},
 						},
 						"req": true,
+						"short": "The acquirer configuration settings.",
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
@@ -70,15 +74,18 @@ func MakeConfig() map[string]any {
 							},
 						},
 						"req": true,
+						"short": "Specifies whether this Acquirer is the default.",
 						"type": "`$BOOLEAN`",
 					},
 					map[string]any{
 						"name": "description",
+						"short": "The description of the acquirer configuration.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "id",
 						"req": true,
+						"short": "The unique identifier of the acquirer configuration.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -89,6 +96,7 @@ func MakeConfig() map[string]any {
 							},
 						},
 						"req": true,
+						"short": "The name of the acquirer configuration.",
 						"type": "`$STRING`",
 					},
 				},
@@ -207,6 +215,7 @@ func MakeConfig() map[string]any {
 					map[string]any{
 						"name": "number",
 						"req": true,
+						"short": "The card number for which the BIN lookup is being requested.",
 						"type": "`$STRING`",
 					},
 				},
@@ -243,15 +252,18 @@ func MakeConfig() map[string]any {
 					map[string]any{
 						"name": "address",
 						"req": true,
+						"short": "Details about the cardholder's address that the address verification (AVS) is for.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "card",
 						"req": true,
+						"short": "The card details.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "cardholder",
+						"short": "Details about the cardholder that the name verification (ANI) is for.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
@@ -261,21 +273,25 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"name": "extensions",
+						"short": "The extensions to the card insight request.",
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
 						"name": "month",
 						"req": true,
+						"short": "The card expiry month, in MM format (e.g.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "number",
 						"req": true,
+						"short": "The card number.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "year",
 						"req": true,
+						"short": "The card expiry year, in YY format (e.g.",
 						"type": "`$STRING`",
 					},
 				},
@@ -407,21 +423,25 @@ func MakeConfig() map[string]any {
 					map[string]any{
 						"name": "data",
 						"req": true,
+						"short": "The base64-encoded image data of the card art.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "height",
 						"req": true,
+						"short": "The height of the card art image in pixels.",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
 						"name": "type",
 						"req": true,
+						"short": "The MIME type of the card art image.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "width",
 						"req": true,
+						"short": "The width of the card art image in pixels.",
 						"type": "`$INTEGER`",
 					},
 				},
@@ -478,14 +498,17 @@ func MakeConfig() map[string]any {
 					map[string]any{
 						"name": "action",
 						"req": true,
+						"short": "The action that the token should permit",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "expiry",
+						"short": "The expiry of the token in milliseconds format.",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
 						"name": "payload",
+						"short": "The payload that the token must be used with",
 						"type": "`$OBJECT`",
 					},
 				},
@@ -520,10 +543,12 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "app",
+						"short": "The unique identifier for the app to which the Relay belongs.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "authentication",
+						"short": "The type of authentication required for the Relay",
 						"type": []any{
 							"`$ONE`",
 							[]any{
@@ -534,10 +559,12 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"name": "createdAt",
+						"short": "The exact time, in epoch milliseconds, when this custom domain was created.",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
 						"name": "customDomain",
+						"short": "The customer managed domain to which requests to be relayed to your domain should be sent.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -548,18 +575,22 @@ func MakeConfig() map[string]any {
 							},
 						},
 						"req": true,
+						"short": "The domain in front of which you would like to configure a Relay",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "encryptEmptyStrings",
+						"short": "Whether or not empty strings should be encrypted.",
 						"type": "`$BOOLEAN`",
 					},
 					map[string]any{
 						"name": "evervaultDomain",
+						"short": "The Evervault managed domain to which requests to be relayed to the destination domain should be sent.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "id",
+						"short": "The unique identifier for the custom domain.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -568,6 +599,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"name": "relay",
+						"short": "The ID of the Relay with which this custom domain is associated.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -578,23 +610,28 @@ func MakeConfig() map[string]any {
 							},
 						},
 						"req": true,
+						"short": "A collection of route configurations for the Relay.",
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
 						"name": "status",
+						"short": "The status of the domains DNS verification.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "token",
 						"req": true,
+						"short": "The encrypted data to be inspected.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "updatedAt",
+						"short": "The exact time, in epoch milliseconds, when this custom domain was last updated.",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
 						"name": "validationRecord",
+						"short": "Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain",
 						"type": "`$STRING`",
 					},
 				},
@@ -799,6 +836,7 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "createdAt",
+						"short": "The exact time, in epoch milliseconds, when this custom domain was created.",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
@@ -809,26 +847,32 @@ func MakeConfig() map[string]any {
 								"type": "`$STRING`",
 							},
 						},
+						"short": "The customer managed domain to which requests to be relayed to your domain should be sent.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "id",
+						"short": "The unique identifier for the custom domain.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "relay",
+						"short": "The ID of the Relay with which this custom domain is associated.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "status",
+						"short": "The status of the domains DNS verification.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "updatedAt",
+						"short": "The exact time, in epoch milliseconds, when this custom domain was last updated.",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
 						"name": "validationRecord",
+						"short": "Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain",
 						"type": "`$STRING`",
 					},
 				},
@@ -928,14 +972,17 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "async",
+						"short": "If you want your Function to run asynchronously and notify a callback URL, this can be set to `true` and the API will queue your Function run and return a `202` response code.",
 						"type": "`$BOOLEAN`",
 					},
 					map[string]any{
 						"name": "createdAt",
+						"short": "The exact time, in epoch milliseconds, when this Function execution was triggered.",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
 						"name": "error",
+						"short": "This field details any error that occurred during Function execution.",
 						"type": []any{
 							"`$ONE`",
 							[]any{
@@ -946,19 +993,23 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"name": "id",
+						"short": "A unique identifier representing this specific Function execution instance.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "payload",
 						"req": true,
+						"short": "The data payload that the Function will use during its execution.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "result",
+						"short": "This field represents the output returned by the Function.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "status",
+						"short": "The outcome of the Function execution.",
 						"type": "`$STRING`",
 					},
 				},
@@ -1013,6 +1064,7 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "applePay",
+						"short": "The Merchant's Apple Pay configuration.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
@@ -1023,6 +1075,7 @@ func MakeConfig() map[string]any {
 								"type": "`$OBJECT`",
 							},
 						},
+						"short": "The business details of the Merchant.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
@@ -1033,38 +1086,46 @@ func MakeConfig() map[string]any {
 								"type": "`$STRING`",
 							},
 						},
+						"short": "The 4-digit Merchant Category Code (MCC).",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "createdAt",
 						"req": true,
+						"short": "The exact time, in epoch milliseconds, when this Merchant was created.",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
 						"name": "id",
 						"req": true,
+						"short": "A unique identifier assigned to each Merchant.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "name",
 						"req": true,
+						"short": "The official name of the Merchant as recognized in transactions and communications.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "networkTokens",
+						"short": "The Merchant's Network Token configuration.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "shortName",
+						"short": "A shorter version of the Merchant's name.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "updatedAt",
+						"short": "The exact time, in epoch milliseconds, when this Merchant was last updated.",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
 						"name": "website",
 						"req": true,
+						"short": "The official website URL of the Merchant.",
 						"type": "`$STRING`",
 					},
 				},
@@ -1183,58 +1244,70 @@ func MakeConfig() map[string]any {
 					map[string]any{
 						"name": "card",
 						"req": true,
+						"short": "The details of the underlying encrypted card.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "createdAt",
 						"req": true,
+						"short": "The exact time, in epoch milliseconds, when this Network Token was created.",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
 						"name": "expiry",
 						"req": true,
+						"short": "The expiry details of the Network Token.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "id",
 						"req": true,
+						"short": "A unique identifier representing a specific Network Token.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "merchant",
 						"req": true,
+						"short": "The unique identifier of the Merchant associated with this Network Token.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "number",
 						"req": true,
+						"short": "The unique number of the Network Token.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "paymentAccountReference",
+						"short": "The unique identifier of the Payment Account associated with this Network Token.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "status",
 						"req": true,
+						"short": "The status of the Network Token.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "tokenRequestorIdentifier",
 						"req": true,
+						"short": "The identifier of the Token Requestor (TRID) that requested the Network Token.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "tokenServiceProvider",
 						"req": true,
+						"short": "The Token Service Provider (TSP) that issued the Network Token.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "updateType",
+						"short": "The type of update to simulate.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "updatedAt",
+						"short": "The exact time, in epoch milliseconds, when this Network Token was last updated.",
 						"type": "`$INTEGER`",
 					},
 				},
@@ -1412,32 +1485,39 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "applePay",
+						"short": "The Merchant's Apple Pay configuration.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "business",
+						"short": "The business details of the Merchant.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "categoryCode",
+						"short": "The 4-digit Merchant Category Code (MCC).",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "configurations",
 						"req": true,
+						"short": "The acquirer configuration settings.",
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
 						"name": "createdAt",
 						"req": true,
+						"short": "The exact time, in epoch milliseconds, when this Merchant was created.",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
 						"name": "created_at",
+						"short": "Timestamp when the message was created",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
 						"name": "data",
+						"short": "The message data payload",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
@@ -1447,37 +1527,45 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"name": "description",
+						"short": "The description of the acquirer configuration.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "id",
 						"req": true,
+						"short": "A unique identifier assigned to each Merchant.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "name",
 						"req": true,
+						"short": "The official name of the Merchant as recognized in transactions and communications.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "networkTokens",
+						"short": "The Merchant's Network Token configuration.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "shortName",
+						"short": "A shorter version of the Merchant's name.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "type",
+						"short": "The type of 3DS message (e.g., AReq, ARes, CReq, CRes, RReq, RRes)",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "updatedAt",
+						"short": "The exact time, in epoch milliseconds, when this Merchant was last updated.",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
 						"name": "website",
 						"req": true,
+						"short": "The official website URL of the Merchant.",
 						"type": "`$STRING`",
 					},
 				},
@@ -1754,10 +1842,12 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "app",
+						"short": "The unique identifier for the app to which the Relay belongs.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "authentication",
+						"short": "The type of authentication required for the Relay",
 						"type": []any{
 							"`$ONE`",
 							[]any{
@@ -1768,30 +1858,37 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"name": "createdAt",
+						"short": "The exact time, in epoch milliseconds, when this Relay was created.",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
 						"name": "destinationDomain",
+						"short": "The domain in front of which the Relay should be configured.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "encryptEmptyStrings",
+						"short": "Whether or not empty strings should be encrypted.",
 						"type": "`$BOOLEAN`",
 					},
 					map[string]any{
 						"name": "evervaultDomain",
+						"short": "The Evervault managed domain to which requests to be relayed to the destination domain should be sent.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "id",
+						"short": "The unique identifier for the Relay.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "routes",
+						"short": "A collection of route configurations for the Relay.",
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
 						"name": "updatedAt",
+						"short": "The exact time, in epoch milliseconds, when this Relay was updated.",
 						"type": "`$INTEGER`",
 					},
 				},
@@ -1876,6 +1973,7 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "accessControlServer",
+						"short": "Details about the Access Control Server involved in the 3DS transaction.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
@@ -1886,34 +1984,41 @@ func MakeConfig() map[string]any {
 							},
 						},
 						"req": true,
+						"short": "The acquirer of the payment.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "ares",
+						"short": "The details of the 3DS Authentication Response (ARes).",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "authentication",
 						"req": true,
+						"short": "The details of the 3DS Authentication.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "card",
 						"req": true,
+						"short": "The card details.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "challenge",
 						"req": true,
+						"short": "Details about the 3DS challenge.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "createdAt",
 						"req": true,
+						"short": "The exact time, in epoch milliseconds, when this 3DS-Session was created.",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
 						"name": "cres",
+						"short": "The details of the 3DS Challenge Response (CRes).",
 						"type": []any{
 							"`$ONE`",
 							[]any{
@@ -1924,31 +2029,38 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"name": "cryptogram",
+						"short": "The 3DS cryptogram (also called Authentication Value).",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "customer",
+						"short": "The details of the customer who initiated the transaction.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "directoryServer",
+						"short": "Details about the Directory Server involved in the 3DS transaction.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "eci",
+						"short": "The details of the Electronic Commerce Indicator.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "failureReason",
+						"short": "The reason for the 3DS Authentication failure.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "id",
 						"req": true,
+						"short": "A unique identifier assigned to each 3DS Authentication.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "initiator",
+						"short": "Details about the transaction initiation process.",
 						"type": "`$OBJECT`",
 						"union": map[string]any{
 							"branches": 2,
@@ -1959,15 +2071,18 @@ func MakeConfig() map[string]any {
 					map[string]any{
 						"name": "merchant",
 						"req": true,
+						"short": "The merchant details.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "nextAction",
 						"req": true,
+						"short": "The next action required to complete the 3DS Authentication.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "payment",
+						"short": "The payment details of the 3D Secure Authentication.",
 						"type": "`$OBJECT`",
 						"union": map[string]any{
 							"branches": 3,
@@ -1977,10 +2092,12 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"name": "preferredVersions",
+						"short": "A prioritized list of preferred 3D Secure versions.",
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
 						"name": "rreq",
+						"short": "The result of the 3DS authentication when a challenge has occurred.",
 						"type": []any{
 							"`$ONE`",
 							[]any{
@@ -1992,19 +2109,23 @@ func MakeConfig() map[string]any {
 					map[string]any{
 						"name": "status",
 						"req": true,
+						"short": "The status of the 3DS Authentication.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "threeDSServer",
+						"short": "Details about the 3DS Server involved in the 3DS transaction.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "updatedAt",
+						"short": "The exact time, in epoch milliseconds, when this 3DS-Session was last updated.",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
 						"name": "version",
 						"req": true,
+						"short": "The 3D Secure version used to authenticate the session.",
 						"type": "`$STRING`",
 					},
 				},
@@ -2080,6 +2201,7 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "createdAt",
+						"short": "The exact time, in epoch milliseconds, when this Webhook Endpoint was created.",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
@@ -2090,14 +2212,17 @@ func MakeConfig() map[string]any {
 							},
 						},
 						"req": true,
+						"short": "A list of Events that the Webhook Endpoint should subscribe to.",
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
 						"name": "id",
+						"short": "A unique identifier representing a specific Webhook Endpoint.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "updatedAt",
+						"short": "The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated.",
 						"type": []any{
 							"`$ONE`",
 							[]any{
@@ -2114,6 +2239,7 @@ func MakeConfig() map[string]any {
 							},
 						},
 						"req": true,
+						"short": "The URL of the Webhook Endpoint.",
 						"type": "`$STRING`",
 					},
 				},
@@ -2230,6 +2356,7 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "createdAt",
+						"short": "The exact time, in epoch milliseconds, when this Webhook Endpoint was created.",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
@@ -2240,14 +2367,17 @@ func MakeConfig() map[string]any {
 								"type": "`$ARRAY`",
 							},
 						},
+						"short": "A list of Events that the Webhook Endpoint is subscribed to.",
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
 						"name": "id",
+						"short": "A unique identifier representing a specific Webhook Endpoint.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "updatedAt",
+						"short": "The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated.",
 						"type": []any{
 							"`$ONE`",
 							[]any{
@@ -2258,6 +2388,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"name": "url",
+						"short": "The URL of the Webhook Endpoint.",
 						"type": "`$STRING`",
 					},
 				},

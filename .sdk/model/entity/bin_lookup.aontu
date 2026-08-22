@@ -8,6 +8,7 @@ main: kit: entity: bin_lookup: {
     {
       name: "number"
       req: true
+      short: "The card number for which the BIN lookup is being requested."
       type: "`$STRING`"
     }
   ]

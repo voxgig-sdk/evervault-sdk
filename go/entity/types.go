@@ -131,7 +131,21 @@ type Core struct {
 
 // CoreListMatch is the typed request payload for Core.ListTyped.
 type CoreListMatch struct {
-	RelayId *string `json:"relay_id,omitempty"`
+	App *string `json:"app,omitempty"`
+	Authentication *any `json:"authentication,omitempty"`
+	CreatedAt *int `json:"createdAt,omitempty"`
+	CustomDomain *string `json:"customDomain,omitempty"`
+	DestinationDomain *string `json:"destinationDomain,omitempty"`
+	EncryptEmptyStrings *bool `json:"encryptEmptyStrings,omitempty"`
+	EvervaultDomain *string `json:"evervaultDomain,omitempty"`
+	Id *string `json:"id,omitempty"`
+	PhoneNumber *string `json:"phoneNumber,omitempty"`
+	Relay *string `json:"relay,omitempty"`
+	Routes *[]any `json:"routes,omitempty"`
+	Status *string `json:"status,omitempty"`
+	Token *string `json:"token,omitempty"`
+	UpdatedAt *int `json:"updatedAt,omitempty"`
+	ValidationRecord *string `json:"validationRecord,omitempty"`
 }
 
 // CoreCreateData is the typed request payload for Core.CreateTyped.
@@ -336,10 +350,7 @@ type PaymentListMatch struct {
 
 // PaymentRemoveMatch is the typed request payload for Payment.RemoveTyped.
 type PaymentRemoveMatch struct {
-	AcquirerId *string `json:"acquirer_id,omitempty"`
-	CardId *string `json:"card_id,omitempty"`
-	MerchantId *string `json:"merchant_id,omitempty"`
-	NetworkTokenId *string `json:"network_token_id,omitempty"`
+	AcquirerId string `json:"acquirer_id"`
 }
 
 // Relay is the typed data model for the relay entity.

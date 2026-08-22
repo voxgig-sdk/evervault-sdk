@@ -8,6 +8,7 @@ main: kit: entity: custom_domain: {
     {
       name: "createdAt"
       req: false
+      short: "The exact time, in epoch milliseconds, when this custom domain was created."
       type: "`$INTEGER`"
     }
     {
@@ -19,31 +20,37 @@ main: kit: entity: custom_domain: {
         }
       }
       req: false
+      short: "The customer managed domain to which requests to be relayed to your domain should be sent."
       type: "`$STRING`"
     }
     {
       name: "id"
       req: false
+      short: "The unique identifier for the custom domain."
       type: "`$STRING`"
     }
     {
       name: "relay"
       req: false
+      short: "The ID of the Relay with which this custom domain is associated."
       type: "`$STRING`"
     }
     {
       name: "status"
       req: false
+      short: "The status of the domains DNS verification."
       type: "`$STRING`"
     }
     {
       name: "updatedAt"
       req: false
+      short: "The exact time, in epoch milliseconds, when this custom domain was last updated."
       type: "`$INTEGER`"
     }
     {
       name: "validationRecord"
       req: false
+      short: "Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain"
       type: "`$STRING`"
     }
   ]

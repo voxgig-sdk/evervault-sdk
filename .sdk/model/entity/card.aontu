@@ -8,16 +8,19 @@ main: kit: entity: card: {
     {
       name: "address"
       req: true
+      short: "Details about the cardholder's address that the address verification (AVS) is for."
       type: "`$OBJECT`"
     }
     {
       name: "card"
       req: true
+      short: "The card details."
       type: "`$OBJECT`"
     }
     {
       name: "cardholder"
       req: false
+      short: "Details about the cardholder that the name verification (ANI) is for."
       type: "`$OBJECT`"
     }
     {
@@ -28,21 +31,25 @@ main: kit: entity: card: {
     {
       name: "extensions"
       req: false
+      short: "The extensions to the card insight request."
       type: "`$ARRAY`"
     }
     {
       name: "month"
       req: true
+      short: "The card expiry month, in MM format (e.g."
       type: "`$STRING`"
     }
     {
       name: "number"
       req: true
+      short: "The card number."
       type: "`$STRING`"
     }
     {
       name: "year"
       req: true
+      short: "The card expiry year, in YY format (e.g."
       type: "`$STRING`"
     }
   ]

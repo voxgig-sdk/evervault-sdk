@@ -8,6 +8,7 @@ main: kit: entity: three_ds_session: {
     {
       name: "accessControlServer"
       req: false
+      short: "Details about the Access Control Server involved in the 3DS transaction."
       type: "`$OBJECT`"
     }
     {
@@ -19,36 +20,43 @@ main: kit: entity: three_ds_session: {
         }
       }
       req: true
+      short: "The acquirer of the payment."
       type: "`$OBJECT`"
     }
     {
       name: "ares"
       req: false
+      short: "The details of the 3DS Authentication Response (ARes)."
       type: "`$OBJECT`"
     }
     {
       name: "authentication"
       req: true
+      short: "The details of the 3DS Authentication."
       type: "`$OBJECT`"
     }
     {
       name: "card"
       req: true
+      short: "The card details."
       type: "`$OBJECT`"
     }
     {
       name: "challenge"
       req: true
+      short: "Details about the 3DS challenge."
       type: "`$OBJECT`"
     }
     {
       name: "createdAt"
       req: true
+      short: "The exact time, in epoch milliseconds, when this 3DS-Session was created."
       type: "`$INTEGER`"
     }
     {
       name: "cres"
       req: false
+      short: "The details of the 3DS Challenge Response (CRes)."
       type: [
         "`$ONE`"
         [
@@ -60,36 +68,43 @@ main: kit: entity: three_ds_session: {
     {
       name: "cryptogram"
       req: false
+      short: "The 3DS cryptogram (also called Authentication Value)."
       type: "`$STRING`"
     }
     {
       name: "customer"
       req: false
+      short: "The details of the customer who initiated the transaction."
       type: "`$OBJECT`"
     }
     {
       name: "directoryServer"
       req: false
+      short: "Details about the Directory Server involved in the 3DS transaction."
       type: "`$OBJECT`"
     }
     {
       name: "eci"
       req: false
+      short: "The details of the Electronic Commerce Indicator."
       type: "`$OBJECT`"
     }
     {
       name: "failureReason"
       req: false
+      short: "The reason for the 3DS Authentication failure."
       type: "`$STRING`"
     }
     {
       name: "id"
       req: true
+      short: "A unique identifier assigned to each 3DS Authentication."
       type: "`$STRING`"
     }
     {
       name: "initiator"
       req: false
+      short: "Details about the transaction initiation process."
       type: "`$OBJECT`"
       union: {
         branches: 2
@@ -100,16 +115,19 @@ main: kit: entity: three_ds_session: {
     {
       name: "merchant"
       req: true
+      short: "The merchant details."
       type: "`$OBJECT`"
     }
     {
       name: "nextAction"
       req: true
+      short: "The next action required to complete the 3DS Authentication."
       type: "`$OBJECT`"
     }
     {
       name: "payment"
       req: false
+      short: "The payment details of the 3D Secure Authentication."
       type: "`$OBJECT`"
       union: {
         branches: 3
@@ -120,11 +138,13 @@ main: kit: entity: three_ds_session: {
     {
       name: "preferredVersions"
       req: false
+      short: "A prioritized list of preferred 3D Secure versions."
       type: "`$ARRAY`"
     }
     {
       name: "rreq"
       req: false
+      short: "The result of the 3DS authentication when a challenge has occurred."
       type: [
         "`$ONE`"
         [
@@ -136,21 +156,25 @@ main: kit: entity: three_ds_session: {
     {
       name: "status"
       req: true
+      short: "The status of the 3DS Authentication."
       type: "`$STRING`"
     }
     {
       name: "threeDSServer"
       req: false
+      short: "Details about the 3DS Server involved in the 3DS transaction."
       type: "`$OBJECT`"
     }
     {
       name: "updatedAt"
       req: false
+      short: "The exact time, in epoch milliseconds, when this 3DS-Session was last updated."
       type: "`$INTEGER`"
     }
     {
       name: "version"
       req: true
+      short: "The 3D Secure version used to authenticate the session."
       type: "`$STRING`"
     }
   ]

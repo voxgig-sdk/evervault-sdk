@@ -297,11 +297,11 @@ const acquirer = client.Acquirer()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `configurations` | `any[]` | Yes |  |
-| `default` | `boolean` | Yes |  |
-| `description` | `string` | No |  |
-| `id` | `string` | Yes |  |
-| `name` | `string` | Yes |  |
+| `configurations` | `any[]` | Yes | The acquirer configuration settings. |
+| `default` | `boolean` | Yes | Specifies whether this Acquirer is the default. |
+| `description` | `string` | No | The description of the acquirer configuration. |
+| `id` | `string` | Yes | The unique identifier of the acquirer configuration. |
+| `name` | `string` | Yes | The name of the acquirer configuration. |
 
 ### Field Usage by Operation
 
@@ -385,7 +385,7 @@ const bin_lookup = client.BinLookup()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `number` | `string` | Yes |  |
+| `number` | `string` | Yes | The card number for which the BIN lookup is being requested. |
 
 ### Operations
 
@@ -437,14 +437,14 @@ const card = client.Card()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `address` | `Record<string, any>` | Yes |  |
-| `card` | `Record<string, any>` | Yes |  |
-| `cardholder` | `Record<string, any>` | No |  |
+| `address` | `Record<string, any>` | Yes | Details about the cardholder's address that the address verification (AVS) is for. |
+| `card` | `Record<string, any>` | Yes | The card details. |
+| `cardholder` | `Record<string, any>` | No | Details about the cardholder that the name verification (ANI) is for. |
 | `expiry` | `Record<string, any>` | Yes |  |
-| `extensions` | `any[]` | No |  |
-| `month` | `string` | Yes |  |
-| `number` | `string` | Yes |  |
-| `year` | `string` | Yes |  |
+| `extensions` | `any[]` | No | The extensions to the card insight request. |
+| `month` | `string` | Yes | The card expiry month, in MM format (e.g. |
+| `number` | `string` | Yes | The card number. |
+| `year` | `string` | Yes | The card expiry year, in YY format (e.g. |
 
 ### Actions
 
@@ -529,10 +529,10 @@ const card_art = client.CardArt()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `string` | Yes |  |
-| `height` | `number` | Yes |  |
-| `type` | `string` | Yes |  |
-| `width` | `number` | Yes |  |
+| `data` | `string` | Yes | The base64-encoded image data of the card art. |
+| `height` | `number` | Yes | The height of the card art image in pixels. |
+| `type` | `string` | Yes | The MIME type of the card art image. |
+| `width` | `number` | Yes | The width of the card art image in pixels. |
 
 ### Operations
 
@@ -582,9 +582,9 @@ const client_side_token = client.ClientSideToken()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `action` | `string` | Yes |  |
-| `expiry` | `number` | No |  |
-| `payload` | `Record<string, any>` | No |  |
+| `action` | `string` | Yes | The action that the token should permit |
+| `expiry` | `number` | No | The expiry of the token in milliseconds format. |
+| `payload` | `Record<string, any>` | No | The payload that the token must be used with |
 
 ### Operations
 
@@ -636,21 +636,21 @@ const core = client.Core()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app` | `string` | No |  |
-| `authentication` | `string | null` | No |  |
-| `createdAt` | `number` | No |  |
-| `customDomain` | `string` | No |  |
-| `destinationDomain` | `string` | Yes |  |
-| `encryptEmptyStrings` | `boolean` | No |  |
-| `evervaultDomain` | `string` | No |  |
-| `id` | `string` | No |  |
+| `app` | `string` | No | The unique identifier for the app to which the Relay belongs. |
+| `authentication` | `string | null` | No | The type of authentication required for the Relay |
+| `createdAt` | `number` | No | The exact time, in epoch milliseconds, when this custom domain was created. |
+| `customDomain` | `string` | No | The customer managed domain to which requests to be relayed to your domain should be sent. |
+| `destinationDomain` | `string` | Yes | The domain in front of which you would like to configure a Relay |
+| `encryptEmptyStrings` | `boolean` | No | Whether or not empty strings should be encrypted. |
+| `evervaultDomain` | `string` | No | The Evervault managed domain to which requests to be relayed to the destination domain should be sent. |
+| `id` | `string` | No | The unique identifier for the custom domain. |
 | `phoneNumber` | `string` | No |  |
-| `relay` | `string` | No |  |
-| `routes` | `any[]` | Yes |  |
-| `status` | `string` | No |  |
-| `token` | `string` | Yes |  |
-| `updatedAt` | `number` | No |  |
-| `validationRecord` | `string` | No |  |
+| `relay` | `string` | No | The ID of the Relay with which this custom domain is associated. |
+| `routes` | `any[]` | Yes | A collection of route configurations for the Relay. |
+| `status` | `string` | No | The status of the domains DNS verification. |
+| `token` | `string` | Yes | The encrypted data to be inspected. |
+| `updatedAt` | `number` | No | The exact time, in epoch milliseconds, when this custom domain was last updated. |
+| `validationRecord` | `string` | No | Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain |
 
 ### Field Usage by Operation
 
@@ -740,13 +740,13 @@ const custom_domain = client.CustomDomain()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `createdAt` | `number` | No |  |
-| `customDomain` | `string` | No |  |
-| `id` | `string` | No |  |
-| `relay` | `string` | No |  |
-| `status` | `string` | No |  |
-| `updatedAt` | `number` | No |  |
-| `validationRecord` | `string` | No |  |
+| `createdAt` | `number` | No | The exact time, in epoch milliseconds, when this custom domain was created. |
+| `customDomain` | `string` | No | The customer managed domain to which requests to be relayed to your domain should be sent. |
+| `id` | `string` | No | The unique identifier for the custom domain. |
+| `relay` | `string` | No | The ID of the Relay with which this custom domain is associated. |
+| `status` | `string` | No | The status of the domains DNS verification. |
+| `updatedAt` | `number` | No | The exact time, in epoch milliseconds, when this custom domain was last updated. |
+| `validationRecord` | `string` | No | Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain |
 
 ### Field Usage by Operation
 
@@ -818,13 +818,13 @@ const function_run = client.FunctionRun()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `async` | `boolean` | No |  |
-| `createdAt` | `number` | No |  |
-| `error` | `Record<string, any> | null` | No |  |
-| `id` | `string` | No |  |
-| `payload` | `Record<string, any>` | Yes |  |
-| `result` | `Record<string, any>` | No |  |
-| `status` | `string` | No |  |
+| `async` | `boolean` | No | If you want your Function to run asynchronously and notify a callback URL, this can be set to `true` and the API will queue your Function run and return a `202` response code. |
+| `createdAt` | `number` | No | The exact time, in epoch milliseconds, when this Function execution was triggered. |
+| `error` | `Record<string, any> | null` | No | This field details any error that occurred during Function execution. |
+| `id` | `string` | No | A unique identifier representing this specific Function execution instance. |
+| `payload` | `Record<string, any>` | Yes | The data payload that the Function will use during its execution. |
+| `result` | `Record<string, any>` | No | This field represents the output returned by the Function. |
+| `status` | `string` | No | The outcome of the Function execution. |
 
 ### Operations
 
@@ -877,16 +877,16 @@ const merchant = client.Merchant()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `applePay` | `Record<string, any>` | No |  |
-| `business` | `Record<string, any>` | No |  |
-| `categoryCode` | `string` | No |  |
-| `createdAt` | `number` | Yes |  |
-| `id` | `string` | Yes |  |
-| `name` | `string` | Yes |  |
-| `networkTokens` | `Record<string, any>` | No |  |
-| `shortName` | `string` | No |  |
-| `updatedAt` | `number` | No |  |
-| `website` | `string` | Yes |  |
+| `applePay` | `Record<string, any>` | No | The Merchant's Apple Pay configuration. |
+| `business` | `Record<string, any>` | No | The business details of the Merchant. |
+| `categoryCode` | `string` | No | The 4-digit Merchant Category Code (MCC). |
+| `createdAt` | `number` | Yes | The exact time, in epoch milliseconds, when this Merchant was created. |
+| `id` | `string` | Yes | A unique identifier assigned to each Merchant. |
+| `name` | `string` | Yes | The official name of the Merchant as recognized in transactions and communications. |
+| `networkTokens` | `Record<string, any>` | No | The Merchant's Network Token configuration. |
+| `shortName` | `string` | No | A shorter version of the Merchant's name. |
+| `updatedAt` | `number` | No | The exact time, in epoch milliseconds, when this Merchant was last updated. |
+| `website` | `string` | Yes | The official website URL of the Merchant. |
 
 ### Field Usage by Operation
 
@@ -975,18 +975,18 @@ const network_token = client.NetworkToken()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `card` | `Record<string, any>` | Yes |  |
-| `createdAt` | `number` | Yes |  |
-| `expiry` | `Record<string, any>` | Yes |  |
-| `id` | `string` | Yes |  |
-| `merchant` | `string` | Yes |  |
-| `number` | `string` | Yes |  |
-| `paymentAccountReference` | `string` | No |  |
-| `status` | `string` | Yes |  |
-| `tokenRequestorIdentifier` | `string` | Yes |  |
-| `tokenServiceProvider` | `string` | Yes |  |
-| `updateType` | `string` | No |  |
-| `updatedAt` | `number` | No |  |
+| `card` | `Record<string, any>` | Yes | The details of the underlying encrypted card. |
+| `createdAt` | `number` | Yes | The exact time, in epoch milliseconds, when this Network Token was created. |
+| `expiry` | `Record<string, any>` | Yes | The expiry details of the Network Token. |
+| `id` | `string` | Yes | A unique identifier representing a specific Network Token. |
+| `merchant` | `string` | Yes | The unique identifier of the Merchant associated with this Network Token. |
+| `number` | `string` | Yes | The unique number of the Network Token. |
+| `paymentAccountReference` | `string` | No | The unique identifier of the Payment Account associated with this Network Token. |
+| `status` | `string` | Yes | The status of the Network Token. |
+| `tokenRequestorIdentifier` | `string` | Yes | The identifier of the Token Requestor (TRID) that requested the Network Token. |
+| `tokenServiceProvider` | `string` | Yes | The Token Service Provider (TSP) that issued the Network Token. |
+| `updateType` | `string` | No | The type of update to simulate. |
+| `updatedAt` | `number` | No | The exact time, in epoch milliseconds, when this Network Token was last updated. |
 
 ### Actions
 
@@ -1128,22 +1128,22 @@ const payment = client.Payment()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `applePay` | `Record<string, any>` | No |  |
-| `business` | `Record<string, any>` | No |  |
-| `categoryCode` | `string` | No |  |
-| `configurations` | `any[]` | Yes |  |
-| `createdAt` | `number` | Yes |  |
-| `created_at` | `number` | No |  |
-| `data` | `Record<string, any>` | No |  |
+| `applePay` | `Record<string, any>` | No | The Merchant's Apple Pay configuration. |
+| `business` | `Record<string, any>` | No | The business details of the Merchant. |
+| `categoryCode` | `string` | No | The 4-digit Merchant Category Code (MCC). |
+| `configurations` | `any[]` | Yes | The acquirer configuration settings. |
+| `createdAt` | `number` | Yes | The exact time, in epoch milliseconds, when this Merchant was created. |
+| `created_at` | `number` | No | Timestamp when the message was created |
+| `data` | `Record<string, any>` | No | The message data payload |
 | `default` | `boolean` | Yes |  |
-| `description` | `string` | No |  |
-| `id` | `string` | Yes |  |
-| `name` | `string` | Yes |  |
-| `networkTokens` | `Record<string, any>` | No |  |
-| `shortName` | `string` | No |  |
-| `type` | `string` | No |  |
-| `updatedAt` | `number` | No |  |
-| `website` | `string` | Yes |  |
+| `description` | `string` | No | The description of the acquirer configuration. |
+| `id` | `string` | Yes | A unique identifier assigned to each Merchant. |
+| `name` | `string` | Yes | The official name of the Merchant as recognized in transactions and communications. |
+| `networkTokens` | `Record<string, any>` | No | The Merchant's Network Token configuration. |
+| `shortName` | `string` | No | A shorter version of the Merchant's name. |
+| `type` | `string` | No | The type of 3DS message (e.g., AReq, ARes, CReq, CRes, RReq, RRes) |
+| `updatedAt` | `number` | No | The exact time, in epoch milliseconds, when this Merchant was last updated. |
+| `website` | `string` | Yes | The official website URL of the Merchant. |
 
 ### Actions
 
@@ -1181,7 +1181,7 @@ const results = await client.Payment().list({ '3ds_session_id': "example" })
 Remove the entity matching the given criteria.
 
 ```ts
-const result = await client.Payment().remove()
+const result = await client.Payment().remove({ acquirer_id: 'acquirer_id' })
 ```
 
 ### Common Methods
@@ -1222,15 +1222,15 @@ const relay = client.Relay()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app` | `string` | No |  |
-| `authentication` | `string | null` | No |  |
-| `createdAt` | `number` | No |  |
-| `destinationDomain` | `string` | No |  |
-| `encryptEmptyStrings` | `boolean` | No |  |
-| `evervaultDomain` | `string` | No |  |
-| `id` | `string` | No |  |
-| `routes` | `any[]` | No |  |
-| `updatedAt` | `number` | No |  |
+| `app` | `string` | No | The unique identifier for the app to which the Relay belongs. |
+| `authentication` | `string | null` | No | The type of authentication required for the Relay |
+| `createdAt` | `number` | No | The exact time, in epoch milliseconds, when this Relay was created. |
+| `destinationDomain` | `string` | No | The domain in front of which the Relay should be configured. |
+| `encryptEmptyStrings` | `boolean` | No | Whether or not empty strings should be encrypted. |
+| `evervaultDomain` | `string` | No | The Evervault managed domain to which requests to be relayed to the destination domain should be sent. |
+| `id` | `string` | No | The unique identifier for the Relay. |
+| `routes` | `any[]` | No | A collection of route configurations for the Relay. |
+| `updatedAt` | `number` | No | The exact time, in epoch milliseconds, when this Relay was updated. |
 
 ### Operations
 
@@ -1291,30 +1291,30 @@ const three_ds_session = client.ThreeDsSession()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `accessControlServer` | `Record<string, any>` | No |  |
-| `acquirer` | `Record<string, any>` | Yes |  |
-| `ares` | `Record<string, any>` | No |  |
-| `authentication` | `Record<string, any>` | Yes |  |
-| `card` | `Record<string, any>` | Yes |  |
-| `challenge` | `Record<string, any>` | Yes |  |
-| `createdAt` | `number` | Yes |  |
-| `cres` | `null | Record<string, any>` | No |  |
-| `cryptogram` | `string` | No |  |
-| `customer` | `Record<string, any>` | No |  |
-| `directoryServer` | `Record<string, any>` | No |  |
-| `eci` | `Record<string, any>` | No |  |
-| `failureReason` | `string` | No |  |
-| `id` | `string` | Yes |  |
-| `initiator` | `Record<string, any>` | No |  |
-| `merchant` | `Record<string, any>` | Yes |  |
-| `nextAction` | `Record<string, any>` | Yes |  |
-| `payment` | `Record<string, any>` | No |  |
-| `preferredVersions` | `any[]` | No |  |
-| `rreq` | `null | Record<string, any>` | No |  |
-| `status` | `string` | Yes |  |
-| `threeDSServer` | `Record<string, any>` | No |  |
-| `updatedAt` | `number` | No |  |
-| `version` | `string` | Yes |  |
+| `accessControlServer` | `Record<string, any>` | No | Details about the Access Control Server involved in the 3DS transaction. |
+| `acquirer` | `Record<string, any>` | Yes | The acquirer of the payment. |
+| `ares` | `Record<string, any>` | No | The details of the 3DS Authentication Response (ARes). |
+| `authentication` | `Record<string, any>` | Yes | The details of the 3DS Authentication. |
+| `card` | `Record<string, any>` | Yes | The card details. |
+| `challenge` | `Record<string, any>` | Yes | Details about the 3DS challenge. |
+| `createdAt` | `number` | Yes | The exact time, in epoch milliseconds, when this 3DS-Session was created. |
+| `cres` | `null | Record<string, any>` | No | The details of the 3DS Challenge Response (CRes). |
+| `cryptogram` | `string` | No | The 3DS cryptogram (also called Authentication Value). |
+| `customer` | `Record<string, any>` | No | The details of the customer who initiated the transaction. |
+| `directoryServer` | `Record<string, any>` | No | Details about the Directory Server involved in the 3DS transaction. |
+| `eci` | `Record<string, any>` | No | The details of the Electronic Commerce Indicator. |
+| `failureReason` | `string` | No | The reason for the 3DS Authentication failure. |
+| `id` | `string` | Yes | A unique identifier assigned to each 3DS Authentication. |
+| `initiator` | `Record<string, any>` | No | Details about the transaction initiation process. |
+| `merchant` | `Record<string, any>` | Yes | The merchant details. |
+| `nextAction` | `Record<string, any>` | Yes | The next action required to complete the 3DS Authentication. |
+| `payment` | `Record<string, any>` | No | The payment details of the 3D Secure Authentication. |
+| `preferredVersions` | `any[]` | No | A prioritized list of preferred 3D Secure versions. |
+| `rreq` | `null | Record<string, any>` | No | The result of the 3DS authentication when a challenge has occurred. |
+| `status` | `string` | Yes | The status of the 3DS Authentication. |
+| `threeDSServer` | `Record<string, any>` | No | Details about the 3DS Server involved in the 3DS transaction. |
+| `updatedAt` | `number` | No | The exact time, in epoch milliseconds, when this 3DS-Session was last updated. |
+| `version` | `string` | Yes | The 3D Secure version used to authenticate the session. |
 
 ### Field Usage by Operation
 
@@ -1412,11 +1412,11 @@ const webhook = client.Webhook()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `createdAt` | `number` | No |  |
-| `events` | `any[]` | Yes |  |
-| `id` | `string` | No |  |
-| `updatedAt` | `number | null` | No |  |
-| `url` | `string` | Yes |  |
+| `createdAt` | `number` | No | The exact time, in epoch milliseconds, when this Webhook Endpoint was created. |
+| `events` | `any[]` | Yes | A list of Events that the Webhook Endpoint should subscribe to. |
+| `id` | `string` | No | A unique identifier representing a specific Webhook Endpoint. |
+| `updatedAt` | `number | null` | No | The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated. |
+| `url` | `string` | Yes | The URL of the Webhook Endpoint. |
 
 ### Field Usage by Operation
 
@@ -1495,11 +1495,11 @@ const webhook_endpoint = client.WebhookEndpoint()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `createdAt` | `number` | No |  |
-| `events` | `any[]` | No |  |
-| `id` | `string` | No |  |
-| `updatedAt` | `number | null` | No |  |
-| `url` | `string` | No |  |
+| `createdAt` | `number` | No | The exact time, in epoch milliseconds, when this Webhook Endpoint was created. |
+| `events` | `any[]` | No | A list of Events that the Webhook Endpoint is subscribed to. |
+| `id` | `string` | No | A unique identifier representing a specific Webhook Endpoint. |
+| `updatedAt` | `number | null` | No | The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated. |
+| `url` | `string` | No | The URL of the Webhook Endpoint. |
 
 ### Field Usage by Operation
 

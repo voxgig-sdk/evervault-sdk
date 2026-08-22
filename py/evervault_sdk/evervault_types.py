@@ -144,7 +144,21 @@ class Core(CoreRequired, total=False):
 
 
 class CoreListMatch(TypedDict, total=False):
-    relay_id: str
+    app: str
+    authentication: str | None
+    createdAt: int
+    customDomain: str
+    destinationDomain: str
+    encryptEmptyStrings: bool
+    evervaultDomain: str
+    id: str
+    phoneNumber: str
+    relay: str
+    routes: list
+    status: str
+    token: str
+    updatedAt: int
+    validationRecord: str
 
 
 class CoreCreateDataRequired(TypedDict):
@@ -363,11 +377,8 @@ class PaymentListMatch(TypedDict):
     pass
 
 
-class PaymentRemoveMatch(TypedDict, total=False):
+class PaymentRemoveMatch(TypedDict):
     acquirer_id: str
-    card_id: str
-    merchant_id: str
-    network_token_id: str
 
 
 class Relay(TypedDict, total=False):

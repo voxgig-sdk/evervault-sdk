@@ -96,7 +96,21 @@
 ---@field validationRecord? string
 
 ---@class CoreListMatch
----@field relay_id? string
+---@field app? string
+---@field authentication? string|nil
+---@field createdAt? number
+---@field customDomain? string
+---@field destinationDomain? string
+---@field encryptEmptyStrings? boolean
+---@field evervaultDomain? string
+---@field id? string
+---@field phoneNumber? string
+---@field relay? string
+---@field routes? table
+---@field status? string
+---@field token? string
+---@field updatedAt? number
+---@field validationRecord? string
 
 ---@class CoreCreateData
 ---@field app? string
@@ -263,10 +277,7 @@
 ---@field ["3ds_session_id"] string
 
 ---@class PaymentRemoveMatch
----@field acquirer_id? string
----@field card_id? string
----@field merchant_id? string
----@field network_token_id? string
+---@field acquirer_id string
 
 ---@class Relay
 ---@field app? string

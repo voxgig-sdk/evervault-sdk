@@ -8,11 +8,13 @@ main: kit: entity: core: {
     {
       name: "app"
       req: false
+      short: "The unique identifier for the app to which the Relay belongs."
       type: "`$STRING`"
     }
     {
       name: "authentication"
       req: false
+      short: "The type of authentication required for the Relay"
       type: [
         "`$ONE`"
         [
@@ -24,11 +26,13 @@ main: kit: entity: core: {
     {
       name: "createdAt"
       req: false
+      short: "The exact time, in epoch milliseconds, when this custom domain was created."
       type: "`$INTEGER`"
     }
     {
       name: "customDomain"
       req: false
+      short: "The customer managed domain to which requests to be relayed to your domain should be sent."
       type: "`$STRING`"
     }
     {
@@ -40,21 +44,25 @@ main: kit: entity: core: {
         }
       }
       req: true
+      short: "The domain in front of which you would like to configure a Relay"
       type: "`$STRING`"
     }
     {
       name: "encryptEmptyStrings"
       req: false
+      short: "Whether or not empty strings should be encrypted."
       type: "`$BOOLEAN`"
     }
     {
       name: "evervaultDomain"
       req: false
+      short: "The Evervault managed domain to which requests to be relayed to the destination domain should be sent."
       type: "`$STRING`"
     }
     {
       name: "id"
       req: false
+      short: "The unique identifier for the custom domain."
       type: "`$STRING`"
     }
     {
@@ -65,6 +73,7 @@ main: kit: entity: core: {
     {
       name: "relay"
       req: false
+      short: "The ID of the Relay with which this custom domain is associated."
       type: "`$STRING`"
     }
     {
@@ -76,26 +85,31 @@ main: kit: entity: core: {
         }
       }
       req: true
+      short: "A collection of route configurations for the Relay."
       type: "`$ARRAY`"
     }
     {
       name: "status"
       req: false
+      short: "The status of the domains DNS verification."
       type: "`$STRING`"
     }
     {
       name: "token"
       req: true
+      short: "The encrypted data to be inspected."
       type: "`$STRING`"
     }
     {
       name: "updatedAt"
       req: false
+      short: "The exact time, in epoch milliseconds, when this custom domain was last updated."
       type: "`$INTEGER`"
     }
     {
       name: "validationRecord"
       req: false
+      short: "Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain"
       type: "`$STRING`"
     }
   ]

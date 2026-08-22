@@ -14,6 +14,7 @@ main: kit: entity: acquirer: {
         }
       }
       req: true
+      short: "The acquirer configuration settings."
       type: "`$ARRAY`"
     }
     {
@@ -29,16 +30,19 @@ main: kit: entity: acquirer: {
         }
       }
       req: true
+      short: "Specifies whether this Acquirer is the default."
       type: "`$BOOLEAN`"
     }
     {
       name: "description"
       req: false
+      short: "The description of the acquirer configuration."
       type: "`$STRING`"
     }
     {
       name: "id"
       req: true
+      short: "The unique identifier of the acquirer configuration."
       type: "`$STRING`"
     }
     {
@@ -50,6 +54,7 @@ main: kit: entity: acquirer: {
         }
       }
       req: true
+      short: "The name of the acquirer configuration."
       type: "`$STRING`"
     }
   ]

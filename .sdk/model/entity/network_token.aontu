@@ -8,61 +8,73 @@ main: kit: entity: network_token: {
     {
       name: "card"
       req: true
+      short: "The details of the underlying encrypted card."
       type: "`$OBJECT`"
     }
     {
       name: "createdAt"
       req: true
+      short: "The exact time, in epoch milliseconds, when this Network Token was created."
       type: "`$INTEGER`"
     }
     {
       name: "expiry"
       req: true
+      short: "The expiry details of the Network Token."
       type: "`$OBJECT`"
     }
     {
       name: "id"
       req: true
+      short: "A unique identifier representing a specific Network Token."
       type: "`$STRING`"
     }
     {
       name: "merchant"
       req: true
+      short: "The unique identifier of the Merchant associated with this Network Token."
       type: "`$STRING`"
     }
     {
       name: "number"
       req: true
+      short: "The unique number of the Network Token."
       type: "`$STRING`"
     }
     {
       name: "paymentAccountReference"
       req: false
+      short: "The unique identifier of the Payment Account associated with this Network Token."
       type: "`$STRING`"
     }
     {
       name: "status"
       req: true
+      short: "The status of the Network Token."
       type: "`$STRING`"
     }
     {
       name: "tokenRequestorIdentifier"
       req: true
+      short: "The identifier of the Token Requestor (TRID) that requested the Network Token."
       type: "`$STRING`"
     }
     {
       name: "tokenServiceProvider"
       req: true
+      short: "The Token Service Provider (TSP) that issued the Network Token."
       type: "`$STRING`"
     }
     {
       name: "updateType"
       req: false
+      short: "The type of update to simulate."
       type: "`$STRING`"
     }
     {
       name: "updatedAt"
       req: false
+      short: "The exact time, in epoch milliseconds, when this Network Token was last updated."
       type: "`$INTEGER`"
     }
   ]

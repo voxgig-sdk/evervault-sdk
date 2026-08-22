@@ -8,16 +8,19 @@ main: kit: entity: function_run: {
     {
       name: "async"
       req: false
+      short: "If you want your Function to run asynchronously and notify a callback URL, this can be set to `true` and the API will queue your Function run and return a `202` response code."
       type: "`$BOOLEAN`"
     }
     {
       name: "createdAt"
       req: false
+      short: "The exact time, in epoch milliseconds, when this Function execution was triggered."
       type: "`$INTEGER`"
     }
     {
       name: "error"
       req: false
+      short: "This field details any error that occurred during Function execution."
       type: [
         "`$ONE`"
         [
@@ -29,21 +32,25 @@ main: kit: entity: function_run: {
     {
       name: "id"
       req: false
+      short: "A unique identifier representing this specific Function execution instance."
       type: "`$STRING`"
     }
     {
       name: "payload"
       req: true
+      short: "The data payload that the Function will use during its execution."
       type: "`$OBJECT`"
     }
     {
       name: "result"
       req: false
+      short: "This field represents the output returned by the Function."
       type: "`$OBJECT`"
     }
     {
       name: "status"
       req: false
+      short: "The outcome of the Function execution."
       type: "`$STRING`"
     }
   ]
