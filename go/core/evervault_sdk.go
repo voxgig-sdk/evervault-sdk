@@ -338,22 +338,6 @@ func (sdk *EvervaultSDK) Graphql(
 }
 
 
-// Acquirer returns a Acquirer entity bound to this client.
-// Idiomatic usage: client.Acquirer(nil).List(nil, nil) or
-// client.Acquirer(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *EvervaultSDK) Acquirer(data map[string]any) EvervaultEntity {
-	return NewAcquirerEntityFunc(sdk, data)
-}
-
-
-// BinLookup returns a BinLookup entity bound to this client.
-// Idiomatic usage: client.BinLookup(nil).List(nil, nil) or
-// client.BinLookup(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *EvervaultSDK) BinLookup(data map[string]any) EvervaultEntity {
-	return NewBinLookupEntityFunc(sdk, data)
-}
-
-
 // Card returns a Card entity bound to this client.
 // Idiomatic usage: client.Card(nil).List(nil, nil) or
 // client.Card(nil).Load(map[string]any{"id": ...}, nil).
@@ -362,107 +346,11 @@ func (sdk *EvervaultSDK) Card(data map[string]any) EvervaultEntity {
 }
 
 
-// CardArt returns a CardArt entity bound to this client.
-// Idiomatic usage: client.CardArt(nil).List(nil, nil) or
-// client.CardArt(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *EvervaultSDK) CardArt(data map[string]any) EvervaultEntity {
-	return NewCardArtEntityFunc(sdk, data)
-}
-
-
-// ClientSideToken returns a ClientSideToken entity bound to this client.
-// Idiomatic usage: client.ClientSideToken(nil).List(nil, nil) or
-// client.ClientSideToken(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *EvervaultSDK) ClientSideToken(data map[string]any) EvervaultEntity {
-	return NewClientSideTokenEntityFunc(sdk, data)
-}
-
-
-// Core returns a Core entity bound to this client.
-// Idiomatic usage: client.Core(nil).List(nil, nil) or
-// client.Core(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *EvervaultSDK) Core(data map[string]any) EvervaultEntity {
-	return NewCoreEntityFunc(sdk, data)
-}
-
-
-// CustomDomain returns a CustomDomain entity bound to this client.
-// Idiomatic usage: client.CustomDomain(nil).List(nil, nil) or
-// client.CustomDomain(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *EvervaultSDK) CustomDomain(data map[string]any) EvervaultEntity {
-	return NewCustomDomainEntityFunc(sdk, data)
-}
-
-
-// FunctionRun returns a FunctionRun entity bound to this client.
-// Idiomatic usage: client.FunctionRun(nil).List(nil, nil) or
-// client.FunctionRun(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *EvervaultSDK) FunctionRun(data map[string]any) EvervaultEntity {
-	return NewFunctionRunEntityFunc(sdk, data)
-}
-
-
-// Merchant returns a Merchant entity bound to this client.
-// Idiomatic usage: client.Merchant(nil).List(nil, nil) or
-// client.Merchant(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *EvervaultSDK) Merchant(data map[string]any) EvervaultEntity {
-	return NewMerchantEntityFunc(sdk, data)
-}
-
-
-// NetworkToken returns a NetworkToken entity bound to this client.
-// Idiomatic usage: client.NetworkToken(nil).List(nil, nil) or
-// client.NetworkToken(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *EvervaultSDK) NetworkToken(data map[string]any) EvervaultEntity {
-	return NewNetworkTokenEntityFunc(sdk, data)
-}
-
-
-// NetworkTokenCryptogram returns a NetworkTokenCryptogram entity bound to this client.
-// Idiomatic usage: client.NetworkTokenCryptogram(nil).List(nil, nil) or
-// client.NetworkTokenCryptogram(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *EvervaultSDK) NetworkTokenCryptogram(data map[string]any) EvervaultEntity {
-	return NewNetworkTokenCryptogramEntityFunc(sdk, data)
-}
-
-
 // Payment returns a Payment entity bound to this client.
 // Idiomatic usage: client.Payment(nil).List(nil, nil) or
 // client.Payment(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *EvervaultSDK) Payment(data map[string]any) EvervaultEntity {
 	return NewPaymentEntityFunc(sdk, data)
-}
-
-
-// Relay returns a Relay entity bound to this client.
-// Idiomatic usage: client.Relay(nil).List(nil, nil) or
-// client.Relay(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *EvervaultSDK) Relay(data map[string]any) EvervaultEntity {
-	return NewRelayEntityFunc(sdk, data)
-}
-
-
-// ThreeDsSession returns a ThreeDsSession entity bound to this client.
-// Idiomatic usage: client.ThreeDsSession(nil).List(nil, nil) or
-// client.ThreeDsSession(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *EvervaultSDK) ThreeDsSession(data map[string]any) EvervaultEntity {
-	return NewThreeDsSessionEntityFunc(sdk, data)
-}
-
-
-// Webhook returns a Webhook entity bound to this client.
-// Idiomatic usage: client.Webhook(nil).List(nil, nil) or
-// client.Webhook(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *EvervaultSDK) Webhook(data map[string]any) EvervaultEntity {
-	return NewWebhookEntityFunc(sdk, data)
-}
-
-
-// WebhookEndpoint returns a WebhookEndpoint entity bound to this client.
-// Idiomatic usage: client.WebhookEndpoint(nil).List(nil, nil) or
-// client.WebhookEndpoint(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *EvervaultSDK) WebhookEndpoint(data map[string]any) EvervaultEntity {
-	return NewWebhookEndpointEntityFunc(sdk, data)
 }
 
 

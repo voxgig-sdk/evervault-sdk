@@ -20,7 +20,7 @@ local SDK_MODULE = "evervault_sdk"
 -- A test-mode client seeded with a fixture for every entity. The constructor
 -- of each runnable snippet is rewritten to this form so the offline mock has
 -- data to return.
-local TEST_SEED = '{ entity = { ["acquirer"] = { ["test01"] = { id = "test01" } }, ["bin_lookup"] = { ["test01"] = { id = "test01" } }, ["card"] = { ["test01"] = { id = "test01" } }, ["card_art"] = { ["test01"] = { id = "test01" } }, ["client_side_token"] = { ["test01"] = { id = "test01" } }, ["core"] = { ["test01"] = { id = "test01" } }, ["custom_domain"] = { ["test01"] = { id = "test01" } }, ["function_run"] = { ["test01"] = { id = "test01" } }, ["merchant"] = { ["test01"] = { id = "test01" } }, ["network_token"] = { ["test01"] = { id = "test01" } }, ["network_token_cryptogram"] = { ["test01"] = { id = "test01" } }, ["payment"] = { ["test01"] = { id = "test01" } }, ["relay"] = { ["test01"] = { id = "test01" } }, ["three_ds_session"] = { ["test01"] = { id = "test01" } }, ["webhook"] = { ["test01"] = { id = "test01" } }, ["webhook_endpoint"] = { ["test01"] = { id = "test01" } } } }'
+local TEST_SEED = '{ entity = { ["card"] = { ["test01"] = { id = "test01" } }, ["payment"] = { ["test01"] = { id = "test01" } } } }'
 local TEST_CTOR = "sdk.test(" .. TEST_SEED .. ")"
 
 local function script_dir()

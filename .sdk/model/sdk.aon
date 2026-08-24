@@ -7,7 +7,7 @@
 # SDK Details.
 name: 'evervault'
 origin: 'voxgig-sdk'
-def: 'evervault-openapi.json'
+def: 'evervault-cards-only.json'
 
 
 # API Information
@@ -34,8 +34,11 @@ def: 'evervault-openapi.json'
 @"flow/flow-index.aon"
 
 
-# Project overlay — user-owned, created once and never overwritten.
-#
-# LAST, deliberately: it may refine main.kit.target.<t>, and a target can only
-# be refined after target-index.aon has defined it.
-@"project.aon"
+# adopt: true — fork of the real senecajs repo; keeps its .github/LICENSE
+# etc. instead of generating into an empty folder.
+main: kit: target: 'seneca-provider': output: {
+  path: '../../seneca/evervault-provider'
+  sdkrel: '../../voxgig-sdk/evervault-sdk'
+  adopt: true
+}
+

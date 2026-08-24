@@ -15,52 +15,11 @@ describe("PaymentEntity", function()
     assert.is_not_nil(ent)
   end)
 
-  -- Feature #4: the entity stream(action, ...) method runs the op pipeline and
-  -- returns an iterator over result items. With the streaming feature active it
-  -- yields the feature's incremental output; otherwise it falls back to the
-  -- materialised list so stream always yields.
-  it("should stream", function()
-    local seed = {
-      entity = {
-        ["payment"] = {
-          s1 = { id = "s1" },
-          s2 = { id = "s2" },
-          s3 = { id = "s3" },
-        },
-      },
-    }
-
-    -- Fallback: streaming inactive -> yields the materialised list items.
-    local base = sdk.test(seed, nil)
-    local seen = {}
-    for item in base:Payment(nil):stream("list", nil, nil) do
-      table.insert(seen, item)
-    end
-    assert.are.equal(3, #seen)
-
-    -- Inbound: streaming active -> yields each item from the feature.
-    local config = require("config_shared")()
-    if type(config.feature) == "table" and config.feature.streaming ~= nil then
-      local streamsdk = sdk.test(seed, { feature = { streaming = { active = true } } })
-      local got = {}
-      for item in streamsdk:Payment(nil):stream("list", nil, nil) do
-        if vs.islist(item) then
-          for _, sub in ipairs(item) do
-            table.insert(got, sub)
-          end
-        else
-          table.insert(got, item)
-        end
-      end
-      assert.are.equal(3, #got)
-    end
-  end)
-
   it("should run basic flow", function()
     local setup = payment_basic_setup(nil)
     -- Per-op sdk-test-control.json skip.
     local _live = setup.live or false
-    for _, _op in ipairs({"list"}) do
+    for _, _op in ipairs({}) do
       local _should_skip, _reason = runner.is_control_skipped("entityOp", "payment." .. _op, _live and "live" or "unit")
       if _should_skip then
         pending(_reason or "skipped via sdk-test-control.json")
@@ -82,16 +41,6 @@ describe("PaymentEntity", function()
     if #payment_ref01_data_raw > 0 then
       payment_ref01_data = helpers.to_map(payment_ref01_data_raw[1][2])
     end
-
-    -- LIST
-    local payment_ref01_ent = client:Payment(nil)
-    local payment_ref01_match = {
-      ["3ds_session_id"] = setup.idmap["3ds_session01"],
-    }
-
-    local payment_ref01_list_result, err = payment_ref01_ent:list(payment_ref01_match, nil)
-    assert.is_nil(err)
-    assert.is_table(payment_ref01_list_result)
 
   end)
 end)
@@ -116,7 +65,7 @@ function payment_basic_setup(extra)
 
   -- Generate idmap via transform.
   local idmap = vs.transform(
-    { "payment01", "payment02", "payment03", "3ds_session01", "3ds_session02", "3ds_session03", "acquirer01", "acquirer02", "acquirer03", "card01", "card02", "card03", "merchant01", "merchant02", "merchant03", "network_token01", "network_token02", "network_token03" },
+    { "payment01", "payment02", "payment03", "card01", "card02", "card03" },
     {
       ["`$PACK`"] = { "", {
         ["`$KEY`"] = "`$COPY`",

@@ -6,33 +6,9 @@ main: kit: entity: card: {
 
   fields: [
     {
-      name: "address"
-      req: true
-      short: "Details about the cardholder's address that the address verification (AVS) is for."
-      type: "`$OBJECT`"
-    }
-    {
-      name: "card"
-      req: true
-      short: "The card details."
-      type: "`$OBJECT`"
-    }
-    {
-      name: "cardholder"
-      req: false
-      short: "Details about the cardholder that the name verification (ANI) is for."
-      type: "`$OBJECT`"
-    }
-    {
       name: "expiry"
       req: true
       type: "`$OBJECT`"
-    }
-    {
-      name: "extensions"
-      req: false
-      short: "The extensions to the card insight request."
-      type: "`$ARRAY`"
     }
     {
       name: "month"
@@ -59,56 +35,6 @@ main: kit: entity: card: {
     create: {
       name: "create"
       points: [
-        {
-          args: {
-            params: [
-              {
-                kind: "param"
-                name: "id"
-                orig: "card_id"
-                reqd: true
-                type: "`$STRING`"
-              }
-            ]
-          }
-          method: "POST"
-          orig: "/payments/cards/{card_id}/simulate"
-          parts: [
-            "payments"
-            "cards"
-            "{id}"
-            "simulate"
-          ]
-          rename: {
-            param: {
-              card_id: "id"
-            }
-          }
-          select: {
-            "$action": "simulate"
-            exist: [
-              "id"
-            ]
-          }
-          transform: {
-            req: "`reqdata`"
-            res: "`body.expiry`"
-          }
-        }
-        {
-          method: "POST"
-          orig: "/insights/cards"
-          parts: [
-            "insights"
-            "cards"
-          ]
-          transform: {
-            req: {
-              card: "`reqdata`"
-            }
-            res: "`body`"
-          }
-        }
         {
           method: "POST"
           orig: "/payments/cards"

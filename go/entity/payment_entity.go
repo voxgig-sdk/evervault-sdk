@@ -260,37 +260,9 @@ func (e *PaymentEntity) Load(_ map[string]any, _ map[string]any) (any, error) {
 }
 
 
-
-func (e *PaymentEntity) List(reqmatch map[string]any, ctrl map[string]any) (any, error) {
-	utility := e.utility
-	ctx := utility.MakeContext(map[string]any{
-		"opname":   "list",
-		"ctrl":     ctrl,
-		"match":    e.match,
-		"data":     e.data,
-		"reqmatch": reqmatch,
-	}, e.entctx)
-
-	return e.runOp(ctx, func() {
-		if ctx.Result != nil {
-			if ctx.Result.Resmatch != nil {
-				e.match = ctx.Result.Resmatch
-			}
-		}
-	})
+func (e *PaymentEntity) List(_ map[string]any, _ map[string]any) (any, error) {
+	return core.UnsupportedOp("list", e.name)
 }
-
-// ListTyped is the statically-typed variant of List: it takes an
-// PaymentListMatch and returns []Payment. It delegates to the untyped
-// List (identical runtime) and converts at the typed boundary.
-func (e *PaymentEntity) ListTyped(reqmatch PaymentListMatch, ctrl map[string]any) ([]Payment, error) {
-	res, err := e.List(asMap(reqmatch), ctrl)
-	if err != nil {
-		return nil, err
-	}
-	return typedSliceFrom[Payment](res), nil
-}
-
 
 
 func (e *PaymentEntity) Create(_ map[string]any, _ map[string]any) (any, error) {

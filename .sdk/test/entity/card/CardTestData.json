@@ -2,36 +2,24 @@
   "existing": {
     "card": {
       "CARD00": {
-        "address": {},
-        "card": {},
-        "cardholder": {},
         "expiry": {},
-        "extensions": [],
-        "month": "s55",
-        "number": "s56",
-        "year": "s57",
+        "month": "s29",
+        "number": "s2a",
+        "year": "s2b",
         "id": "CARD00"
       },
       "CARD01": {
-        "address": {},
-        "card": {},
-        "cardholder": {},
         "expiry": {},
-        "extensions": [],
-        "month": "sa5",
-        "number": "sa6",
-        "year": "sa7",
+        "month": "s51",
+        "number": "s52",
+        "year": "s53",
         "id": "CARD01"
       },
       "CARD02": {
-        "address": {},
-        "card": {},
-        "cardholder": {},
         "expiry": {},
-        "extensions": [],
-        "month": "sf5",
-        "number": "sf6",
-        "year": "sf7",
+        "month": "s79",
+        "number": "s7a",
+        "year": "s7b",
         "id": "CARD02"
       }
     }
@@ -39,14 +27,10 @@
   "new": {
     "card": {
       "card_ref01": {
-        "address": {},
-        "card": {},
-        "cardholder": {},
         "expiry": {},
-        "extensions": [],
-        "month": "s145",
-        "number": "s146",
-        "year": "s147"
+        "month": "sa1",
+        "number": "sa2",
+        "year": "sa3"
       }
     }
   }

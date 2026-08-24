@@ -31,13 +31,12 @@ main: kit: feature: &: target: ts: deps: &: {
 #
 # `target add <t>` OVERWRITES this file, so a project must never set its
 # publication values here — voxgig-solardemo-sdk lost its pinned npm package
-# name exactly that way. Set them in the project's own overlay
-# (`model/project.aon`), which create-sdkgen creates once and never
-# overwrites — NOT `model/sdk.aon`, which it rewrites on every scaffold.
+# name exactly that way. Set them in the project's own model
+# (`model/sdk.aontu`), where they survive a resync.
 #
 # For that to work this file must LEAVE THOSE KEYS UNSET: in aontu a concrete
 # value does not yield to another concrete value, it CONFLICTS, and two
-# defaults conflict too. The schema (@voxgig/sdkgen/model/sdkgen.aon)
+# defaults conflict too. The schema (@voxgig/sdkgen/model/sdkgen.aontu)
 # already defaults `tag.active`, `registry.state`, `registry.active` and
 # `registry.package`, so a project's concrete value wins over the default and
 # repeating them here would only take that away.

@@ -16,7 +16,7 @@ import (
 // reqdata map passed through to the SDK. For load, `query` should be
 // `{"id": <value>}`. For list, omit `query` or pass an empty map.
 type Args struct {
-	Entity string         `json:"entity" jsonschema:"acquirer | bin_lookup | card | card_art | client_side_token | core | custom_domain | function_run | merchant | network_token | network_token_cryptogram | payment | relay | three_ds_session | webhook | webhook_endpoint"`
+	Entity string         `json:"entity" jsonschema:"card | payment"`
 	Query  map[string]any `json:"query,omitempty" jsonschema:"optional match map e.g. {\"id\":1} for load, omit for list"`
 }
 
@@ -77,38 +77,10 @@ func runOp(client *sdk.EvervaultSDK, op string, args Args) (*mcp.CallToolResult,
 // emits one `case "<name>":` per entity defined in the SDK model.
 func entityFor(client *sdk.EvervaultSDK, name string) (sdk.EvervaultEntity, error) {
 	switch strings.ToLower(name) {
-	case "acquirer":
-		return client.Acquirer(nil), nil
-	case "bin_lookup":
-		return client.BinLookup(nil), nil
 	case "card":
 		return client.Card(nil), nil
-	case "card_art":
-		return client.CardArt(nil), nil
-	case "client_side_token":
-		return client.ClientSideToken(nil), nil
-	case "core":
-		return client.Core(nil), nil
-	case "custom_domain":
-		return client.CustomDomain(nil), nil
-	case "function_run":
-		return client.FunctionRun(nil), nil
-	case "merchant":
-		return client.Merchant(nil), nil
-	case "network_token":
-		return client.NetworkToken(nil), nil
-	case "network_token_cryptogram":
-		return client.NetworkTokenCryptogram(nil), nil
 	case "payment":
 		return client.Payment(nil), nil
-	case "relay":
-		return client.Relay(nil), nil
-	case "three_ds_session":
-		return client.ThreeDsSession(nil), nil
-	case "webhook":
-		return client.Webhook(nil), nil
-	case "webhook_endpoint":
-		return client.WebhookEndpoint(nil), nil
 
 	}
 	return nil, fmt.Errorf("unknown entity %q", name)
