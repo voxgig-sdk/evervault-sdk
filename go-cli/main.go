@@ -20,7 +20,7 @@ import (
 const prompt = "evervault"
 
 // entitiesHelp is the space-separated entity list shown by /help.
-const entitiesHelp = "acquirer bin_lookup card card_art client_side_token core custom_domain function_run merchant network_token network_token_cryptogram payment relay three_ds_session webhook webhook_endpoint"
+const entitiesHelp = "card payment"
 
 func main() {
 	os.Exit(run(os.Args[1:], os.Stdin, os.Stdout, os.Stderr))

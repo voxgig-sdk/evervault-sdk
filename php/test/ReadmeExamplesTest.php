@@ -40,22 +40,8 @@ class ReadmeExamplesTest extends TestCase
 
     // Entity accessor (\$client->Name()) => fixture storage key (lowercase name).
     private const ENTITIES = [
-        "Acquirer" => "acquirer",
-        "BinLookup" => "bin_lookup",
         "Card" => "card",
-        "CardArt" => "card_art",
-        "ClientSideToken" => "client_side_token",
-        "Core" => "core",
-        "CustomDomain" => "custom_domain",
-        "FunctionRun" => "function_run",
-        "Merchant" => "merchant",
-        "NetworkToken" => "network_token",
-        "NetworkTokenCryptogram" => "network_token_cryptogram",
         "Payment" => "payment",
-        "Relay" => "relay",
-        "ThreeDsSession" => "three_ds_session",
-        "Webhook" => "webhook",
-        "WebhookEndpoint" => "webhook_endpoint",
     ];
 
     // Documented SDK method names — used only to recognise the NARROW

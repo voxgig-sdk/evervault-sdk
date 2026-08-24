@@ -307,100 +307,16 @@ class EvervaultSDK:
         return res
 
 
-    def Acquirer(self, data=None) -> "AcquirerEntity":
-        """Entity factory: client.Acquirer().list() / client.Acquirer().load({"id": ...})."""
-        from evervault_sdk.entity.acquirer_entity import AcquirerEntity
-        return AcquirerEntity(self, data)
-
-
-    def BinLookup(self, data=None) -> "BinLookupEntity":
-        """Entity factory: client.BinLookup().list() / client.BinLookup().load({"id": ...})."""
-        from evervault_sdk.entity.bin_lookup_entity import BinLookupEntity
-        return BinLookupEntity(self, data)
-
-
     def Card(self, data=None) -> "CardEntity":
         """Entity factory: client.Card().list() / client.Card().load({"id": ...})."""
         from evervault_sdk.entity.card_entity import CardEntity
         return CardEntity(self, data)
 
 
-    def CardArt(self, data=None) -> "CardArtEntity":
-        """Entity factory: client.CardArt().list() / client.CardArt().load({"id": ...})."""
-        from evervault_sdk.entity.card_art_entity import CardArtEntity
-        return CardArtEntity(self, data)
-
-
-    def ClientSideToken(self, data=None) -> "ClientSideTokenEntity":
-        """Entity factory: client.ClientSideToken().list() / client.ClientSideToken().load({"id": ...})."""
-        from evervault_sdk.entity.client_side_token_entity import ClientSideTokenEntity
-        return ClientSideTokenEntity(self, data)
-
-
-    def Core(self, data=None) -> "CoreEntity":
-        """Entity factory: client.Core().list() / client.Core().load({"id": ...})."""
-        from evervault_sdk.entity.core_entity import CoreEntity
-        return CoreEntity(self, data)
-
-
-    def CustomDomain(self, data=None) -> "CustomDomainEntity":
-        """Entity factory: client.CustomDomain().list() / client.CustomDomain().load({"id": ...})."""
-        from evervault_sdk.entity.custom_domain_entity import CustomDomainEntity
-        return CustomDomainEntity(self, data)
-
-
-    def FunctionRun(self, data=None) -> "FunctionRunEntity":
-        """Entity factory: client.FunctionRun().list() / client.FunctionRun().load({"id": ...})."""
-        from evervault_sdk.entity.function_run_entity import FunctionRunEntity
-        return FunctionRunEntity(self, data)
-
-
-    def Merchant(self, data=None) -> "MerchantEntity":
-        """Entity factory: client.Merchant().list() / client.Merchant().load({"id": ...})."""
-        from evervault_sdk.entity.merchant_entity import MerchantEntity
-        return MerchantEntity(self, data)
-
-
-    def NetworkToken(self, data=None) -> "NetworkTokenEntity":
-        """Entity factory: client.NetworkToken().list() / client.NetworkToken().load({"id": ...})."""
-        from evervault_sdk.entity.network_token_entity import NetworkTokenEntity
-        return NetworkTokenEntity(self, data)
-
-
-    def NetworkTokenCryptogram(self, data=None) -> "NetworkTokenCryptogramEntity":
-        """Entity factory: client.NetworkTokenCryptogram().list() / client.NetworkTokenCryptogram().load({"id": ...})."""
-        from evervault_sdk.entity.network_token_cryptogram_entity import NetworkTokenCryptogramEntity
-        return NetworkTokenCryptogramEntity(self, data)
-
-
     def Payment(self, data=None) -> "PaymentEntity":
         """Entity factory: client.Payment().list() / client.Payment().load({"id": ...})."""
         from evervault_sdk.entity.payment_entity import PaymentEntity
         return PaymentEntity(self, data)
-
-
-    def Relay(self, data=None) -> "RelayEntity":
-        """Entity factory: client.Relay().list() / client.Relay().load({"id": ...})."""
-        from evervault_sdk.entity.relay_entity import RelayEntity
-        return RelayEntity(self, data)
-
-
-    def ThreeDsSession(self, data=None) -> "ThreeDsSessionEntity":
-        """Entity factory: client.ThreeDsSession().list() / client.ThreeDsSession().load({"id": ...})."""
-        from evervault_sdk.entity.three_ds_session_entity import ThreeDsSessionEntity
-        return ThreeDsSessionEntity(self, data)
-
-
-    def Webhook(self, data=None) -> "WebhookEntity":
-        """Entity factory: client.Webhook().list() / client.Webhook().load({"id": ...})."""
-        from evervault_sdk.entity.webhook_entity import WebhookEntity
-        return WebhookEntity(self, data)
-
-
-    def WebhookEndpoint(self, data=None) -> "WebhookEndpointEntity":
-        """Entity factory: client.WebhookEndpoint().list() / client.WebhookEndpoint().load({"id": ...})."""
-        from evervault_sdk.entity.webhook_endpoint_entity import WebhookEndpointEntity
-        return WebhookEndpointEntity(self, data)
 
 
 
@@ -430,19 +346,5 @@ class EvervaultSDK:
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from evervault_sdk.entity.acquirer_entity import AcquirerEntity
-    from evervault_sdk.entity.bin_lookup_entity import BinLookupEntity
     from evervault_sdk.entity.card_entity import CardEntity
-    from evervault_sdk.entity.card_art_entity import CardArtEntity
-    from evervault_sdk.entity.client_side_token_entity import ClientSideTokenEntity
-    from evervault_sdk.entity.core_entity import CoreEntity
-    from evervault_sdk.entity.custom_domain_entity import CustomDomainEntity
-    from evervault_sdk.entity.function_run_entity import FunctionRunEntity
-    from evervault_sdk.entity.merchant_entity import MerchantEntity
-    from evervault_sdk.entity.network_token_entity import NetworkTokenEntity
-    from evervault_sdk.entity.network_token_cryptogram_entity import NetworkTokenCryptogramEntity
     from evervault_sdk.entity.payment_entity import PaymentEntity
-    from evervault_sdk.entity.relay_entity import RelayEntity
-    from evervault_sdk.entity.three_ds_session_entity import ThreeDsSessionEntity
-    from evervault_sdk.entity.webhook_entity import WebhookEntity
-    from evervault_sdk.entity.webhook_endpoint_entity import WebhookEndpointEntity

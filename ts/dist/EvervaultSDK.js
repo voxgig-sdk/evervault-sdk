@@ -2,22 +2,8 @@
 // Evervault Ts SDK
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SDK = exports.EvervaultSDK = exports.EvervaultEntityBase = exports.BaseFeature = exports.config = exports.stdutil = void 0;
-const AcquirerEntity_1 = require("./entity/AcquirerEntity");
-const BinLookupEntity_1 = require("./entity/BinLookupEntity");
 const CardEntity_1 = require("./entity/CardEntity");
-const CardArtEntity_1 = require("./entity/CardArtEntity");
-const ClientSideTokenEntity_1 = require("./entity/ClientSideTokenEntity");
-const CoreEntity_1 = require("./entity/CoreEntity");
-const CustomDomainEntity_1 = require("./entity/CustomDomainEntity");
-const FunctionRunEntity_1 = require("./entity/FunctionRunEntity");
-const MerchantEntity_1 = require("./entity/MerchantEntity");
-const NetworkTokenEntity_1 = require("./entity/NetworkTokenEntity");
-const NetworkTokenCryptogramEntity_1 = require("./entity/NetworkTokenCryptogramEntity");
 const PaymentEntity_1 = require("./entity/PaymentEntity");
-const RelayEntity_1 = require("./entity/RelayEntity");
-const ThreeDsSessionEntity_1 = require("./entity/ThreeDsSessionEntity");
-const WebhookEntity_1 = require("./entity/WebhookEntity");
-const WebhookEndpointEntity_1 = require("./entity/WebhookEndpointEntity");
 const node_util_1 = require("node:util");
 const Config_1 = require("./Config");
 Object.defineProperty(exports, "config", { enumerable: true, get: function () { return Config_1.config; } });
@@ -240,20 +226,6 @@ class EvervaultSDK {
         }
         return res;
     }
-    // Entity access: `client.Acquirer().list()` / `client.Acquirer().load({ id })`.
-    // The argument is the entity OPTIONS object (passed to the entity
-    // constructor as entopts), not initial entity data.
-    Acquirer(entopts) {
-        const self = this;
-        return new AcquirerEntity_1.AcquirerEntity(self, entopts);
-    }
-    // Entity access: `client.BinLookup().list()` / `client.BinLookup().load({ id })`.
-    // The argument is the entity OPTIONS object (passed to the entity
-    // constructor as entopts), not initial entity data.
-    BinLookup(entopts) {
-        const self = this;
-        return new BinLookupEntity_1.BinLookupEntity(self, entopts);
-    }
     // Entity access: `client.Card().list()` / `client.Card().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity
     // constructor as entopts), not initial entity data.
@@ -261,96 +233,12 @@ class EvervaultSDK {
         const self = this;
         return new CardEntity_1.CardEntity(self, entopts);
     }
-    // Entity access: `client.CardArt().list()` / `client.CardArt().load({ id })`.
-    // The argument is the entity OPTIONS object (passed to the entity
-    // constructor as entopts), not initial entity data.
-    CardArt(entopts) {
-        const self = this;
-        return new CardArtEntity_1.CardArtEntity(self, entopts);
-    }
-    // Entity access: `client.ClientSideToken().list()` / `client.ClientSideToken().load({ id })`.
-    // The argument is the entity OPTIONS object (passed to the entity
-    // constructor as entopts), not initial entity data.
-    ClientSideToken(entopts) {
-        const self = this;
-        return new ClientSideTokenEntity_1.ClientSideTokenEntity(self, entopts);
-    }
-    // Entity access: `client.Core().list()` / `client.Core().load({ id })`.
-    // The argument is the entity OPTIONS object (passed to the entity
-    // constructor as entopts), not initial entity data.
-    Core(entopts) {
-        const self = this;
-        return new CoreEntity_1.CoreEntity(self, entopts);
-    }
-    // Entity access: `client.CustomDomain().list()` / `client.CustomDomain().load({ id })`.
-    // The argument is the entity OPTIONS object (passed to the entity
-    // constructor as entopts), not initial entity data.
-    CustomDomain(entopts) {
-        const self = this;
-        return new CustomDomainEntity_1.CustomDomainEntity(self, entopts);
-    }
-    // Entity access: `client.FunctionRun().list()` / `client.FunctionRun().load({ id })`.
-    // The argument is the entity OPTIONS object (passed to the entity
-    // constructor as entopts), not initial entity data.
-    FunctionRun(entopts) {
-        const self = this;
-        return new FunctionRunEntity_1.FunctionRunEntity(self, entopts);
-    }
-    // Entity access: `client.Merchant().list()` / `client.Merchant().load({ id })`.
-    // The argument is the entity OPTIONS object (passed to the entity
-    // constructor as entopts), not initial entity data.
-    Merchant(entopts) {
-        const self = this;
-        return new MerchantEntity_1.MerchantEntity(self, entopts);
-    }
-    // Entity access: `client.NetworkToken().list()` / `client.NetworkToken().load({ id })`.
-    // The argument is the entity OPTIONS object (passed to the entity
-    // constructor as entopts), not initial entity data.
-    NetworkToken(entopts) {
-        const self = this;
-        return new NetworkTokenEntity_1.NetworkTokenEntity(self, entopts);
-    }
-    // Entity access: `client.NetworkTokenCryptogram().list()` / `client.NetworkTokenCryptogram().load({ id })`.
-    // The argument is the entity OPTIONS object (passed to the entity
-    // constructor as entopts), not initial entity data.
-    NetworkTokenCryptogram(entopts) {
-        const self = this;
-        return new NetworkTokenCryptogramEntity_1.NetworkTokenCryptogramEntity(self, entopts);
-    }
     // Entity access: `client.Payment().list()` / `client.Payment().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity
     // constructor as entopts), not initial entity data.
     Payment(entopts) {
         const self = this;
         return new PaymentEntity_1.PaymentEntity(self, entopts);
-    }
-    // Entity access: `client.Relay().list()` / `client.Relay().load({ id })`.
-    // The argument is the entity OPTIONS object (passed to the entity
-    // constructor as entopts), not initial entity data.
-    Relay(entopts) {
-        const self = this;
-        return new RelayEntity_1.RelayEntity(self, entopts);
-    }
-    // Entity access: `client.ThreeDsSession().list()` / `client.ThreeDsSession().load({ id })`.
-    // The argument is the entity OPTIONS object (passed to the entity
-    // constructor as entopts), not initial entity data.
-    ThreeDsSession(entopts) {
-        const self = this;
-        return new ThreeDsSessionEntity_1.ThreeDsSessionEntity(self, entopts);
-    }
-    // Entity access: `client.Webhook().list()` / `client.Webhook().load({ id })`.
-    // The argument is the entity OPTIONS object (passed to the entity
-    // constructor as entopts), not initial entity data.
-    Webhook(entopts) {
-        const self = this;
-        return new WebhookEntity_1.WebhookEntity(self, entopts);
-    }
-    // Entity access: `client.WebhookEndpoint().list()` / `client.WebhookEndpoint().load({ id })`.
-    // The argument is the entity OPTIONS object (passed to the entity
-    // constructor as entopts), not initial entity data.
-    WebhookEndpoint(entopts) {
-        const self = this;
-        return new WebhookEndpointEntity_1.WebhookEndpointEntity(self, entopts);
     }
     static test(testoptsarg, sdkoptsarg) {
         const struct = stdutil.struct;

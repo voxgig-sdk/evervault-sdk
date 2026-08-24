@@ -32,53 +32,11 @@ func init() {
 	core.NewTestFeatureFunc = func() core.Feature {
 		return feature.NewTestFeature()
 	}
-	core.NewAcquirerEntityFunc = func(client *core.EvervaultSDK, entopts map[string]any) core.EvervaultEntity {
-		return entity.NewAcquirerEntity(client, entopts)
-	}
-	core.NewBinLookupEntityFunc = func(client *core.EvervaultSDK, entopts map[string]any) core.EvervaultEntity {
-		return entity.NewBinLookupEntity(client, entopts)
-	}
 	core.NewCardEntityFunc = func(client *core.EvervaultSDK, entopts map[string]any) core.EvervaultEntity {
 		return entity.NewCardEntity(client, entopts)
 	}
-	core.NewCardArtEntityFunc = func(client *core.EvervaultSDK, entopts map[string]any) core.EvervaultEntity {
-		return entity.NewCardArtEntity(client, entopts)
-	}
-	core.NewClientSideTokenEntityFunc = func(client *core.EvervaultSDK, entopts map[string]any) core.EvervaultEntity {
-		return entity.NewClientSideTokenEntity(client, entopts)
-	}
-	core.NewCoreEntityFunc = func(client *core.EvervaultSDK, entopts map[string]any) core.EvervaultEntity {
-		return entity.NewCoreEntity(client, entopts)
-	}
-	core.NewCustomDomainEntityFunc = func(client *core.EvervaultSDK, entopts map[string]any) core.EvervaultEntity {
-		return entity.NewCustomDomainEntity(client, entopts)
-	}
-	core.NewFunctionRunEntityFunc = func(client *core.EvervaultSDK, entopts map[string]any) core.EvervaultEntity {
-		return entity.NewFunctionRunEntity(client, entopts)
-	}
-	core.NewMerchantEntityFunc = func(client *core.EvervaultSDK, entopts map[string]any) core.EvervaultEntity {
-		return entity.NewMerchantEntity(client, entopts)
-	}
-	core.NewNetworkTokenEntityFunc = func(client *core.EvervaultSDK, entopts map[string]any) core.EvervaultEntity {
-		return entity.NewNetworkTokenEntity(client, entopts)
-	}
-	core.NewNetworkTokenCryptogramEntityFunc = func(client *core.EvervaultSDK, entopts map[string]any) core.EvervaultEntity {
-		return entity.NewNetworkTokenCryptogramEntity(client, entopts)
-	}
 	core.NewPaymentEntityFunc = func(client *core.EvervaultSDK, entopts map[string]any) core.EvervaultEntity {
 		return entity.NewPaymentEntity(client, entopts)
-	}
-	core.NewRelayEntityFunc = func(client *core.EvervaultSDK, entopts map[string]any) core.EvervaultEntity {
-		return entity.NewRelayEntity(client, entopts)
-	}
-	core.NewThreeDsSessionEntityFunc = func(client *core.EvervaultSDK, entopts map[string]any) core.EvervaultEntity {
-		return entity.NewThreeDsSessionEntity(client, entopts)
-	}
-	core.NewWebhookEntityFunc = func(client *core.EvervaultSDK, entopts map[string]any) core.EvervaultEntity {
-		return entity.NewWebhookEntity(client, entopts)
-	}
-	core.NewWebhookEndpointEntityFunc = func(client *core.EvervaultSDK, entopts map[string]any) core.EvervaultEntity {
-		return entity.NewWebhookEndpointEntity(client, entopts)
 	}
 }
 

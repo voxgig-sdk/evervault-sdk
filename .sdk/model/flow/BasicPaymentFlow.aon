@@ -5,22 +5,5 @@ main: kit: flow: BasicPaymentFlow:
   entity: "payment",
   kind: "basic",
   name: "BasicPaymentFlow",
-  step: [
-    {
-      match: {
-        "3ds_session_id": "3ds_session01"
-      }
-
-      op: "list",
-      valid: [
-        {
-          apply: "ItemExists",
-          def: {
-            ref: "payment_ref01"
-          }
-        }
-      ]
-    }
-  ],
   "key$": "BasicPaymentFlow"
 }

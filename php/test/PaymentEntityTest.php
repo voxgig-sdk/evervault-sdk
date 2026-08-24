@@ -18,51 +18,12 @@ class PaymentEntityTest extends TestCase
         $this->assertNotNull($ent);
     }
 
-    // Feature #4: the entity stream(action, ...) method runs the op pipeline
-    // and yields result items. With the streaming feature active it yields the
-    // feature's incremental output; otherwise it falls back to the materialised
-    // list so stream always yields.
-    public function test_stream(): void
-    {
-        $seed = [
-            "entity" => [
-                "payment" => [
-                    "s1" => ["id" => "s1"],
-                    "s2" => ["id" => "s2"],
-                    "s3" => ["id" => "s3"],
-                ],
-            ],
-        ];
-
-        // Fallback: streaming inactive -> yields the materialised list items.
-        $base = EvervaultSDK::test($seed, null);
-        $seen = iterator_to_array($base->Payment(null)->stream("list", null, null), false);
-        $this->assertCount(3, $seen);
-
-        // Inbound: streaming active -> yields each item from the feature.
-        $cfg = EvervaultConfig::shared_config();
-        if (isset($cfg["feature"]) && is_array($cfg["feature"]) && isset($cfg["feature"]["streaming"])) {
-            $sdk = EvervaultSDK::test($seed, ["feature" => ["streaming" => ["active" => true]]]);
-            $got = [];
-            foreach ($sdk->Payment(null)->stream("list", null, null) as $item) {
-                if (is_array($item) && array_is_list($item)) {
-                    foreach ($item as $sub) {
-                        $got[] = $sub;
-                    }
-                } else {
-                    $got[] = $item;
-                }
-            }
-            $this->assertCount(3, $got);
-        }
-    }
-
     public function test_basic_flow(): void
     {
         $setup = payment_basic_setup(null);
         // Per-op sdk-test-control.json skip.
         $_live = !empty($setup["live"]);
-        foreach (["list"] as $_op) {
+        foreach ([] as $_op) {
             [$_shouldSkip, $_reason] = Runner::is_control_skipped("entityOp", "payment." . $_op, $_live ? "live" : "unit");
             if ($_shouldSkip) {
                 $this->markTestSkipped($_reason ?? "skipped via sdk-test-control.json");
@@ -85,15 +46,6 @@ class PaymentEntityTest extends TestCase
             $payment_ref01_data = Helpers::to_map($payment_ref01_data_raw[0][1]);
         }
 
-        // LIST
-        $payment_ref01_ent = $client->Payment(null);
-        $payment_ref01_match = [
-            "3ds_session_id" => $setup["idmap"]["3ds_session01"],
-        ];
-
-        $payment_ref01_list_result = $payment_ref01_ent->list($payment_ref01_match, null);
-        $this->assertIsArray($payment_ref01_list_result);
-
     }
 }
 
@@ -112,7 +64,7 @@ function payment_basic_setup($extra)
 
     // Generate idmap.
     $idmap = [];
-    foreach (["payment01", "payment02", "payment03", "3ds_session01", "3ds_session02", "3ds_session03", "acquirer01", "acquirer02", "acquirer03", "card01", "card02", "card03", "merchant01", "merchant02", "merchant03", "network_token01", "network_token02", "network_token03"] as $k) {
+    foreach (["payment01", "payment02", "payment03", "card01", "card02", "card03"] as $k) {
         $idmap[$k] = strtoupper($k);
     }
 

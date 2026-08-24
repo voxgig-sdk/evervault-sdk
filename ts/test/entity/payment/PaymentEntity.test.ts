@@ -39,7 +39,7 @@ describe('PaymentEntity', async () => {
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.EVERVAULT_TEST_LIVE
-    for (const op of ['list']) {
+    for (const op of []) {
       if (maybeSkipControl(t, 'entityOp', 'payment.' + op, live)) return
     }
 
@@ -58,14 +58,6 @@ describe('PaymentEntity', async () => {
     const select = struct.select
 
     let payment_ref01_data = Object.values(setup.data.existing.payment)[0] as any
-
-    // LIST
-    const payment_ref01_ent = client.Payment()
-    const payment_ref01_match: any = {}
-    payment_ref01_match['3ds_session_id'] = setup.idmap['3ds_session01']
-
-    const payment_ref01_list = (await payment_ref01_ent.list(payment_ref01_match)).map((e: any) => e.data())
-
 
   })
 })
@@ -95,7 +87,7 @@ function basicSetup(extra?: any) {
   const transform = struct.transform
 
   let idmap = transform(
-    ['payment01','payment02','payment03','3ds_session01','3ds_session02','3ds_session03','acquirer01','acquirer02','acquirer03','card01','card02','card03','merchant01','merchant02','merchant03','network_token01','network_token02','network_token03'],
+    ['payment01','payment02','payment03','card01','card02','card03'],
     {
       '`$PACK`': ['', {
         '`$KEY`': '`$COPY`',

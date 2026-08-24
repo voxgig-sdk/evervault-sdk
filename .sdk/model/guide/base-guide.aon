@@ -1,32 +1,11 @@
 # Guide
 
 guide: {
-  metrics: count: entity: 16
-  metrics: count: path: 28
-  metrics: count: method: 44
-
-  entity: acquirer: {
-    path: "/payments/acquirers": {
-      op: create: method: *POST
-    }
-    path: "/payments/acquirers/{acquirer_id}": {
-      rename: param: "acquirer_id": *"id"
-      op: load: method: *GET
-      op: patch: method: *PATCH
-    }
-  }
-
-  entity: bin_lookup: {
-    path: "/payments/bin-lookups": {
-      op: create: method: *POST
-    }
-  }
+  metrics: count: entity: 2
+  metrics: count: path: 2
+  metrics: count: method: 3
 
   entity: card: {
-    path: "/insights/cards": {
-      op: create: method: *POST
-      op: create: transform: req: "card": *("`reqdata`")|top
-    }
     path: "/payments/cards": {
       op: create: method: *POST
       op: create: transform: res: *("`body.expiry`")|top
@@ -36,163 +15,11 @@ guide: {
       op: load: method: *GET
       op: load: transform: res: *("`body.expiry`")|top
     }
-    path: "/payments/cards/{card_id}/simulate": {
-      action: "simulate": {}
-      rename: param: "card_id": *"id"
-      op: create: method: *POST
-      op: create: transform: res: *("`body.expiry`")|top
-    }
-  }
-
-  entity: card_art: {
-    path: "/payments/network-tokens/{network_token_id}/card-art": {
-      op: load: method: *GET
-    }
-  }
-
-  entity: client_side_token: {
-    path: "/client-side-tokens": {
-      op: create: method: *POST
-    }
-  }
-
-  entity: core: {
-    path: "/decrypt": {
-      op: create: method: *POST
-    }
-    path: "/encrypt": {
-      op: create: method: *POST
-    }
-    path: "/inspect": {
-      op: create: method: *POST
-      op: create: transform: res: *("`body.metadata`")|top
-    }
-    path: "/relays": {
-      op: create: method: *POST
-      op: list: method: *GET
-      op: list: transform: res: *("`body.data`")|top
-    }
-    path: "/relays/{id}": {
-      op: remove: method: *DELETE
-    }
-    path: "/relays/{relay_id}/custom-domains": {
-      op: list: method: *GET
-      op: list: transform: res: *("`body.data`")|top
-    }
-    path: "/relays/{relay_id}/custom-domains/{id}": {
-      op: remove: method: *DELETE
-    }
-  }
-
-  entity: custom_domain: {
-    path: "/relays/{relay_id}/custom-domains": {
-      op: create: method: *POST
-    }
-    path: "/relays/{relay_id}/custom-domains/{id}": {
-      op: load: method: *GET
-    }
-  }
-
-  entity: function_run: {
-    path: "/functions/{function_name}/runs": {
-      op: create: method: *POST
-    }
-  }
-
-  entity: merchant: {
-    path: "/payments/merchants": {
-      op: create: method: *POST
-    }
-    path: "/payments/merchants/{merchant_id}": {
-      rename: param: "merchant_id": *"id"
-      op: load: method: *GET
-      op: patch: method: *PATCH
-    }
-  }
-
-  entity: network_token: {
-    path: "/payments/network-tokens": {
-      op: create: method: *POST
-    }
-    path: "/payments/network-tokens/{network_token_id}": {
-      rename: param: "network_token_id": *"id"
-      op: load: method: *GET
-    }
-    path: "/payments/network-tokens/{network_token_id}/simulate": {
-      action: "simulate": {}
-      rename: param: "network_token_id": *"id"
-      op: create: method: *POST
-    }
-  }
-
-  entity: network_token_cryptogram: {
-    path: "/payments/network-tokens/{network_token_id}/cryptograms": {
-      rename: param: "network_token_id": *"id"
-      op: create: method: *POST
-    }
   }
 
   entity: payment: {
-    path: "/payments/3ds-sessions/{3ds_session_id}/messages": {
-      op: list: method: *GET
-      op: list: transform: res: *("`body.messages`")|top
-    }
-    path: "/payments/acquirers": {
-      action: "acquirer": {}
-      op: list: method: *GET
-      op: list: transform: res: *("`body.data`")|top
-    }
-    path: "/payments/acquirers/{acquirer_id}": {
-      op: remove: method: *DELETE
-    }
     path: "/payments/cards/{card_id}": {
       op: remove: method: *DELETE
-    }
-    path: "/payments/merchants": {
-      action: "merchant": {}
-      op: list: method: *GET
-      op: list: transform: res: *("`body.data`")|top
-    }
-    path: "/payments/merchants/{merchant_id}": {
-      op: remove: method: *DELETE
-    }
-    path: "/payments/network-tokens/{network_token_id}": {
-      op: remove: method: *DELETE
-    }
-  }
-
-  entity: relay: {
-    path: "/relays/{id}": {
-      op: load: method: *GET
-      op: patch: method: *PATCH
-    }
-  }
-
-  entity: three_ds_session: {
-    path: "/payments/3ds-sessions": {
-      op: create: method: *POST
-    }
-    path: "/payments/3ds-sessions/{3ds_session_id}": {
-      op: load: method: *GET
-    }
-  }
-
-  entity: webhook: {
-    path: "/webhook-endpoints": {
-      op: create: method: *POST
-      op: list: method: *GET
-      op: list: transform: res: *("`body.data`")|top
-    }
-    path: "/webhook-endpoints/{webhook_endpoint_id}": {
-      op: remove: method: *DELETE
-    }
-  }
-
-  entity: webhook_endpoint: {
-    path: "/webhook-endpoints/{webhook_endpoint_id}": {
-      rename: param: "webhook_endpoint_id": *"id"
-      op: load: method: *GET
-      op: patch: method: *PATCH
     }
   }
 

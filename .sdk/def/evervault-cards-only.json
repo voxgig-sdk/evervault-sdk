@@ -1,0 +1,496 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Evervault API",
+    "version": "0.0.1",
+    "description": "The Evervault API allows developers to interact programmatically with their Evervault apps using HTTP requests.",
+    "contact": {
+      "email": "support@evervault.com",
+      "name": "Evervault Support Team",
+      "url": "https://evervault.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.evervault.com",
+      "description": "The Evervault API server"
+    }
+  ],
+  "paths": {
+    "/payments/cards": {
+      "post": {
+        "summary": "Register a Card",
+        "description": "When registering a card, you can provide either an Evervault encrypted card number or a plaintext card number. If you provide a plaintext card number it will be encrypted and the encrypted value will be returned in the response.\n\nCard registration is idempotent on card number. Registering the same card number a second time returns the existing Card object, rather than creating a new one. This means you can use the Card object `id` as a unique identifier. If you register an existing card number but with a different expiry date, the existing Card object is updated with the new date, and Evervault returns a `200 OK` response. A `201 Created` response indicates that a new Card object was created.\n",
+        "operationId": "registerCard",
+        "tags": [
+          "Payments",
+          "Card Account Updates"
+        ],
+        "security": [
+          {
+            "ApiKey": [
+              "card:create"
+            ]
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "number": {
+                    "type": "string",
+                    "description": "The card number. This should be a valid Evervault encrypted card number or a valid plaintext card number.",
+                    "example": "4242424242424242"
+                  },
+                  "expiry": {
+                    "$ref": "#/components/schemas/CardExpiry"
+                  }
+                },
+                "required": [
+                  "number",
+                  "expiry"
+                ]
+              },
+              "examples": {
+                "EvervaultEncryptedExample": {
+                  "value": {
+                    "number": "ev:debug:Tk9D:number:nTepvAI585M7lUVp:AkJ6Brzat0E7ui8DSKCSXO7AopU/+GFuBekQ6cGx7eTl:sfihK53itmHp+URxomnTITUpwQwM5nnRrnQ0qdIOUlA=:$",
+                    "expiry": {
+                      "month": "09",
+                      "year": "26"
+                    }
+                  }
+                },
+                "PlaintextCardExample": {
+                  "value": {
+                    "number": "4242424242424242",
+                    "expiry": {
+                      "month": "09",
+                      "year": "26"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns an existing Card object. If the card number is already registered but with a different expiry date, the date is updated to the value in the request before the Card object is returned.",
+            "x-content": "Returns the [Card object](#the-card-object) that was created.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Card"
+                },
+                "examples": {
+                  "SuccessfulCreation": {
+                    "summary": "Card successfully created",
+                    "value": {
+                      "id": "card_eead1d640d7c",
+                      "number": "ev:debug:Tk9D:number:nTepvAI585M7lUVp:AkJ6Brzat0E7ui8DSKCSXO7AopU/+GFuBekQ6cGx7eTl:sfihK53itmHp+URxomnTITUpwQwM5nnRrnQ0qdIOUlA=:$",
+                      "expiry": {
+                        "month": "09",
+                        "year": "26"
+                      },
+                      "bin": "424242",
+                      "lastFour": "4242",
+                      "brand": "visa",
+                      "funding": "credit",
+                      "segment": "consumer",
+                      "country": "gb",
+                      "currency": "gbp",
+                      "issuer": "Gringotts Wizarding Bank and Trust Company",
+                      "status": "active",
+                      "replacement": null,
+                      "automaticUpdates": "enabled",
+                      "createdAt": 169297262323,
+                      "updatedAt": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Returns a new Card object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Card"
+                },
+                "examples": {
+                  "SuccessfulCreation": {
+                    "summary": "Card successfully created",
+                    "value": {
+                      "id": "card_eead1d640d7c",
+                      "number": "ev:debug:Tk9D:number:nTepvAI585M7lUVp:AkJ6Brzat0E7ui8DSKCSXO7AopU/+GFuBekQ6cGx7eTl:sfihK53itmHp+URxomnTITUpwQwM5nnRrnQ0qdIOUlA=:$",
+                      "expiry": {
+                        "month": "09",
+                        "year": "26"
+                      },
+                      "bin": "424242",
+                      "lastFour": "4242",
+                      "brand": "visa",
+                      "funding": "credit",
+                      "segment": "consumer",
+                      "country": "gb",
+                      "currency": "gbp",
+                      "issuer": "Gringotts Wizarding Bank and Trust Company",
+                      "status": "active",
+                      "replacement": null,
+                      "automaticUpdates": "enabled",
+                      "createdAt": 169297262323,
+                      "updatedAt": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/payments/cards/{card_id}": {
+      "get": {
+        "summary": "Retrieve a Card",
+        "description": "Retrieves a Card by its unique identifier.\n",
+        "operationId": "getCard",
+        "tags": [
+          "Payments",
+          "Card Account Updates"
+        ],
+        "security": [
+          {
+            "ApiKey": [
+              "card:read"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "card_id",
+            "in": "path",
+            "description": "The unique identifier of the Card.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns an existing Card object.",
+            "x-content": "Returns the [Card object](#the-card-object).\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Card"
+                },
+                "examples": {
+                  "SuccessfulCreation": {
+                    "summary": "Card successfully created",
+                    "value": {
+                      "id": "card_eead1d640d7c",
+                      "number": "ev:debug:Tk9D:number:nTepvAI585M7lUVp:AkJ6Brzat0E7ui8DSKCSXO7AopU/+GFuBekQ6cGx7eTl:sfihK53itmHp+URxomnTITUpwQwM5nnRrnQ0qdIOUlA=:$",
+                      "expiry": {
+                        "month": "09",
+                        "year": "26"
+                      },
+                      "bin": "424242",
+                      "lastFour": "4242",
+                      "brand": "visa",
+                      "funding": "credit",
+                      "segment": "consumer",
+                      "country": "gb",
+                      "currency": "gbp",
+                      "issuer": "Gringotts Wizarding Bank and Trust Company",
+                      "status": "active",
+                      "replacement": null,
+                      "automaticUpdates": "enabled",
+                      "createdAt": 169297262323,
+                      "updatedAt": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a Card",
+        "description": "Deletes a Card by its unique identifier.\n",
+        "operationId": "deleteCard",
+        "tags": [
+          "Payments",
+          "Card Account Updates"
+        ],
+        "security": [
+          {
+            "ApiKey": [
+              "card:delete"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "card_id",
+            "in": "path",
+            "description": "The unique identifier of the Card.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deletes a Card object.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "SuccessfulDeletion": {
+                    "summary": "Card successfully deleted",
+                    "value": {}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CardSegment": {
+        "type": "string",
+        "enum": [
+          "consumer",
+          "commercial",
+          "business",
+          "government",
+          "payouts",
+          "all"
+        ],
+        "x-enum-description": {
+          "consumer": "Personal use cards",
+          "commercial": "Cards used by large organizations or corporations",
+          "business": "Small to medium-sized business use",
+          "government": "Cards used by government entities",
+          "payouts": "Cards designed to disburse payments like payroll or cashback",
+          "all": "General-purpose cards not confined to a specific segment"
+        },
+        "description": "The card segment indicates the primary market or usage category of the\ncard.\n",
+        "example": "consumer"
+      },
+      "Card": {
+        "x-section": "Payments",
+        "x-group": "Cards",
+        "type": "object",
+        "summary": "The Card Object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier for the card.",
+            "example": "card_eead1d640d7c"
+          },
+          "number": {
+            "type": "string",
+            "description": "The Evervault encrypted card number. This can be decrypted using Relay decryption or using a function.",
+            "example": "ev:"
+          },
+          "expiry": {
+            "$ref": "#/components/schemas/CardExpiry",
+            "description": "The expiry date of the card."
+          },
+          "bin": {
+            "type": "string",
+            "description": "The first 6 or 8 digits of the card number.",
+            "example": "424242"
+          },
+          "lastFour": {
+            "type": "string",
+            "description": "The last 4 digits of the card number.",
+            "example": "4242"
+          },
+          "brand": {
+            "$ref": "#/components/schemas/CardBrand"
+          },
+          "funding": {
+            "$ref": "#/components/schemas/CardFunding"
+          },
+          "segment": {
+            "$ref": "#/components/schemas/CardSegment"
+          },
+          "country": {
+            "type": "string",
+            "format": "iso-3166-1-alpha-2",
+            "description": "The country where the card was issued.",
+            "example": "gb"
+          },
+          "currency": {
+            "type": "string",
+            "format": "iso-4217-alphabetic",
+            "description": "The currency of the card.",
+            "example": "gbp"
+          },
+          "issuer": {
+            "type": "string",
+            "description": "The name of the card issuer.",
+            "example": "Gringotts Wizarding Bank and Trust Company"
+          },
+          "status": {
+            "type": "string",
+            "description": "The current status of the card.",
+            "enum": [
+              "active",
+              "replaced",
+              "closed",
+              "invalid"
+            ],
+            "x-enum-description": {
+              "active": "The card is active and can be used for transactions.",
+              "replaced": "The card has been replaced by another card (e.g. expired, lost or stolen).",
+              "closed": "The card account has been closed and can no longer be used for transactions.",
+              "invalid": "The card is invalid and cannot be used for transactions or updated."
+            },
+            "example": "active"
+          },
+          "replacement": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The ID of the replacement card. This field is only present if the card has been replaced.",
+            "example": "card_eead1d640d7c"
+          },
+          "automaticUpdates": {
+            "type": "string",
+            "description": "The status of Card Account Updater on this card. Evervault currently supports Card Account Updates for Visa, Mastercard and American Express cards.\n",
+            "enum": [
+              "enabled",
+              "issuer-not-enrolled",
+              "disabled"
+            ]
+          },
+          "createdAt": {
+            "type": "integer",
+            "description": "The Unix timestamp of when the card was created.",
+            "example": 1692972623233
+          },
+          "updatedAt": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "The Unix timestamp of when the card was last updated.",
+            "example": 1692972623768
+          }
+        },
+        "required": [
+          "number",
+          "bin",
+          "lastFour",
+          "createdAt"
+        ],
+        "example": {
+          "id": "card_eead1d640d7c",
+          "number": "ev:debug:Tk9D:number:nTepvAI585M7lUVp:AkJ6Brzat0E7ui8DSKCSXO7AopU/+GFuBekQ6cGx7eTl:sfihK53itmHp+URxomnTITUpwQwM5nnRrnQ0qdIOUlA=:$",
+          "expiry": {
+            "month": "9",
+            "year": "26"
+          },
+          "bin": "424242",
+          "lastFour": "4242",
+          "brand": "visa",
+          "funding": "credit",
+          "segment": "consumer",
+          "country": "gb",
+          "currency": "gbp",
+          "issuer": "Gringotts Wizarding Bank and Trust Company",
+          "status": "active",
+          "replacement": null,
+          "automaticUpdates": "enabled",
+          "createdAt": 169297262323,
+          "updatedAt": null
+        }
+      },
+      "CardBrand": {
+        "type": "string",
+        "enum": [
+          "visa",
+          "mastercard",
+          "american-express",
+          "discover",
+          "diners-club",
+          "jcb",
+          "unionpay"
+        ],
+        "description": "The card brand associated with the payment card.",
+        "example": "visa"
+      },
+      "CardFunding": {
+        "type": "string",
+        "enum": [
+          "debit",
+          "credit",
+          "prepaid",
+          "deferred-debit",
+          "charge"
+        ],
+        "x-enum-description": {
+          "debit": "Draw funds directly from a linked bank account",
+          "credit": "Provide a line of credit from which users can borrow funds for transactions",
+          "prepaid": "Loaded with a set amount of funds in advance and can be used until the balance is depleted",
+          "deferred-debit": "Combine aspects of debit and credit cards, allowing transactions to be debited from a linked account at a later date, usually monthly",
+          "charge": "Require full payment of the balance at the end of each billing cycle, but do not have a pre-set spending limit"
+        },
+        "description": "The card funding type specifies the method by which transactions are\nfinanced.\n",
+        "example": "debit"
+      },
+      "CardExpiry": {
+        "type": "object",
+        "properties": {
+          "month": {
+            "type": "string",
+            "description": "The card expiry month, in MM format (e.g. 12 for December)",
+            "example": "09"
+          },
+          "year": {
+            "type": "string",
+            "description": "The card expiry year, in YY format (e.g. 26 for 2026)",
+            "example": "26"
+          }
+        },
+        "required": [
+          "month",
+          "year"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "ApiKey": {
+        "type": "http",
+        "scheme": "basic",
+        "description": "Authentication using an API key. The username is the App ID and the password is the Api Key."
+      },
+      "TokenAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "RunToken",
+        "description": "Authentication using a short lived run token that you can share with clients. The Authorization header must be formatted as follow: \"RunToken <Function Run Token>\""
+      },
+      "ClientSideToken": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "Token",
+        "description": "Authentication using a short lived token that you can share with clients. The Authorization header must be formatted as follow: \"Token <Client-Side Token>\""
+      }
+    }
+  }
+}

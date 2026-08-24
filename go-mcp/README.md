@@ -27,11 +27,11 @@ Tool-call arguments (what an agent sends):
 
 ```jsonc
 // evervault_list: first page of records
-{ "entity": "core" }
-{ "entity": "core", "query": { } }
+{ "entity": "card" }
+{ "entity": "card", "query": { } }
 
 // evervault_load: one record by id
-{ "entity": "acquirer", "query": { "id": 1 } }
+{ "entity": "card", "query": { "id": 1 } }
 ```
 
 > The rest of this guide follows the [Diátaxis](https://diataxis.fr) framework:
@@ -60,8 +60,8 @@ Tool-call arguments (what an agent sends):
    ```
 
 4. **Restart Claude Code.** The `evervault_list` and `evervault_load` tools now appear
-   in new sessions. Ask the agent to *"list core using evervault"*
-   and it calls `evervault_list` with `{"entity":"core"}`.
+   in new sessions. Ask the agent to *"list card using evervault"*
+   and it calls `evervault_list` with `{"entity":"card"}`.
 
 ## How-to guides
 
@@ -92,7 +92,7 @@ Args: `entity` (required), `query` (optional filter map). Returns the first
 page of records as JSON:
 
 ```jsonc
-{ "entity": "core" }
+{ "entity": "card" }
 ```
 
 ### Call the `evervault_load` tool
@@ -101,7 +101,7 @@ Args: `entity` (required), `query` = `{"id":N}` (required). Returns the single
 record as JSON:
 
 ```jsonc
-{ "entity": "acquirer", "query": { "id": 1 } }
+{ "entity": "card", "query": { "id": 1 } }
 ```
 
 ### Cross-compile release binaries
@@ -129,7 +129,7 @@ Both tools take the same argument object:
 
 | Field | Type | Notes |
 |-------|------|-------|
-| `entity` | string | One of the 16 supported entities (see below). |
+| `entity` | string | One of the 2 supported entities (see below). |
 | `query` | object | Optional match map. `{"id":N}` for load; omit or `{}` for list. |
 
 JSON schemas are emitted by the SDK from the `Args` struct's `json` /
@@ -151,9 +151,9 @@ JSON schemas are emitted by the SDK from the `Args` struct's `json` /
 
 ### Entities
 
-The 16 entities valid as the `entity` argument:
+The 2 entities valid as the `entity` argument:
 
-acquirer | bin_lookup | card | card_art | client_side_token | core | custom_domain | function_run | merchant | network_token | network_token_cryptogram | payment | relay | three_ds_session | webhook | webhook_endpoint
+card | payment
 
 ### Smoke test via HTTP (raw JSON-RPC)
 
@@ -173,7 +173,7 @@ curl -sN -X POST http://localhost:18080 \
   -H 'Content-Type: application/json' \
   -H 'Accept: application/json, text/event-stream' \
   -H "Mcp-Session-Id: $SESSION" \
-  -d '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"evervault_load","arguments":{"entity":"acquirer","query":{"id":1}}}}'
+  -d '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"evervault_load","arguments":{"entity":"card","query":{"id":1}}}}'
 ```
 
 ## Explanation

@@ -1,18 +1,4 @@
 # Flows
 
-@"BasicAcquirerFlow.aon"
-@"BasicBinLookupFlow.aon"
-@"BasicCardArtFlow.aon"
 @"BasicCardFlow.aon"
-@"BasicClientSideTokenFlow.aon"
-@"BasicCoreFlow.aon"
-@"BasicCustomDomainFlow.aon"
-@"BasicFunctionRunFlow.aon"
-@"BasicMerchantFlow.aon"
-@"BasicNetworkTokenCryptogramFlow.aon"
-@"BasicNetworkTokenFlow.aon"
 @"BasicPaymentFlow.aon"
-@"BasicRelayFlow.aon"
-@"BasicThreeDsSessionFlow.aon"
-@"BasicWebhookEndpointFlow.aon"
-@"BasicWebhookFlow.aon"

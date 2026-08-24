@@ -70,7 +70,7 @@ const __1 = require("..");
 const SDK_NAME = 'EvervaultSDK';
 // A fixture for every entity, so list()/load() resolve offline with no
 // network. Snippet client construction is rewritten to seed this.
-const TEST_SEED = { "entity": { "acquirer": { "test01": { "id": "test01" } }, "bin_lookup": { "test01": { "id": "test01" } }, "card": { "test01": { "id": "test01" } }, "card_art": { "test01": { "id": "test01" } }, "client_side_token": { "test01": { "id": "test01" } }, "core": { "test01": { "id": "test01" } }, "custom_domain": { "test01": { "id": "test01" } }, "function_run": { "test01": { "id": "test01" } }, "merchant": { "test01": { "id": "test01" } }, "network_token": { "test01": { "id": "test01" } }, "network_token_cryptogram": { "test01": { "id": "test01" } }, "payment": { "test01": { "id": "test01" } }, "relay": { "test01": { "id": "test01" } }, "three_ds_session": { "test01": { "id": "test01" } }, "webhook": { "test01": { "id": "test01" } }, "webhook_endpoint": { "test01": { "id": "test01" } } } };
+const TEST_SEED = { "entity": { "card": { "test01": { "id": "test01" } }, "payment": { "test01": { "id": "test01" } } } };
 const SEED_ARG = JSON.stringify(TEST_SEED);
 const SEEDED_CTOR = SDK_NAME + '.test(' + SEED_ARG + ')';
 // The three docs this gate covers, resolved relative to dist-test/.

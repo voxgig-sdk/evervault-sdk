@@ -19,16 +19,15 @@ make build
 export EVERVAULT_APIKEY=sk_live_xxx
 
 # 4. Each command line is ONE boru expression, run against the API:
-./evervault-cli load 1 acquirer            # {id:1} shorthand
-./evervault-cli load '{id:1}' acquirer       # explicit match map
-./evervault-cli update '{name:"x"}' acquirer
+./evervault-cli load 1 card            # {id:1} shorthand
+./evervault-cli load '{id:1}' card       # explicit match map
 
 # 5. Override the API base URL for a single call
-EVERVAULT_BASE=https://api.example.com ./evervault-cli load 1 acquirer
+EVERVAULT_BASE=https://api.example.com ./evervault-cli load 1 card
 
 # 6. No arguments -> interactive REPL
 ./evervault-cli
-evervault> load 1 acquirer
+evervault> load 1 card
 evervault> /quit
 ```
 
@@ -54,7 +53,7 @@ evervault> /quit
    arguments to open the REPL):
 
    ```sh
-   ./dist/*/evervault-cli load 1 acquirer
+   ./dist/*/evervault-cli load 1 card
    ```
 
 4. **Go interactive.** Run the binary with no arguments to open the REPL, then
@@ -67,21 +66,12 @@ That is the whole loop: *build → set key → evaluate boru expressions*.
 ### Load a single record
 
 ```sh
-./evervault-cli load 1 acquirer          # scalar shorthand for {id:1}
-./evervault-cli load '{id:1}' acquirer     # explicit match map
+./evervault-cli load 1 card          # scalar shorthand for {id:1}
+./evervault-cli load '{id:1}' card     # explicit match map
 ```
 
 The query is either a **scalar** (`1`, treated as `{id:1}`) or a **match map**
 (`{id:1}`, `{slug:"acme"}`). Quote the map so your shell passes it through intact.
-
-### Update a record
-
-```sh
-./evervault-cli update '{id:1,name:"new"}' acquirer
-```
-
-The match map carries both the selector and the new field values; the updated
-record is printed back.
 
 ### Authenticate and choose an environment
 
@@ -90,7 +80,7 @@ Configuration is read from the environment — nothing is written to disk:
 ```sh
 export EVERVAULT_APIKEY=sk_live_xxx            # API key
 export EVERVAULT_BASE=https://api.example.com  # optional: override the API base URL
-./evervault-cli load 1 acquirer
+./evervault-cli load 1 card
 ```
 
 Both are injectable by a secrets vault, so the key never has to be typed inline.
@@ -102,7 +92,7 @@ evaluated as its own boru expression:
 
 ```text
 $ ./evervault-cli
-evervault> load 1 acquirer
+evervault> load 1 card
 evervault> /help
 evervault> /quit
 ```
@@ -117,7 +107,7 @@ make build-all   # linux/darwin/windows x amd64/arm64, under dist/<os>-<arch>/
 ### Discover the available entities
 
 `/help` in the REPL prints the full entity list, or see [Entities](#entities)
-below — this SDK exposes 16 entities.
+below — this SDK exposes 2 entities.
 
 ## Reference
 
@@ -127,11 +117,9 @@ The CLI registers these boru words, each bound to the SDK:
 
 | Word     | Signatures                                    | Returns                        |
 |----------|-----------------------------------------------|--------------------------------|
-| `list`   | `list <entity>` · `list <query> <entity>`     | First page of records          |
 | `load`   | `load <entity>` · `load <query> <entity>`     | A single record                |
-| `update` | `update <query> <entity>`                     | Update a record, return it     |
 
-- `<entity>` is a bareword, auto-quoted as an boru atom (e.g. `acquirer`).
+- `<entity>` is a bareword, auto-quoted as an boru atom (e.g. `card`).
 - `<query>` is either a **Map** (`{id:1}`) or a **Scalar** (`1`, treated as
   `{id:1}`). A scalar is always wrapped as `{id:<value>}`.
 
@@ -172,9 +160,9 @@ Meta-commands use the `/` prefix (everything else on a line is evaluated as boru
 
 ### Entities
 
-The 16 entities this SDK exposes (any is valid as `<entity>`):
+The 2 entities this SDK exposes (any is valid as `<entity>`):
 
-acquirer bin_lookup card card_art client_side_token core custom_domain function_run merchant network_token network_token_cryptogram payment relay three_ds_session webhook webhook_endpoint
+card payment
 
 ## Explanation
 
