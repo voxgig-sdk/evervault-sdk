@@ -1,6 +1,15 @@
 {
+  "NAME": "EVERVAULT",
+  "Name": "Evervault",
   "def": "evervault-openapi.json",
   "main": {
+    "api": {
+      "entity": {},
+      "guide": {}
+    },
+    "custom": {
+      "plurals": {}
+    },
     "def": {
       "desc": ""
     },
@@ -4256,5 +4265,8 @@
     }
   },
   "name": "evervault",
+  "name-": "evervault",
+  "name_": "evervault",
+  "name__orig": "evervault",
   "origin": "voxgig-sdk"
 }
