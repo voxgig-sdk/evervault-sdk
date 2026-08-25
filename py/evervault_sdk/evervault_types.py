@@ -73,6 +73,7 @@ class CardRequired(TypedDict):
 class Card(CardRequired, total=False):
     cardholder: dict
     extensions: list
+    id: str
 
 
 class CardLoadMatch(TypedDict):
@@ -91,6 +92,7 @@ class CardCreateDataRequired(TypedDict):
 class CardCreateData(CardCreateDataRequired, total=False):
     cardholder: dict
     extensions: list
+    id: str
 
 
 class CardArt(TypedDict):

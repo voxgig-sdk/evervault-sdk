@@ -39,11 +39,16 @@ class CardEntityTest < Minitest::Test
     card_ref01_data_result = card_ref01_ent.create(card_ref01_data, nil)
     card_ref01_data = Helpers.to_map(card_ref01_data_result.respond_to?(:data_get) ? card_ref01_data_result.data_get : card_ref01_data_result)
     assert !card_ref01_data.nil?
+    assert !card_ref01_data["id"].nil?
 
     # LOAD
-    card_ref01_match_dt0 = {}
+    card_ref01_match_dt0 = {
+      "id" => card_ref01_data["id"],
+    }
     card_ref01_data_dt0_loaded = card_ref01_ent.load(card_ref01_match_dt0, nil)
-    assert !card_ref01_data_dt0_loaded.nil?
+    card_ref01_data_dt0_load_result = Helpers.to_map(card_ref01_data_dt0_loaded.respond_to?(:data_get) ? card_ref01_data_dt0_loaded.data_get : card_ref01_data_dt0_loaded)
+    assert !card_ref01_data_dt0_load_result.nil?
+    assert_equal card_ref01_data_dt0_load_result["id"], card_ref01_data["id"]
 
   end
 end

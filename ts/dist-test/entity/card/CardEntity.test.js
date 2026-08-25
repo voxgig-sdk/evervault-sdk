@@ -75,7 +75,12 @@ const utility_1 = require("../../utility");
         const card_ref01_ent = client.Card();
         let card_ref01_data = setup.data.new.card['card_ref01'];
         card_ref01_data = (await card_ref01_ent.create(card_ref01_data)).data();
-        (0, node_assert_1.default)(null != card_ref01_data);
+        (0, node_assert_1.default)(null != card_ref01_data.id);
+        // LOAD
+        const card_ref01_match_dt0 = {};
+        card_ref01_match_dt0.id = card_ref01_data.id;
+        const card_ref01_data_dt0 = (await card_ref01_ent.load(card_ref01_match_dt0)).data();
+        (0, node_assert_1.default)(card_ref01_data_dt0.id === card_ref01_data.id);
     });
 });
 function basicSetup(extra) {

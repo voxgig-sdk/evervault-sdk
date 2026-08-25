@@ -340,6 +340,10 @@ class Config {
           "type": "`$ARRAY`"
         },
         {
+          "name": "id",
+          "type": "`$STRING`"
+        },
+        {
           "name": "month",
           "req": true,
           "short": "The card expiry month, in MM format (e.g.",

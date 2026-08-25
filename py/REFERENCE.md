@@ -295,6 +295,7 @@ card = client.Card()
 | `cardholder` | `dict` | No | Details about the cardholder that the name verification (ANI) is for. |
 | `expiry` | `dict` | Yes |  |
 | `extensions` | `list` | No | The extensions to the card insight request. |
+| `id` | `str` | No |  |
 | `month` | `str` | Yes | The card expiry month, in MM format (e.g. |
 | `number` | `str` | Yes | The card number. |
 | `year` | `str` | Yes | The card expiry year, in YY format (e.g. |

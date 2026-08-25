@@ -35,6 +35,11 @@ main: kit: entity: card: {
       type: "`$ARRAY`"
     }
     {
+      name: "id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
       name: "month"
       req: true
       short: "The card expiry month, in MM format (e.g."
@@ -53,6 +58,11 @@ main: kit: entity: card: {
       type: "`$STRING`"
     }
   ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
 
   name: "card"
   op: {

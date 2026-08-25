@@ -68,6 +68,7 @@ class Card
     public ?array $cardholder = null;
     public array $expiry;
     public ?array $extensions = null;
+    public ?string $id = null;
     public string $month;
     public string $number;
     public string $year;
@@ -87,6 +88,7 @@ class CardCreateData
     public ?array $cardholder = null;
     public array $expiry;
     public ?array $extensions = null;
+    public ?string $id = null;
     public string $month;
     public string $number;
     public string $year;

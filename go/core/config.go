@@ -278,6 +278,10 @@ func MakeConfig() map[string]any {
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
+						"name": "id",
+						"type": "`$STRING`",
+					},
+					map[string]any{
 						"name": "month",
 						"req": true,
 						"short": "The card expiry month, in MM format (e.g.",

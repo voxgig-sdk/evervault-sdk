@@ -365,6 +365,7 @@ API path: `/payments/bin-lookups`
 | `cardholder` | Details about the cardholder that the name verification (ANI) is for. |
 | `expiry` |  |
 | `extensions` | The extensions to the card insight request. |
+| `id` |  |
 | `month` | The card expiry month, in MM format (e.g. |
 | `number` | The card number. |
 | `year` | The card expiry year, in YY format (e.g. |
@@ -700,6 +701,7 @@ Create an instance: `const card = client.Card()`
 | `cardholder` | `Record<string, any>` | Details about the cardholder that the name verification (ANI) is for. |
 | `expiry` | `Record<string, any>` |  |
 | `extensions` | `any[]` | The extensions to the card insight request. |
+| `id` | `string` |  |
 | `month` | `string` | The card expiry month, in MM format (e.g. |
 | `number` | `string` | The card number. |
 | `year` | `string` | The card expiry year, in YY format (e.g. |

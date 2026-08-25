@@ -34,6 +34,7 @@ export interface Card {
     cardholder?: Record<string, any>;
     expiry: Record<string, any>;
     extensions?: any[];
+    id?: string;
     month: string;
     number: string;
     year: string;
@@ -47,6 +48,7 @@ export interface CardCreateData {
     cardholder?: Record<string, any>;
     expiry: Record<string, any>;
     extensions?: any[];
+    id?: string;
     month: string;
     number: string;
     year: string;

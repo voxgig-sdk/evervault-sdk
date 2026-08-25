@@ -127,6 +127,9 @@ BinLookupCreateData = Struct.new(
 # @!attribute [rw] extensions
 #   @return [Array, nil]
 #
+# @!attribute [rw] id
+#   @return [String, nil]
+#
 # @!attribute [rw] month
 #   @return [String]
 #
@@ -141,6 +144,7 @@ Card = Struct.new(
   :cardholder,
   :expiry,
   :extensions,
+  :id,
   :month,
   :number,
   :year,
@@ -173,6 +177,9 @@ CardLoadMatch = Struct.new(
 # @!attribute [rw] extensions
 #   @return [Array, nil]
 #
+# @!attribute [rw] id
+#   @return [String, nil]
+#
 # @!attribute [rw] month
 #   @return [String]
 #
@@ -187,6 +194,7 @@ CardCreateData = Struct.new(
   :cardholder,
   :expiry,
   :extensions,
+  :id,
   :month,
   :number,
   :year,

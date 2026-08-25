@@ -213,6 +213,11 @@ declare class Config {
                 req: boolean;
                 type: string;
                 short?: undefined;
+            } | {
+                name: string;
+                type: string;
+                req?: undefined;
+                short?: undefined;
             })[];
             name: string;
             op: {

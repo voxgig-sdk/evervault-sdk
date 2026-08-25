@@ -302,6 +302,7 @@ $card = $client->Card();
 | `cardholder` | `array` | No | Details about the cardholder that the name verification (ANI) is for. |
 | `expiry` | `array` | Yes |  |
 | `extensions` | `array` | No | The extensions to the card insight request. |
+| `id` | `string` | No |  |
 | `month` | `string` | Yes | The card expiry month, in MM format (e.g. |
 | `number` | `string` | Yes | The card number. |
 | `year` | `string` | Yes | The card expiry year, in YY format (e.g. |

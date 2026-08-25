@@ -42,6 +42,7 @@
 ---@field cardholder? table
 ---@field expiry table
 ---@field extensions? table
+---@field id? string
 ---@field month string
 ---@field number string
 ---@field year string
@@ -55,6 +56,7 @@
 ---@field cardholder? table
 ---@field expiry table
 ---@field extensions? table
+---@field id? string
 ---@field month string
 ---@field number string
 ---@field year string

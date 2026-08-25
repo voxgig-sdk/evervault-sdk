@@ -295,6 +295,10 @@ def make_config():
             "type": "`$ARRAY`",
           },
           {
+            "name": "id",
+            "type": "`$STRING`",
+          },
+          {
             "name": "month",
             "req": True,
             "short": "The card expiry month, in MM format (e.g.",

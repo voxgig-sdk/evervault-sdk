@@ -61,6 +61,7 @@ type Card struct {
 	Cardholder *map[string]any `json:"cardholder,omitempty"`
 	Expiry map[string]any `json:"expiry"`
 	Extensions *[]any `json:"extensions,omitempty"`
+	Id *string `json:"id,omitempty"`
 	Month string `json:"month"`
 	Number string `json:"number"`
 	Year string `json:"year"`
@@ -78,6 +79,7 @@ type CardCreateData struct {
 	Cardholder *map[string]any `json:"cardholder,omitempty"`
 	Expiry map[string]any `json:"expiry"`
 	Extensions *[]any `json:"extensions,omitempty"`
+	Id *string `json:"id,omitempty"`
 	Month string `json:"month"`
 	Number string `json:"number"`
 	Year string `json:"year"`

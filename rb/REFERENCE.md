@@ -303,6 +303,7 @@ card = client.Card
 | `cardholder` | `Hash` | No | Details about the cardholder that the name verification (ANI) is for. |
 | `expiry` | `Hash` | Yes |  |
 | `extensions` | `Array` | No | The extensions to the card insight request. |
+| `id` | `String` | No |  |
 | `month` | `String` | Yes | The card expiry month, in MM format (e.g. |
 | `number` | `String` | Yes | The card number. |
 | `year` | `String` | Yes | The card expiry year, in YY format (e.g. |
