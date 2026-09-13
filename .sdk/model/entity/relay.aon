@@ -24,6 +24,7 @@ main: kit: entity: relay: {
       ]
     }
     {
+      format: "int64"
       name: "createdAt"
       req: false
       short: "The exact time, in epoch milliseconds, when this Relay was created."
@@ -60,6 +61,7 @@ main: kit: entity: relay: {
       type: "`$ARRAY`"
     }
     {
+      format: "int64"
       name: "updatedAt"
       req: false
       short: "The exact time, in epoch milliseconds, when this Relay was updated."
@@ -91,9 +93,13 @@ main: kit: entity: relay: {
           }
           method: "GET"
           orig: "/relays/{id}"
-          parts: [
-            "relays"
-            "{id}"
+          segments: [
+            {
+              lit: "relays"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [
@@ -124,9 +130,13 @@ main: kit: entity: relay: {
           }
           method: "PATCH"
           orig: "/relays/{id}"
-          parts: [
-            "relays"
-            "{id}"
+          segments: [
+            {
+              lit: "relays"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [

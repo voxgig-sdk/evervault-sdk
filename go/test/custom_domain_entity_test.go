@@ -52,7 +52,7 @@ func TestCustomDomainEntity(t *testing.T) {
 		// CREATE
 		customDomainRef01Ent := client.CustomDomain(nil)
 		customDomainRef01Data := core.ToMapAny(vs.GetProp(
-			vs.GetPath([]any{"new", "custom_domain"}, setup.data), "custom_domain_ref01"))
+			vs.GetPath(setup.data, []any{"new", "custom_domain"}), "custom_domain_ref01"))
 		customDomainRef01Data["relay_id"] = setup.idmap["relay01"]
 
 		customDomainRef01DataResult, err := customDomainRef01Ent.Create(customDomainRef01Data, nil)
@@ -110,7 +110,7 @@ func custom_domainBasicSetup(extra map[string]any) *entityTestSetup {
 	client := sdk.TestSDK(options, extra)
 
 	// Generate idmap via transform, matching TS pattern.
-	idmap := vs.Transform(
+	idmap, _ := vs.Transform(
 		[]any{"custom_domain01", "custom_domain02", "custom_domain03", "relay01", "relay02", "relay03"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
@@ -130,7 +130,7 @@ func custom_domainBasicSetup(extra map[string]any) *entityTestSetup {
 		"EVERVAULT_TEST_CUSTOM_DOMAIN_ENTID": idmap,
 		"EVERVAULT_TEST_LIVE":      "FALSE",
 		"EVERVAULT_TEST_EXPLAIN":   "FALSE",
-		"EVERVAULT_APIKEY":         "NONE",
+		"EVERVAULT_APIKEY":         "",
 	})
 
 	idmapResolved := core.ToMapAny(env["EVERVAULT_TEST_CUSTOM_DOMAIN_ENTID"])
@@ -139,11 +139,23 @@ func custom_domainBasicSetup(extra map[string]any) *entityTestSetup {
 	}
 
 	if env["EVERVAULT_TEST_LIVE"] == "TRUE" {
+		// An empty map, not a nil one: Merge returns nil when its last entry
+		// is nil, and BasicSetup is normally called with no extras - so a
+		// bare nil silently discarded the apikey and server values below.
+		extraOpts := extra
+		if extraOpts == nil {
+			extraOpts = map[string]any{}
+		}
+
 		mergedOpts := vs.Merge([]any{
+			// liveClientOptions() FIRST, so the generated fields below win:
+			// sdk-test-control.json's test.client.options adds to the live
+			// client, it does not redirect it.
+			liveClientOptions(),
 			map[string]any{
 				"apikey": env["EVERVAULT_APIKEY"],
 			},
-			extra,
+			extraOpts,
 		})
 		client = sdk.NewEvervaultSDK(core.ToMapAny(mergedOpts))
 	}

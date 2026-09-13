@@ -52,7 +52,7 @@ func TestCardEntity(t *testing.T) {
 		// CREATE
 		cardRef01Ent := client.Card(nil)
 		cardRef01Data := core.ToMapAny(vs.GetProp(
-			vs.GetPath([]any{"new", "card"}, setup.data), "card_ref01"))
+			vs.GetPath(setup.data, []any{"new", "card"}), "card_ref01"))
 
 		cardRef01DataResult, err := cardRef01Ent.Create(cardRef01Data, nil)
 		if err != nil {
@@ -109,7 +109,7 @@ func cardBasicSetup(extra map[string]any) *entityTestSetup {
 	client := sdk.TestSDK(options, extra)
 
 	// Generate idmap via transform, matching TS pattern.
-	idmap := vs.Transform(
+	idmap, _ := vs.Transform(
 		[]any{"card01", "card02", "card03"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
@@ -129,7 +129,7 @@ func cardBasicSetup(extra map[string]any) *entityTestSetup {
 		"EVERVAULT_TEST_CARD_ENTID": idmap,
 		"EVERVAULT_TEST_LIVE":      "FALSE",
 		"EVERVAULT_TEST_EXPLAIN":   "FALSE",
-		"EVERVAULT_APIKEY":         "NONE",
+		"EVERVAULT_APIKEY":         "",
 	})
 
 	idmapResolved := core.ToMapAny(env["EVERVAULT_TEST_CARD_ENTID"])
@@ -138,11 +138,23 @@ func cardBasicSetup(extra map[string]any) *entityTestSetup {
 	}
 
 	if env["EVERVAULT_TEST_LIVE"] == "TRUE" {
+		// An empty map, not a nil one: Merge returns nil when its last entry
+		// is nil, and BasicSetup is normally called with no extras - so a
+		// bare nil silently discarded the apikey and server values below.
+		extraOpts := extra
+		if extraOpts == nil {
+			extraOpts = map[string]any{}
+		}
+
 		mergedOpts := vs.Merge([]any{
+			// liveClientOptions() FIRST, so the generated fields below win:
+			// sdk-test-control.json's test.client.options adds to the live
+			// client, it does not redirect it.
+			liveClientOptions(),
 			map[string]any{
 				"apikey": env["EVERVAULT_APIKEY"],
 			},
-			extra,
+			extraOpts,
 		})
 		client = sdk.NewEvervaultSDK(core.ToMapAny(mergedOpts))
 	}

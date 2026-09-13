@@ -62,15 +62,17 @@ def webhook_direct_setup(mockres)
   env = Runner.env_override({
     "EVERVAULT_TEST_WEBHOOK_ENTID" => {},
     "EVERVAULT_TEST_LIVE" => "FALSE",
-    "EVERVAULT_APIKEY" => "NONE",
+    "EVERVAULT_APIKEY" => "",
   })
 
   live = env["EVERVAULT_TEST_LIVE"] == "TRUE"
 
   if live
-    merged_opts = {
+    # Merged so the generated fields win: sdk-test-control.json's
+    # test.client.options adds to the live client, it does not redirect it.
+    merged_opts = Runner.live_client_options.merge({
       "apikey" => env["EVERVAULT_APIKEY"],
-    }
+    })
     client = EvervaultSDK.new(merged_opts)
     return {
       client: client,

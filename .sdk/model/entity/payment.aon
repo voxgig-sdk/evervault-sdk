@@ -30,6 +30,7 @@ main: kit: entity: payment: {
       type: "`$ARRAY`"
     }
     {
+      format: "int64"
       name: "createdAt"
       req: true
       short: "The exact time, in epoch milliseconds, when this Merchant was created."
@@ -89,6 +90,7 @@ main: kit: entity: payment: {
       type: "`$STRING`"
     }
     {
+      format: "int64"
       name: "updatedAt"
       req: false
       short: "The exact time, in epoch milliseconds, when this Merchant was last updated."
@@ -142,9 +144,13 @@ main: kit: entity: payment: {
           }
           method: "GET"
           orig: "/payments/merchants"
-          parts: [
-            "payments"
-            "merchants"
+          segments: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "merchants"
+            }
           ]
           select: {
             "$action": "merchant"
@@ -182,9 +188,13 @@ main: kit: entity: payment: {
           }
           method: "GET"
           orig: "/payments/acquirers"
-          parts: [
-            "payments"
-            "acquirers"
+          segments: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "acquirers"
+            }
           ]
           select: {
             "$action": "acquirer"
@@ -212,11 +222,19 @@ main: kit: entity: payment: {
           }
           method: "GET"
           orig: "/payments/3ds-sessions/{3ds_session_id}/messages"
-          parts: [
-            "payments"
-            "3ds-sessions"
-            "{3ds_session_id}"
-            "messages"
+          segments: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "3ds-sessions"
+            }
+            {
+              var: "3ds_session_id"
+            }
+            {
+              lit: "messages"
+            }
           ]
           select: {
             exist: [
@@ -247,10 +265,16 @@ main: kit: entity: payment: {
           }
           method: "DELETE"
           orig: "/payments/acquirers/{acquirer_id}"
-          parts: [
-            "payments"
-            "acquirers"
-            "{acquirer_id}"
+          segments: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "acquirers"
+            }
+            {
+              var: "acquirer_id"
+            }
           ]
           select: {
             exist: [
@@ -276,10 +300,16 @@ main: kit: entity: payment: {
           }
           method: "DELETE"
           orig: "/payments/cards/{card_id}"
-          parts: [
-            "payments"
-            "cards"
-            "{card_id}"
+          segments: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "cards"
+            }
+            {
+              var: "card_id"
+            }
           ]
           select: {
             exist: [
@@ -305,10 +335,16 @@ main: kit: entity: payment: {
           }
           method: "DELETE"
           orig: "/payments/merchants/{merchant_id}"
-          parts: [
-            "payments"
-            "merchants"
-            "{merchant_id}"
+          segments: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "merchants"
+            }
+            {
+              var: "merchant_id"
+            }
           ]
           select: {
             exist: [
@@ -334,10 +370,16 @@ main: kit: entity: payment: {
           }
           method: "DELETE"
           orig: "/payments/network-tokens/{network_token_id}"
-          parts: [
-            "payments"
-            "network-tokens"
-            "{network_token_id}"
+          segments: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "network-tokens"
+            }
+            {
+              var: "network_token_id"
+            }
           ]
           select: {
             exist: [

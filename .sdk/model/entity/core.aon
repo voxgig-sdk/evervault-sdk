@@ -24,6 +24,7 @@ main: kit: entity: core: {
       ]
     }
     {
+      format: "int64"
       name: "createdAt"
       req: false
       short: "The exact time, in epoch milliseconds, when this custom domain was created."
@@ -101,12 +102,14 @@ main: kit: entity: core: {
       type: "`$STRING`"
     }
     {
+      format: "int64"
       name: "updatedAt"
       req: false
       short: "The exact time, in epoch milliseconds, when this custom domain was last updated."
       type: "`$INTEGER`"
     }
     {
+      format: "uuidv4"
       name: "validationRecord"
       req: false
       short: "Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain"
@@ -127,8 +130,10 @@ main: kit: entity: core: {
         {
           method: "POST"
           orig: "/decrypt"
-          parts: [
-            "decrypt"
+          segments: [
+            {
+              lit: "decrypt"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -138,8 +143,10 @@ main: kit: entity: core: {
         {
           method: "POST"
           orig: "/encrypt"
-          parts: [
-            "encrypt"
+          segments: [
+            {
+              lit: "encrypt"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -149,8 +156,10 @@ main: kit: entity: core: {
         {
           method: "POST"
           orig: "/inspect"
-          parts: [
-            "inspect"
+          segments: [
+            {
+              lit: "inspect"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -160,8 +169,10 @@ main: kit: entity: core: {
         {
           method: "POST"
           orig: "/relays"
-          parts: [
-            "relays"
+          segments: [
+            {
+              lit: "relays"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -187,10 +198,16 @@ main: kit: entity: core: {
           }
           method: "GET"
           orig: "/relays/{relay_id}/custom-domains"
-          parts: [
-            "relays"
-            "{relay_id}"
-            "custom-domains"
+          segments: [
+            {
+              lit: "relays"
+            }
+            {
+              var: "relay_id"
+            }
+            {
+              lit: "custom-domains"
+            }
           ]
           select: {
             exist: [
@@ -205,8 +222,10 @@ main: kit: entity: core: {
         {
           method: "GET"
           orig: "/relays"
-          parts: [
-            "relays"
+          segments: [
+            {
+              lit: "relays"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -239,11 +258,19 @@ main: kit: entity: core: {
           }
           method: "DELETE"
           orig: "/relays/{relay_id}/custom-domains/{id}"
-          parts: [
-            "relays"
-            "{relay_id}"
-            "custom-domains"
-            "{id}"
+          segments: [
+            {
+              lit: "relays"
+            }
+            {
+              var: "relay_id"
+            }
+            {
+              lit: "custom-domains"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [
@@ -270,9 +297,13 @@ main: kit: entity: core: {
           }
           method: "DELETE"
           orig: "/relays/{id}"
-          parts: [
-            "relays"
-            "{id}"
+          segments: [
+            {
+              lit: "relays"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [

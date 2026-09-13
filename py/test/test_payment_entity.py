@@ -127,7 +127,7 @@ def _payment_basic_setup(extra):
         "EVERVAULT_TEST_PAYMENT_ENTID": idmap,
         "EVERVAULT_TEST_LIVE": "FALSE",
         "EVERVAULT_TEST_EXPLAIN": "FALSE",
-        "EVERVAULT_APIKEY": "NONE",
+        "EVERVAULT_APIKEY": "",
     })
 
     idmap_resolved = helpers.to_map(
@@ -137,6 +137,10 @@ def _payment_basic_setup(extra):
 
     if env.get("EVERVAULT_TEST_LIVE") == "TRUE":
         merged_opts = vs.merge([
+            # FIRST, so the generated fields below win: sdk-test-control.json's
+            # test.client.options adds to the live client, it does not
+            # redirect it.
+            runner.live_client_options(),
             {
                 "apikey": env.get("EVERVAULT_APIKEY"),
             },

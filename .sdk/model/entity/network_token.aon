@@ -12,6 +12,7 @@ main: kit: entity: network_token: {
       type: "`$OBJECT`"
     }
     {
+      format: "int64"
       name: "createdAt"
       req: true
       short: "The exact time, in epoch milliseconds, when this Network Token was created."
@@ -72,6 +73,7 @@ main: kit: entity: network_token: {
       type: "`$STRING`"
     }
     {
+      format: "int64"
       name: "updatedAt"
       req: false
       short: "The exact time, in epoch milliseconds, when this Network Token was last updated."
@@ -103,17 +105,25 @@ main: kit: entity: network_token: {
           }
           method: "POST"
           orig: "/payments/network-tokens/{network_token_id}/simulate"
-          parts: [
-            "payments"
-            "network-tokens"
-            "{id}"
-            "simulate"
-          ]
           rename: {
             param: {
               network_token_id: "id"
             }
           }
+          segments: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "network-tokens"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "simulate"
+            }
+          ]
           select: {
             "$action": "simulate"
             exist: [
@@ -128,9 +138,13 @@ main: kit: entity: network_token: {
         {
           method: "POST"
           orig: "/payments/network-tokens"
-          parts: [
-            "payments"
-            "network-tokens"
+          segments: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "network-tokens"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -156,16 +170,22 @@ main: kit: entity: network_token: {
           }
           method: "GET"
           orig: "/payments/network-tokens/{network_token_id}"
-          parts: [
-            "payments"
-            "network-tokens"
-            "{id}"
-          ]
           rename: {
             param: {
               network_token_id: "id"
             }
           }
+          segments: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "network-tokens"
+            }
+            {
+              var: "id"
+            }
+          ]
           select: {
             exist: [
               "id"

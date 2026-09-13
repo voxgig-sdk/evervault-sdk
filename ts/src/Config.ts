@@ -10,6 +10,17 @@ const FEATURE_CLASS: Record<string, typeof BaseFeature> = {
 }
 
 
+// Per-feature plugin DEFINITIONS (voxgig/plugin `Definition` values), from
+// the model's active plugin groups. A feature that takes a `plugins` option
+// (secrets over sekreto) reads its own entry; a feature with no plugins has
+// none. Named imports above make each definition statically reachable, so
+// an SDK carries exactly the plugin modules its model selects — the same
+// leanness the old side-effect registry imports bought, without a registry.
+const FEATURE_PLUGINS: Record<string, any[]> = {
+  
+}
+
+
 class Config {
 
   makeFeature(this: any, fn: string) {
@@ -52,6 +63,7 @@ class Config {
 
     auth: {
       prefix: 'Basic',
+      basic: true,
     },
 
     headers: {
@@ -163,6 +175,10 @@ class Config {
           "type": "`$STRING`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "acquirer",
       "op": {
         "create": {
@@ -174,15 +190,23 @@ class Config {
               "kind": "http",
               "method": "POST",
               "orig": "/payments/acquirers",
-              "parts": [
-                "payments",
-                "acquirers"
+              "segments": [
+                {
+                  "lit": "payments"
+                },
+                {
+                  "lit": "acquirers"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "payments",
+                "acquirers"
+              ]
             }
           ]
         },
@@ -205,16 +229,22 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/payments/acquirers/{acquirer_id}",
-              "parts": [
-                "payments",
-                "acquirers",
-                "{id}"
-              ],
               "rename": {
                 "param": {
                   "acquirer_id": "id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "payments"
+                },
+                {
+                  "lit": "acquirers"
+                },
+                {
+                  "var": "id"
+                }
+              ],
               "select": {
                 "exist": [
                   "id"
@@ -223,7 +253,12 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "payments",
+                "acquirers",
+                "{id}"
+              ]
             }
           ]
         },
@@ -246,16 +281,22 @@ class Config {
               "kind": "http",
               "method": "PATCH",
               "orig": "/payments/acquirers/{acquirer_id}",
-              "parts": [
-                "payments",
-                "acquirers",
-                "{id}"
-              ],
               "rename": {
                 "param": {
                   "acquirer_id": "id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "payments"
+                },
+                {
+                  "lit": "acquirers"
+                },
+                {
+                  "var": "id"
+                }
+              ],
               "select": {
                 "exist": [
                   "id"
@@ -264,7 +305,12 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "payments",
+                "acquirers",
+                "{id}"
+              ]
             }
           ]
         }
@@ -293,15 +339,23 @@ class Config {
               "kind": "http",
               "method": "POST",
               "orig": "/payments/bin-lookups",
-              "parts": [
-                "payments",
-                "bin-lookups"
+              "segments": [
+                {
+                  "lit": "payments"
+                },
+                {
+                  "lit": "bin-lookups"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "payments",
+                "bin-lookups"
+              ]
             }
           ]
         }
@@ -362,6 +416,10 @@ class Config {
           "type": "`$STRING`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "card",
       "op": {
         "create": {
@@ -383,17 +441,25 @@ class Config {
               "kind": "http",
               "method": "POST",
               "orig": "/payments/cards/{card_id}/simulate",
-              "parts": [
-                "payments",
-                "cards",
-                "{id}",
-                "simulate"
-              ],
               "rename": {
                 "param": {
                   "card_id": "id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "payments"
+                },
+                {
+                  "lit": "cards"
+                },
+                {
+                  "var": "id"
+                },
+                {
+                  "lit": "simulate"
+                }
+              ],
               "select": {
                 "$action": "simulate",
                 "exist": [
@@ -403,16 +469,26 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.expiry`"
-              }
+              },
+              "parts": [
+                "payments",
+                "cards",
+                "{id}",
+                "simulate"
+              ]
             },
             {
               "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/insights/cards",
-              "parts": [
-                "insights",
-                "cards"
+              "segments": [
+                {
+                  "lit": "insights"
+                },
+                {
+                  "lit": "cards"
+                }
               ],
               "select": {},
               "transform": {
@@ -420,22 +496,34 @@ class Config {
                   "card": "`reqdata`"
                 },
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "insights",
+                "cards"
+              ]
             },
             {
               "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/payments/cards",
-              "parts": [
-                "payments",
-                "cards"
+              "segments": [
+                {
+                  "lit": "payments"
+                },
+                {
+                  "lit": "cards"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.expiry`"
-              }
+              },
+              "parts": [
+                "payments",
+                "cards"
+              ]
             }
           ]
         },
@@ -458,16 +546,22 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/payments/cards/{card_id}",
-              "parts": [
-                "payments",
-                "cards",
-                "{id}"
-              ],
               "rename": {
                 "param": {
                   "card_id": "id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "payments"
+                },
+                {
+                  "lit": "cards"
+                },
+                {
+                  "var": "id"
+                }
+              ],
               "select": {
                 "exist": [
                   "id"
@@ -476,7 +570,12 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.expiry`"
-              }
+              },
+              "parts": [
+                "payments",
+                "cards",
+                "{id}"
+              ]
             }
           ]
         }
@@ -533,11 +632,19 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/payments/network-tokens/{network_token_id}/card-art",
-              "parts": [
-                "payments",
-                "network-tokens",
-                "{network_token_id}",
-                "card-art"
+              "segments": [
+                {
+                  "lit": "payments"
+                },
+                {
+                  "lit": "network-tokens"
+                },
+                {
+                  "var": "network_token_id"
+                },
+                {
+                  "lit": "card-art"
+                }
               ],
               "select": {
                 "exist": [
@@ -547,7 +654,13 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "payments",
+                "network-tokens",
+                "{network_token_id}",
+                "card-art"
+              ]
             }
           ]
         }
@@ -590,14 +703,19 @@ class Config {
               "kind": "http",
               "method": "POST",
               "orig": "/client-side-tokens",
-              "parts": [
-                "client-side-tokens"
+              "segments": [
+                {
+                  "lit": "client-side-tokens"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "client-side-tokens"
+              ]
             }
           ]
         }
@@ -625,6 +743,7 @@ class Config {
           ]
         },
         {
+          "format": "int64",
           "name": "createdAt",
           "short": "The exact time, in epoch milliseconds, when this custom domain was created.",
           "type": "`$INTEGER`"
@@ -692,16 +811,22 @@ class Config {
           "type": "`$STRING`"
         },
         {
+          "format": "int64",
           "name": "updatedAt",
           "short": "The exact time, in epoch milliseconds, when this custom domain was last updated.",
           "type": "`$INTEGER`"
         },
         {
+          "format": "uuidv4",
           "name": "validationRecord",
           "short": "Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain",
           "type": "`$STRING`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "core",
       "op": {
         "create": {
@@ -713,56 +838,76 @@ class Config {
               "kind": "http",
               "method": "POST",
               "orig": "/decrypt",
-              "parts": [
-                "decrypt"
+              "segments": [
+                {
+                  "lit": "decrypt"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "decrypt"
+              ]
             },
             {
               "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/encrypt",
-              "parts": [
-                "encrypt"
+              "segments": [
+                {
+                  "lit": "encrypt"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "encrypt"
+              ]
             },
             {
               "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/inspect",
-              "parts": [
-                "inspect"
+              "segments": [
+                {
+                  "lit": "inspect"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.metadata`"
-              }
+              },
+              "parts": [
+                "inspect"
+              ]
             },
             {
               "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/relays",
-              "parts": [
-                "relays"
+              "segments": [
+                {
+                  "lit": "relays"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "relays"
+              ]
             }
           ]
         },
@@ -785,10 +930,16 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/relays/{relay_id}/custom-domains",
-              "parts": [
-                "relays",
-                "{relay_id}",
-                "custom-domains"
+              "segments": [
+                {
+                  "lit": "relays"
+                },
+                {
+                  "var": "relay_id"
+                },
+                {
+                  "lit": "custom-domains"
+                }
               ],
               "select": {
                 "exist": [
@@ -798,21 +949,31 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "relays",
+                "{relay_id}",
+                "custom-domains"
+              ]
             },
             {
               "args": {},
               "kind": "http",
               "method": "GET",
               "orig": "/relays",
-              "parts": [
-                "relays"
+              "segments": [
+                {
+                  "lit": "relays"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "relays"
+              ]
             }
           ]
         },
@@ -842,11 +1003,19 @@ class Config {
               "kind": "http",
               "method": "DELETE",
               "orig": "/relays/{relay_id}/custom-domains/{id}",
-              "parts": [
-                "relays",
-                "{relay_id}",
-                "custom-domains",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "relays"
+                },
+                {
+                  "var": "relay_id"
+                },
+                {
+                  "lit": "custom-domains"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -857,7 +1026,13 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "relays",
+                "{relay_id}",
+                "custom-domains",
+                "{id}"
+              ]
             },
             {
               "args": {
@@ -874,9 +1049,13 @@ class Config {
               "kind": "http",
               "method": "DELETE",
               "orig": "/relays/{id}",
-              "parts": [
-                "relays",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "relays"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -886,7 +1065,11 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "relays",
+                "{id}"
+              ]
             }
           ]
         }
@@ -902,6 +1085,7 @@ class Config {
     "custom_domain": {
       "fields": [
         {
+          "format": "int64",
           "name": "createdAt",
           "short": "The exact time, in epoch milliseconds, when this custom domain was created.",
           "type": "`$INTEGER`"
@@ -933,16 +1117,22 @@ class Config {
           "type": "`$STRING`"
         },
         {
+          "format": "int64",
           "name": "updatedAt",
           "short": "The exact time, in epoch milliseconds, when this custom domain was last updated.",
           "type": "`$INTEGER`"
         },
         {
+          "format": "uuidv4",
           "name": "validationRecord",
           "short": "Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain",
           "type": "`$STRING`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "custom_domain",
       "op": {
         "create": {
@@ -964,10 +1154,16 @@ class Config {
               "kind": "http",
               "method": "POST",
               "orig": "/relays/{relay_id}/custom-domains",
-              "parts": [
-                "relays",
-                "{relay_id}",
-                "custom-domains"
+              "segments": [
+                {
+                  "lit": "relays"
+                },
+                {
+                  "var": "relay_id"
+                },
+                {
+                  "lit": "custom-domains"
+                }
               ],
               "select": {
                 "exist": [
@@ -977,7 +1173,12 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "relays",
+                "{relay_id}",
+                "custom-domains"
+              ]
             }
           ]
         },
@@ -1007,11 +1208,19 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/relays/{relay_id}/custom-domains/{id}",
-              "parts": [
-                "relays",
-                "{relay_id}",
-                "custom-domains",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "relays"
+                },
+                {
+                  "var": "relay_id"
+                },
+                {
+                  "lit": "custom-domains"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -1022,7 +1231,13 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "relays",
+                "{relay_id}",
+                "custom-domains",
+                "{id}"
+              ]
             }
           ]
         }
@@ -1043,6 +1258,7 @@ class Config {
           "type": "`$BOOLEAN`"
         },
         {
+          "format": "int64",
           "name": "createdAt",
           "short": "The exact time, in epoch milliseconds, when this Function execution was triggered.",
           "type": "`$INTEGER`"
@@ -1080,6 +1296,10 @@ class Config {
           "type": "`$STRING`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "function_run",
       "op": {
         "create": {
@@ -1101,10 +1321,16 @@ class Config {
               "kind": "http",
               "method": "POST",
               "orig": "/functions/{function_name}/runs",
-              "parts": [
-                "functions",
-                "{function_name}",
-                "runs"
+              "segments": [
+                {
+                  "lit": "functions"
+                },
+                {
+                  "var": "function_name"
+                },
+                {
+                  "lit": "runs"
+                }
               ],
               "select": {
                 "exist": [
@@ -1114,7 +1340,12 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "functions",
+                "{function_name}",
+                "runs"
+              ]
             }
           ]
         }
@@ -1157,6 +1388,7 @@ class Config {
           "type": "`$STRING`"
         },
         {
+          "format": "int64",
           "name": "createdAt",
           "req": true,
           "short": "The exact time, in epoch milliseconds, when this Merchant was created.",
@@ -1185,6 +1417,7 @@ class Config {
           "type": "`$STRING`"
         },
         {
+          "format": "int64",
           "name": "updatedAt",
           "short": "The exact time, in epoch milliseconds, when this Merchant was last updated.",
           "type": "`$INTEGER`"
@@ -1196,6 +1429,10 @@ class Config {
           "type": "`$STRING`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "merchant",
       "op": {
         "create": {
@@ -1207,15 +1444,23 @@ class Config {
               "kind": "http",
               "method": "POST",
               "orig": "/payments/merchants",
-              "parts": [
-                "payments",
-                "merchants"
+              "segments": [
+                {
+                  "lit": "payments"
+                },
+                {
+                  "lit": "merchants"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "payments",
+                "merchants"
+              ]
             }
           ]
         },
@@ -1238,16 +1483,22 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/payments/merchants/{merchant_id}",
-              "parts": [
-                "payments",
-                "merchants",
-                "{id}"
-              ],
               "rename": {
                 "param": {
                   "merchant_id": "id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "payments"
+                },
+                {
+                  "lit": "merchants"
+                },
+                {
+                  "var": "id"
+                }
+              ],
               "select": {
                 "exist": [
                   "id"
@@ -1256,7 +1507,12 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "payments",
+                "merchants",
+                "{id}"
+              ]
             }
           ]
         },
@@ -1279,16 +1535,22 @@ class Config {
               "kind": "http",
               "method": "PATCH",
               "orig": "/payments/merchants/{merchant_id}",
-              "parts": [
-                "payments",
-                "merchants",
-                "{id}"
-              ],
               "rename": {
                 "param": {
                   "merchant_id": "id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "payments"
+                },
+                {
+                  "lit": "merchants"
+                },
+                {
+                  "var": "id"
+                }
+              ],
               "select": {
                 "exist": [
                   "id"
@@ -1297,7 +1559,12 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "payments",
+                "merchants",
+                "{id}"
+              ]
             }
           ]
         }
@@ -1315,6 +1582,7 @@ class Config {
           "type": "`$OBJECT`"
         },
         {
+          "format": "int64",
           "name": "createdAt",
           "req": true,
           "short": "The exact time, in epoch milliseconds, when this Network Token was created.",
@@ -1373,11 +1641,16 @@ class Config {
           "type": "`$STRING`"
         },
         {
+          "format": "int64",
           "name": "updatedAt",
           "short": "The exact time, in epoch milliseconds, when this Network Token was last updated.",
           "type": "`$INTEGER`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "network_token",
       "op": {
         "create": {
@@ -1399,17 +1672,25 @@ class Config {
               "kind": "http",
               "method": "POST",
               "orig": "/payments/network-tokens/{network_token_id}/simulate",
-              "parts": [
-                "payments",
-                "network-tokens",
-                "{id}",
-                "simulate"
-              ],
               "rename": {
                 "param": {
                   "network_token_id": "id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "payments"
+                },
+                {
+                  "lit": "network-tokens"
+                },
+                {
+                  "var": "id"
+                },
+                {
+                  "lit": "simulate"
+                }
+              ],
               "select": {
                 "$action": "simulate",
                 "exist": [
@@ -1419,22 +1700,36 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "payments",
+                "network-tokens",
+                "{id}",
+                "simulate"
+              ]
             },
             {
               "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/payments/network-tokens",
-              "parts": [
-                "payments",
-                "network-tokens"
+              "segments": [
+                {
+                  "lit": "payments"
+                },
+                {
+                  "lit": "network-tokens"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "payments",
+                "network-tokens"
+              ]
             }
           ]
         },
@@ -1457,16 +1752,22 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/payments/network-tokens/{network_token_id}",
-              "parts": [
-                "payments",
-                "network-tokens",
-                "{id}"
-              ],
               "rename": {
                 "param": {
                   "network_token_id": "id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "payments"
+                },
+                {
+                  "lit": "network-tokens"
+                },
+                {
+                  "var": "id"
+                }
+              ],
               "select": {
                 "exist": [
                   "id"
@@ -1475,7 +1776,12 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "payments",
+                "network-tokens",
+                "{id}"
+              ]
             }
           ]
         }
@@ -1499,6 +1805,10 @@ class Config {
           "type": "`$STRING`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "network_token_cryptogram",
       "op": {
         "create": {
@@ -1520,17 +1830,25 @@ class Config {
               "kind": "http",
               "method": "POST",
               "orig": "/payments/network-tokens/{network_token_id}/cryptograms",
-              "parts": [
-                "payments",
-                "network-tokens",
-                "{id}",
-                "cryptograms"
-              ],
               "rename": {
                 "param": {
                   "network_token_id": "id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "payments"
+                },
+                {
+                  "lit": "network-tokens"
+                },
+                {
+                  "var": "id"
+                },
+                {
+                  "lit": "cryptograms"
+                }
+              ],
               "select": {
                 "exist": [
                   "id"
@@ -1539,7 +1857,13 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "payments",
+                "network-tokens",
+                "{id}",
+                "cryptograms"
+              ]
             }
           ]
         }
@@ -1572,6 +1896,7 @@ class Config {
           "type": "`$ARRAY`"
         },
         {
+          "format": "int64",
           "name": "createdAt",
           "req": true,
           "short": "The exact time, in epoch milliseconds, when this Merchant was created.",
@@ -1625,6 +1950,7 @@ class Config {
           "type": "`$STRING`"
         },
         {
+          "format": "int64",
           "name": "updatedAt",
           "short": "The exact time, in epoch milliseconds, when this Merchant was last updated.",
           "type": "`$INTEGER`"
@@ -1636,6 +1962,10 @@ class Config {
           "type": "`$STRING`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "payment",
       "op": {
         "list": {
@@ -1670,9 +2000,13 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/payments/merchants",
-              "parts": [
-                "payments",
-                "merchants"
+              "segments": [
+                {
+                  "lit": "payments"
+                },
+                {
+                  "lit": "merchants"
+                }
               ],
               "select": {
                 "$action": "merchant",
@@ -1685,7 +2019,11 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "payments",
+                "merchants"
+              ]
             },
             {
               "args": {
@@ -1709,9 +2047,13 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/payments/acquirers",
-              "parts": [
-                "payments",
-                "acquirers"
+              "segments": [
+                {
+                  "lit": "payments"
+                },
+                {
+                  "lit": "acquirers"
+                }
               ],
               "select": {
                 "$action": "acquirer",
@@ -1723,7 +2065,11 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "payments",
+                "acquirers"
+              ]
             },
             {
               "args": {
@@ -1740,11 +2086,19 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/payments/3ds-sessions/{3ds_session_id}/messages",
-              "parts": [
-                "payments",
-                "3ds-sessions",
-                "{3ds_session_id}",
-                "messages"
+              "segments": [
+                {
+                  "lit": "payments"
+                },
+                {
+                  "lit": "3ds-sessions"
+                },
+                {
+                  "var": "3ds_session_id"
+                },
+                {
+                  "lit": "messages"
+                }
               ],
               "select": {
                 "exist": [
@@ -1754,7 +2108,13 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.messages`"
-              }
+              },
+              "parts": [
+                "payments",
+                "3ds-sessions",
+                "{3ds_session_id}",
+                "messages"
+              ]
             }
           ]
         },
@@ -1777,10 +2137,16 @@ class Config {
               "kind": "http",
               "method": "DELETE",
               "orig": "/payments/acquirers/{acquirer_id}",
-              "parts": [
-                "payments",
-                "acquirers",
-                "{acquirer_id}"
+              "segments": [
+                {
+                  "lit": "payments"
+                },
+                {
+                  "lit": "acquirers"
+                },
+                {
+                  "var": "acquirer_id"
+                }
               ],
               "select": {
                 "exist": [
@@ -1790,7 +2156,12 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "payments",
+                "acquirers",
+                "{acquirer_id}"
+              ]
             },
             {
               "args": {
@@ -1807,10 +2178,16 @@ class Config {
               "kind": "http",
               "method": "DELETE",
               "orig": "/payments/cards/{card_id}",
-              "parts": [
-                "payments",
-                "cards",
-                "{card_id}"
+              "segments": [
+                {
+                  "lit": "payments"
+                },
+                {
+                  "lit": "cards"
+                },
+                {
+                  "var": "card_id"
+                }
               ],
               "select": {
                 "exist": [
@@ -1820,7 +2197,12 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "payments",
+                "cards",
+                "{card_id}"
+              ]
             },
             {
               "args": {
@@ -1837,10 +2219,16 @@ class Config {
               "kind": "http",
               "method": "DELETE",
               "orig": "/payments/merchants/{merchant_id}",
-              "parts": [
-                "payments",
-                "merchants",
-                "{merchant_id}"
+              "segments": [
+                {
+                  "lit": "payments"
+                },
+                {
+                  "lit": "merchants"
+                },
+                {
+                  "var": "merchant_id"
+                }
               ],
               "select": {
                 "exist": [
@@ -1850,7 +2238,12 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "payments",
+                "merchants",
+                "{merchant_id}"
+              ]
             },
             {
               "args": {
@@ -1867,10 +2260,16 @@ class Config {
               "kind": "http",
               "method": "DELETE",
               "orig": "/payments/network-tokens/{network_token_id}",
-              "parts": [
-                "payments",
-                "network-tokens",
-                "{network_token_id}"
+              "segments": [
+                {
+                  "lit": "payments"
+                },
+                {
+                  "lit": "network-tokens"
+                },
+                {
+                  "var": "network_token_id"
+                }
               ],
               "select": {
                 "exist": [
@@ -1880,7 +2279,12 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "payments",
+                "network-tokens",
+                "{network_token_id}"
+              ]
             }
           ]
         }
@@ -1924,6 +2328,7 @@ class Config {
           ]
         },
         {
+          "format": "int64",
           "name": "createdAt",
           "short": "The exact time, in epoch milliseconds, when this Relay was created.",
           "type": "`$INTEGER`"
@@ -1954,11 +2359,16 @@ class Config {
           "type": "`$ARRAY`"
         },
         {
+          "format": "int64",
           "name": "updatedAt",
           "short": "The exact time, in epoch milliseconds, when this Relay was updated.",
           "type": "`$INTEGER`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "relay",
       "op": {
         "load": {
@@ -1980,9 +2390,13 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/relays/{id}",
-              "parts": [
-                "relays",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "relays"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -1992,7 +2406,11 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "relays",
+                "{id}"
+              ]
             }
           ]
         },
@@ -2015,9 +2433,13 @@ class Config {
               "kind": "http",
               "method": "PATCH",
               "orig": "/relays/{id}",
-              "parts": [
-                "relays",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "relays"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -2027,7 +2449,11 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "relays",
+                "{id}"
+              ]
             }
           ]
         }
@@ -2078,6 +2504,7 @@ class Config {
           "type": "`$OBJECT`"
         },
         {
+          "format": "int64",
           "name": "createdAt",
           "req": true,
           "short": "The exact time, in epoch milliseconds, when this 3DS-Session was created.",
@@ -2185,6 +2612,7 @@ class Config {
           "type": "`$OBJECT`"
         },
         {
+          "format": "int64",
           "name": "updatedAt",
           "short": "The exact time, in epoch milliseconds, when this 3DS-Session was last updated.",
           "type": "`$INTEGER`"
@@ -2196,6 +2624,10 @@ class Config {
           "type": "`$STRING`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "three_ds_session",
       "op": {
         "create": {
@@ -2207,15 +2639,23 @@ class Config {
               "kind": "http",
               "method": "POST",
               "orig": "/payments/3ds-sessions",
-              "parts": [
-                "payments",
-                "3ds-sessions"
+              "segments": [
+                {
+                  "lit": "payments"
+                },
+                {
+                  "lit": "3ds-sessions"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "payments",
+                "3ds-sessions"
+              ]
             }
           ]
         },
@@ -2238,10 +2678,16 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/payments/3ds-sessions/{3ds_session_id}",
-              "parts": [
-                "payments",
-                "3ds-sessions",
-                "{3ds_session_id}"
+              "segments": [
+                {
+                  "lit": "payments"
+                },
+                {
+                  "lit": "3ds-sessions"
+                },
+                {
+                  "var": "3ds_session_id"
+                }
               ],
               "select": {
                 "exist": [
@@ -2251,7 +2697,12 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "payments",
+                "3ds-sessions",
+                "{3ds_session_id}"
+              ]
             }
           ]
         }
@@ -2267,6 +2718,7 @@ class Config {
     "webhook": {
       "fields": [
         {
+          "format": "int64",
           "name": "createdAt",
           "short": "The exact time, in epoch milliseconds, when this Webhook Endpoint was created.",
           "type": "`$INTEGER`"
@@ -2288,6 +2740,7 @@ class Config {
           "type": "`$STRING`"
         },
         {
+          "format": "int64",
           "name": "updatedAt",
           "short": "The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated.",
           "type": [
@@ -2310,6 +2763,10 @@ class Config {
           "type": "`$STRING`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "webhook",
       "op": {
         "create": {
@@ -2321,14 +2778,19 @@ class Config {
               "kind": "http",
               "method": "POST",
               "orig": "/webhook-endpoints",
-              "parts": [
-                "webhook-endpoints"
+              "segments": [
+                {
+                  "lit": "webhook-endpoints"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "webhook-endpoints"
+              ]
             }
           ]
         },
@@ -2358,8 +2820,10 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/webhook-endpoints",
-              "parts": [
-                "webhook-endpoints"
+              "segments": [
+                {
+                  "lit": "webhook-endpoints"
+                }
               ],
               "select": {
                 "exist": [
@@ -2370,7 +2834,10 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "webhook-endpoints"
+              ]
             }
           ]
         },
@@ -2394,9 +2861,13 @@ class Config {
               "kind": "http",
               "method": "DELETE",
               "orig": "/webhook-endpoints/{webhook_endpoint_id}",
-              "parts": [
-                "webhook-endpoints",
-                "{webhook_endpoint_id}"
+              "segments": [
+                {
+                  "lit": "webhook-endpoints"
+                },
+                {
+                  "var": "webhook_endpoint_id"
+                }
               ],
               "select": {
                 "exist": [
@@ -2406,7 +2877,11 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "webhook-endpoints",
+                "{webhook_endpoint_id}"
+              ]
             }
           ]
         }
@@ -2422,6 +2897,7 @@ class Config {
     "webhook_endpoint": {
       "fields": [
         {
+          "format": "int64",
           "name": "createdAt",
           "short": "The exact time, in epoch milliseconds, when this Webhook Endpoint was created.",
           "type": "`$INTEGER`"
@@ -2443,6 +2919,7 @@ class Config {
           "type": "`$STRING`"
         },
         {
+          "format": "int64",
           "name": "updatedAt",
           "short": "The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated.",
           "type": [
@@ -2459,6 +2936,10 @@ class Config {
           "type": "`$STRING`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "webhook_endpoint",
       "op": {
         "load": {
@@ -2481,15 +2962,19 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/webhook-endpoints/{webhook_endpoint_id}",
-              "parts": [
-                "webhook-endpoints",
-                "{id}"
-              ],
               "rename": {
                 "param": {
                   "webhook_endpoint_id": "id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "webhook-endpoints"
+                },
+                {
+                  "var": "id"
+                }
+              ],
               "select": {
                 "exist": [
                   "id"
@@ -2498,7 +2983,11 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "webhook-endpoints",
+                "{id}"
+              ]
             }
           ]
         },
@@ -2522,15 +3011,19 @@ class Config {
               "kind": "http",
               "method": "PATCH",
               "orig": "/webhook-endpoints/{webhook_endpoint_id}",
-              "parts": [
-                "webhook-endpoints",
-                "{id}"
-              ],
               "rename": {
                 "param": {
                   "webhook_endpoint_id": "id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "webhook-endpoints"
+                },
+                {
+                  "var": "id"
+                }
+              ],
               "select": {
                 "exist": [
                   "id"
@@ -2539,7 +3032,11 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "webhook-endpoints",
+                "{id}"
+              ]
             }
           ]
         }
@@ -2555,6 +3052,7 @@ class Config {
 const config = new Config()
 
 export {
-  config
+  config,
+  FEATURE_PLUGINS,
 }
 

@@ -458,11 +458,8 @@ type Webhook struct {
 
 // WebhookListMatch is the typed request payload for Webhook.ListTyped.
 type WebhookListMatch struct {
-	CreatedAt *int `json:"createdAt,omitempty"`
-	Events *[]any `json:"events,omitempty"`
-	Id *string `json:"id,omitempty"`
-	UpdatedAt *any `json:"updatedAt,omitempty"`
-	Url *string `json:"url,omitempty"`
+	Limit *int `json:"limit,omitempty"`
+	StartingAfter *string `json:"starting_after,omitempty"`
 }
 
 // WebhookCreateData is the typed request payload for Webhook.CreateTyped.

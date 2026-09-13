@@ -1335,26 +1335,14 @@ Webhook = Struct.new(
 
 # Request payload for Webhook#list.
 #
-# @!attribute [rw] createdAt
+# @!attribute [rw] limit
 #   @return [Integer, nil]
 #
-# @!attribute [rw] events
-#   @return [Array, nil]
-#
-# @!attribute [rw] id
-#   @return [String, nil]
-#
-# @!attribute [rw] updatedAt
-#   @return [Object, nil]
-#
-# @!attribute [rw] url
+# @!attribute [rw] starting_after
 #   @return [String, nil]
 WebhookListMatch = Struct.new(
-  :createdAt,
-  :events,
-  :id,
-  :updatedAt,
-  :url,
+  :limit,
+  :starting_after,
   keyword_init: true
 )
 

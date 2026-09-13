@@ -52,7 +52,7 @@ func TestNetworkTokenCryptogramEntity(t *testing.T) {
 		// CREATE
 		networkTokenCryptogramRef01Ent := client.NetworkTokenCryptogram(nil)
 		networkTokenCryptogramRef01Data := core.ToMapAny(vs.GetProp(
-			vs.GetPath([]any{"new", "network_token_cryptogram"}, setup.data), "network_token_cryptogram_ref01"))
+			vs.GetPath(setup.data, []any{"new", "network_token_cryptogram"}), "network_token_cryptogram_ref01"))
 		networkTokenCryptogramRef01Data["network_token_id"] = setup.idmap["network_token01"]
 
 		networkTokenCryptogramRef01DataResult, err := networkTokenCryptogramRef01Ent.Create(networkTokenCryptogramRef01Data, nil)
@@ -94,7 +94,7 @@ func network_token_cryptogramBasicSetup(extra map[string]any) *entityTestSetup {
 	client := sdk.TestSDK(options, extra)
 
 	// Generate idmap via transform, matching TS pattern.
-	idmap := vs.Transform(
+	idmap, _ := vs.Transform(
 		[]any{"network_token_cryptogram01", "network_token_cryptogram02", "network_token_cryptogram03", "network_token01"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
@@ -114,7 +114,7 @@ func network_token_cryptogramBasicSetup(extra map[string]any) *entityTestSetup {
 		"EVERVAULT_TEST_NETWORK_TOKEN_CRYPTOGRAM_ENTID": idmap,
 		"EVERVAULT_TEST_LIVE":      "FALSE",
 		"EVERVAULT_TEST_EXPLAIN":   "FALSE",
-		"EVERVAULT_APIKEY":         "NONE",
+		"EVERVAULT_APIKEY":         "",
 	})
 
 	idmapResolved := core.ToMapAny(env["EVERVAULT_TEST_NETWORK_TOKEN_CRYPTOGRAM_ENTID"])
@@ -123,11 +123,23 @@ func network_token_cryptogramBasicSetup(extra map[string]any) *entityTestSetup {
 	}
 
 	if env["EVERVAULT_TEST_LIVE"] == "TRUE" {
+		// An empty map, not a nil one: Merge returns nil when its last entry
+		// is nil, and BasicSetup is normally called with no extras - so a
+		// bare nil silently discarded the apikey and server values below.
+		extraOpts := extra
+		if extraOpts == nil {
+			extraOpts = map[string]any{}
+		}
+
 		mergedOpts := vs.Merge([]any{
+			// liveClientOptions() FIRST, so the generated fields below win:
+			// sdk-test-control.json's test.client.options adds to the live
+			// client, it does not redirect it.
+			liveClientOptions(),
 			map[string]any{
 				"apikey": env["EVERVAULT_APIKEY"],
 			},
-			extra,
+			extraOpts,
 		})
 		client = sdk.NewEvervaultSDK(core.ToMapAny(mergedOpts))
 	}

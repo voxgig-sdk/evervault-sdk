@@ -21,9 +21,13 @@ main: kit: entity: bin_lookup: {
         {
           method: "POST"
           orig: "/payments/bin-lookups"
-          parts: [
-            "payments"
-            "bin-lookups"
+          segments: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "bin-lookups"
+            }
           ]
           transform: {
             req: "`reqdata`"

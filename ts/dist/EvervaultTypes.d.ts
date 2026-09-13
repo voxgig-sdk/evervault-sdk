@@ -367,11 +367,8 @@ export interface Webhook {
     url: string;
 }
 export interface WebhookListMatch {
-    createdAt?: number;
-    events?: any[];
-    id?: string;
-    updatedAt?: number | null;
-    url?: string;
+    limit?: number;
+    starting_after?: string;
 }
 export interface WebhookCreateData {
     createdAt?: number;

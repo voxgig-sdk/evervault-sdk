@@ -48,6 +48,7 @@ main: kit: entity: three_ds_session: {
       type: "`$OBJECT`"
     }
     {
+      format: "int64"
       name: "createdAt"
       req: true
       short: "The exact time, in epoch milliseconds, when this 3DS-Session was created."
@@ -166,6 +167,7 @@ main: kit: entity: three_ds_session: {
       type: "`$OBJECT`"
     }
     {
+      format: "int64"
       name: "updatedAt"
       req: false
       short: "The exact time, in epoch milliseconds, when this 3DS-Session was last updated."
@@ -192,9 +194,13 @@ main: kit: entity: three_ds_session: {
         {
           method: "POST"
           orig: "/payments/3ds-sessions"
-          parts: [
-            "payments"
-            "3ds-sessions"
+          segments: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "3ds-sessions"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -220,10 +226,16 @@ main: kit: entity: three_ds_session: {
           }
           method: "GET"
           orig: "/payments/3ds-sessions/{3ds_session_id}"
-          parts: [
-            "payments"
-            "3ds-sessions"
-            "{3ds_session_id}"
+          segments: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "3ds-sessions"
+            }
+            {
+              var: "3ds_session_id"
+            }
           ]
           select: {
             exist: [

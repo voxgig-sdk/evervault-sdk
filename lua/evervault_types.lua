@@ -369,11 +369,8 @@
 ---@field url string
 
 ---@class WebhookListMatch
----@field createdAt? number
----@field events? table
----@field id? string
----@field updatedAt? number|nil
----@field url? string
+---@field limit? number
+---@field starting_after? string
 
 ---@class WebhookCreateData
 ---@field createdAt? number

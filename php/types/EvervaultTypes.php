@@ -498,11 +498,8 @@ class Webhook
 /** Request payload for Webhook#list. */
 class WebhookListMatch
 {
-    public ?int $createdAt = null;
-    public ?array $events = null;
-    public ?string $id = null;
-    public mixed $updatedAt = null;
-    public ?string $url = null;
+    public ?int $limit = null;
+    public ?string $starting_after = null;
 }
 
 /** Request payload for Webhook#create. */

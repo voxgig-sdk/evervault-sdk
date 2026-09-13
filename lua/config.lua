@@ -97,6 +97,10 @@ local function make_config()
             ["type"] = "`$STRING`",
           },
         },
+        ["id"] = {
+          ["field"] = "id",
+          ["name"] = "id",
+        },
         ["name"] = "acquirer",
         ["op"] = {
           ["create"] = {
@@ -108,14 +112,22 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/payments/acquirers",
-                ["parts"] = {
-                  "payments",
-                  "acquirers",
+                ["segments"] = {
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["lit"] = "acquirers",
+                  },
                 },
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "payments",
+                  "acquirers",
                 },
               },
             },
@@ -139,14 +151,20 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/payments/acquirers/{acquirer_id}",
-                ["parts"] = {
-                  "payments",
-                  "acquirers",
-                  "{id}",
-                },
                 ["rename"] = {
                   ["param"] = {
                     ["acquirer_id"] = "id",
+                  },
+                },
+                ["segments"] = {
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["lit"] = "acquirers",
+                  },
+                  {
+                    ["var"] = "id",
                   },
                 },
                 ["select"] = {
@@ -157,6 +175,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "payments",
+                  "acquirers",
+                  "{id}",
                 },
               },
             },
@@ -180,14 +203,20 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "PATCH",
                 ["orig"] = "/payments/acquirers/{acquirer_id}",
-                ["parts"] = {
-                  "payments",
-                  "acquirers",
-                  "{id}",
-                },
                 ["rename"] = {
                   ["param"] = {
                     ["acquirer_id"] = "id",
+                  },
+                },
+                ["segments"] = {
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["lit"] = "acquirers",
+                  },
+                  {
+                    ["var"] = "id",
                   },
                 },
                 ["select"] = {
@@ -198,6 +227,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "payments",
+                  "acquirers",
+                  "{id}",
                 },
               },
             },
@@ -227,14 +261,22 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/payments/bin-lookups",
-                ["parts"] = {
-                  "payments",
-                  "bin-lookups",
+                ["segments"] = {
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["lit"] = "bin-lookups",
+                  },
                 },
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "payments",
+                  "bin-lookups",
                 },
               },
             },
@@ -296,6 +338,10 @@ local function make_config()
             ["type"] = "`$STRING`",
           },
         },
+        ["id"] = {
+          ["field"] = "id",
+          ["name"] = "id",
+        },
         ["name"] = "card",
         ["op"] = {
           ["create"] = {
@@ -317,15 +363,23 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/payments/cards/{card_id}/simulate",
-                ["parts"] = {
-                  "payments",
-                  "cards",
-                  "{id}",
-                  "simulate",
-                },
                 ["rename"] = {
                   ["param"] = {
                     ["card_id"] = "id",
+                  },
+                },
+                ["segments"] = {
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["lit"] = "cards",
+                  },
+                  {
+                    ["var"] = "id",
+                  },
+                  {
+                    ["lit"] = "simulate",
                   },
                 },
                 ["select"] = {
@@ -338,15 +392,25 @@ local function make_config()
                   ["req"] = "`reqdata`",
                   ["res"] = "`body.expiry`",
                 },
+                ["parts"] = {
+                  "payments",
+                  "cards",
+                  "{id}",
+                  "simulate",
+                },
               },
               {
                 ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/insights/cards",
-                ["parts"] = {
-                  "insights",
-                  "cards",
+                ["segments"] = {
+                  {
+                    ["lit"] = "insights",
+                  },
+                  {
+                    ["lit"] = "cards",
+                  },
                 },
                 ["select"] = {},
                 ["transform"] = {
@@ -355,20 +419,32 @@ local function make_config()
                   },
                   ["res"] = "`body`",
                 },
+                ["parts"] = {
+                  "insights",
+                  "cards",
+                },
               },
               {
                 ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/payments/cards",
-                ["parts"] = {
-                  "payments",
-                  "cards",
+                ["segments"] = {
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["lit"] = "cards",
+                  },
                 },
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body.expiry`",
+                },
+                ["parts"] = {
+                  "payments",
+                  "cards",
                 },
               },
             },
@@ -392,14 +468,20 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/payments/cards/{card_id}",
-                ["parts"] = {
-                  "payments",
-                  "cards",
-                  "{id}",
-                },
                 ["rename"] = {
                   ["param"] = {
                     ["card_id"] = "id",
+                  },
+                },
+                ["segments"] = {
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["lit"] = "cards",
+                  },
+                  {
+                    ["var"] = "id",
                   },
                 },
                 ["select"] = {
@@ -410,6 +492,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body.expiry`",
+                },
+                ["parts"] = {
+                  "payments",
+                  "cards",
+                  "{id}",
                 },
               },
             },
@@ -467,11 +554,19 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/payments/network-tokens/{network_token_id}/card-art",
-                ["parts"] = {
-                  "payments",
-                  "network-tokens",
-                  "{network_token_id}",
-                  "card-art",
+                ["segments"] = {
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["lit"] = "network-tokens",
+                  },
+                  {
+                    ["var"] = "network_token_id",
+                  },
+                  {
+                    ["lit"] = "card-art",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -481,6 +576,12 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "payments",
+                  "network-tokens",
+                  "{network_token_id}",
+                  "card-art",
                 },
               },
             },
@@ -524,13 +625,18 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/client-side-tokens",
-                ["parts"] = {
-                  "client-side-tokens",
+                ["segments"] = {
+                  {
+                    ["lit"] = "client-side-tokens",
+                  },
                 },
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "client-side-tokens",
                 },
               },
             },
@@ -559,6 +665,7 @@ local function make_config()
             },
           },
           {
+            ["format"] = "int64",
             ["name"] = "createdAt",
             ["short"] = "The exact time, in epoch milliseconds, when this custom domain was created.",
             ["type"] = "`$INTEGER`",
@@ -626,15 +733,21 @@ local function make_config()
             ["type"] = "`$STRING`",
           },
           {
+            ["format"] = "int64",
             ["name"] = "updatedAt",
             ["short"] = "The exact time, in epoch milliseconds, when this custom domain was last updated.",
             ["type"] = "`$INTEGER`",
           },
           {
+            ["format"] = "uuidv4",
             ["name"] = "validationRecord",
             ["short"] = "Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain",
             ["type"] = "`$STRING`",
           },
+        },
+        ["id"] = {
+          ["field"] = "id",
+          ["name"] = "id",
         },
         ["name"] = "core",
         ["op"] = {
@@ -647,13 +760,18 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/decrypt",
-                ["parts"] = {
-                  "decrypt",
+                ["segments"] = {
+                  {
+                    ["lit"] = "decrypt",
+                  },
                 },
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "decrypt",
                 },
               },
               {
@@ -661,13 +779,18 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/encrypt",
-                ["parts"] = {
-                  "encrypt",
+                ["segments"] = {
+                  {
+                    ["lit"] = "encrypt",
+                  },
                 },
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "encrypt",
                 },
               },
               {
@@ -675,13 +798,18 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/inspect",
-                ["parts"] = {
-                  "inspect",
+                ["segments"] = {
+                  {
+                    ["lit"] = "inspect",
+                  },
                 },
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body.metadata`",
+                },
+                ["parts"] = {
+                  "inspect",
                 },
               },
               {
@@ -689,13 +817,18 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/relays",
-                ["parts"] = {
-                  "relays",
+                ["segments"] = {
+                  {
+                    ["lit"] = "relays",
+                  },
                 },
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "relays",
                 },
               },
             },
@@ -719,10 +852,16 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/relays/{relay_id}/custom-domains",
-                ["parts"] = {
-                  "relays",
-                  "{relay_id}",
-                  "custom-domains",
+                ["segments"] = {
+                  {
+                    ["lit"] = "relays",
+                  },
+                  {
+                    ["var"] = "relay_id",
+                  },
+                  {
+                    ["lit"] = "custom-domains",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -733,19 +872,29 @@ local function make_config()
                   ["req"] = "`reqdata`",
                   ["res"] = "`body.data`",
                 },
+                ["parts"] = {
+                  "relays",
+                  "{relay_id}",
+                  "custom-domains",
+                },
               },
               {
                 ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/relays",
-                ["parts"] = {
-                  "relays",
+                ["segments"] = {
+                  {
+                    ["lit"] = "relays",
+                  },
                 },
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body.data`",
+                },
+                ["parts"] = {
+                  "relays",
                 },
               },
             },
@@ -776,11 +925,19 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/relays/{relay_id}/custom-domains/{id}",
-                ["parts"] = {
-                  "relays",
-                  "{relay_id}",
-                  "custom-domains",
-                  "{id}",
+                ["segments"] = {
+                  {
+                    ["lit"] = "relays",
+                  },
+                  {
+                    ["var"] = "relay_id",
+                  },
+                  {
+                    ["lit"] = "custom-domains",
+                  },
+                  {
+                    ["var"] = "id",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -791,6 +948,12 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "relays",
+                  "{relay_id}",
+                  "custom-domains",
+                  "{id}",
                 },
               },
               {
@@ -808,9 +971,13 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/relays/{id}",
-                ["parts"] = {
-                  "relays",
-                  "{id}",
+                ["segments"] = {
+                  {
+                    ["lit"] = "relays",
+                  },
+                  {
+                    ["var"] = "id",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -820,6 +987,10 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "relays",
+                  "{id}",
                 },
               },
             },
@@ -836,6 +1007,7 @@ local function make_config()
       ["custom_domain"] = {
         ["fields"] = {
           {
+            ["format"] = "int64",
             ["name"] = "createdAt",
             ["short"] = "The exact time, in epoch milliseconds, when this custom domain was created.",
             ["type"] = "`$INTEGER`",
@@ -867,15 +1039,21 @@ local function make_config()
             ["type"] = "`$STRING`",
           },
           {
+            ["format"] = "int64",
             ["name"] = "updatedAt",
             ["short"] = "The exact time, in epoch milliseconds, when this custom domain was last updated.",
             ["type"] = "`$INTEGER`",
           },
           {
+            ["format"] = "uuidv4",
             ["name"] = "validationRecord",
             ["short"] = "Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain",
             ["type"] = "`$STRING`",
           },
+        },
+        ["id"] = {
+          ["field"] = "id",
+          ["name"] = "id",
         },
         ["name"] = "custom_domain",
         ["op"] = {
@@ -898,10 +1076,16 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/relays/{relay_id}/custom-domains",
-                ["parts"] = {
-                  "relays",
-                  "{relay_id}",
-                  "custom-domains",
+                ["segments"] = {
+                  {
+                    ["lit"] = "relays",
+                  },
+                  {
+                    ["var"] = "relay_id",
+                  },
+                  {
+                    ["lit"] = "custom-domains",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -911,6 +1095,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "relays",
+                  "{relay_id}",
+                  "custom-domains",
                 },
               },
             },
@@ -941,11 +1130,19 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/relays/{relay_id}/custom-domains/{id}",
-                ["parts"] = {
-                  "relays",
-                  "{relay_id}",
-                  "custom-domains",
-                  "{id}",
+                ["segments"] = {
+                  {
+                    ["lit"] = "relays",
+                  },
+                  {
+                    ["var"] = "relay_id",
+                  },
+                  {
+                    ["lit"] = "custom-domains",
+                  },
+                  {
+                    ["var"] = "id",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -956,6 +1153,12 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "relays",
+                  "{relay_id}",
+                  "custom-domains",
+                  "{id}",
                 },
               },
             },
@@ -977,6 +1180,7 @@ local function make_config()
             ["type"] = "`$BOOLEAN`",
           },
           {
+            ["format"] = "int64",
             ["name"] = "createdAt",
             ["short"] = "The exact time, in epoch milliseconds, when this Function execution was triggered.",
             ["type"] = "`$INTEGER`",
@@ -1014,6 +1218,10 @@ local function make_config()
             ["type"] = "`$STRING`",
           },
         },
+        ["id"] = {
+          ["field"] = "id",
+          ["name"] = "id",
+        },
         ["name"] = "function_run",
         ["op"] = {
           ["create"] = {
@@ -1035,10 +1243,16 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/functions/{function_name}/runs",
-                ["parts"] = {
-                  "functions",
-                  "{function_name}",
-                  "runs",
+                ["segments"] = {
+                  {
+                    ["lit"] = "functions",
+                  },
+                  {
+                    ["var"] = "function_name",
+                  },
+                  {
+                    ["lit"] = "runs",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -1048,6 +1262,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "functions",
+                  "{function_name}",
+                  "runs",
                 },
               },
             },
@@ -1091,6 +1310,7 @@ local function make_config()
             ["type"] = "`$STRING`",
           },
           {
+            ["format"] = "int64",
             ["name"] = "createdAt",
             ["req"] = true,
             ["short"] = "The exact time, in epoch milliseconds, when this Merchant was created.",
@@ -1119,6 +1339,7 @@ local function make_config()
             ["type"] = "`$STRING`",
           },
           {
+            ["format"] = "int64",
             ["name"] = "updatedAt",
             ["short"] = "The exact time, in epoch milliseconds, when this Merchant was last updated.",
             ["type"] = "`$INTEGER`",
@@ -1129,6 +1350,10 @@ local function make_config()
             ["short"] = "The official website URL of the Merchant.",
             ["type"] = "`$STRING`",
           },
+        },
+        ["id"] = {
+          ["field"] = "id",
+          ["name"] = "id",
         },
         ["name"] = "merchant",
         ["op"] = {
@@ -1141,14 +1366,22 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/payments/merchants",
-                ["parts"] = {
-                  "payments",
-                  "merchants",
+                ["segments"] = {
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["lit"] = "merchants",
+                  },
                 },
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "payments",
+                  "merchants",
                 },
               },
             },
@@ -1172,14 +1405,20 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/payments/merchants/{merchant_id}",
-                ["parts"] = {
-                  "payments",
-                  "merchants",
-                  "{id}",
-                },
                 ["rename"] = {
                   ["param"] = {
                     ["merchant_id"] = "id",
+                  },
+                },
+                ["segments"] = {
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["lit"] = "merchants",
+                  },
+                  {
+                    ["var"] = "id",
                   },
                 },
                 ["select"] = {
@@ -1190,6 +1429,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "payments",
+                  "merchants",
+                  "{id}",
                 },
               },
             },
@@ -1213,14 +1457,20 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "PATCH",
                 ["orig"] = "/payments/merchants/{merchant_id}",
-                ["parts"] = {
-                  "payments",
-                  "merchants",
-                  "{id}",
-                },
                 ["rename"] = {
                   ["param"] = {
                     ["merchant_id"] = "id",
+                  },
+                },
+                ["segments"] = {
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["lit"] = "merchants",
+                  },
+                  {
+                    ["var"] = "id",
                   },
                 },
                 ["select"] = {
@@ -1231,6 +1481,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "payments",
+                  "merchants",
+                  "{id}",
                 },
               },
             },
@@ -1249,6 +1504,7 @@ local function make_config()
             ["type"] = "`$OBJECT`",
           },
           {
+            ["format"] = "int64",
             ["name"] = "createdAt",
             ["req"] = true,
             ["short"] = "The exact time, in epoch milliseconds, when this Network Token was created.",
@@ -1307,10 +1563,15 @@ local function make_config()
             ["type"] = "`$STRING`",
           },
           {
+            ["format"] = "int64",
             ["name"] = "updatedAt",
             ["short"] = "The exact time, in epoch milliseconds, when this Network Token was last updated.",
             ["type"] = "`$INTEGER`",
           },
+        },
+        ["id"] = {
+          ["field"] = "id",
+          ["name"] = "id",
         },
         ["name"] = "network_token",
         ["op"] = {
@@ -1333,15 +1594,23 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/payments/network-tokens/{network_token_id}/simulate",
-                ["parts"] = {
-                  "payments",
-                  "network-tokens",
-                  "{id}",
-                  "simulate",
-                },
                 ["rename"] = {
                   ["param"] = {
                     ["network_token_id"] = "id",
+                  },
+                },
+                ["segments"] = {
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["lit"] = "network-tokens",
+                  },
+                  {
+                    ["var"] = "id",
+                  },
+                  {
+                    ["lit"] = "simulate",
                   },
                 },
                 ["select"] = {
@@ -1354,20 +1623,34 @@ local function make_config()
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
+                ["parts"] = {
+                  "payments",
+                  "network-tokens",
+                  "{id}",
+                  "simulate",
+                },
               },
               {
                 ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/payments/network-tokens",
-                ["parts"] = {
-                  "payments",
-                  "network-tokens",
+                ["segments"] = {
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["lit"] = "network-tokens",
+                  },
                 },
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "payments",
+                  "network-tokens",
                 },
               },
             },
@@ -1391,14 +1674,20 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/payments/network-tokens/{network_token_id}",
-                ["parts"] = {
-                  "payments",
-                  "network-tokens",
-                  "{id}",
-                },
                 ["rename"] = {
                   ["param"] = {
                     ["network_token_id"] = "id",
+                  },
+                },
+                ["segments"] = {
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["lit"] = "network-tokens",
+                  },
+                  {
+                    ["var"] = "id",
                   },
                 },
                 ["select"] = {
@@ -1409,6 +1698,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "payments",
+                  "network-tokens",
+                  "{id}",
                 },
               },
             },
@@ -1433,6 +1727,10 @@ local function make_config()
             ["type"] = "`$STRING`",
           },
         },
+        ["id"] = {
+          ["field"] = "id",
+          ["name"] = "id",
+        },
         ["name"] = "network_token_cryptogram",
         ["op"] = {
           ["create"] = {
@@ -1454,15 +1752,23 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/payments/network-tokens/{network_token_id}/cryptograms",
-                ["parts"] = {
-                  "payments",
-                  "network-tokens",
-                  "{id}",
-                  "cryptograms",
-                },
                 ["rename"] = {
                   ["param"] = {
                     ["network_token_id"] = "id",
+                  },
+                },
+                ["segments"] = {
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["lit"] = "network-tokens",
+                  },
+                  {
+                    ["var"] = "id",
+                  },
+                  {
+                    ["lit"] = "cryptograms",
                   },
                 },
                 ["select"] = {
@@ -1473,6 +1779,12 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "payments",
+                  "network-tokens",
+                  "{id}",
+                  "cryptograms",
                 },
               },
             },
@@ -1506,6 +1818,7 @@ local function make_config()
             ["type"] = "`$ARRAY`",
           },
           {
+            ["format"] = "int64",
             ["name"] = "createdAt",
             ["req"] = true,
             ["short"] = "The exact time, in epoch milliseconds, when this Merchant was created.",
@@ -1559,6 +1872,7 @@ local function make_config()
             ["type"] = "`$STRING`",
           },
           {
+            ["format"] = "int64",
             ["name"] = "updatedAt",
             ["short"] = "The exact time, in epoch milliseconds, when this Merchant was last updated.",
             ["type"] = "`$INTEGER`",
@@ -1569,6 +1883,10 @@ local function make_config()
             ["short"] = "The official website URL of the Merchant.",
             ["type"] = "`$STRING`",
           },
+        },
+        ["id"] = {
+          ["field"] = "id",
+          ["name"] = "id",
         },
         ["name"] = "payment",
         ["op"] = {
@@ -1604,9 +1922,13 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/payments/merchants",
-                ["parts"] = {
-                  "payments",
-                  "merchants",
+                ["segments"] = {
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["lit"] = "merchants",
+                  },
                 },
                 ["select"] = {
                   ["$action"] = "merchant",
@@ -1619,6 +1941,10 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body.data`",
+                },
+                ["parts"] = {
+                  "payments",
+                  "merchants",
                 },
               },
               {
@@ -1643,9 +1969,13 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/payments/acquirers",
-                ["parts"] = {
-                  "payments",
-                  "acquirers",
+                ["segments"] = {
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["lit"] = "acquirers",
+                  },
                 },
                 ["select"] = {
                   ["$action"] = "acquirer",
@@ -1657,6 +1987,10 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body.data`",
+                },
+                ["parts"] = {
+                  "payments",
+                  "acquirers",
                 },
               },
               {
@@ -1674,11 +2008,19 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/payments/3ds-sessions/{3ds_session_id}/messages",
-                ["parts"] = {
-                  "payments",
-                  "3ds-sessions",
-                  "{3ds_session_id}",
-                  "messages",
+                ["segments"] = {
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["lit"] = "3ds-sessions",
+                  },
+                  {
+                    ["var"] = "3ds_session_id",
+                  },
+                  {
+                    ["lit"] = "messages",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -1688,6 +2030,12 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body.messages`",
+                },
+                ["parts"] = {
+                  "payments",
+                  "3ds-sessions",
+                  "{3ds_session_id}",
+                  "messages",
                 },
               },
             },
@@ -1711,10 +2059,16 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/payments/acquirers/{acquirer_id}",
-                ["parts"] = {
-                  "payments",
-                  "acquirers",
-                  "{acquirer_id}",
+                ["segments"] = {
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["lit"] = "acquirers",
+                  },
+                  {
+                    ["var"] = "acquirer_id",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -1724,6 +2078,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "payments",
+                  "acquirers",
+                  "{acquirer_id}",
                 },
               },
               {
@@ -1741,10 +2100,16 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/payments/cards/{card_id}",
-                ["parts"] = {
-                  "payments",
-                  "cards",
-                  "{card_id}",
+                ["segments"] = {
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["lit"] = "cards",
+                  },
+                  {
+                    ["var"] = "card_id",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -1754,6 +2119,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "payments",
+                  "cards",
+                  "{card_id}",
                 },
               },
               {
@@ -1771,10 +2141,16 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/payments/merchants/{merchant_id}",
-                ["parts"] = {
-                  "payments",
-                  "merchants",
-                  "{merchant_id}",
+                ["segments"] = {
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["lit"] = "merchants",
+                  },
+                  {
+                    ["var"] = "merchant_id",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -1784,6 +2160,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "payments",
+                  "merchants",
+                  "{merchant_id}",
                 },
               },
               {
@@ -1801,10 +2182,16 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/payments/network-tokens/{network_token_id}",
-                ["parts"] = {
-                  "payments",
-                  "network-tokens",
-                  "{network_token_id}",
+                ["segments"] = {
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["lit"] = "network-tokens",
+                  },
+                  {
+                    ["var"] = "network_token_id",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -1814,6 +2201,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "payments",
+                  "network-tokens",
+                  "{network_token_id}",
                 },
               },
             },
@@ -1858,6 +2250,7 @@ local function make_config()
             },
           },
           {
+            ["format"] = "int64",
             ["name"] = "createdAt",
             ["short"] = "The exact time, in epoch milliseconds, when this Relay was created.",
             ["type"] = "`$INTEGER`",
@@ -1888,10 +2281,15 @@ local function make_config()
             ["type"] = "`$ARRAY`",
           },
           {
+            ["format"] = "int64",
             ["name"] = "updatedAt",
             ["short"] = "The exact time, in epoch milliseconds, when this Relay was updated.",
             ["type"] = "`$INTEGER`",
           },
+        },
+        ["id"] = {
+          ["field"] = "id",
+          ["name"] = "id",
         },
         ["name"] = "relay",
         ["op"] = {
@@ -1914,9 +2312,13 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/relays/{id}",
-                ["parts"] = {
-                  "relays",
-                  "{id}",
+                ["segments"] = {
+                  {
+                    ["lit"] = "relays",
+                  },
+                  {
+                    ["var"] = "id",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -1926,6 +2328,10 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "relays",
+                  "{id}",
                 },
               },
             },
@@ -1949,9 +2355,13 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "PATCH",
                 ["orig"] = "/relays/{id}",
-                ["parts"] = {
-                  "relays",
-                  "{id}",
+                ["segments"] = {
+                  {
+                    ["lit"] = "relays",
+                  },
+                  {
+                    ["var"] = "id",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -1961,6 +2371,10 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "relays",
+                  "{id}",
                 },
               },
             },
@@ -2012,6 +2426,7 @@ local function make_config()
             ["type"] = "`$OBJECT`",
           },
           {
+            ["format"] = "int64",
             ["name"] = "createdAt",
             ["req"] = true,
             ["short"] = "The exact time, in epoch milliseconds, when this 3DS-Session was created.",
@@ -2119,6 +2534,7 @@ local function make_config()
             ["type"] = "`$OBJECT`",
           },
           {
+            ["format"] = "int64",
             ["name"] = "updatedAt",
             ["short"] = "The exact time, in epoch milliseconds, when this 3DS-Session was last updated.",
             ["type"] = "`$INTEGER`",
@@ -2129,6 +2545,10 @@ local function make_config()
             ["short"] = "The 3D Secure version used to authenticate the session.",
             ["type"] = "`$STRING`",
           },
+        },
+        ["id"] = {
+          ["field"] = "id",
+          ["name"] = "id",
         },
         ["name"] = "three_ds_session",
         ["op"] = {
@@ -2141,14 +2561,22 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/payments/3ds-sessions",
-                ["parts"] = {
-                  "payments",
-                  "3ds-sessions",
+                ["segments"] = {
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["lit"] = "3ds-sessions",
+                  },
                 },
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "payments",
+                  "3ds-sessions",
                 },
               },
             },
@@ -2172,10 +2600,16 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/payments/3ds-sessions/{3ds_session_id}",
-                ["parts"] = {
-                  "payments",
-                  "3ds-sessions",
-                  "{3ds_session_id}",
+                ["segments"] = {
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["lit"] = "3ds-sessions",
+                  },
+                  {
+                    ["var"] = "3ds_session_id",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -2185,6 +2619,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "payments",
+                  "3ds-sessions",
+                  "{3ds_session_id}",
                 },
               },
             },
@@ -2201,6 +2640,7 @@ local function make_config()
       ["webhook"] = {
         ["fields"] = {
           {
+            ["format"] = "int64",
             ["name"] = "createdAt",
             ["short"] = "The exact time, in epoch milliseconds, when this Webhook Endpoint was created.",
             ["type"] = "`$INTEGER`",
@@ -2222,6 +2662,7 @@ local function make_config()
             ["type"] = "`$STRING`",
           },
           {
+            ["format"] = "int64",
             ["name"] = "updatedAt",
             ["short"] = "The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated.",
             ["type"] = {
@@ -2244,6 +2685,10 @@ local function make_config()
             ["type"] = "`$STRING`",
           },
         },
+        ["id"] = {
+          ["field"] = "id",
+          ["name"] = "id",
+        },
         ["name"] = "webhook",
         ["op"] = {
           ["create"] = {
@@ -2255,13 +2700,18 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/webhook-endpoints",
-                ["parts"] = {
-                  "webhook-endpoints",
+                ["segments"] = {
+                  {
+                    ["lit"] = "webhook-endpoints",
+                  },
                 },
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "webhook-endpoints",
                 },
               },
             },
@@ -2292,8 +2742,10 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/webhook-endpoints",
-                ["parts"] = {
-                  "webhook-endpoints",
+                ["segments"] = {
+                  {
+                    ["lit"] = "webhook-endpoints",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -2304,6 +2756,9 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body.data`",
+                },
+                ["parts"] = {
+                  "webhook-endpoints",
                 },
               },
             },
@@ -2328,9 +2783,13 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/webhook-endpoints/{webhook_endpoint_id}",
-                ["parts"] = {
-                  "webhook-endpoints",
-                  "{webhook_endpoint_id}",
+                ["segments"] = {
+                  {
+                    ["lit"] = "webhook-endpoints",
+                  },
+                  {
+                    ["var"] = "webhook_endpoint_id",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -2340,6 +2799,10 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "webhook-endpoints",
+                  "{webhook_endpoint_id}",
                 },
               },
             },
@@ -2356,6 +2819,7 @@ local function make_config()
       ["webhook_endpoint"] = {
         ["fields"] = {
           {
+            ["format"] = "int64",
             ["name"] = "createdAt",
             ["short"] = "The exact time, in epoch milliseconds, when this Webhook Endpoint was created.",
             ["type"] = "`$INTEGER`",
@@ -2377,6 +2841,7 @@ local function make_config()
             ["type"] = "`$STRING`",
           },
           {
+            ["format"] = "int64",
             ["name"] = "updatedAt",
             ["short"] = "The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated.",
             ["type"] = {
@@ -2392,6 +2857,10 @@ local function make_config()
             ["short"] = "The URL of the Webhook Endpoint.",
             ["type"] = "`$STRING`",
           },
+        },
+        ["id"] = {
+          ["field"] = "id",
+          ["name"] = "id",
         },
         ["name"] = "webhook_endpoint",
         ["op"] = {
@@ -2415,13 +2884,17 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/webhook-endpoints/{webhook_endpoint_id}",
-                ["parts"] = {
-                  "webhook-endpoints",
-                  "{id}",
-                },
                 ["rename"] = {
                   ["param"] = {
                     ["webhook_endpoint_id"] = "id",
+                  },
+                },
+                ["segments"] = {
+                  {
+                    ["lit"] = "webhook-endpoints",
+                  },
+                  {
+                    ["var"] = "id",
                   },
                 },
                 ["select"] = {
@@ -2432,6 +2905,10 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "webhook-endpoints",
+                  "{id}",
                 },
               },
             },
@@ -2456,13 +2933,17 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "PATCH",
                 ["orig"] = "/webhook-endpoints/{webhook_endpoint_id}",
-                ["parts"] = {
-                  "webhook-endpoints",
-                  "{id}",
-                },
                 ["rename"] = {
                   ["param"] = {
                     ["webhook_endpoint_id"] = "id",
+                  },
+                },
+                ["segments"] = {
+                  {
+                    ["lit"] = "webhook-endpoints",
+                  },
+                  {
+                    ["var"] = "id",
                   },
                 },
                 ["select"] = {
@@ -2473,6 +2954,10 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "webhook-endpoints",
+                  "{id}",
                 },
               },
             },

@@ -118,14 +118,22 @@ func acquirerDirectSetup(mockres any) *acquirerDirectSetupResult {
 	env := envOverride(map[string]any{
 		"EVERVAULT_TEST_ACQUIRER_ENTID": map[string]any{},
 		"EVERVAULT_TEST_LIVE":    "FALSE",
-		"EVERVAULT_APIKEY":       "NONE",
+		"EVERVAULT_APIKEY":       "",
 	})
 
 	live := env["EVERVAULT_TEST_LIVE"] == "TRUE"
 
 	if live {
-		mergedOpts := map[string]any{
+		// sdk-test-control.json's test.client.options seeds the live
+		// client; the generated fields below overwrite anything they name.
+		mergedOpts := map[string]any{}
+		for k, v := range liveClientOptions() {
+			mergedOpts[k] = v
+		}
+		for k, v := range map[string]any{
 			"apikey": env["EVERVAULT_APIKEY"],
+		} {
+			mergedOpts[k] = v
 		}
 		client := sdk.NewEvervaultSDK(mergedOpts)
 

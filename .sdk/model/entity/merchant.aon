@@ -36,6 +36,7 @@ main: kit: entity: merchant: {
       type: "`$STRING`"
     }
     {
+      format: "int64"
       name: "createdAt"
       req: true
       short: "The exact time, in epoch milliseconds, when this Merchant was created."
@@ -66,6 +67,7 @@ main: kit: entity: merchant: {
       type: "`$STRING`"
     }
     {
+      format: "int64"
       name: "updatedAt"
       req: false
       short: "The exact time, in epoch milliseconds, when this Merchant was last updated."
@@ -92,9 +94,13 @@ main: kit: entity: merchant: {
         {
           method: "POST"
           orig: "/payments/merchants"
-          parts: [
-            "payments"
-            "merchants"
+          segments: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "merchants"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -120,16 +126,22 @@ main: kit: entity: merchant: {
           }
           method: "GET"
           orig: "/payments/merchants/{merchant_id}"
-          parts: [
-            "payments"
-            "merchants"
-            "{id}"
-          ]
           rename: {
             param: {
               merchant_id: "id"
             }
           }
+          segments: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "merchants"
+            }
+            {
+              var: "id"
+            }
+          ]
           select: {
             exist: [
               "id"
@@ -159,16 +171,22 @@ main: kit: entity: merchant: {
           }
           method: "PATCH"
           orig: "/payments/merchants/{merchant_id}"
-          parts: [
-            "payments"
-            "merchants"
-            "{id}"
-          ]
           rename: {
             param: {
               merchant_id: "id"
             }
           }
+          segments: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "merchants"
+            }
+            {
+              var: "id"
+            }
+          ]
           select: {
             exist: [
               "id"

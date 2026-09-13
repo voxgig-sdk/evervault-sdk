@@ -60,15 +60,18 @@ def _payment_direct_setup(mockres):
     env = runner.env_override({
         "EVERVAULT_TEST_PAYMENT_ENTID": {},
         "EVERVAULT_TEST_LIVE": "FALSE",
-        "EVERVAULT_APIKEY": "NONE",
+        "EVERVAULT_APIKEY": "",
     })
 
     live = env.get("EVERVAULT_TEST_LIVE") == "TRUE"
 
     if live:
-        merged_opts = {
+        # sdk-test-control.json's test.client.options seeds the live
+        # client; the generated fields below overwrite anything they name.
+        merged_opts = dict(runner.live_client_options())
+        merged_opts.update({
             "apikey": env.get("EVERVAULT_APIKEY"),
-        }
+        })
         client = EvervaultSDK(merged_opts)
         return {
             "client": client,

@@ -490,11 +490,8 @@ class Webhook(WebhookRequired, total=False):
 
 
 class WebhookListMatch(TypedDict, total=False):
-    createdAt: int
-    events: list
-    id: str
-    updatedAt: int | None
-    url: str
+    limit: int
+    starting_after: str
 
 
 class WebhookCreateDataRequired(TypedDict):

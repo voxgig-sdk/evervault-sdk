@@ -12,6 +12,7 @@ main: kit: entity: function_run: {
       type: "`$BOOLEAN`"
     }
     {
+      format: "int64"
       name: "createdAt"
       req: false
       short: "The exact time, in epoch milliseconds, when this Function execution was triggered."
@@ -79,10 +80,16 @@ main: kit: entity: function_run: {
           }
           method: "POST"
           orig: "/functions/{function_name}/runs"
-          parts: [
-            "functions"
-            "{function_name}"
-            "runs"
+          segments: [
+            {
+              lit: "functions"
+            }
+            {
+              var: "function_name"
+            }
+            {
+              lit: "runs"
+            }
           ]
           select: {
             exist: [

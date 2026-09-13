@@ -46,17 +46,25 @@ main: kit: entity: network_token_cryptogram: {
           }
           method: "POST"
           orig: "/payments/network-tokens/{network_token_id}/cryptograms"
-          parts: [
-            "payments"
-            "network-tokens"
-            "{id}"
-            "cryptograms"
-          ]
           rename: {
             param: {
               network_token_id: "id"
             }
           }
+          segments: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "network-tokens"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "cryptograms"
+            }
+          ]
           select: {
             exist: [
               "id"

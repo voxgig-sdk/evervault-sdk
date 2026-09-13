@@ -72,9 +72,13 @@ main: kit: entity: acquirer: {
         {
           method: "POST"
           orig: "/payments/acquirers"
-          parts: [
-            "payments"
-            "acquirers"
+          segments: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "acquirers"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -100,16 +104,22 @@ main: kit: entity: acquirer: {
           }
           method: "GET"
           orig: "/payments/acquirers/{acquirer_id}"
-          parts: [
-            "payments"
-            "acquirers"
-            "{id}"
-          ]
           rename: {
             param: {
               acquirer_id: "id"
             }
           }
+          segments: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "acquirers"
+            }
+            {
+              var: "id"
+            }
+          ]
           select: {
             exist: [
               "id"
@@ -139,16 +149,22 @@ main: kit: entity: acquirer: {
           }
           method: "PATCH"
           orig: "/payments/acquirers/{acquirer_id}"
-          parts: [
-            "payments"
-            "acquirers"
-            "{id}"
-          ]
           rename: {
             param: {
               acquirer_id: "id"
             }
           }
+          segments: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "acquirers"
+            }
+            {
+              var: "id"
+            }
+          ]
           select: {
             exist: [
               "id"

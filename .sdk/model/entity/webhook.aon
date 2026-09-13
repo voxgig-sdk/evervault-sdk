@@ -6,6 +6,7 @@ main: kit: entity: webhook: {
 
   fields: [
     {
+      format: "int64"
       name: "createdAt"
       req: false
       short: "The exact time, in epoch milliseconds, when this Webhook Endpoint was created."
@@ -30,6 +31,7 @@ main: kit: entity: webhook: {
       type: "`$STRING`"
     }
     {
+      format: "int64"
       name: "updatedAt"
       req: false
       short: "The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated."
@@ -68,8 +70,10 @@ main: kit: entity: webhook: {
         {
           method: "POST"
           orig: "/webhook-endpoints"
-          parts: [
-            "webhook-endpoints"
+          segments: [
+            {
+              lit: "webhook-endpoints"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -104,8 +108,10 @@ main: kit: entity: webhook: {
           }
           method: "GET"
           orig: "/webhook-endpoints"
-          parts: [
-            "webhook-endpoints"
+          segments: [
+            {
+              lit: "webhook-endpoints"
+            }
           ]
           select: {
             exist: [
@@ -138,9 +144,13 @@ main: kit: entity: webhook: {
           }
           method: "DELETE"
           orig: "/webhook-endpoints/{webhook_endpoint_id}"
-          parts: [
-            "webhook-endpoints"
-            "{webhook_endpoint_id}"
+          segments: [
+            {
+              lit: "webhook-endpoints"
+            }
+            {
+              var: "webhook_endpoint_id"
+            }
           ]
           select: {
             exist: [

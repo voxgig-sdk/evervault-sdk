@@ -77,15 +77,17 @@ function acquirer_direct_setup($mockres)
     $env = Runner::env_override([
         "EVERVAULT_TEST_ACQUIRER_ENTID" => [],
         "EVERVAULT_TEST_LIVE" => "FALSE",
-        "EVERVAULT_APIKEY" => "NONE",
+        "EVERVAULT_APIKEY" => "",
     ]);
 
     $live = $env["EVERVAULT_TEST_LIVE"] === "TRUE";
 
     if ($live) {
-        $merged_opts = [
+        // Merged so the generated fields win: sdk-test-control.json's
+        // test.client.options adds to the live client, it does not redirect it.
+        $merged_opts = array_merge(Runner::live_client_options(), [
             "apikey" => $env["EVERVAULT_APIKEY"],
-        ];
+        ]);
         $client = new EvervaultSDK($merged_opts);
         return [
             "client" => $client,

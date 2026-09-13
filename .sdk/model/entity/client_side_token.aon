@@ -33,8 +33,10 @@ main: kit: entity: client_side_token: {
         {
           method: "POST"
           orig: "/client-side-tokens"
-          parts: [
-            "client-side-tokens"
+          segments: [
+            {
+              lit: "client-side-tokens"
+            }
           ]
           transform: {
             req: "`reqdata`"

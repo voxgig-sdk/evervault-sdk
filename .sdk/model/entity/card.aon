@@ -83,17 +83,25 @@ main: kit: entity: card: {
           }
           method: "POST"
           orig: "/payments/cards/{card_id}/simulate"
-          parts: [
-            "payments"
-            "cards"
-            "{id}"
-            "simulate"
-          ]
           rename: {
             param: {
               card_id: "id"
             }
           }
+          segments: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "cards"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "simulate"
+            }
+          ]
           select: {
             "$action": "simulate"
             exist: [
@@ -108,9 +116,13 @@ main: kit: entity: card: {
         {
           method: "POST"
           orig: "/insights/cards"
-          parts: [
-            "insights"
-            "cards"
+          segments: [
+            {
+              lit: "insights"
+            }
+            {
+              lit: "cards"
+            }
           ]
           transform: {
             req: {
@@ -122,9 +134,13 @@ main: kit: entity: card: {
         {
           method: "POST"
           orig: "/payments/cards"
-          parts: [
-            "payments"
-            "cards"
+          segments: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "cards"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -150,16 +166,22 @@ main: kit: entity: card: {
           }
           method: "GET"
           orig: "/payments/cards/{card_id}"
-          parts: [
-            "payments"
-            "cards"
-            "{id}"
-          ]
           rename: {
             param: {
               card_id: "id"
             }
           }
+          segments: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "cards"
+            }
+            {
+              var: "id"
+            }
+          ]
           select: {
             exist: [
               "id"

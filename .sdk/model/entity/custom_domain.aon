@@ -6,6 +6,7 @@ main: kit: entity: custom_domain: {
 
   fields: [
     {
+      format: "int64"
       name: "createdAt"
       req: false
       short: "The exact time, in epoch milliseconds, when this custom domain was created."
@@ -42,12 +43,14 @@ main: kit: entity: custom_domain: {
       type: "`$STRING`"
     }
     {
+      format: "int64"
       name: "updatedAt"
       req: false
       short: "The exact time, in epoch milliseconds, when this custom domain was last updated."
       type: "`$INTEGER`"
     }
     {
+      format: "uuidv4"
       name: "validationRecord"
       req: false
       short: "Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain"
@@ -79,10 +82,16 @@ main: kit: entity: custom_domain: {
           }
           method: "POST"
           orig: "/relays/{relay_id}/custom-domains"
-          parts: [
-            "relays"
-            "{relay_id}"
-            "custom-domains"
+          segments: [
+            {
+              lit: "relays"
+            }
+            {
+              var: "relay_id"
+            }
+            {
+              lit: "custom-domains"
+            }
           ]
           select: {
             exist: [
@@ -120,11 +129,19 @@ main: kit: entity: custom_domain: {
           }
           method: "GET"
           orig: "/relays/{relay_id}/custom-domains/{id}"
-          parts: [
-            "relays"
-            "{relay_id}"
-            "custom-domains"
-            "{id}"
+          segments: [
+            {
+              lit: "relays"
+            }
+            {
+              var: "relay_id"
+            }
+            {
+              lit: "custom-domains"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [

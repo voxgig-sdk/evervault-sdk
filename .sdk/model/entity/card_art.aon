@@ -50,11 +50,19 @@ main: kit: entity: card_art: {
           }
           method: "GET"
           orig: "/payments/network-tokens/{network_token_id}/card-art"
-          parts: [
-            "payments"
-            "network-tokens"
-            "{network_token_id}"
-            "card-art"
+          segments: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "network-tokens"
+            }
+            {
+              var: "network_token_id"
+            }
+            {
+              lit: "card-art"
+            }
           ]
           select: {
             exist: [

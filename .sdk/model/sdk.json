@@ -106,9 +106,13 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/payments/acquirers",
-                  "parts": [
-                    "payments",
-                    "acquirers"
+                  "segments": [
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "acquirers"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -139,16 +143,22 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/payments/acquirers/{acquirer_id}",
-                  "parts": [
-                    "payments",
-                    "acquirers",
-                    "{id}"
-                  ],
                   "rename": {
                     "param": {
                       "acquirer_id": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "acquirers"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "id"
@@ -182,16 +192,22 @@
                   "kind": "http",
                   "method": "PATCH",
                   "orig": "/payments/acquirers/{acquirer_id}",
-                  "parts": [
-                    "payments",
-                    "acquirers",
-                    "{id}"
-                  ],
                   "rename": {
                     "param": {
                       "acquirer_id": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "acquirers"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "id"
@@ -235,9 +251,13 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/payments/bin-lookups",
-                  "parts": [
-                    "payments",
-                    "bin-lookups"
+                  "segments": [
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "bin-lookups"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -347,17 +367,25 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/payments/cards/{card_id}/simulate",
-                  "parts": [
-                    "payments",
-                    "cards",
-                    "{id}",
-                    "simulate"
-                  ],
                   "rename": {
                     "param": {
                       "card_id": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "cards"
+                    },
+                    {
+                      "var": "id"
+                    },
+                    {
+                      "lit": "simulate"
+                    }
+                  ],
                   "select": {
                     "$action": "simulate",
                     "exist": [
@@ -375,9 +403,13 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/insights/cards",
-                  "parts": [
-                    "insights",
-                    "cards"
+                  "segments": [
+                    {
+                      "lit": "insights"
+                    },
+                    {
+                      "lit": "cards"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -393,9 +425,13 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/payments/cards",
-                  "parts": [
-                    "payments",
-                    "cards"
+                  "segments": [
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "cards"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -426,16 +462,22 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/payments/cards/{card_id}",
-                  "parts": [
-                    "payments",
-                    "cards",
-                    "{id}"
-                  ],
                   "rename": {
                     "param": {
                       "card_id": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "cards"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "id"
@@ -511,11 +553,19 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/payments/network-tokens/{network_token_id}/card-art",
-                  "parts": [
-                    "payments",
-                    "network-tokens",
-                    "{network_token_id}",
-                    "card-art"
+                  "segments": [
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "network-tokens"
+                    },
+                    {
+                      "var": "network_token_id"
+                    },
+                    {
+                      "lit": "card-art"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -578,8 +628,10 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/client-side-tokens",
-                  "parts": [
-                    "client-side-tokens"
+                  "segments": [
+                    {
+                      "lit": "client-side-tokens"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -622,6 +674,7 @@
             },
             {
               "active": true,
+              "format": "int64",
               "name": "createdAt",
               "req": false,
               "short": "The exact time, in epoch milliseconds, when this custom domain was created.",
@@ -710,6 +763,7 @@
             },
             {
               "active": true,
+              "format": "int64",
               "name": "updatedAt",
               "req": false,
               "short": "The exact time, in epoch milliseconds, when this custom domain was last updated.",
@@ -717,6 +771,7 @@
             },
             {
               "active": true,
+              "format": "uuidv4",
               "name": "validationRecord",
               "req": false,
               "short": "Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain",
@@ -739,8 +794,10 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/decrypt",
-                  "parts": [
-                    "decrypt"
+                  "segments": [
+                    {
+                      "lit": "decrypt"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -754,8 +811,10 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/encrypt",
-                  "parts": [
-                    "encrypt"
+                  "segments": [
+                    {
+                      "lit": "encrypt"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -769,8 +828,10 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/inspect",
-                  "parts": [
-                    "inspect"
+                  "segments": [
+                    {
+                      "lit": "inspect"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -784,8 +845,10 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/relays",
-                  "parts": [
-                    "relays"
+                  "segments": [
+                    {
+                      "lit": "relays"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -816,10 +879,16 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/relays/{relay_id}/custom-domains",
-                  "parts": [
-                    "relays",
-                    "{relay_id}",
-                    "custom-domains"
+                  "segments": [
+                    {
+                      "lit": "relays"
+                    },
+                    {
+                      "var": "relay_id"
+                    },
+                    {
+                      "lit": "custom-domains"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -837,8 +906,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/relays",
-                  "parts": [
-                    "relays"
+                  "segments": [
+                    {
+                      "lit": "relays"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -877,11 +948,19 @@
                   "kind": "http",
                   "method": "DELETE",
                   "orig": "/relays/{relay_id}/custom-domains/{id}",
-                  "parts": [
-                    "relays",
-                    "{relay_id}",
-                    "custom-domains",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "relays"
+                    },
+                    {
+                      "var": "relay_id"
+                    },
+                    {
+                      "lit": "custom-domains"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -911,9 +990,13 @@
                   "kind": "http",
                   "method": "DELETE",
                   "orig": "/relays/{id}",
-                  "parts": [
-                    "relays",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "relays"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -944,6 +1027,7 @@
           "fields": [
             {
               "active": true,
+              "format": "int64",
               "name": "createdAt",
               "req": false,
               "short": "The exact time, in epoch milliseconds, when this custom domain was created.",
@@ -985,6 +1069,7 @@
             },
             {
               "active": true,
+              "format": "int64",
               "name": "updatedAt",
               "req": false,
               "short": "The exact time, in epoch milliseconds, when this custom domain was last updated.",
@@ -992,6 +1077,7 @@
             },
             {
               "active": true,
+              "format": "uuidv4",
               "name": "validationRecord",
               "req": false,
               "short": "Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain",
@@ -1025,10 +1111,16 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/relays/{relay_id}/custom-domains",
-                  "parts": [
-                    "relays",
-                    "{relay_id}",
-                    "custom-domains"
+                  "segments": [
+                    {
+                      "lit": "relays"
+                    },
+                    {
+                      "var": "relay_id"
+                    },
+                    {
+                      "lit": "custom-domains"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1071,11 +1163,19 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/relays/{relay_id}/custom-domains/{id}",
-                  "parts": [
-                    "relays",
-                    "{relay_id}",
-                    "custom-domains",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "relays"
+                    },
+                    {
+                      "var": "relay_id"
+                    },
+                    {
+                      "lit": "custom-domains"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1114,6 +1214,7 @@
             },
             {
               "active": true,
+              "format": "int64",
               "name": "createdAt",
               "req": false,
               "short": "The exact time, in epoch milliseconds, when this Function execution was triggered.",
@@ -1188,10 +1289,16 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/functions/{function_name}/runs",
-                  "parts": [
-                    "functions",
-                    "{function_name}",
-                    "runs"
+                  "segments": [
+                    {
+                      "lit": "functions"
+                    },
+                    {
+                      "var": "function_name"
+                    },
+                    {
+                      "lit": "runs"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1255,6 +1362,7 @@
             },
             {
               "active": true,
+              "format": "int64",
               "name": "createdAt",
               "req": true,
               "short": "The exact time, in epoch milliseconds, when this Merchant was created.",
@@ -1290,6 +1398,7 @@
             },
             {
               "active": true,
+              "format": "int64",
               "name": "updatedAt",
               "req": false,
               "short": "The exact time, in epoch milliseconds, when this Merchant was last updated.",
@@ -1319,9 +1428,13 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/payments/merchants",
-                  "parts": [
-                    "payments",
-                    "merchants"
+                  "segments": [
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "merchants"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -1352,16 +1465,22 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/payments/merchants/{merchant_id}",
-                  "parts": [
-                    "payments",
-                    "merchants",
-                    "{id}"
-                  ],
                   "rename": {
                     "param": {
                       "merchant_id": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "merchants"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "id"
@@ -1395,16 +1514,22 @@
                   "kind": "http",
                   "method": "PATCH",
                   "orig": "/payments/merchants/{merchant_id}",
-                  "parts": [
-                    "payments",
-                    "merchants",
-                    "{id}"
-                  ],
                   "rename": {
                     "param": {
                       "merchant_id": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "merchants"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "id"
@@ -1437,6 +1562,7 @@
             },
             {
               "active": true,
+              "format": "int64",
               "name": "createdAt",
               "req": true,
               "short": "The exact time, in epoch milliseconds, when this Network Token was created.",
@@ -1507,6 +1633,7 @@
             },
             {
               "active": true,
+              "format": "int64",
               "name": "updatedAt",
               "req": false,
               "short": "The exact time, in epoch milliseconds, when this Network Token was last updated.",
@@ -1540,17 +1667,25 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/payments/network-tokens/{network_token_id}/simulate",
-                  "parts": [
-                    "payments",
-                    "network-tokens",
-                    "{id}",
-                    "simulate"
-                  ],
                   "rename": {
                     "param": {
                       "network_token_id": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "network-tokens"
+                    },
+                    {
+                      "var": "id"
+                    },
+                    {
+                      "lit": "simulate"
+                    }
+                  ],
                   "select": {
                     "$action": "simulate",
                     "exist": [
@@ -1568,9 +1703,13 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/payments/network-tokens",
-                  "parts": [
-                    "payments",
-                    "network-tokens"
+                  "segments": [
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "network-tokens"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -1601,16 +1740,22 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/payments/network-tokens/{network_token_id}",
-                  "parts": [
-                    "payments",
-                    "network-tokens",
-                    "{id}"
-                  ],
                   "rename": {
                     "param": {
                       "network_token_id": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "network-tokens"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "id"
@@ -1680,17 +1825,25 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/payments/network-tokens/{network_token_id}/cryptograms",
-                  "parts": [
-                    "payments",
-                    "network-tokens",
-                    "{id}",
-                    "cryptograms"
-                  ],
                   "rename": {
                     "param": {
                       "network_token_id": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "network-tokens"
+                    },
+                    {
+                      "var": "id"
+                    },
+                    {
+                      "lit": "cryptograms"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "id"
@@ -1744,6 +1897,7 @@
             },
             {
               "active": true,
+              "format": "int64",
               "name": "createdAt",
               "req": true,
               "short": "The exact time, in epoch milliseconds, when this Merchant was created.",
@@ -1813,6 +1967,7 @@
             },
             {
               "active": true,
+              "format": "int64",
               "name": "updatedAt",
               "req": false,
               "short": "The exact time, in epoch milliseconds, when this Merchant was last updated.",
@@ -1871,9 +2026,13 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/payments/merchants",
-                  "parts": [
-                    "payments",
-                    "merchants"
+                  "segments": [
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "merchants"
+                    }
                   ],
                   "select": {
                     "$action": "merchant",
@@ -1915,9 +2074,13 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/payments/acquirers",
-                  "parts": [
-                    "payments",
-                    "acquirers"
+                  "segments": [
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "acquirers"
+                    }
                   ],
                   "select": {
                     "$action": "acquirer",
@@ -1948,11 +2111,19 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/payments/3ds-sessions/{3ds_session_id}/messages",
-                  "parts": [
-                    "payments",
-                    "3ds-sessions",
-                    "{3ds_session_id}",
-                    "messages"
+                  "segments": [
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "3ds-sessions"
+                    },
+                    {
+                      "var": "3ds_session_id"
+                    },
+                    {
+                      "lit": "messages"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1987,10 +2158,16 @@
                   "kind": "http",
                   "method": "DELETE",
                   "orig": "/payments/acquirers/{acquirer_id}",
-                  "parts": [
-                    "payments",
-                    "acquirers",
-                    "{acquirer_id}"
+                  "segments": [
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "acquirers"
+                    },
+                    {
+                      "var": "acquirer_id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -2019,10 +2196,16 @@
                   "kind": "http",
                   "method": "DELETE",
                   "orig": "/payments/cards/{card_id}",
-                  "parts": [
-                    "payments",
-                    "cards",
-                    "{card_id}"
+                  "segments": [
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "cards"
+                    },
+                    {
+                      "var": "card_id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -2051,10 +2234,16 @@
                   "kind": "http",
                   "method": "DELETE",
                   "orig": "/payments/merchants/{merchant_id}",
-                  "parts": [
-                    "payments",
-                    "merchants",
-                    "{merchant_id}"
+                  "segments": [
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "merchants"
+                    },
+                    {
+                      "var": "merchant_id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -2083,10 +2272,16 @@
                   "kind": "http",
                   "method": "DELETE",
                   "orig": "/payments/network-tokens/{network_token_id}",
-                  "parts": [
-                    "payments",
-                    "network-tokens",
-                    "{network_token_id}"
+                  "segments": [
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "network-tokens"
+                    },
+                    {
+                      "var": "network_token_id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -2149,6 +2344,7 @@
             },
             {
               "active": true,
+              "format": "int64",
               "name": "createdAt",
               "req": false,
               "short": "The exact time, in epoch milliseconds, when this Relay was created.",
@@ -2191,6 +2387,7 @@
             },
             {
               "active": true,
+              "format": "int64",
               "name": "updatedAt",
               "req": false,
               "short": "The exact time, in epoch milliseconds, when this Relay was updated.",
@@ -2224,9 +2421,13 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/relays/{id}",
-                  "parts": [
-                    "relays",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "relays"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -2261,9 +2462,13 @@
                   "kind": "http",
                   "method": "PATCH",
                   "orig": "/relays/{id}",
-                  "parts": [
-                    "relays",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "relays"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -2338,6 +2543,7 @@
             },
             {
               "active": true,
+              "format": "int64",
               "name": "createdAt",
               "req": true,
               "short": "The exact time, in epoch milliseconds, when this 3DS-Session was created.",
@@ -2472,6 +2678,7 @@
             },
             {
               "active": true,
+              "format": "int64",
               "name": "updatedAt",
               "req": false,
               "short": "The exact time, in epoch milliseconds, when this 3DS-Session was last updated.",
@@ -2501,9 +2708,13 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/payments/3ds-sessions",
-                  "parts": [
-                    "payments",
-                    "3ds-sessions"
+                  "segments": [
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "3ds-sessions"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -2534,10 +2745,16 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/payments/3ds-sessions/{3ds_session_id}",
-                  "parts": [
-                    "payments",
-                    "3ds-sessions",
-                    "{3ds_session_id}"
+                  "segments": [
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "3ds-sessions"
+                    },
+                    {
+                      "var": "3ds_session_id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -2568,6 +2785,7 @@
           "fields": [
             {
               "active": true,
+              "format": "int64",
               "name": "createdAt",
               "req": false,
               "short": "The exact time, in epoch milliseconds, when this Webhook Endpoint was created.",
@@ -2595,6 +2813,7 @@
             },
             {
               "active": true,
+              "format": "int64",
               "name": "updatedAt",
               "req": false,
               "short": "The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated.",
@@ -2636,8 +2855,10 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/webhook-endpoints",
-                  "parts": [
-                    "webhook-endpoints"
+                  "segments": [
+                    {
+                      "lit": "webhook-endpoints"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -2678,8 +2899,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/webhook-endpoints",
-                  "parts": [
-                    "webhook-endpoints"
+                  "segments": [
+                    {
+                      "lit": "webhook-endpoints"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -2716,9 +2939,13 @@
                   "kind": "http",
                   "method": "DELETE",
                   "orig": "/webhook-endpoints/{webhook_endpoint_id}",
-                  "parts": [
-                    "webhook-endpoints",
-                    "{webhook_endpoint_id}"
+                  "segments": [
+                    {
+                      "lit": "webhook-endpoints"
+                    },
+                    {
+                      "var": "webhook_endpoint_id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -2749,6 +2976,7 @@
           "fields": [
             {
               "active": true,
+              "format": "int64",
               "name": "createdAt",
               "req": false,
               "short": "The exact time, in epoch milliseconds, when this Webhook Endpoint was created.",
@@ -2776,6 +3004,7 @@
             },
             {
               "active": true,
+              "format": "int64",
               "name": "updatedAt",
               "req": false,
               "short": "The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated.",
@@ -2823,15 +3052,19 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/webhook-endpoints/{webhook_endpoint_id}",
-                  "parts": [
-                    "webhook-endpoints",
-                    "{id}"
-                  ],
                   "rename": {
                     "param": {
                       "webhook_endpoint_id": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "webhook-endpoints"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "id"
@@ -2866,15 +3099,19 @@
                   "kind": "http",
                   "method": "PATCH",
                   "orig": "/webhook-endpoints/{webhook_endpoint_id}",
-                  "parts": [
-                    "webhook-endpoints",
-                    "{id}"
-                  ],
                   "rename": {
                     "param": {
                       "webhook_endpoint_id": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "webhook-endpoints"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "id"
@@ -2957,8 +3194,11 @@
             }
           },
           "name": "test",
+          "needs": {},
           "origname": "",
           "package": "@voxgig/sdkgen",
+          "plugin": {},
+          "spec": {},
           "target": {
             "go": {
               "deps": {}
@@ -3754,6 +3994,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -3779,6 +4022,10 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/runner_test.go",
+            "test/struct_runner_test.go"
+          ],
           "title": "Golang"
         },
         "go-cli": {
@@ -3830,6 +4077,7 @@
               "active": false
             }
           },
+          "provides": {},
           "publish": {
             "registry": {
               "active": false,
@@ -3854,6 +4102,7 @@
             },
             "version": "0.1.1"
           },
+          "superseded": [],
           "title": "Go CLI"
         },
         "go-mcp": {
@@ -3905,6 +4154,7 @@
               "active": false
             }
           },
+          "provides": {},
           "publish": {
             "registry": {
               "active": false,
@@ -3929,6 +4179,7 @@
             },
             "version": "0.1.1"
           },
+          "superseded": [],
           "title": "Go MCP server"
         },
         "lua": {
@@ -3969,6 +4220,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -3994,6 +4248,9 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/struct_runner.lua"
+          ],
           "title": "Lua"
         },
         "php": {
@@ -4028,6 +4285,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -4053,6 +4313,9 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/StructRunner.php"
+          ],
           "title": "PHP"
         },
         "py": {
@@ -4093,6 +4356,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -4118,6 +4384,9 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/struct_runner.py"
+          ],
           "title": "Python"
         },
         "rb": {
@@ -4163,6 +4432,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -4188,6 +4460,9 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/struct_runner.rb"
+          ],
           "title": "Ruby"
         },
         "ts": {
@@ -4205,11 +4480,6 @@
               "active": true,
               "kind": "dev",
               "version": "^25.6.0"
-            },
-            "dotenv": {
-              "active": true,
-              "kind": "dev",
-              "version": "^17.4.2"
             },
             "typescript": {
               "active": true,
@@ -4238,6 +4508,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -4262,6 +4535,14 @@
             },
             "version": "0.1.1"
           },
+          "superseded": [
+            "test/runner.ts",
+            "test/vendor/omni/compat.ts",
+            "src/feature/secrets/sekreto/Providers.ts",
+            "src/feature/secrets/sekreto/Sigv4.ts",
+            "src/feature/secrets/sekreto/provider/Registry.ts",
+            "src/feature/secrets/sekreto/provider/http.ts"
+          ],
           "title": "TypeScript"
         }
       },

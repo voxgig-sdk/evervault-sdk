@@ -6,6 +6,7 @@ main: kit: entity: webhook_endpoint: {
 
   fields: [
     {
+      format: "int64"
       name: "createdAt"
       req: false
       short: "The exact time, in epoch milliseconds, when this Webhook Endpoint was created."
@@ -30,6 +31,7 @@ main: kit: entity: webhook_endpoint: {
       type: "`$STRING`"
     }
     {
+      format: "int64"
       name: "updatedAt"
       req: false
       short: "The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated."
@@ -74,15 +76,19 @@ main: kit: entity: webhook_endpoint: {
           }
           method: "GET"
           orig: "/webhook-endpoints/{webhook_endpoint_id}"
-          parts: [
-            "webhook-endpoints"
-            "{id}"
-          ]
           rename: {
             param: {
               webhook_endpoint_id: "id"
             }
           }
+          segments: [
+            {
+              lit: "webhook-endpoints"
+            }
+            {
+              var: "id"
+            }
+          ]
           select: {
             exist: [
               "id"
@@ -113,15 +119,19 @@ main: kit: entity: webhook_endpoint: {
           }
           method: "PATCH"
           orig: "/webhook-endpoints/{webhook_endpoint_id}"
-          parts: [
-            "webhook-endpoints"
-            "{id}"
-          ]
           rename: {
             param: {
               webhook_endpoint_id: "id"
             }
           }
+          segments: [
+            {
+              lit: "webhook-endpoints"
+            }
+            {
+              var: "id"
+            }
+          ]
           select: {
             exist: [
               "id"
