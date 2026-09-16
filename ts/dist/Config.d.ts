@@ -1230,41 +1230,11 @@ declare class Config {
             };
         };
         payment: {
-            fields: ({
+            fields: {
                 name: string;
                 short: string;
                 type: string;
-                req?: undefined;
-                format?: undefined;
-            } | {
-                name: string;
-                req: boolean;
-                short: string;
-                type: string;
-                format?: undefined;
-            } | {
-                format: string;
-                name: string;
-                req: boolean;
-                short: string;
-                type: string;
-            } | {
-                name: string;
-                req: boolean;
-                type: string;
-                short?: undefined;
-                format?: undefined;
-            } | {
-                format: string;
-                name: string;
-                short: string;
-                type: string;
-                req?: undefined;
-            })[];
-            id: {
-                field: string;
-                name: string;
-            };
+            }[];
             name: string;
             op: {
                 list: {

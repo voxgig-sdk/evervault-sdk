@@ -221,7 +221,6 @@ export interface NetworkToken {
     status: string;
     tokenRequestorIdentifier: string;
     tokenServiceProvider: string;
-    updateType?: string;
     updatedAt?: number;
 }
 export interface NetworkTokenLoadMatch {
@@ -238,7 +237,6 @@ export interface NetworkTokenCreateData {
     status: string;
     tokenRequestorIdentifier: string;
     tokenServiceProvider: string;
-    updateType?: string;
     updatedAt?: number;
     $action?: string;
     [action: string]: any;
@@ -254,22 +252,9 @@ export interface NetworkTokenCryptogramCreateData {
     cryptogram?: string;
 }
 export interface Payment {
-    applePay?: Record<string, any>;
-    business?: Record<string, any>;
-    categoryCode?: string;
-    configurations: any[];
-    createdAt: number;
     created_at?: number;
     data?: Record<string, any>;
-    default: boolean;
-    description?: string;
-    id: string;
-    name: string;
-    networkTokens?: Record<string, any>;
-    shortName?: string;
     type?: string;
-    updatedAt?: number;
-    website: string;
 }
 export interface PaymentListMatch {
     "3ds_session_id": string;

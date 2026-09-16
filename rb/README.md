@@ -426,7 +426,6 @@ API path: `/payments/merchants`
 | `status` | The status of the Network Token. |
 | `tokenRequestorIdentifier` | The identifier of the Token Requestor (TRID) that requested the Network Token. |
 | `tokenServiceProvider` | The Token Service Provider (TSP) that issued the Network Token. |
-| `updateType` | The type of update to simulate. |
 | `updatedAt` | The exact time, in epoch milliseconds, when this Network Token was last updated. |
 
 Operations: Create, Load.
@@ -449,22 +448,9 @@ API path: `/payments/network-tokens/{network_token_id}/cryptograms`
 
 | Field | Description |
 | --- | --- |
-| `applePay` | The Merchant's Apple Pay configuration. |
-| `business` | The business details of the Merchant. |
-| `categoryCode` | The 4-digit Merchant Category Code (MCC). |
-| `configurations` | The acquirer configuration settings. |
-| `createdAt` | The exact time, in epoch milliseconds, when this Merchant was created. |
 | `created_at` | Timestamp when the message was created |
 | `data` | The message data payload |
-| `default` |  |
-| `description` | The description of the acquirer configuration. |
-| `id` | A unique identifier assigned to each Merchant. |
-| `name` | The official name of the Merchant as recognized in transactions and communications. |
-| `networkTokens` | The Merchant's Network Token configuration. |
-| `shortName` | A shorter version of the Merchant's name. |
 | `type` | The type of 3DS message (e.g., AReq, ARes, CReq, CRes, RReq, RRes) |
-| `updatedAt` | The exact time, in epoch milliseconds, when this Merchant was last updated. |
-| `website` | The official website URL of the Merchant. |
 
 Operations: List, Remove.
 
@@ -912,7 +898,6 @@ Create an instance: `network_token = client.NetworkToken`
 | `status` | `String` | The status of the Network Token. |
 | `tokenRequestorIdentifier` | `String` | The identifier of the Token Requestor (TRID) that requested the Network Token. |
 | `tokenServiceProvider` | `String` | The Token Service Provider (TSP) that issued the Network Token. |
-| `updateType` | `String` | The type of update to simulate. |
 | `updatedAt` | `Integer` | The exact time, in epoch milliseconds, when this Network Token was last updated. |
 
 #### Example: Load
@@ -981,22 +966,9 @@ Create an instance: `payment = client.Payment`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `applePay` | `Hash` | The Merchant's Apple Pay configuration. |
-| `business` | `Hash` | The business details of the Merchant. |
-| `categoryCode` | `String` | The 4-digit Merchant Category Code (MCC). |
-| `configurations` | `Array` | The acquirer configuration settings. |
-| `createdAt` | `Integer` | The exact time, in epoch milliseconds, when this Merchant was created. |
 | `created_at` | `Integer` | Timestamp when the message was created |
 | `data` | `Hash` | The message data payload |
-| `default` | `Boolean` |  |
-| `description` | `String` | The description of the acquirer configuration. |
-| `id` | `String` | A unique identifier assigned to each Merchant. |
-| `name` | `String` | The official name of the Merchant as recognized in transactions and communications. |
-| `networkTokens` | `Hash` | The Merchant's Network Token configuration. |
-| `shortName` | `String` | A shorter version of the Merchant's name. |
 | `type` | `String` | The type of 3DS message (e.g., AReq, ARes, CReq, CRes, RReq, RRes) |
-| `updatedAt` | `Integer` | The exact time, in epoch milliseconds, when this Merchant was last updated. |
-| `website` | `String` | The official website URL of the Merchant. |
 
 #### Example: List
 

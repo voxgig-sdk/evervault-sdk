@@ -840,7 +840,6 @@ $network_token = $client->NetworkToken();
 | `status` | `string` | Yes | The status of the Network Token. |
 | `tokenRequestorIdentifier` | `string` | Yes | The identifier of the Token Requestor (TRID) that requested the Network Token. |
 | `tokenServiceProvider` | `string` | Yes | The Token Service Provider (TSP) that issued the Network Token. |
-| `updateType` | `string` | No | The type of update to simulate. |
 | `updatedAt` | `int` | No | The exact time, in epoch milliseconds, when this Network Token was last updated. |
 
 ### Operations
@@ -967,22 +966,9 @@ $payment = $client->Payment();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `applePay` | `array` | No | The Merchant's Apple Pay configuration. |
-| `business` | `array` | No | The business details of the Merchant. |
-| `categoryCode` | `string` | No | The 4-digit Merchant Category Code (MCC). |
-| `configurations` | `array` | Yes | The acquirer configuration settings. |
-| `createdAt` | `int` | Yes | The exact time, in epoch milliseconds, when this Merchant was created. |
 | `created_at` | `int` | No | Timestamp when the message was created |
 | `data` | `array` | No | The message data payload |
-| `default` | `bool` | Yes |  |
-| `description` | `string` | No | The description of the acquirer configuration. |
-| `id` | `string` | Yes | A unique identifier assigned to each Merchant. |
-| `name` | `string` | Yes | The official name of the Merchant as recognized in transactions and communications. |
-| `networkTokens` | `array` | No | The Merchant's Network Token configuration. |
-| `shortName` | `string` | No | A shorter version of the Merchant's name. |
 | `type` | `string` | No | The type of 3DS message (e.g., AReq, ARes, CReq, CRes, RReq, RRes) |
-| `updatedAt` | `int` | No | The exact time, in epoch milliseconds, when this Merchant was last updated. |
-| `website` | `string` | Yes | The official website URL of the Merchant. |
 
 ### Operations
 

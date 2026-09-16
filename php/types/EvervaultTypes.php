@@ -313,7 +313,6 @@ class NetworkToken
     public string $status;
     public string $tokenRequestorIdentifier;
     public string $tokenServiceProvider;
-    public ?string $updateType = null;
     public ?int $updatedAt = null;
 }
 
@@ -336,7 +335,6 @@ class NetworkTokenCreateData
     public string $status;
     public string $tokenRequestorIdentifier;
     public string $tokenServiceProvider;
-    public ?string $updateType = null;
     public ?int $updatedAt = null;
 }
 
@@ -359,22 +357,9 @@ class NetworkTokenCryptogramCreateData
 /** Payment entity data model. */
 class Payment
 {
-    public ?array $applePay = null;
-    public ?array $business = null;
-    public ?string $categoryCode = null;
-    public array $configurations;
-    public int $createdAt;
     public ?int $created_at = null;
     public ?array $data = null;
-    public bool $default;
-    public ?string $description = null;
-    public string $id;
-    public string $name;
-    public ?array $networkTokens = null;
-    public ?string $shortName = null;
     public ?string $type = null;
-    public ?int $updatedAt = null;
-    public string $website;
 }
 
 /** Request payload for Payment#list. */

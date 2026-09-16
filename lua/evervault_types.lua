@@ -227,7 +227,6 @@
 ---@field status string
 ---@field tokenRequestorIdentifier string
 ---@field tokenServiceProvider string
----@field updateType? string
 ---@field updatedAt? number
 
 ---@class NetworkTokenLoadMatch
@@ -244,7 +243,6 @@
 ---@field status string
 ---@field tokenRequestorIdentifier string
 ---@field tokenServiceProvider string
----@field updateType? string
 ---@field updatedAt? number
 
 ---@class NetworkTokenCryptogram
@@ -258,22 +256,9 @@
 ---@field cryptogram? string
 
 ---@class Payment
----@field applePay? table
----@field business? table
----@field categoryCode? string
----@field configurations table
----@field createdAt number
 ---@field created_at? number
 ---@field data? table
----@field default boolean
----@field description? string
----@field id string
----@field name string
----@field networkTokens? table
----@field shortName? string
 ---@field type? string
----@field updatedAt? number
----@field website string
 
 ---@class PaymentListMatch
 ---@field ["3ds_session_id"] string

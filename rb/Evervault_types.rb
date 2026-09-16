@@ -802,9 +802,6 @@ MerchantUpdateData = Struct.new(
 # @!attribute [rw] tokenServiceProvider
 #   @return [String]
 #
-# @!attribute [rw] updateType
-#   @return [String, nil]
-#
 # @!attribute [rw] updatedAt
 #   @return [Integer, nil]
 NetworkToken = Struct.new(
@@ -818,7 +815,6 @@ NetworkToken = Struct.new(
   :status,
   :tokenRequestorIdentifier,
   :tokenServiceProvider,
-  :updateType,
   :updatedAt,
   keyword_init: true
 )
@@ -864,9 +860,6 @@ NetworkTokenLoadMatch = Struct.new(
 # @!attribute [rw] tokenServiceProvider
 #   @return [String]
 #
-# @!attribute [rw] updateType
-#   @return [String, nil]
-#
 # @!attribute [rw] updatedAt
 #   @return [Integer, nil]
 NetworkTokenCreateData = Struct.new(
@@ -880,7 +873,6 @@ NetworkTokenCreateData = Struct.new(
   :status,
   :tokenRequestorIdentifier,
   :tokenServiceProvider,
-  :updateType,
   :updatedAt,
   keyword_init: true
 )
@@ -921,70 +913,18 @@ NetworkTokenCryptogramCreateData = Struct.new(
 
 # Payment entity data model.
 #
-# @!attribute [rw] applePay
-#   @return [Hash, nil]
-#
-# @!attribute [rw] business
-#   @return [Hash, nil]
-#
-# @!attribute [rw] categoryCode
-#   @return [String, nil]
-#
-# @!attribute [rw] configurations
-#   @return [Array]
-#
-# @!attribute [rw] createdAt
-#   @return [Integer]
-#
 # @!attribute [rw] created_at
 #   @return [Integer, nil]
 #
 # @!attribute [rw] data
 #   @return [Hash, nil]
 #
-# @!attribute [rw] default
-#   @return [Boolean]
-#
-# @!attribute [rw] description
-#   @return [String, nil]
-#
-# @!attribute [rw] id
-#   @return [String]
-#
-# @!attribute [rw] name
-#   @return [String]
-#
-# @!attribute [rw] networkTokens
-#   @return [Hash, nil]
-#
-# @!attribute [rw] shortName
-#   @return [String, nil]
-#
 # @!attribute [rw] type
 #   @return [String, nil]
-#
-# @!attribute [rw] updatedAt
-#   @return [Integer, nil]
-#
-# @!attribute [rw] website
-#   @return [String]
 Payment = Struct.new(
-  :applePay,
-  :business,
-  :categoryCode,
-  :configurations,
-  :createdAt,
   :created_at,
   :data,
-  :default,
-  :description,
-  :id,
-  :name,
-  :networkTokens,
-  :shortName,
   :type,
-  :updatedAt,
-  :website,
   keyword_init: true
 )
 

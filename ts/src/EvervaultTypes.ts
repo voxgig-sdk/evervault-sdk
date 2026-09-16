@@ -258,7 +258,6 @@ export interface NetworkToken {
   status: string
   tokenRequestorIdentifier: string
   tokenServiceProvider: string
-  updateType?: string
   updatedAt?: number
 }
 
@@ -277,7 +276,6 @@ export interface NetworkTokenCreateData {
   status: string
   tokenRequestorIdentifier: string
   tokenServiceProvider: string
-  updateType?: string
   updatedAt?: number
 
   // Selects a custom action instead of the plain create:
@@ -300,22 +298,9 @@ export interface NetworkTokenCryptogramCreateData {
 }
 
 export interface Payment {
-  applePay?: Record<string, any>
-  business?: Record<string, any>
-  categoryCode?: string
-  configurations: any[]
-  createdAt: number
   created_at?: number
   data?: Record<string, any>
-  default: boolean
-  description?: string
-  id: string
-  name: string
-  networkTokens?: Record<string, any>
-  shortName?: string
   type?: string
-  updatedAt?: number
-  website: string
 }
 
 export interface PaymentListMatch {

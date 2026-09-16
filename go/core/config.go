@@ -1686,11 +1686,6 @@ func MakeConfig() map[string]any {
 						"type": "`$STRING`",
 					},
 					map[string]any{
-						"name": "updateType",
-						"short": "The type of update to simulate.",
-						"type": "`$STRING`",
-					},
-					map[string]any{
 						"format": "int64",
 						"name": "updatedAt",
 						"short": "The exact time, in epoch milliseconds, when this Network Token was last updated.",
@@ -1925,34 +1920,6 @@ func MakeConfig() map[string]any {
 			"payment": map[string]any{
 				"fields": []any{
 					map[string]any{
-						"name": "applePay",
-						"short": "The Merchant's Apple Pay configuration.",
-						"type": "`$OBJECT`",
-					},
-					map[string]any{
-						"name": "business",
-						"short": "The business details of the Merchant.",
-						"type": "`$OBJECT`",
-					},
-					map[string]any{
-						"name": "categoryCode",
-						"short": "The 4-digit Merchant Category Code (MCC).",
-						"type": "`$STRING`",
-					},
-					map[string]any{
-						"name": "configurations",
-						"req": true,
-						"short": "The acquirer configuration settings.",
-						"type": "`$ARRAY`",
-					},
-					map[string]any{
-						"format": "int64",
-						"name": "createdAt",
-						"req": true,
-						"short": "The exact time, in epoch milliseconds, when this Merchant was created.",
-						"type": "`$INTEGER`",
-					},
-					map[string]any{
 						"name": "created_at",
 						"short": "Timestamp when the message was created",
 						"type": "`$INTEGER`",
@@ -1963,58 +1930,10 @@ func MakeConfig() map[string]any {
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
-						"name": "default",
-						"req": true,
-						"type": "`$BOOLEAN`",
-					},
-					map[string]any{
-						"name": "description",
-						"short": "The description of the acquirer configuration.",
-						"type": "`$STRING`",
-					},
-					map[string]any{
-						"name": "id",
-						"req": true,
-						"short": "A unique identifier assigned to each Merchant.",
-						"type": "`$STRING`",
-					},
-					map[string]any{
-						"name": "name",
-						"req": true,
-						"short": "The official name of the Merchant as recognized in transactions and communications.",
-						"type": "`$STRING`",
-					},
-					map[string]any{
-						"name": "networkTokens",
-						"short": "The Merchant's Network Token configuration.",
-						"type": "`$OBJECT`",
-					},
-					map[string]any{
-						"name": "shortName",
-						"short": "A shorter version of the Merchant's name.",
-						"type": "`$STRING`",
-					},
-					map[string]any{
 						"name": "type",
 						"short": "The type of 3DS message (e.g., AReq, ARes, CReq, CRes, RReq, RRes)",
 						"type": "`$STRING`",
 					},
-					map[string]any{
-						"format": "int64",
-						"name": "updatedAt",
-						"short": "The exact time, in epoch milliseconds, when this Merchant was last updated.",
-						"type": "`$INTEGER`",
-					},
-					map[string]any{
-						"name": "website",
-						"req": true,
-						"short": "The official website URL of the Merchant.",
-						"type": "`$STRING`",
-					},
-				},
-				"id": map[string]any{
-					"field": "id",
-					"name": "id",
 				},
 				"name": "payment",
 				"op": map[string]any{

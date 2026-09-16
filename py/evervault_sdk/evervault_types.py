@@ -312,7 +312,6 @@ class NetworkTokenRequired(TypedDict):
 
 class NetworkToken(NetworkTokenRequired, total=False):
     paymentAccountReference: str
-    updateType: str
     updatedAt: int
 
 
@@ -334,7 +333,6 @@ class NetworkTokenCreateDataRequired(TypedDict):
 
 class NetworkTokenCreateData(NetworkTokenCreateDataRequired, total=False):
     paymentAccountReference: str
-    updateType: str
     updatedAt: int
 
 
@@ -353,26 +351,10 @@ class NetworkTokenCryptogramCreateData(NetworkTokenCryptogramCreateDataRequired,
     cryptogram: str
 
 
-class PaymentRequired(TypedDict):
-    configurations: list
-    createdAt: int
-    default: bool
-    id: str
-    name: str
-    website: str
-
-
-class Payment(PaymentRequired, total=False):
-    applePay: dict
-    business: dict
-    categoryCode: str
+class Payment(TypedDict, total=False):
     created_at: int
     data: dict
-    description: str
-    networkTokens: dict
-    shortName: str
     type: str
-    updatedAt: int
 
 
 class PaymentListMatch(TypedDict):

@@ -159,11 +159,9 @@ SDK operations: `list`, `remove`.
 
 Key fields to recognise:
 
-- `applePay`: The Merchant&#39;s Apple Pay configuration.
-- `business`: The business details of the Merchant.
-- `categoryCode`: The 4-digit Merchant Category Code (MCC).
-- `configurations`: The acquirer configuration settings.
-- `createdAt`: The exact time, in epoch milliseconds, when this Merchant was created.
+- `created_at`: Timestamp when the message was created
+- `data`: The message data payload
+- `type`: The type of 3DS message (for example, AReq, ARes, CReq, CRes, RReq, RRes)
 
 ### [Relay](docs/api/relay.html)
 

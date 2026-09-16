@@ -67,12 +67,6 @@ main: kit: entity: network_token: {
       type: "`$STRING`"
     }
     {
-      name: "updateType"
-      req: false
-      short: "The type of update to simulate."
-      type: "`$STRING`"
-    }
-    {
       format: "int64"
       name: "updatedAt"
       req: false

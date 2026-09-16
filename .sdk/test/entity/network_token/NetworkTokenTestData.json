@@ -3,45 +3,42 @@
     "network_token": {
       "NETWORK_TOKEN00": {
         "card": {},
-        "createdAt": 121,
+        "createdAt": 111,
         "expiry": {},
         "id": "NETWORK_TOKEN00",
-        "merchant": "s7c",
-        "number": "s7d",
-        "paymentAccountReference": "s7e",
-        "status": "s7f",
-        "tokenRequestorIdentifier": "s80",
-        "tokenServiceProvider": "s81",
-        "updateType": "s82",
-        "updatedAt": 131
+        "merchant": "s72",
+        "number": "s73",
+        "paymentAccountReference": "s74",
+        "status": "s75",
+        "tokenRequestorIdentifier": "s76",
+        "tokenServiceProvider": "s77",
+        "updatedAt": 120
       },
       "NETWORK_TOKEN01": {
         "card": {},
-        "createdAt": 241,
+        "createdAt": 221,
         "expiry": {},
         "id": "NETWORK_TOKEN01",
-        "merchant": "sf4",
-        "number": "sf5",
-        "paymentAccountReference": "sf6",
-        "status": "sf7",
-        "tokenRequestorIdentifier": "sf8",
-        "tokenServiceProvider": "sf9",
-        "updateType": "sfa",
-        "updatedAt": 251
+        "merchant": "se0",
+        "number": "se1",
+        "paymentAccountReference": "se2",
+        "status": "se3",
+        "tokenRequestorIdentifier": "se4",
+        "tokenServiceProvider": "se5",
+        "updatedAt": 230
       },
       "NETWORK_TOKEN02": {
         "card": {},
-        "createdAt": 361,
+        "createdAt": 331,
         "expiry": {},
         "id": "NETWORK_TOKEN02",
-        "merchant": "s16c",
-        "number": "s16d",
-        "paymentAccountReference": "s16e",
-        "status": "s16f",
-        "tokenRequestorIdentifier": "s170",
-        "tokenServiceProvider": "s171",
-        "updateType": "s172",
-        "updatedAt": 371
+        "merchant": "s14e",
+        "number": "s14f",
+        "paymentAccountReference": "s150",
+        "status": "s151",
+        "tokenRequestorIdentifier": "s152",
+        "tokenServiceProvider": "s153",
+        "updatedAt": 340
       }
     }
   },
@@ -49,16 +46,15 @@
     "network_token": {
       "network_token_ref01": {
         "card": {},
-        "createdAt": 481,
+        "createdAt": 441,
         "expiry": {},
-        "merchant": "s1e4",
-        "number": "s1e5",
-        "paymentAccountReference": "s1e6",
-        "status": "s1e7",
-        "tokenRequestorIdentifier": "s1e8",
-        "tokenServiceProvider": "s1e9",
-        "updateType": "s1ea",
-        "updatedAt": 491
+        "merchant": "s1bc",
+        "number": "s1bd",
+        "paymentAccountReference": "s1be",
+        "status": "s1bf",
+        "tokenRequestorIdentifier": "s1c0",
+        "tokenServiceProvider": "s1c1",
+        "updatedAt": 450
       }
     }
   },

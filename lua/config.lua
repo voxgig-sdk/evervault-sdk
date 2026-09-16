@@ -1682,11 +1682,6 @@ local function make_config()
             ["type"] = "`$STRING`",
           },
           {
-            ["name"] = "updateType",
-            ["short"] = "The type of update to simulate.",
-            ["type"] = "`$STRING`",
-          },
-          {
             ["format"] = "int64",
             ["name"] = "updatedAt",
             ["short"] = "The exact time, in epoch milliseconds, when this Network Token was last updated.",
@@ -1921,34 +1916,6 @@ local function make_config()
       ["payment"] = {
         ["fields"] = {
           {
-            ["name"] = "applePay",
-            ["short"] = "The Merchant's Apple Pay configuration.",
-            ["type"] = "`$OBJECT`",
-          },
-          {
-            ["name"] = "business",
-            ["short"] = "The business details of the Merchant.",
-            ["type"] = "`$OBJECT`",
-          },
-          {
-            ["name"] = "categoryCode",
-            ["short"] = "The 4-digit Merchant Category Code (MCC).",
-            ["type"] = "`$STRING`",
-          },
-          {
-            ["name"] = "configurations",
-            ["req"] = true,
-            ["short"] = "The acquirer configuration settings.",
-            ["type"] = "`$ARRAY`",
-          },
-          {
-            ["format"] = "int64",
-            ["name"] = "createdAt",
-            ["req"] = true,
-            ["short"] = "The exact time, in epoch milliseconds, when this Merchant was created.",
-            ["type"] = "`$INTEGER`",
-          },
-          {
             ["name"] = "created_at",
             ["short"] = "Timestamp when the message was created",
             ["type"] = "`$INTEGER`",
@@ -1959,58 +1926,10 @@ local function make_config()
             ["type"] = "`$OBJECT`",
           },
           {
-            ["name"] = "default",
-            ["req"] = true,
-            ["type"] = "`$BOOLEAN`",
-          },
-          {
-            ["name"] = "description",
-            ["short"] = "The description of the acquirer configuration.",
-            ["type"] = "`$STRING`",
-          },
-          {
-            ["name"] = "id",
-            ["req"] = true,
-            ["short"] = "A unique identifier assigned to each Merchant.",
-            ["type"] = "`$STRING`",
-          },
-          {
-            ["name"] = "name",
-            ["req"] = true,
-            ["short"] = "The official name of the Merchant as recognized in transactions and communications.",
-            ["type"] = "`$STRING`",
-          },
-          {
-            ["name"] = "networkTokens",
-            ["short"] = "The Merchant's Network Token configuration.",
-            ["type"] = "`$OBJECT`",
-          },
-          {
-            ["name"] = "shortName",
-            ["short"] = "A shorter version of the Merchant's name.",
-            ["type"] = "`$STRING`",
-          },
-          {
             ["name"] = "type",
             ["short"] = "The type of 3DS message (e.g., AReq, ARes, CReq, CRes, RReq, RRes)",
             ["type"] = "`$STRING`",
           },
-          {
-            ["format"] = "int64",
-            ["name"] = "updatedAt",
-            ["short"] = "The exact time, in epoch milliseconds, when this Merchant was last updated.",
-            ["type"] = "`$INTEGER`",
-          },
-          {
-            ["name"] = "website",
-            ["req"] = true,
-            ["short"] = "The official website URL of the Merchant.",
-            ["type"] = "`$STRING`",
-          },
-        },
-        ["id"] = {
-          ["field"] = "id",
-          ["name"] = "id",
         },
         ["name"] = "payment",
         ["op"] = {

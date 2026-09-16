@@ -286,7 +286,6 @@ type NetworkToken struct {
 	Status string `json:"status"`
 	TokenRequestorIdentifier string `json:"tokenRequestorIdentifier"`
 	TokenServiceProvider string `json:"tokenServiceProvider"`
-	UpdateType *string `json:"updateType,omitempty"`
 	UpdatedAt *int `json:"updatedAt,omitempty"`
 }
 
@@ -307,7 +306,6 @@ type NetworkTokenCreateData struct {
 	Status string `json:"status"`
 	TokenRequestorIdentifier string `json:"tokenRequestorIdentifier"`
 	TokenServiceProvider string `json:"tokenServiceProvider"`
-	UpdateType *string `json:"updateType,omitempty"`
 	UpdatedAt *int `json:"updatedAt,omitempty"`
 }
 
@@ -327,22 +325,9 @@ type NetworkTokenCryptogramCreateData struct {
 
 // Payment is the typed data model for the payment entity.
 type Payment struct {
-	ApplePay *map[string]any `json:"applePay,omitempty"`
-	Business *map[string]any `json:"business,omitempty"`
-	CategoryCode *string `json:"categoryCode,omitempty"`
-	Configurations []any `json:"configurations"`
-	CreatedAt int `json:"createdAt"`
-	CreatedAt2 *int `json:"created_at,omitempty"`
+	CreatedAt *int `json:"created_at,omitempty"`
 	Data *map[string]any `json:"data,omitempty"`
-	Default bool `json:"default"`
-	Description *string `json:"description,omitempty"`
-	Id string `json:"id"`
-	Name string `json:"name"`
-	NetworkTokens *map[string]any `json:"networkTokens,omitempty"`
-	ShortName *string `json:"shortName,omitempty"`
 	Type *string `json:"type,omitempty"`
-	UpdatedAt *int `json:"updatedAt,omitempty"`
-	Website string `json:"website"`
 }
 
 // PaymentListMatch is the typed request payload for Payment.ListTyped.

@@ -1865,13 +1865,6 @@
             },
             {
               "active": true,
-              "name": "updateType",
-              "req": false,
-              "short": "The type of update to simulate.",
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
               "format": "int64",
               "name": "updatedAt",
               "req": false,
@@ -2132,42 +2125,6 @@
           "fields": [
             {
               "active": true,
-              "name": "applePay",
-              "req": false,
-              "short": "The Merchant's Apple Pay configuration.",
-              "type": "`$OBJECT`"
-            },
-            {
-              "active": true,
-              "name": "business",
-              "req": false,
-              "short": "The business details of the Merchant.",
-              "type": "`$OBJECT`"
-            },
-            {
-              "active": true,
-              "name": "categoryCode",
-              "req": false,
-              "short": "The 4-digit Merchant Category Code (MCC).",
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "configurations",
-              "req": true,
-              "short": "The acquirer configuration settings.",
-              "type": "`$ARRAY`"
-            },
-            {
-              "active": true,
-              "format": "int64",
-              "name": "createdAt",
-              "req": true,
-              "short": "The exact time, in epoch milliseconds, when this Merchant was created.",
-              "type": "`$INTEGER`"
-            },
-            {
-              "active": true,
               "name": "created_at",
               "req": false,
               "short": "Timestamp when the message was created",
@@ -2182,72 +2139,12 @@
             },
             {
               "active": true,
-              "name": "default",
-              "req": true,
-              "type": "`$BOOLEAN`"
-            },
-            {
-              "active": true,
-              "name": "description",
-              "req": false,
-              "short": "The description of the acquirer configuration.",
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "id",
-              "req": true,
-              "short": "A unique identifier assigned to each Merchant.",
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "name",
-              "req": true,
-              "short": "The official name of the Merchant as recognized in transactions and communications.",
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "networkTokens",
-              "req": false,
-              "short": "The Merchant's Network Token configuration.",
-              "type": "`$OBJECT`"
-            },
-            {
-              "active": true,
-              "name": "shortName",
-              "req": false,
-              "short": "A shorter version of the Merchant's name.",
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
               "name": "type",
               "req": false,
               "short": "The type of 3DS message (e.g., AReq, ARes, CReq, CRes, RReq, RRes)",
               "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "format": "int64",
-              "name": "updatedAt",
-              "req": false,
-              "short": "The exact time, in epoch milliseconds, when this Merchant was last updated.",
-              "type": "`$INTEGER`"
-            },
-            {
-              "active": true,
-              "name": "website",
-              "req": true,
-              "short": "The official website URL of the Merchant.",
-              "type": "`$STRING`"
             }
           ],
-          "id": {
-            "field": "id",
-            "name": "id"
-          },
           "name": "payment",
           "op": {
             "list": {
