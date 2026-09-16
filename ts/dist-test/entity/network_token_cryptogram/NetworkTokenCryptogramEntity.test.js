@@ -40,6 +40,8 @@ const node_path_1 = __importDefault(require("node:path"));
 const Fs = __importStar(require("node:fs"));
 const node_test_1 = require("node:test");
 const node_assert_1 = __importDefault(require("node:assert"));
+const live_runner_1 = require("../../live-runner");
+const live_entity_1 = require("../../live-entity");
 const __1 = require("../../..");
 const utility_1 = require("../../utility");
 // AFTER the imports on purpose: TypeScript hoists `import` above any
@@ -59,16 +61,12 @@ const utility_1 = require("../../utility");
     (0, node_test_1.test)('basic', async (t) => {
         const live = 'TRUE' === process.env.EVERVAULT_TEST_LIVE;
         for (const op of ['create']) {
-            if ((0, utility_1.maybeSkipControl)(t, 'entityOp', 'network_token_cryptogram.' + op, live))
+            if (!live && (0, utility_1.maybeSkipControl)(t, 'entityOp', 'network_token_cryptogram.' + op, live))
                 return;
         }
         const setup = basicSetup();
-        // The basic flow consumes synthetic IDs and field values from the
-        // fixture (entity TestData.json). Those don't exist on the live API.
-        // Skip live runs unless the user provided a real ENTID env override.
-        if (setup.syntheticOnly) {
-            t.skip('live entity test uses synthetic IDs from fixture — set EVERVAULT_TEST_NETWORK_TOKEN_CRYPTOGRAM_ENTID JSON to run live');
-            return;
+        if (setup.live) {
+            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": [{ "active": true, "name": "createdAt", "req": false, "type": "`$INTEGER`", "index$": 0 }, { "active": true, "name": "cryptogram", "req": false, "type": "`$STRING`", "index$": 1 }, { "active": true, "name": "id", "req": false, "type": "`$STRING`", "index$": 2 }], "id": { "field": "id", "name": "id" }, "name": "network_token_cryptogram", "op": { "create": { "input": "data", "name": "create", "points": [{ "active": true, "args": { "params": [{ "active": true, "kind": "param", "name": "id", "orig": "network_token_id", "reqd": true, "type": "`$STRING`", "index$": 0 }] }, "contract": { "id": "POST /payments/network-tokens/{network_token_id}/cryptograms", "json": "{\"operationId\":\"createNetworkTokenCryptogram\",\"parameters\":[{\"description\":\"The unique identifier of the Network Token.\",\"in\":\"path\",\"name\":\"network_token_id\",\"required\":true,\"schema\":{\"type\":\"string\"}}],\"protocol\":\"http\",\"responses\":{\"201\":{\"content\":{\"application/json\":{\"examples\":{\"SuccessfulCreation\":{\"summary\":\"Network Token Cryptogram created\",\"value\":{\"createdAt\":1692972623233,\"cryptogram\":\"NTk0ZjM5M2QyNDMwNDE1MjkzMjg1ZTg5Y2NiZjdmNjE=\",\"id\":\"network_token_cryptogram_eead1d640d7c\"}}},\"schema\":{\"properties\":{\"createdAt\":{\"description\":\"The exact time, in epoch milliseconds, when this Network Token Cryptogram was created.\",\"example\":1692972623233,\"format\":\"int64\",\"type\":\"integer\"},\"cryptogram\":{\"description\":\"The value of the Network Token Cryptogram. This is the value that is used embedded in the Authorization request.\",\"example\":\"NTk0ZjM5M2QyNDMwNDE1MjkzMjg1ZTg5Y2NiZjdmNjE=\",\"type\":\"string\"},\"id\":{\"description\":\"A unique identifier representing a specific Network Token Cryptogram.\",\"example\":\"network_token_cryptogram_eead1d640d7c\",\"type\":\"string\"}},\"required\":[\"id\",\"cryptogram\",\"createdAt\"],\"type\":\"object\"}}},\"description\":\"Returns a Network Token Cryptogram object.\"}},\"security\":[{\"ApiKey\":[\"networkToken:createCryptogram\"]}],\"securitySchemes\":{\"ApiKey\":{\"description\":\"Authentication using an API key. The username is the App ID and the password is the Api Key.\",\"scheme\":\"basic\",\"type\":\"http\"},\"ClientSideToken\":{\"bearerFormat\":\"Token\",\"description\":\"Authentication using a short lived token that you can share with clients. The Authorization header must be formatted as follow: \\\"Token <Client-Side Token>\\\"\",\"scheme\":\"bearer\",\"type\":\"http\"},\"TokenAuth\":{\"bearerFormat\":\"RunToken\",\"description\":\"Authentication using a short lived run token that you can share with clients. The Authorization header must be formatted as follow: \\\"RunToken <Function Run Token>\\\"\",\"scheme\":\"bearer\",\"type\":\"http\"}},\"securitySource\":\"operation\"}", "source": "openapi3", "version": 1 }, "kind": "http", "method": "POST", "orig": "/payments/network-tokens/{network_token_id}/cryptograms", "rename": { "param": { "network_token_id": "id" } }, "segments": [{ "lit": "payments" }, { "lit": "network-tokens" }, { "var": "id" }, { "lit": "cryptograms" }], "select": { "exist": ["id"] }, "transform": { "req": "`reqdata`", "res": "`body`" }, "index$": 0 }], "key$": "create" } }, "relations": { "ancestors": [] }, "key$": "network_token_cryptogram", "name__orig": "network_token_cryptogram", "Name": "NetworkTokenCryptogram", "name_": "network_token_cryptogram", "name-": "network-token-cryptogram", "NAME": "NETWORK_TOKEN_CRYPTOGRAM", "index$": 10 }, { "active": true, "entity": "network_token_cryptogram", "key$": "BasicNetworkTokenCryptogramFlow", "kind": "basic", "name": "BasicNetworkTokenCryptogramFlow", "param": {}, "step": [{ "active": true, "data": {}, "input": { "ref": "network_token_cryptogram_ref01" }, "match": { "network_token_id": "network_token01" }, "op": "create", "spec": [], "valid": [], "index$": 0 }] }, 'NetworkTokenCryptogram');
         }
         const client = setup.client;
         const struct = setup.struct;
@@ -102,12 +100,6 @@ function basicSetup(extra) {
                 '`$VAL`': ['`$FORMAT`', 'upper', '`$COPY`']
             }]
     });
-    // Detect whether the user provided a real ENTID JSON via env var. The
-    // basic flow consumes synthetic IDs from the fixture file; without an
-    // override those synthetic IDs reach the live API and 4xx. Surface this
-    // to the test so it can skip rather than fail.
-    const idmapEnvVal = process.env['EVERVAULT_TEST_NETWORK_TOKEN_CRYPTOGRAM_ENTID'];
-    const idmapOverridden = null != idmapEnvVal && idmapEnvVal.trim().startsWith('{');
     const env = (0, utility_1.envOverride)({
         'EVERVAULT_TEST_NETWORK_TOKEN_CRYPTOGRAM_ENTID': idmap,
         'EVERVAULT_TEST_LIVE': 'FALSE',
@@ -117,7 +109,13 @@ function basicSetup(extra) {
     });
     idmap = env['EVERVAULT_TEST_NETWORK_TOKEN_CRYPTOGRAM_ENTID'];
     const live = 'TRUE' === env.EVERVAULT_TEST_LIVE;
+    const transport = (0, live_runner_1.createLiveTransport)();
     if (live) {
+        const rawIds = process.env['EVERVAULT_TEST_NETWORK_TOKEN_CRYPTOGRAM_ENTID'];
+        idmap = rawIds && rawIds.trim() ? JSON.parse(rawIds) : {};
+        if (!idmap || Array.isArray(idmap) || typeof idmap !== 'object') {
+            throw new Error('Live ENTID must be a JSON object');
+        }
         client = new __1.EvervaultSDK(merge([
             // FIRST, so the generated fields below win: sdk-test-control.json's
             // test.client.options adds to the live client, it does not redirect it.
@@ -131,7 +129,8 @@ function basicSetup(extra) {
             // argument at all - so a bare 'extra' silently discarded the apikey
             // and server values above and handed the SDK undefined. Harmless
             // while there was nothing in that object; not harmless now.
-            extra || {}
+            extra || {},
+            { system: { fetch: transport.fetch } }
         ]));
     }
     const setup = {
@@ -143,7 +142,7 @@ function basicSetup(extra) {
         data: entityData,
         explain: 'TRUE' === env.EVERVAULT_TEST_EXPLAIN,
         live,
-        syntheticOnly: live && !idmapOverridden,
+        transport,
         now: Date.now(),
     };
     return setup;

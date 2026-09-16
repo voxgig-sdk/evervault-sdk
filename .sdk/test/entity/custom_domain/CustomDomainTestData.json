@@ -2,32 +2,32 @@
   "existing": {
     "custom_domain": {
       "CUSTOM_DOMAIN00": {
-        "createdAt": "s46",
+        "createdAt": 70,
         "customDomain": "s47",
         "id": "CUSTOM_DOMAIN00",
         "relay": "s49",
         "status": "s4a",
-        "updatedAt": "s4b",
+        "updatedAt": 75,
         "validationRecord": "s4c",
         "relay_id": "RELAY01"
       },
       "CUSTOM_DOMAIN01": {
-        "createdAt": "s8c",
+        "createdAt": 140,
         "customDomain": "s8d",
         "id": "CUSTOM_DOMAIN01",
         "relay": "s8f",
         "status": "s90",
-        "updatedAt": "s91",
+        "updatedAt": 145,
         "validationRecord": "s92",
         "relay_id": "RELAY01"
       },
       "CUSTOM_DOMAIN02": {
-        "createdAt": "sd2",
+        "createdAt": 210,
         "customDomain": "sd3",
         "id": "CUSTOM_DOMAIN02",
         "relay": "sd5",
         "status": "sd6",
-        "updatedAt": "sd7",
+        "updatedAt": 215,
         "validationRecord": "sd8",
         "relay_id": "RELAY01"
       }
@@ -36,12 +36,292 @@
   "new": {
     "custom_domain": {
       "custom_domain_ref01": {
-        "createdAt": "s118",
+        "createdAt": 280,
         "customDomain": "s119",
         "relay": "s11b",
         "status": "s11c",
-        "updatedAt": "s11d",
+        "updatedAt": 285,
         "validationRecord": "s11e"
+      }
+    }
+  },
+  "requests": {
+    "POST /relays/{relay_id}/custom-domains": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "createCustomDomain",
+        "parameters": [
+          {
+            "description": "The id of the Relay to which the custom domain should be added.",
+            "in": "path",
+            "name": "relay_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "examples": {
+                "success": {
+                  "value": {
+                    "customDomain": "subdomain.example.com"
+                  }
+                }
+              },
+              "schema": {
+                "properties": {
+                  "customDomain": {
+                    "description": "The customer managed domain to which requests to be relayed to your domain should be sent.",
+                    "example": "subdomain.example.com",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "customDomain"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "success": {
+                    "value": {
+                      "createdAt": 1692972623233,
+                      "customDomain": "subdomain.example.com",
+                      "id": "custom_domain_j3od9Bl0WV1n",
+                      "relay": "relay_destination_d4ja57js9lnh",
+                      "status": "active",
+                      "updatedAt": 1692972623233,
+                      "validationRecord": "986f3008-86e7-4caf-bd8b-a5d312844153"
+                    }
+                  }
+                },
+                "schema": {
+                  "example": {
+                    "createdAt": 1692972623233,
+                    "customDomain": "subdomain.example.com",
+                    "id": "custom_domain_j3od9Bl0WV1n",
+                    "relay": "relay_destination_d4ja57js9lnh",
+                    "status": "active",
+                    "updatedAt": 1692972623233,
+                    "validationRecord": "986f3008-86e7-4caf-bd8b-a5d312844153"
+                  },
+                  "properties": {
+                    "createdAt": {
+                      "description": "The exact time, in epoch milliseconds, when this custom domain was created.",
+                      "example": 1692972623233,
+                      "format": "int64",
+                      "type": "integer"
+                    },
+                    "customDomain": {
+                      "description": "The customer managed domain to which requests to be relayed to your domain should be sent.",
+                      "example": "subdomain.example.com",
+                      "type": "string"
+                    },
+                    "id": {
+                      "description": "The unique identifier for the custom domain.",
+                      "example": "custom_domain_j3od9Bl0WV1n",
+                      "type": "string"
+                    },
+                    "relay": {
+                      "description": "The ID of the Relay with which this custom domain is associated.",
+                      "example": "relay_destination_d4ja57js9lnh",
+                      "type": "string"
+                    },
+                    "status": {
+                      "description": "The status of the domains DNS verification.",
+                      "enum": [
+                        "active",
+                        "inactive"
+                      ],
+                      "type": "string"
+                    },
+                    "updatedAt": {
+                      "description": "The exact time, in epoch milliseconds, when this custom domain was last updated.",
+                      "example": 1692972623233,
+                      "format": "int64",
+                      "type": "integer"
+                    },
+                    "validationRecord": {
+                      "description": "Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain",
+                      "example": "986f3008-86e7-4caf-bd8b-a5d312844153",
+                      "format": "uuidv4",
+                      "type": "string"
+                    }
+                  },
+                  "summary": "The Custom Domain Object",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "The custom domain has been created"
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "securitySchemes": {
+          "ApiKey": {
+            "description": "Authentication using an API key. The username is the App ID and the password is the Api Key.",
+            "scheme": "basic",
+            "type": "http"
+          },
+          "ClientSideToken": {
+            "bearerFormat": "Token",
+            "description": "Authentication using a short lived token that you can share with clients. The Authorization header must be formatted as follow: \"Token <Client-Side Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          },
+          "TokenAuth": {
+            "bearerFormat": "RunToken",
+            "description": "Authentication using a short lived run token that you can share with clients. The Authorization header must be formatted as follow: \"RunToken <Function Run Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          }
+        },
+        "securitySource": "operation"
+      }
+    },
+    "GET /relays/{relay_id}/custom-domains/{id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "retrieveCustomDomain",
+        "parameters": [
+          {
+            "description": "The id of the Relay to which the custom domain belongs.",
+            "in": "path",
+            "name": "relay_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The id of the custom domain to be fetched.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "success": {
+                    "value": {
+                      "createdAt": 1692972623233,
+                      "customDomain": "subdomain.example.com",
+                      "id": "custom_domain_j3od9Bl0WV1n",
+                      "relay": "relay_destination_d4ja57js9lnh",
+                      "status": "active",
+                      "updatedAt": 1692972623233,
+                      "validationRecord": "986f3008-86e7-4caf-bd8b-a5d312844153"
+                    }
+                  }
+                },
+                "schema": {
+                  "example": {
+                    "createdAt": 1692972623233,
+                    "customDomain": "subdomain.example.com",
+                    "id": "custom_domain_j3od9Bl0WV1n",
+                    "relay": "relay_destination_d4ja57js9lnh",
+                    "status": "active",
+                    "updatedAt": 1692972623233,
+                    "validationRecord": "986f3008-86e7-4caf-bd8b-a5d312844153"
+                  },
+                  "properties": {
+                    "createdAt": {
+                      "description": "The exact time, in epoch milliseconds, when this custom domain was created.",
+                      "example": 1692972623233,
+                      "format": "int64",
+                      "type": "integer"
+                    },
+                    "customDomain": {
+                      "description": "The customer managed domain to which requests to be relayed to your domain should be sent.",
+                      "example": "subdomain.example.com",
+                      "type": "string"
+                    },
+                    "id": {
+                      "description": "The unique identifier for the custom domain.",
+                      "example": "custom_domain_j3od9Bl0WV1n",
+                      "type": "string"
+                    },
+                    "relay": {
+                      "description": "The ID of the Relay with which this custom domain is associated.",
+                      "example": "relay_destination_d4ja57js9lnh",
+                      "type": "string"
+                    },
+                    "status": {
+                      "description": "The status of the domains DNS verification.",
+                      "enum": [
+                        "active",
+                        "inactive"
+                      ],
+                      "type": "string"
+                    },
+                    "updatedAt": {
+                      "description": "The exact time, in epoch milliseconds, when this custom domain was last updated.",
+                      "example": 1692972623233,
+                      "format": "int64",
+                      "type": "integer"
+                    },
+                    "validationRecord": {
+                      "description": "Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain",
+                      "example": "986f3008-86e7-4caf-bd8b-a5d312844153",
+                      "format": "uuidv4",
+                      "type": "string"
+                    }
+                  },
+                  "summary": "The Custom Domain Object",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "The custom domain has been fetched."
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "securitySchemes": {
+          "ApiKey": {
+            "description": "Authentication using an API key. The username is the App ID and the password is the Api Key.",
+            "scheme": "basic",
+            "type": "http"
+          },
+          "ClientSideToken": {
+            "bearerFormat": "Token",
+            "description": "Authentication using a short lived token that you can share with clients. The Authorization header must be formatted as follow: \"Token <Client-Side Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          },
+          "TokenAuth": {
+            "bearerFormat": "RunToken",
+            "description": "Authentication using a short lived run token that you can share with clients. The Authorization header must be formatted as follow: \"RunToken <Function Run Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          }
+        },
+        "securitySource": "operation"
       }
     }
   }

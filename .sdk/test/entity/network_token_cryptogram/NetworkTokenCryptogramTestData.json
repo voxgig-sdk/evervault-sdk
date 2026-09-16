@@ -2,17 +2,17 @@
   "existing": {
     "network_token_cryptogram": {
       "NETWORK_TOKEN_CRYPTOGRAM00": {
-        "createdAt": "s1e",
+        "createdAt": 30,
         "cryptogram": "s1f",
         "id": "NETWORK_TOKEN_CRYPTOGRAM00"
       },
       "NETWORK_TOKEN_CRYPTOGRAM01": {
-        "createdAt": "s3c",
+        "createdAt": 60,
         "cryptogram": "s3d",
         "id": "NETWORK_TOKEN_CRYPTOGRAM01"
       },
       "NETWORK_TOKEN_CRYPTOGRAM02": {
-        "createdAt": "s5a",
+        "createdAt": 90,
         "cryptogram": "s5b",
         "id": "NETWORK_TOKEN_CRYPTOGRAM02"
       }
@@ -21,8 +21,100 @@
   "new": {
     "network_token_cryptogram": {
       "network_token_cryptogram_ref01": {
-        "createdAt": "s78",
+        "createdAt": 120,
         "cryptogram": "s79"
+      }
+    }
+  },
+  "requests": {
+    "POST /payments/network-tokens/{network_token_id}/cryptograms": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "createNetworkTokenCryptogram",
+        "parameters": [
+          {
+            "description": "The unique identifier of the Network Token.",
+            "in": "path",
+            "name": "network_token_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "SuccessfulCreation": {
+                    "summary": "Network Token Cryptogram created",
+                    "value": {
+                      "createdAt": 1692972623233,
+                      "cryptogram": "NTk0ZjM5M2QyNDMwNDE1MjkzMjg1ZTg5Y2NiZjdmNjE=",
+                      "id": "network_token_cryptogram_eead1d640d7c"
+                    }
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "createdAt": {
+                      "description": "The exact time, in epoch milliseconds, when this Network Token Cryptogram was created.",
+                      "example": 1692972623233,
+                      "format": "int64",
+                      "type": "integer"
+                    },
+                    "cryptogram": {
+                      "description": "The value of the Network Token Cryptogram. This is the value that is used embedded in the Authorization request.",
+                      "example": "NTk0ZjM5M2QyNDMwNDE1MjkzMjg1ZTg5Y2NiZjdmNjE=",
+                      "type": "string"
+                    },
+                    "id": {
+                      "description": "A unique identifier representing a specific Network Token Cryptogram.",
+                      "example": "network_token_cryptogram_eead1d640d7c",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "cryptogram",
+                    "createdAt"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns a Network Token Cryptogram object."
+          }
+        },
+        "security": [
+          {
+            "ApiKey": [
+              "networkToken:createCryptogram"
+            ]
+          }
+        ],
+        "securitySchemes": {
+          "ApiKey": {
+            "description": "Authentication using an API key. The username is the App ID and the password is the Api Key.",
+            "scheme": "basic",
+            "type": "http"
+          },
+          "ClientSideToken": {
+            "bearerFormat": "Token",
+            "description": "Authentication using a short lived token that you can share with clients. The Authorization header must be formatted as follow: \"Token <Client-Side Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          },
+          "TokenAuth": {
+            "bearerFormat": "RunToken",
+            "description": "Authentication using a short lived run token that you can share with clients. The Authorization header must be formatted as follow: \"RunToken <Function Run Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          }
+        },
+        "securitySource": "operation"
       }
     }
   }

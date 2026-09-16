@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>CustomDomain | Evervault API</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><a class="skip" href="#content">Skip to content</a>
+<header class="site-header"><a class="site-title" href="../index.html">Evervault API<span>SDK documentation</span></a><div class="site-links"><a class="repo-link" href="https://github.com/voxgig-sdk/evervault-sdk">voxgig-sdk/evervault-sdk</a></div></header>
+<div class="site-notice" role="note"></div>
+<div class="shell"><nav class="site-nav" aria-label="Documentation"><div class="search"><label for="search">Search documentation</label><input id="search" type="search" data-base="../" placeholder="Find a guide or reference"><div id="results" aria-live="polite"></div></div><details><summary>Overview</summary><a href="../index.html">Evervault API</a></details>
+<details open><summary>API</summary><a href="../api/index.html">API overview</a>
+<a href="../api/acquirer.html">Acquirer</a>
+<a href="../api/bin_lookup.html">BinLookup</a>
+<a href="../api/card.html">Card</a>
+<a href="../api/card_art.html">CardArt</a>
+<a href="../api/client_side_token.html">ClientSideToken</a>
+<a href="../api/core.html">Core</a>
+<a aria-current="page" href="../api/custom_domain.html">CustomDomain</a><div class="nav-sections"><a class="nav-section" href="#post-relaysrelay_idcustom-domains">POST /relays/{relay_id}/custom-domains</a>
+<a class="nav-section" href="#get-relaysrelay_idcustom-domainsid">GET /relays/{relay_id}/custom-domains/{id}</a></div>
+<a href="../api/function_run.html">FunctionRun</a>
+<a href="../api/merchant.html">Merchant</a>
+<a href="../api/network_token.html">NetworkToken</a>
+<a href="../api/network_token_cryptogram.html">NetworkTokenCryptogram</a>
+<a href="../api/payment.html">Payment</a>
+<a href="../api/relay.html">Relay</a>
+<a href="../api/three_ds_session.html">ThreeDsSession</a>
+<a href="../api/webhook.html">Webhook</a>
+<a href="../api/webhook_endpoint.html">WebhookEndpoint</a></details>
+<details><summary>Guides</summary><a href="../guides/authentication.html">Authentication</a>
+<a href="../guides/first-call.html">Make your first API call</a>
+<a href="../guides/errors.html">Handle errors</a>
+<a href="../guides/concepts.html">Entities, SDKs, and tools</a></details>
+<details><summary>SDKs</summary><a href="../sdks/go.html">Golang</a>
+<a href="../sdks/lua.html">Lua</a>
+<a href="../sdks/php.html">PHP</a>
+<a href="../sdks/py.html">Python</a>
+<a href="../sdks/rb.html">Ruby</a>
+<a href="../sdks/ts.html">TypeScript</a></details>
+<details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
+<a href="../tools/go-mcp.html">Go MCP server</a></details>
+<details><summary>Features</summary><a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
+<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
+<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
+<a href="../features/paging.html">Pagination signals for list operations</a>
+<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
+<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
+<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
+<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="customdomain">CustomDomain</h1>
+<h2 id="operations">Operations</h2>
+<p>Every route this entity exposes. Each route links to its own reference on this page.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Route</th>
+<th>SDK operation</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-relaysrelay_idcustom-domains"><code>/relays/{relay_id}/custom-domains</code></a></td>
+<td><code>create</code></td>
+<td>The custom domain has been created</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-relaysrelay_idcustom-domainsid"><code>/relays/{relay_id}/custom-domains/{id}</code></a></td>
+<td><code>load</code></td>
+<td>The custom domain has been fetched</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fields">Fields</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>createdAt</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>The exact time, in epoch milliseconds, when this custom domain was created.</td>
+</tr>
+<tr>
+<td><code>customDomain</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The customer managed domain to which requests to be relayed to your domain should be sent.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The unique identifier for the custom domain.</td>
+</tr>
+<tr>
+<td><code>relay</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The ID of the Relay with which this custom domain is associated.</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The status of the domains DNS verification.</td>
+</tr>
+<tr>
+<td><code>updatedAt</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>The exact time, in epoch milliseconds, when this custom domain was last updated.</td>
+</tr>
+<tr>
+<td><code>validationRecord</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Validation TXT record to be added on the <code>_ev-custom-relay</code> subdomain of your custom domain</td>
+</tr>
+</tbody>
+</table>
+<h2 id="create">create</h2>
+<h3 id="post-relaysrelay_idcustom-domains" class="operation" data-method="post"><code>POST</code> /relays/{relay_id}/custom-domains</h3>
+<p>Operation ID: <code>createCustomDomain</code>.</p>
+<p>Authentication: basic token (<code>ApiKey</code>).</p>
+<h4 id="parameters">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>relay_id</code> | <code>path</code> | <code>string</code> | Yes | The id of the Relay to which the custom domain should be added. |</p>
+<h4 id="request-body">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>customDomain</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The customer managed domain to which requests to be relayed to your domain should be sent.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses">Responses</h4>
+<h5 id="201-the-custom-domain-has-been-created" class="status" data-status="2xx">201: The custom domain has been created</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>createdAt</code></td>
+<td><code>integer (int64)</code></td>
+<td>No</td>
+<td>The exact time, in epoch milliseconds, when this custom domain was created.</td>
+</tr>
+<tr>
+<td><code>customDomain</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The customer managed domain to which requests to be relayed to your domain should be sent.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The unique identifier for the custom domain.</td>
+</tr>
+<tr>
+<td><code>relay</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The ID of the Relay with which this custom domain is associated.</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>enum: active, inactive</code></td>
+<td>No</td>
+<td>The status of the domains DNS verification.</td>
+</tr>
+<tr>
+<td><code>updatedAt</code></td>
+<td><code>integer (int64)</code></td>
+<td>No</td>
+<td>The exact time, in epoch milliseconds, when this custom domain was last updated.</td>
+</tr>
+<tr>
+<td><code>validationRecord</code></td>
+<td><code>string (uuidv4)</code></td>
+<td>No</td>
+<td>Validation TXT record to be added on the <code>_ev-custom-relay</code> subdomain of your custom domain</td>
+</tr>
+</tbody>
+</table>
+<h2 id="load">load</h2>
+<h3 id="get-relaysrelay_idcustom-domainsid" class="operation" data-method="get"><code>GET</code> /relays/{relay_id}/custom-domains/{id}</h3>
+<p>Operation ID: <code>retrieveCustomDomain</code>.</p>
+<p>Authentication: basic token (<code>ApiKey</code>).</p>
+<h4 id="parameters-1">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>relay_id</code> | <code>path</code> | <code>string</code> | Yes | The id of the Relay to which the custom domain belongs. |
+| <code>id</code> | <code>path</code> | <code>string</code> | Yes | The id of the custom domain to be fetched. |</p>
+<h4 id="responses-1">Responses</h4>
+<h5 id="200-the-custom-domain-has-been-fetched" class="status" data-status="2xx">200: The custom domain has been fetched</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>createdAt</code></td>
+<td><code>integer (int64)</code></td>
+<td>No</td>
+<td>The exact time, in epoch milliseconds, when this custom domain was created.</td>
+</tr>
+<tr>
+<td><code>customDomain</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The customer managed domain to which requests to be relayed to your domain should be sent.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The unique identifier for the custom domain.</td>
+</tr>
+<tr>
+<td><code>relay</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The ID of the Relay with which this custom domain is associated.</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>enum: active, inactive</code></td>
+<td>No</td>
+<td>The status of the domains DNS verification.</td>
+</tr>
+<tr>
+<td><code>updatedAt</code></td>
+<td><code>integer (int64)</code></td>
+<td>No</td>
+<td>The exact time, in epoch milliseconds, when this custom domain was last updated.</td>
+</tr>
+<tr>
+<td><code>validationRecord</code></td>
+<td><code>string (uuidv4)</code></td>
+<td>No</td>
+<td>Validation TXT record to be added on the <code>_ev-custom-relay</code> subdomain of your custom domain</td>
+</tr>
+</tbody>
+</table>
+</main></div>
+<script src="../assets/search.js" defer></script></body></html>

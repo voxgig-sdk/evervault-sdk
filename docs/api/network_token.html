@@ -1,0 +1,767 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>NetworkToken | Evervault API</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><a class="skip" href="#content">Skip to content</a>
+<header class="site-header"><a class="site-title" href="../index.html">Evervault API<span>SDK documentation</span></a><div class="site-links"><a class="repo-link" href="https://github.com/voxgig-sdk/evervault-sdk">voxgig-sdk/evervault-sdk</a></div></header>
+<div class="site-notice" role="note"></div>
+<div class="shell"><nav class="site-nav" aria-label="Documentation"><div class="search"><label for="search">Search documentation</label><input id="search" type="search" data-base="../" placeholder="Find a guide or reference"><div id="results" aria-live="polite"></div></div><details><summary>Overview</summary><a href="../index.html">Evervault API</a></details>
+<details open><summary>API</summary><a href="../api/index.html">API overview</a>
+<a href="../api/acquirer.html">Acquirer</a>
+<a href="../api/bin_lookup.html">BinLookup</a>
+<a href="../api/card.html">Card</a>
+<a href="../api/card_art.html">CardArt</a>
+<a href="../api/client_side_token.html">ClientSideToken</a>
+<a href="../api/core.html">Core</a>
+<a href="../api/custom_domain.html">CustomDomain</a>
+<a href="../api/function_run.html">FunctionRun</a>
+<a href="../api/merchant.html">Merchant</a>
+<a aria-current="page" href="../api/network_token.html">NetworkToken</a><div class="nav-sections"><a class="nav-section" href="#post-paymentsnetwork-tokensnetwork_token_idsimulate">POST /payments/network-tokens/{network_token_id}/simulate</a>
+<a class="nav-section" href="#post-paymentsnetwork-tokens">POST /payments/network-tokens</a>
+<a class="nav-section" href="#get-paymentsnetwork-tokensnetwork_token_id">GET /payments/network-tokens/{network_token_id}</a></div>
+<a href="../api/network_token_cryptogram.html">NetworkTokenCryptogram</a>
+<a href="../api/payment.html">Payment</a>
+<a href="../api/relay.html">Relay</a>
+<a href="../api/three_ds_session.html">ThreeDsSession</a>
+<a href="../api/webhook.html">Webhook</a>
+<a href="../api/webhook_endpoint.html">WebhookEndpoint</a></details>
+<details><summary>Guides</summary><a href="../guides/authentication.html">Authentication</a>
+<a href="../guides/first-call.html">Make your first API call</a>
+<a href="../guides/errors.html">Handle errors</a>
+<a href="../guides/concepts.html">Entities, SDKs, and tools</a></details>
+<details><summary>SDKs</summary><a href="../sdks/go.html">Golang</a>
+<a href="../sdks/lua.html">Lua</a>
+<a href="../sdks/php.html">PHP</a>
+<a href="../sdks/py.html">Python</a>
+<a href="../sdks/rb.html">Ruby</a>
+<a href="../sdks/ts.html">TypeScript</a></details>
+<details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
+<a href="../tools/go-mcp.html">Go MCP server</a></details>
+<details><summary>Features</summary><a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
+<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
+<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
+<a href="../features/paging.html">Pagination signals for list operations</a>
+<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
+<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
+<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
+<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="networktoken">NetworkToken</h1>
+<h2 id="operations">Operations</h2>
+<p>Every route this entity exposes. Each route links to its own reference on this page.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Route</th>
+<th>SDK operation</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-paymentsnetwork-tokensnetwork_token_idsimulate"><code>/payments/network-tokens/{network_token_id}/simulate</code></a></td>
+<td><code>create</code></td>
+<td>Returns the updated Network Token object</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-paymentsnetwork-tokens"><code>/payments/network-tokens</code></a></td>
+<td><code>create</code></td>
+<td>Returns a Network Token object</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-paymentsnetwork-tokensnetwork_token_id"><code>/payments/network-tokens/{network_token_id}</code></a></td>
+<td><code>load</code></td>
+<td>Returns a Network Token object</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fields">Fields</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>card</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>The details of the underlying encrypted card.</td>
+</tr>
+<tr>
+<td><code>createdAt</code></td>
+<td><code>integer</code></td>
+<td>Yes</td>
+<td>The exact time, in epoch milliseconds, when this Network Token was created.</td>
+</tr>
+<tr>
+<td><code>expiry</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>The expiry details of the Network Token.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A unique identifier representing a specific Network Token.</td>
+</tr>
+<tr>
+<td><code>merchant</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The unique identifier of the Merchant associated with this Network Token.</td>
+</tr>
+<tr>
+<td><code>number</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The unique number of the Network Token.</td>
+</tr>
+<tr>
+<td><code>paymentAccountReference</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The unique identifier of the Payment Account associated with this Network Token.</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The status of the Network Token.</td>
+</tr>
+<tr>
+<td><code>tokenRequestorIdentifier</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The identifier of the Token Requestor (TRID) that requested the Network Token.</td>
+</tr>
+<tr>
+<td><code>tokenServiceProvider</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The Token Service Provider (TSP) that issued the Network Token.</td>
+</tr>
+<tr>
+<td><code>updateType</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The type of update to simulate.</td>
+</tr>
+<tr>
+<td><code>updatedAt</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>The exact time, in epoch milliseconds, when this Network Token was last updated.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="create">create</h2>
+<h3 id="post-paymentsnetwork-tokensnetwork_token_idsimulate" class="operation" data-method="post"><code>POST</code> /payments/network-tokens/{network_token_id}/simulate</h3>
+<p>Operation ID: <code>simulateNetworkTokenUpdate</code>.</p>
+<p>Authentication: basic token (<code>ApiKey</code>).</p>
+<h4 id="parameters">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>network_token_id</code> | <code>path</code> | <code>string</code> | Yes | The id of the Network Token |</p>
+<h4 id="request-body">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>updateType</code></td>
+<td><code>enum: new-token-status, new-card-expiry-and-last-four, new-token-expiry-and-number</code></td>
+<td>No</td>
+<td>The type of update to simulate.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses">Responses</h4>
+<h5 id="200-returns-the-updated-network-token-object" class="status" data-status="2xx">200: Returns the updated Network Token object</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>card</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>The details of the underlying encrypted card.</td>
+</tr>
+<tr>
+<td><code>card.brand</code></td>
+<td><code>enum: visa, mastercard, american-express</code></td>
+<td>No</td>
+<td>The card brand associated with the payment card.</td>
+</tr>
+<tr>
+<td><code>card.expiry</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The expiry details of the card.</td>
+</tr>
+<tr>
+<td><code>card.expiry.month</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The month of the card's expiry date, in MM format (for example 12 for December)</td>
+</tr>
+<tr>
+<td><code>card.expiry.year</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The year of the card's expiry date, in YY format (for example 26 for 2026)</td>
+</tr>
+<tr>
+<td><code>card.lastFour</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The last four digits of the card number.</td>
+</tr>
+<tr>
+<td><code>createdAt</code></td>
+<td><code>integer (int64)</code></td>
+<td>Yes</td>
+<td>The exact time, in epoch milliseconds, when this Network Token was created.</td>
+</tr>
+<tr>
+<td><code>expiry</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>The expiry details of the Network Token.</td>
+</tr>
+<tr>
+<td><code>expiry.month</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The month of the Network Token's expiry date, in MM format (for example 12 for December)</td>
+</tr>
+<tr>
+<td><code>expiry.year</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The year of the Network Token's expiry date, in YY format (for example 26 for 2026)</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A unique identifier representing a specific Network Token.</td>
+</tr>
+<tr>
+<td><code>merchant</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The unique identifier of the Merchant associated with this Network Token.</td>
+</tr>
+<tr>
+<td><code>number</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The unique number of the Network Token.</td>
+</tr>
+<tr>
+<td><code>paymentAccountReference</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The unique identifier of the Payment Account associated with this Network Token.</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>enum: active, inactive, blocked, provisioning, suspended, deleted, ...</code></td>
+<td>Yes</td>
+<td>The status of the Network Token. Active means the token is valid and can be used for payments. Inactive means the token exists but is not currently active. Blocked and provisioning are reserved for future use. Suspended means the token is temporarily unusable but may be reactivated by the issuer or transition to deleted. Deleted is a terminal state where the token is permanently removed and a new credential must be obtained. Expired means the token has passed its expiration date and should not be used for transactions.</td>
+</tr>
+<tr>
+<td><code>tokenRequestorIdentifier</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The identifier of the Token Requestor (TRID) that requested the Network Token.</td>
+</tr>
+<tr>
+<td><code>tokenServiceProvider</code></td>
+<td><code>enum: mdes, vts, aets</code></td>
+<td>Yes</td>
+<td>The Token Service Provider (TSP) that issued the Network Token.</td>
+</tr>
+<tr>
+<td><code>updatedAt</code></td>
+<td><code>integer (int64)</code></td>
+<td>No</td>
+<td>The exact time, in epoch milliseconds, when this Network Token was last updated.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="post-paymentsnetwork-tokens" class="operation" data-method="post"><code>POST</code> /payments/network-tokens</h3>
+<p>Operation ID: <code>createNetworkToken</code>.</p>
+<p>Authentication: basic token (<code>ApiKey</code>).</p>
+<h4 id="request-body-1">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>card</code></td>
+<td><code>object or string</code></td>
+<td>Yes</td>
+<td>The card to tokenize. Either an inline card object or the unique identifier of a Card created with the <a href="/api#cards">Cards API</a>.</td>
+</tr>
+<tr>
+<td><code>merchant</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The unique identifier of the Merchant previously created using the Evervault API. It denotes the Merchant to which the Network Token should be associated with.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses-1">Responses</h4>
+<h5 id="201-returns-a-network-token-object" class="status" data-status="2xx">201: Returns a Network Token object</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>card</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>The details of the underlying encrypted card.</td>
+</tr>
+<tr>
+<td><code>card.brand</code></td>
+<td><code>enum: visa, mastercard, american-express</code></td>
+<td>No</td>
+<td>The card brand associated with the payment card.</td>
+</tr>
+<tr>
+<td><code>card.expiry</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The expiry details of the card.</td>
+</tr>
+<tr>
+<td><code>card.expiry.month</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The month of the card's expiry date, in MM format (for example 12 for December)</td>
+</tr>
+<tr>
+<td><code>card.expiry.year</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The year of the card's expiry date, in YY format (for example 26 for 2026)</td>
+</tr>
+<tr>
+<td><code>card.lastFour</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The last four digits of the card number.</td>
+</tr>
+<tr>
+<td><code>createdAt</code></td>
+<td><code>integer (int64)</code></td>
+<td>Yes</td>
+<td>The exact time, in epoch milliseconds, when this Network Token was created.</td>
+</tr>
+<tr>
+<td><code>expiry</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>The expiry details of the Network Token.</td>
+</tr>
+<tr>
+<td><code>expiry.month</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The month of the Network Token's expiry date, in MM format (for example 12 for December)</td>
+</tr>
+<tr>
+<td><code>expiry.year</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The year of the Network Token's expiry date, in YY format (for example 26 for 2026)</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A unique identifier representing a specific Network Token.</td>
+</tr>
+<tr>
+<td><code>merchant</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The unique identifier of the Merchant associated with this Network Token.</td>
+</tr>
+<tr>
+<td><code>number</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The unique number of the Network Token.</td>
+</tr>
+<tr>
+<td><code>paymentAccountReference</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The unique identifier of the Payment Account associated with this Network Token.</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>enum: active, inactive, blocked, provisioning, suspended, deleted, ...</code></td>
+<td>Yes</td>
+<td>The status of the Network Token. Active means the token is valid and can be used for payments. Inactive means the token exists but is not currently active. Blocked and provisioning are reserved for future use. Suspended means the token is temporarily unusable but may be reactivated by the issuer or transition to deleted. Deleted is a terminal state where the token is permanently removed and a new credential must be obtained. Expired means the token has passed its expiration date and should not be used for transactions.</td>
+</tr>
+<tr>
+<td><code>tokenRequestorIdentifier</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The identifier of the Token Requestor (TRID) that requested the Network Token.</td>
+</tr>
+<tr>
+<td><code>tokenServiceProvider</code></td>
+<td><code>enum: mdes, vts, aets</code></td>
+<td>Yes</td>
+<td>The Token Service Provider (TSP) that issued the Network Token.</td>
+</tr>
+<tr>
+<td><code>updatedAt</code></td>
+<td><code>integer (int64)</code></td>
+<td>No</td>
+<td>The exact time, in epoch milliseconds, when this Network Token was last updated.</td>
+</tr>
+</tbody>
+</table>
+<h5 id="400-the-request-was-invalid-or-cannot-be-otherwise-served" class="status" data-status="4xx">400: The request was invalid or cannot be otherwise served.</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A distinct error code, presented in slug format, that identifies a specific error.</td>
+</tr>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation of the error.</td>
+</tr>
+<tr>
+<td><code>fields</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>fields[].pointer</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The JSON pointer to the field that caused the error.</td>
+</tr>
+<tr>
+<td><code>fields[].reason</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation of the error for this field.</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>The HTTP status code for the error.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A short, human-readable summary of the error.</td>
+</tr>
+</tbody>
+</table>
+<h5 id="422-unprocessable-entity" class="status" data-status="4xx">422: Unprocessable Entity</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A distinct error code, presented in slug format, that identifies a specific error.</td>
+</tr>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation of the error.</td>
+</tr>
+<tr>
+<td><code>fields</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>fields[].pointer</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The JSON pointer to the field that caused the error.</td>
+</tr>
+<tr>
+<td><code>fields[].reason</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation of the error for this field.</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>The HTTP status code for the error.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A short, human-readable summary of the error.</td>
+</tr>
+</tbody>
+</table>
+<h5 id="500-an-error-occurred-while-processing-the-request" class="status" data-status="5xx">500: An error occurred while processing the request.</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A distinct error code, presented in slug format, that identifies a specific error.</td>
+</tr>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation of the error.</td>
+</tr>
+<tr>
+<td><code>fields</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>fields[].pointer</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The JSON pointer to the field that caused the error.</td>
+</tr>
+<tr>
+<td><code>fields[].reason</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation of the error for this field.</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>The HTTP status code for the error.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A short, human-readable summary of the error.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="load">load</h2>
+<h3 id="get-paymentsnetwork-tokensnetwork_token_id" class="operation" data-method="get"><code>GET</code> /payments/network-tokens/{network_token_id}</h3>
+<p>Operation ID: <code>getNetworkToken</code>.</p>
+<p>Authentication: basic token (<code>ApiKey</code>).</p>
+<h4 id="parameters-1">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>network_token_id</code> | <code>path</code> | <code>string</code> | Yes | The unique identifier of the Network Token. |</p>
+<h4 id="responses-2">Responses</h4>
+<h5 id="200-returns-a-network-token-object" class="status" data-status="2xx">200: Returns a Network Token object</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>card</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>The details of the underlying encrypted card.</td>
+</tr>
+<tr>
+<td><code>card.brand</code></td>
+<td><code>enum: visa, mastercard, american-express</code></td>
+<td>No</td>
+<td>The card brand associated with the payment card.</td>
+</tr>
+<tr>
+<td><code>card.expiry</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The expiry details of the card.</td>
+</tr>
+<tr>
+<td><code>card.expiry.month</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The month of the card's expiry date, in MM format (for example 12 for December)</td>
+</tr>
+<tr>
+<td><code>card.expiry.year</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The year of the card's expiry date, in YY format (for example 26 for 2026)</td>
+</tr>
+<tr>
+<td><code>card.lastFour</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The last four digits of the card number.</td>
+</tr>
+<tr>
+<td><code>createdAt</code></td>
+<td><code>integer (int64)</code></td>
+<td>Yes</td>
+<td>The exact time, in epoch milliseconds, when this Network Token was created.</td>
+</tr>
+<tr>
+<td><code>expiry</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>The expiry details of the Network Token.</td>
+</tr>
+<tr>
+<td><code>expiry.month</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The month of the Network Token's expiry date, in MM format (for example 12 for December)</td>
+</tr>
+<tr>
+<td><code>expiry.year</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The year of the Network Token's expiry date, in YY format (for example 26 for 2026)</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A unique identifier representing a specific Network Token.</td>
+</tr>
+<tr>
+<td><code>merchant</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The unique identifier of the Merchant associated with this Network Token.</td>
+</tr>
+<tr>
+<td><code>number</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The unique number of the Network Token.</td>
+</tr>
+<tr>
+<td><code>paymentAccountReference</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The unique identifier of the Payment Account associated with this Network Token.</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>enum: active, inactive, blocked, provisioning, suspended, deleted, ...</code></td>
+<td>Yes</td>
+<td>The status of the Network Token. Active means the token is valid and can be used for payments. Inactive means the token exists but is not currently active. Blocked and provisioning are reserved for future use. Suspended means the token is temporarily unusable but may be reactivated by the issuer or transition to deleted. Deleted is a terminal state where the token is permanently removed and a new credential must be obtained. Expired means the token has passed its expiration date and should not be used for transactions.</td>
+</tr>
+<tr>
+<td><code>tokenRequestorIdentifier</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The identifier of the Token Requestor (TRID) that requested the Network Token.</td>
+</tr>
+<tr>
+<td><code>tokenServiceProvider</code></td>
+<td><code>enum: mdes, vts, aets</code></td>
+<td>Yes</td>
+<td>The Token Service Provider (TSP) that issued the Network Token.</td>
+</tr>
+<tr>
+<td><code>updatedAt</code></td>
+<td><code>integer (int64)</code></td>
+<td>No</td>
+<td>The exact time, in epoch milliseconds, when this Network Token was last updated.</td>
+</tr>
+</tbody>
+</table>
+</main></div>
+<script src="../assets/search.js" defer></script></body></html>

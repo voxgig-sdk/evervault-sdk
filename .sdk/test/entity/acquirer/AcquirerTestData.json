@@ -33,5 +33,677 @@
         "name": "scc"
       }
     }
+  },
+  "requests": {
+    "POST /payments/acquirers": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "createAcquirer",
+        "parameters": [],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "configurations": {
+                    "description": "The Acquirer configurations. Configurations are set according to each card network the Acquirer is associated with, and each `network` can only appear once. To use a different `bin`, `acquirerMerchantIdentifier`, or `country` for the same network, create a separate Acquirer.",
+                    "items": {
+                      "properties": {
+                        "acquirerMerchantIdentifier": {
+                          "description": "The merchant identifier associated with the configuration.",
+                          "example": "38191048173",
+                          "type": "string"
+                        },
+                        "bin": {
+                          "description": "The Bank Identification Number (BIN) of the Acquirer. Must be 6 to 11 digits.",
+                          "example": "424242",
+                          "maxLength": 11,
+                          "minLength": 6,
+                          "pattern": "^[0-9]{6,11}$",
+                          "type": "string"
+                        },
+                        "country": {
+                          "description": "The country of the Acquirer configuration, used when creating 3DS sessions.",
+                          "example": "ie",
+                          "format": "iso-3166-1-alpha-2",
+                          "type": "string"
+                        },
+                        "network": {
+                          "description": "The card network of the Acquirer. `discover` covers Discover, Diners Club, and JCB (US only).",
+                          "enum": [
+                            "visa",
+                            "mastercard",
+                            "american-express",
+                            "discover"
+                          ],
+                          "example": "mastercard",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "network",
+                        "bin",
+                        "acquirerMerchantIdentifier",
+                        "country"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "default": {
+                    "description": "Specifies whether this Acquirer is the default. Only one default Acquirer configuration can exist at a time; setting a new one clears the previous default. If none is defined, the first Acquirer created becomes the default. See the [Acquirers API](/api#acquirers) for details.",
+                    "type": "boolean"
+                  },
+                  "description": {
+                    "description": "The description of the Acquirer.",
+                    "type": "string"
+                  },
+                  "name": {
+                    "description": "The name of the Acquirer.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "configurations"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "SimpleExample": {
+                    "summary": "Acquirer created successfully",
+                    "value": {
+                      "configurations": [
+                        {
+                          "acquirerMerchantIdentifier": "38191048173",
+                          "bin": "424242",
+                          "country": "ie",
+                          "network": "mastercard",
+                          "state": "active"
+                        },
+                        {
+                          "acquirerMerchantIdentifier": "38191048173",
+                          "bin": "424242",
+                          "country": "ie",
+                          "network": "visa",
+                          "state": "active"
+                        }
+                      ],
+                      "default": true,
+                      "description": "Ollivanders Wand Shop Production Configuration",
+                      "id": "acquirer_adk3kdljc3",
+                      "name": "Ollivanders Wand Shop Production Configuration"
+                    }
+                  }
+                },
+                "schema": {
+                  "example": {
+                    "configurations": [
+                      {
+                        "acquirerMerchantIdentifier": "38191048173",
+                        "bin": "424242",
+                        "country": "ie",
+                        "network": "mastercard",
+                        "state": "active"
+                      },
+                      {
+                        "acquirerMerchantIdentifier": "38191048173",
+                        "bin": "424242",
+                        "country": "ie",
+                        "network": "visa",
+                        "state": "active"
+                      }
+                    ],
+                    "default": true,
+                    "description": "Ollivanders Wand Shop Production Configuration",
+                    "id": "acquirer_eead1d640d7c",
+                    "name": "Ollivanders Wand Shop Production Configuration"
+                  },
+                  "properties": {
+                    "configurations": {
+                      "description": "The acquirer configuration settings.",
+                      "items": {
+                        "properties": {
+                          "acquirerMerchantIdentifier": {
+                            "description": "The merchant identifier the configuration is associated with.",
+                            "example": "38191048173",
+                            "type": "string"
+                          },
+                          "bin": {
+                            "description": "The Bank Identification Number (BIN) of the Acquirer. Must be 6 to 11 digits.",
+                            "example": "424242",
+                            "maxLength": 11,
+                            "minLength": 6,
+                            "pattern": "^[0-9]{6,11}$",
+                            "type": "string"
+                          },
+                          "country": {
+                            "description": "The country of the acquirer configuration, used when creating 3DS sessions.",
+                            "example": "ie",
+                            "format": "iso-3166-1-alpha-2",
+                            "type": "string"
+                          },
+                          "network": {
+                            "description": "The card network of the Acquirer. `discover` covers Discover, Diners Club, and JCB (US only).",
+                            "enum": [
+                              "visa",
+                              "mastercard",
+                              "american-express",
+                              "discover"
+                            ],
+                            "example": "mastercard",
+                            "type": "string"
+                          },
+                          "state": {
+                            "example": "active",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "network",
+                          "bin",
+                          "acquirerMerchantIdentifier",
+                          "state",
+                          "country"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "default": {
+                      "type": "boolean"
+                    },
+                    "description": {
+                      "description": "The description of the acquirer configuration.",
+                      "type": "string"
+                    },
+                    "id": {
+                      "description": "The unique identifier of the acquirer configuration.",
+                      "example": "acquirer_eead1d640d7c",
+                      "type": "string"
+                    },
+                    "name": {
+                      "description": "The name of the acquirer configuration.",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "default",
+                    "configurations"
+                  ],
+                  "summary": "The Acquirer Object",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns the created Acquirer object."
+          }
+        },
+        "security": [
+          {
+            "ApiKey": [
+              "acquirer:create"
+            ]
+          }
+        ],
+        "securitySchemes": {
+          "ApiKey": {
+            "description": "Authentication using an API key. The username is the App ID and the password is the Api Key.",
+            "scheme": "basic",
+            "type": "http"
+          },
+          "ClientSideToken": {
+            "bearerFormat": "Token",
+            "description": "Authentication using a short lived token that you can share with clients. The Authorization header must be formatted as follow: \"Token <Client-Side Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          },
+          "TokenAuth": {
+            "bearerFormat": "RunToken",
+            "description": "Authentication using a short lived run token that you can share with clients. The Authorization header must be formatted as follow: \"RunToken <Function Run Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          }
+        },
+        "securitySource": "operation"
+      }
+    },
+    "GET /payments/acquirers/{acquirer_id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "getAcquirer",
+        "parameters": [
+          {
+            "description": "The unique identifier of the Acquirer.",
+            "in": "path",
+            "name": "acquirer_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "SimpleExample": {
+                    "summary": "Acquirer successfully retrieved",
+                    "value": {
+                      "configurations": [
+                        {
+                          "acquirerMerchantIdentifier": "38191048173",
+                          "bin": "424242",
+                          "country": "ie",
+                          "network": "mastercard",
+                          "state": "active"
+                        },
+                        {
+                          "acquirerMerchantIdentifier": "38191048173",
+                          "bin": "424242",
+                          "country": "ie",
+                          "network": "visa",
+                          "state": "active"
+                        }
+                      ],
+                      "default": true,
+                      "description": "Ollivanders Wand Shop Production Configuration",
+                      "id": "acquirer_adk3kdljc3",
+                      "name": "Ollivanders Wand Shop Production Configuration"
+                    }
+                  }
+                },
+                "schema": {
+                  "example": {
+                    "configurations": [
+                      {
+                        "acquirerMerchantIdentifier": "38191048173",
+                        "bin": "424242",
+                        "country": "ie",
+                        "network": "mastercard",
+                        "state": "active"
+                      },
+                      {
+                        "acquirerMerchantIdentifier": "38191048173",
+                        "bin": "424242",
+                        "country": "ie",
+                        "network": "visa",
+                        "state": "active"
+                      }
+                    ],
+                    "default": true,
+                    "description": "Ollivanders Wand Shop Production Configuration",
+                    "id": "acquirer_eead1d640d7c",
+                    "name": "Ollivanders Wand Shop Production Configuration"
+                  },
+                  "properties": {
+                    "configurations": {
+                      "description": "The acquirer configuration settings.",
+                      "items": {
+                        "properties": {
+                          "acquirerMerchantIdentifier": {
+                            "description": "The merchant identifier the configuration is associated with.",
+                            "example": "38191048173",
+                            "type": "string"
+                          },
+                          "bin": {
+                            "description": "The Bank Identification Number (BIN) of the Acquirer. Must be 6 to 11 digits.",
+                            "example": "424242",
+                            "maxLength": 11,
+                            "minLength": 6,
+                            "pattern": "^[0-9]{6,11}$",
+                            "type": "string"
+                          },
+                          "country": {
+                            "description": "The country of the acquirer configuration, used when creating 3DS sessions.",
+                            "example": "ie",
+                            "format": "iso-3166-1-alpha-2",
+                            "type": "string"
+                          },
+                          "network": {
+                            "description": "The card network of the Acquirer. `discover` covers Discover, Diners Club, and JCB (US only).",
+                            "enum": [
+                              "visa",
+                              "mastercard",
+                              "american-express",
+                              "discover"
+                            ],
+                            "example": "mastercard",
+                            "type": "string"
+                          },
+                          "state": {
+                            "example": "active",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "network",
+                          "bin",
+                          "acquirerMerchantIdentifier",
+                          "state",
+                          "country"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "default": {
+                      "type": "boolean"
+                    },
+                    "description": {
+                      "description": "The description of the acquirer configuration.",
+                      "type": "string"
+                    },
+                    "id": {
+                      "description": "The unique identifier of the acquirer configuration.",
+                      "example": "acquirer_eead1d640d7c",
+                      "type": "string"
+                    },
+                    "name": {
+                      "description": "The name of the acquirer configuration.",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "default",
+                    "configurations"
+                  ],
+                  "summary": "The Acquirer Object",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns an Acquirer object."
+          }
+        },
+        "security": [
+          {
+            "ApiKey": [
+              "acquirer:read"
+            ]
+          }
+        ],
+        "securitySchemes": {
+          "ApiKey": {
+            "description": "Authentication using an API key. The username is the App ID and the password is the Api Key.",
+            "scheme": "basic",
+            "type": "http"
+          },
+          "ClientSideToken": {
+            "bearerFormat": "Token",
+            "description": "Authentication using a short lived token that you can share with clients. The Authorization header must be formatted as follow: \"Token <Client-Side Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          },
+          "TokenAuth": {
+            "bearerFormat": "RunToken",
+            "description": "Authentication using a short lived run token that you can share with clients. The Authorization header must be formatted as follow: \"RunToken <Function Run Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          }
+        },
+        "securitySource": "operation"
+      }
+    },
+    "PATCH /payments/acquirers/{acquirer_id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "updateAcquirer",
+        "parameters": [
+          {
+            "description": "The id of the Acquirer to be updated.",
+            "in": "path",
+            "name": "acquirer_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "configurations": {
+                    "description": "The Acquirer configurations. Configurations are set according to each card network the Acquirer is associated with, and each `network` can only appear once. To use a different `bin`, `acquirerMerchantIdentifier`, or `country` for the same network, create a separate Acquirer.",
+                    "items": {
+                      "properties": {
+                        "acquirerMerchantIdentifier": {
+                          "description": "The merchant identifier the configuration is associated with.",
+                          "type": "string"
+                        },
+                        "bin": {
+                          "description": "The Bank Identification Number (BIN) of the acquirer. Must be 6 to 11 digits.",
+                          "maxLength": 11,
+                          "minLength": 6,
+                          "pattern": "^[0-9]{6,11}$",
+                          "type": "string"
+                        },
+                        "country": {
+                          "description": "The country of the acquirer configuration, used when creating 3DS sessions.",
+                          "example": "ie",
+                          "format": "iso-3166-1-alpha-2",
+                          "type": "string"
+                        },
+                        "network": {
+                          "description": "The card network to use the configuration for. `discover` covers Discover, Diners Club, and JCB (US only).",
+                          "enum": [
+                            "visa",
+                            "mastercard",
+                            "american-express",
+                            "discover"
+                          ],
+                          "example": "mastercard",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "network"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "default": {
+                    "description": "Specifies whether this Acquirer is the default. Only one default Acquirer configuration can exist at a time; setting a new one clears the previous default. See the [Acquirers API](/api#acquirers) for details.",
+                    "type": "boolean"
+                  },
+                  "description": {
+                    "description": "The description of the Acquirer.",
+                    "type": "string"
+                  },
+                  "name": {
+                    "description": "The name of the Acquirer.",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "SimpleExample": {
+                    "summary": "Acquirer successfully updated",
+                    "value": {
+                      "configurations": [
+                        {
+                          "acquirerMerchantIdentifier": "38191048173",
+                          "bin": "424242",
+                          "country": "ie",
+                          "network": "mastercard",
+                          "state": "active"
+                        },
+                        {
+                          "acquirerMerchantIdentifier": "38191048173",
+                          "bin": "424242",
+                          "country": "ie",
+                          "network": "visa",
+                          "state": "active"
+                        }
+                      ],
+                      "default": true,
+                      "description": "Ollivanders Wand Shop Production Configuration",
+                      "id": "acquirer_adk3kdljc3",
+                      "name": "Ollivanders Wand Shop Production Configuration"
+                    }
+                  }
+                },
+                "schema": {
+                  "example": {
+                    "configurations": [
+                      {
+                        "acquirerMerchantIdentifier": "38191048173",
+                        "bin": "424242",
+                        "country": "ie",
+                        "network": "mastercard",
+                        "state": "active"
+                      },
+                      {
+                        "acquirerMerchantIdentifier": "38191048173",
+                        "bin": "424242",
+                        "country": "ie",
+                        "network": "visa",
+                        "state": "active"
+                      }
+                    ],
+                    "default": true,
+                    "description": "Ollivanders Wand Shop Production Configuration",
+                    "id": "acquirer_eead1d640d7c",
+                    "name": "Ollivanders Wand Shop Production Configuration"
+                  },
+                  "properties": {
+                    "configurations": {
+                      "description": "The acquirer configuration settings.",
+                      "items": {
+                        "properties": {
+                          "acquirerMerchantIdentifier": {
+                            "description": "The merchant identifier the configuration is associated with.",
+                            "example": "38191048173",
+                            "type": "string"
+                          },
+                          "bin": {
+                            "description": "The Bank Identification Number (BIN) of the Acquirer. Must be 6 to 11 digits.",
+                            "example": "424242",
+                            "maxLength": 11,
+                            "minLength": 6,
+                            "pattern": "^[0-9]{6,11}$",
+                            "type": "string"
+                          },
+                          "country": {
+                            "description": "The country of the acquirer configuration, used when creating 3DS sessions.",
+                            "example": "ie",
+                            "format": "iso-3166-1-alpha-2",
+                            "type": "string"
+                          },
+                          "network": {
+                            "description": "The card network of the Acquirer. `discover` covers Discover, Diners Club, and JCB (US only).",
+                            "enum": [
+                              "visa",
+                              "mastercard",
+                              "american-express",
+                              "discover"
+                            ],
+                            "example": "mastercard",
+                            "type": "string"
+                          },
+                          "state": {
+                            "example": "active",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "network",
+                          "bin",
+                          "acquirerMerchantIdentifier",
+                          "state",
+                          "country"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "default": {
+                      "type": "boolean"
+                    },
+                    "description": {
+                      "description": "The description of the acquirer configuration.",
+                      "type": "string"
+                    },
+                    "id": {
+                      "description": "The unique identifier of the acquirer configuration.",
+                      "example": "acquirer_eead1d640d7c",
+                      "type": "string"
+                    },
+                    "name": {
+                      "description": "The name of the acquirer configuration.",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "default",
+                    "configurations"
+                  ],
+                  "summary": "The Acquirer Object",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns the updated Acquirer object."
+          }
+        },
+        "security": [
+          {
+            "ApiKey": [
+              "acquirer:update"
+            ]
+          }
+        ],
+        "securitySchemes": {
+          "ApiKey": {
+            "description": "Authentication using an API key. The username is the App ID and the password is the Api Key.",
+            "scheme": "basic",
+            "type": "http"
+          },
+          "ClientSideToken": {
+            "bearerFormat": "Token",
+            "description": "Authentication using a short lived token that you can share with clients. The Authorization header must be formatted as follow: \"Token <Client-Side Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          },
+          "TokenAuth": {
+            "bearerFormat": "RunToken",
+            "description": "Authentication using a short lived run token that you can share with clients. The Authorization header must be formatted as follow: \"RunToken <Function Run Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          }
+        },
+        "securitySource": "operation"
+      }
+    }
   }
 }

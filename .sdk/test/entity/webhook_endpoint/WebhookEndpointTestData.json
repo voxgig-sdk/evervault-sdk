@@ -2,21 +2,21 @@
   "existing": {
     "webhook_endpoint": {
       "WEBHOOK_ENDPOINT00": {
-        "createdAt": "s32",
+        "createdAt": 50,
         "events": [],
         "id": "WEBHOOK_ENDPOINT00",
         "updatedAt": "s35",
         "url": "s36"
       },
       "WEBHOOK_ENDPOINT01": {
-        "createdAt": "s64",
+        "createdAt": 100,
         "events": [],
         "id": "WEBHOOK_ENDPOINT01",
         "updatedAt": "s67",
         "url": "s68"
       },
       "WEBHOOK_ENDPOINT02": {
-        "createdAt": "s96",
+        "createdAt": 150,
         "events": [],
         "id": "WEBHOOK_ENDPOINT02",
         "updatedAt": "s99",
@@ -27,10 +27,333 @@
   "new": {
     "webhook_endpoint": {
       "webhook_endpoint_ref01": {
-        "createdAt": "sc8",
+        "createdAt": 200,
         "events": [],
         "updatedAt": "scb",
         "url": "scc"
+      }
+    }
+  },
+  "requests": {
+    "GET /webhook-endpoints/{webhook_endpoint_id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "getWebhookEndpoint",
+        "parameters": [
+          {
+            "description": "The identifier of the Webhook Endpoint to retrieve.",
+            "example": "webhook_endpoint_eead1d640d7c",
+            "in": "path",
+            "name": "webhook_endpoint_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "SuccessfulCreation": {
+                    "description": "The Webhook Endpoint was retrieved successfully.",
+                    "summary": "Successful Retrieval",
+                    "value": {
+                      "createdAt": 169297262323,
+                      "events": [
+                        "payments.merchant.updated",
+                        "payments.network-token.updated"
+                      ],
+                      "id": "webhook_endpoint_eead1d640d7c",
+                      "updatedAt": null,
+                      "url": "https://example.com/webhook"
+                    }
+                  }
+                },
+                "schema": {
+                  "example": {
+                    "createdAt": 169297262323,
+                    "events": [
+                      "payments.merchant.updated",
+                      "payments.network-token.updated"
+                    ],
+                    "id": "webhook_endpoint_eead1d640d7c",
+                    "updatedAt": null,
+                    "url": "https://example.com/webhook"
+                  },
+                  "properties": {
+                    "createdAt": {
+                      "description": "The exact time, in epoch milliseconds, when this Webhook Endpoint was created.",
+                      "example": 1692972623233,
+                      "format": "int64",
+                      "type": "integer"
+                    },
+                    "events": {
+                      "description": "A list of Events that the Webhook Endpoint is subscribed to. The Webhook will receive a POST request when any of these Events occur.",
+                      "items": {
+                        "description": "A list of Events that the Webhook Endpoint is subscribed to.\n",
+                        "enum": [
+                          "*",
+                          "function.run.completed",
+                          "function.deployment.started",
+                          "function.deployment.updated",
+                          "function.deployment.finished",
+                          "enclave.deployment.started",
+                          "enclave.deployment.updated",
+                          "enclave.deployment.finished",
+                          "audit-log.event",
+                          "payments.network-token.updated",
+                          "payments.merchant.updated",
+                          "payments.card.updated",
+                          "payments.3ds-session.success",
+                          "payments.3ds-session.failure"
+                        ],
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "id": {
+                      "description": "A unique identifier representing a specific Webhook Endpoint.",
+                      "example": "func_run_eead1d640d7c",
+                      "type": "string"
+                    },
+                    "updatedAt": {
+                      "description": "The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated.",
+                      "example": 1692972623233,
+                      "format": "int64",
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "url": {
+                      "description": "The URL of the Webhook Endpoint.",
+                      "example": "https://example.com/webhook",
+                      "type": "string"
+                    }
+                  },
+                  "summary": "The Webhook Endpoint Object",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "The Webhook Endpoint was retrieved successfully."
+          }
+        },
+        "security": [
+          {
+            "ApiKey": [
+              "webhookEndpoint:read"
+            ]
+          }
+        ],
+        "securitySchemes": {
+          "ApiKey": {
+            "description": "Authentication using an API key. The username is the App ID and the password is the Api Key.",
+            "scheme": "basic",
+            "type": "http"
+          },
+          "ClientSideToken": {
+            "bearerFormat": "Token",
+            "description": "Authentication using a short lived token that you can share with clients. The Authorization header must be formatted as follow: \"Token <Client-Side Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          },
+          "TokenAuth": {
+            "bearerFormat": "RunToken",
+            "description": "Authentication using a short lived run token that you can share with clients. The Authorization header must be formatted as follow: \"RunToken <Function Run Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          }
+        },
+        "securitySource": "operation"
+      }
+    },
+    "PATCH /webhook-endpoints/{webhook_endpoint_id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "updateWebhookEndpoint",
+        "parameters": [
+          {
+            "description": "The identifier of the Webhook Endpoint to update.",
+            "example": "webhook_endpoint_eead1d640d7c",
+            "in": "path",
+            "name": "webhook_endpoint_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "examples": {
+                "UpdateWebhookEndpoint": {
+                  "value": {
+                    "events": [
+                      "merchant.updated"
+                    ]
+                  }
+                }
+              },
+              "schema": {
+                "properties": {
+                  "events": {
+                    "description": "A list of Events that the Webhook Endpoint should subscribe to.",
+                    "example": [
+                      "payments.merchant.updated"
+                    ],
+                    "items": {
+                      "description": "A list of Events that the Webhook Endpoint is subscribed to.\n",
+                      "enum": [
+                        "*",
+                        "function.run.completed",
+                        "function.deployment.started",
+                        "function.deployment.updated",
+                        "function.deployment.finished",
+                        "enclave.deployment.started",
+                        "enclave.deployment.updated",
+                        "enclave.deployment.finished",
+                        "audit-log.event",
+                        "payments.network-token.updated",
+                        "payments.merchant.updated",
+                        "payments.card.updated",
+                        "payments.3ds-session.success",
+                        "payments.3ds-session.failure"
+                      ],
+                      "type": "string"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "events"
+                ],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "SuccessfulCreation": {
+                    "description": "The Webhook Endpoint was updated successfully.",
+                    "summary": "Successful Update",
+                    "value": {
+                      "createdAt": 169297262323,
+                      "events": [
+                        "payments.merchant.updated"
+                      ],
+                      "id": "webhook_endpoint_eead1d640d7c",
+                      "updatedAt": 169297269867,
+                      "url": "https://example.com/webhook"
+                    }
+                  }
+                },
+                "schema": {
+                  "example": {
+                    "createdAt": 169297262323,
+                    "events": [
+                      "payments.merchant.updated",
+                      "payments.network-token.updated"
+                    ],
+                    "id": "webhook_endpoint_eead1d640d7c",
+                    "updatedAt": null,
+                    "url": "https://example.com/webhook"
+                  },
+                  "properties": {
+                    "createdAt": {
+                      "description": "The exact time, in epoch milliseconds, when this Webhook Endpoint was created.",
+                      "example": 1692972623233,
+                      "format": "int64",
+                      "type": "integer"
+                    },
+                    "events": {
+                      "description": "A list of Events that the Webhook Endpoint is subscribed to. The Webhook will receive a POST request when any of these Events occur.",
+                      "items": {
+                        "description": "A list of Events that the Webhook Endpoint is subscribed to.\n",
+                        "enum": [
+                          "*",
+                          "function.run.completed",
+                          "function.deployment.started",
+                          "function.deployment.updated",
+                          "function.deployment.finished",
+                          "enclave.deployment.started",
+                          "enclave.deployment.updated",
+                          "enclave.deployment.finished",
+                          "audit-log.event",
+                          "payments.network-token.updated",
+                          "payments.merchant.updated",
+                          "payments.card.updated",
+                          "payments.3ds-session.success",
+                          "payments.3ds-session.failure"
+                        ],
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "id": {
+                      "description": "A unique identifier representing a specific Webhook Endpoint.",
+                      "example": "func_run_eead1d640d7c",
+                      "type": "string"
+                    },
+                    "updatedAt": {
+                      "description": "The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated.",
+                      "example": 1692972623233,
+                      "format": "int64",
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "url": {
+                      "description": "The URL of the Webhook Endpoint.",
+                      "example": "https://example.com/webhook",
+                      "type": "string"
+                    }
+                  },
+                  "summary": "The Webhook Endpoint Object",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "The Webhook Endpoint was updated successfully."
+          }
+        },
+        "security": [
+          {
+            "ApiKey": [
+              "webhookEndpoint:update"
+            ]
+          }
+        ],
+        "securitySchemes": {
+          "ApiKey": {
+            "description": "Authentication using an API key. The username is the App ID and the password is the Api Key.",
+            "scheme": "basic",
+            "type": "http"
+          },
+          "ClientSideToken": {
+            "bearerFormat": "Token",
+            "description": "Authentication using a short lived token that you can share with clients. The Authorization header must be formatted as follow: \"Token <Client-Side Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          },
+          "TokenAuth": {
+            "bearerFormat": "RunToken",
+            "description": "Authentication using a short lived run token that you can share with clients. The Authorization header must be formatted as follow: \"RunToken <Function Run Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          }
+        },
+        "securitySource": "operation"
       }
     }
   }

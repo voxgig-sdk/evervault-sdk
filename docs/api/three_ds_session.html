@@ -1,0 +1,1344 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>ThreeDsSession | Evervault API</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><a class="skip" href="#content">Skip to content</a>
+<header class="site-header"><a class="site-title" href="../index.html">Evervault API<span>SDK documentation</span></a><div class="site-links"><a class="repo-link" href="https://github.com/voxgig-sdk/evervault-sdk">voxgig-sdk/evervault-sdk</a></div></header>
+<div class="site-notice" role="note"></div>
+<div class="shell"><nav class="site-nav" aria-label="Documentation"><div class="search"><label for="search">Search documentation</label><input id="search" type="search" data-base="../" placeholder="Find a guide or reference"><div id="results" aria-live="polite"></div></div><details><summary>Overview</summary><a href="../index.html">Evervault API</a></details>
+<details open><summary>API</summary><a href="../api/index.html">API overview</a>
+<a href="../api/acquirer.html">Acquirer</a>
+<a href="../api/bin_lookup.html">BinLookup</a>
+<a href="../api/card.html">Card</a>
+<a href="../api/card_art.html">CardArt</a>
+<a href="../api/client_side_token.html">ClientSideToken</a>
+<a href="../api/core.html">Core</a>
+<a href="../api/custom_domain.html">CustomDomain</a>
+<a href="../api/function_run.html">FunctionRun</a>
+<a href="../api/merchant.html">Merchant</a>
+<a href="../api/network_token.html">NetworkToken</a>
+<a href="../api/network_token_cryptogram.html">NetworkTokenCryptogram</a>
+<a href="../api/payment.html">Payment</a>
+<a href="../api/relay.html">Relay</a>
+<a aria-current="page" href="../api/three_ds_session.html">ThreeDsSession</a><div class="nav-sections"><a class="nav-section" href="#post-payments3ds-sessions">POST /payments/3ds-sessions</a>
+<a class="nav-section" href="#get-payments3ds-sessions3ds_session_id">GET /payments/3ds-sessions/{3ds_session_id}</a></div>
+<a href="../api/webhook.html">Webhook</a>
+<a href="../api/webhook_endpoint.html">WebhookEndpoint</a></details>
+<details><summary>Guides</summary><a href="../guides/authentication.html">Authentication</a>
+<a href="../guides/first-call.html">Make your first API call</a>
+<a href="../guides/errors.html">Handle errors</a>
+<a href="../guides/concepts.html">Entities, SDKs, and tools</a></details>
+<details><summary>SDKs</summary><a href="../sdks/go.html">Golang</a>
+<a href="../sdks/lua.html">Lua</a>
+<a href="../sdks/php.html">PHP</a>
+<a href="../sdks/py.html">Python</a>
+<a href="../sdks/rb.html">Ruby</a>
+<a href="../sdks/ts.html">TypeScript</a></details>
+<details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
+<a href="../tools/go-mcp.html">Go MCP server</a></details>
+<details><summary>Features</summary><a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
+<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
+<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
+<a href="../features/paging.html">Pagination signals for list operations</a>
+<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
+<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
+<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
+<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="threedssession">ThreeDsSession</h1>
+<h2 id="operations">Operations</h2>
+<p>Every route this entity exposes. Each route links to its own reference on this page.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Route</th>
+<th>SDK operation</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-payments3ds-sessions"><code>/payments/3ds-sessions</code></a></td>
+<td><code>create</code></td>
+<td>Returns a 3DS Session object</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-payments3ds-sessions3ds_session_id"><code>/payments/3ds-sessions/{3ds_session_id}</code></a></td>
+<td><code>load</code></td>
+<td>Returns a 3DS Session object</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fields">Fields</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>accessControlServer</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Details about the Access Control Server involved in the 3DS transaction.</td>
+</tr>
+<tr>
+<td><code>acquirer</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>The acquirer of the payment.</td>
+</tr>
+<tr>
+<td><code>ares</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The details of the 3DS Authentication Response (ARes).</td>
+</tr>
+<tr>
+<td><code>authentication</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>The details of the 3DS Authentication.</td>
+</tr>
+<tr>
+<td><code>card</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>The card details.</td>
+</tr>
+<tr>
+<td><code>challenge</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>Details about the 3DS challenge.</td>
+</tr>
+<tr>
+<td><code>createdAt</code></td>
+<td><code>integer</code></td>
+<td>Yes</td>
+<td>The exact time, in epoch milliseconds, when this 3DS-Session was created.</td>
+</tr>
+<tr>
+<td><code>cres</code></td>
+<td><code>one,null,object</code></td>
+<td>No</td>
+<td>The details of the 3DS Challenge Response (CRes).</td>
+</tr>
+<tr>
+<td><code>cryptogram</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The 3DS cryptogram (also called Authentication Value).</td>
+</tr>
+<tr>
+<td><code>customer</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The details of the customer who initiated the transaction.</td>
+</tr>
+<tr>
+<td><code>directoryServer</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Details about the Directory Server involved in the 3DS transaction.</td>
+</tr>
+<tr>
+<td><code>eci</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The details of the Electronic Commerce Indicator.</td>
+</tr>
+<tr>
+<td><code>failureReason</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The reason for the 3DS Authentication failure.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A unique identifier assigned to each 3DS Authentication.</td>
+</tr>
+<tr>
+<td><code>initiator</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Details about the transaction initiation process.</td>
+</tr>
+<tr>
+<td><code>merchant</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>The merchant details.</td>
+</tr>
+<tr>
+<td><code>nextAction</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>The next action required to complete the 3DS Authentication.</td>
+</tr>
+<tr>
+<td><code>payment</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The payment details of the 3D Secure Authentication.</td>
+</tr>
+<tr>
+<td><code>preferredVersions</code></td>
+<td><code>array</code></td>
+<td>No</td>
+<td>A prioritized list of preferred 3D Secure versions.</td>
+</tr>
+<tr>
+<td><code>rreq</code></td>
+<td><code>one,null,object</code></td>
+<td>No</td>
+<td>The result of the 3DS authentication when a challenge has occurred.</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The status of the 3DS Authentication.</td>
+</tr>
+<tr>
+<td><code>threeDSServer</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Details about the 3DS Server involved in the 3DS transaction.</td>
+</tr>
+<tr>
+<td><code>updatedAt</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>The exact time, in epoch milliseconds, when this 3DS-Session was last updated.</td>
+</tr>
+<tr>
+<td><code>version</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The 3D Secure version used to authenticate the session.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="create">create</h2>
+<h3 id="post-payments3ds-sessions" class="operation" data-method="post"><code>POST</code> /payments/3ds-sessions</h3>
+<p>Operation ID: <code>createThreeDSSession</code>.</p>
+<p>Authentication: basic token (<code>ApiKey</code>).</p>
+<h4 id="request-body">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>acquirer</code></td>
+<td><code>object or string</code></td>
+<td>No</td>
+<td>The acquirer details to use for the 3DS session. Either an inline acquirer object or the unique identifier of an acquirer created with the <a href="/api#acquirers">Acquirers API</a>. If omitted, Evervault resolves the default acquirer configuration for the card's network.</td>
+</tr>
+<tr>
+<td><code>card</code></td>
+<td><code>object or string</code></td>
+<td>Yes</td>
+<td>The card details. Either an inline card object or the unique identifier of a Card created with the <a href="/api#cards">Cards API</a>.</td>
+</tr>
+<tr>
+<td><code>challenge</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Details about the 3DS challenge.</td>
+</tr>
+<tr>
+<td><code>challenge.preference</code></td>
+<td><code>enum: no-preference, challenge-requested, challenge-mandated, no-challenge-requested</code></td>
+<td>Yes</td>
+<td>The 3DS challenge preference.</td>
+</tr>
+<tr>
+<td><code>challenge.reason</code></td>
+<td><code>enum: null, data-sharing, low-value, low-risk, secure-corporate-payment, authentication-already-performed</code></td>
+<td>No</td>
+<td>The reason for not requesting a challenge. This value should only be present when the preference is <code>no-challenge-requested</code>.</td>
+</tr>
+<tr>
+<td><code>customer</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The details of the customer who initiated the transaction.</td>
+</tr>
+<tr>
+<td><code>customer.billing</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The billing details of the customer.</td>
+</tr>
+<tr>
+<td><code>customer.billing.address</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>customer.billing.address.city</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The city where the address is located.</td>
+</tr>
+<tr>
+<td><code>customer.billing.address.country</code></td>
+<td><code>string (iso-3166-1-alpha-2)</code></td>
+<td>Yes</td>
+<td>The country where the address is located.</td>
+</tr>
+<tr>
+<td><code>customer.billing.address.line1</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The first line of the address.</td>
+</tr>
+<tr>
+<td><code>customer.billing.address.line2</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The second line of the address.</td>
+</tr>
+<tr>
+<td><code>customer.billing.address.postalCode</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The postal code of the address.</td>
+</tr>
+<tr>
+<td><code>customer.billing.address.state</code></td>
+<td><code>string (iso-3166-2-subdivision)</code></td>
+<td>No</td>
+<td>The state or province code. Required when <code>country</code> is <code>us</code>, <code>ca</code>, or <code>au</code>.</td>
+</tr>
+<tr>
+<td><code>customer.billing.taxIdentifier</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The tax identifier of the cardholder.</td>
+</tr>
+<tr>
+<td><code>customer.email</code></td>
+<td><code>string (email)</code></td>
+<td>No</td>
+<td>The email address of the customer.</td>
+</tr>
+<tr>
+<td><code>customer.name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The name of the customer.</td>
+</tr>
+<tr>
+<td><code>customer.phone</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td>The phone number of the customer.</td>
+</tr>
+<tr>
+<td><code>customer.phone[].countryCode</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The numerical country calling code of the phone number.</td>
+</tr>
+<tr>
+<td><code>customer.phone[].number</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The phone number of the customer.</td>
+</tr>
+<tr>
+<td><code>customer.phone[].type</code></td>
+<td><code>enum: mobile, home, work</code></td>
+<td>Yes</td>
+<td>The type of phone number.</td>
+</tr>
+<tr>
+<td><code>customer.shipping</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The shipping details of the customer.</td>
+</tr>
+<tr>
+<td><code>customer.shipping.address</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The shipping address.</td>
+</tr>
+<tr>
+<td><code>customer.shipping.address.city</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The city where the address is located.</td>
+</tr>
+<tr>
+<td><code>customer.shipping.address.country</code></td>
+<td><code>string (iso-3166-1-alpha-2)</code></td>
+<td>Yes</td>
+<td>The country where the address is located.</td>
+</tr>
+<tr>
+<td><code>customer.shipping.address.line1</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The first line of the address.</td>
+</tr>
+<tr>
+<td><code>customer.shipping.address.line2</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The second line of the address.</td>
+</tr>
+<tr>
+<td><code>customer.shipping.address.postalCode</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The postal code of the address.</td>
+</tr>
+<tr>
+<td><code>customer.shipping.address.state</code></td>
+<td><code>string (iso-3166-2-subdivision)</code></td>
+<td>No</td>
+<td>The state or province code. Required when <code>country</code> is <code>us</code>, <code>ca</code>, or <code>au</code>.</td>
+</tr>
+<tr>
+<td><code>initiator</code></td>
+<td><code>object or object</code></td>
+<td>No</td>
+<td>Details about the transaction initiation process.</td>
+</tr>
+<tr>
+<td><code>merchant</code></td>
+<td><code>object or string</code></td>
+<td>Yes</td>
+<td>The merchant details. Either an inline merchant object or the unique identifier of a Merchant created with the <a href="/api#merchants">Merchants API</a>.</td>
+</tr>
+<tr>
+<td><code>payment</code></td>
+<td><code>object or object or object</code></td>
+<td>No</td>
+<td>The payment details of the 3D Secure Authentication. This field is mandatory for transactions involving payment authentications but not required for non-payment authentications.</td>
+</tr>
+<tr>
+<td><code>preferredVersions</code></td>
+<td><code>array of enum: 2.2.0</code></td>
+<td>No</td>
+<td>A prioritized list of preferred 3D Secure versions. If the first version is not supported, the next version in the list is attempted. If no preferred version is provided, the most optimal version is selected. If none of the specified versions are supported by the issuer, the session fails.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses">Responses</h4>
+<h5 id="201-returns-a-3ds-session-object" class="status" data-status="2xx">201: Returns a 3DS Session object</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>accessControlServer</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Details about the Access Control Server involved in the 3DS transaction.</td>
+</tr>
+<tr>
+<td><code>accessControlServer.operatorIdentifier</code></td>
+<td><code>null,string</code></td>
+<td>No</td>
+<td>The identifier of the Access Control Server's operator, when the ACS provides it.</td>
+</tr>
+<tr>
+<td><code>accessControlServer.referenceNumber</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The Access Control Server's reference number assigned by EMVCo.</td>
+</tr>
+<tr>
+<td><code>accessControlServer.transactionIdentifier</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The Access Control Server's transaction identifier.</td>
+</tr>
+<tr>
+<td><code>acquirer</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>The acquirer of the payment.</td>
+</tr>
+<tr>
+<td><code>acquirer.bin</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The Bank Identification Number (BIN) of the acquirer. Must be 6 to 11 digits.</td>
+</tr>
+<tr>
+<td><code>acquirer.country</code></td>
+<td><code>string (iso-3166-1-alpha-2)</code></td>
+<td>Yes</td>
+<td>The country code of the acquirer</td>
+</tr>
+<tr>
+<td><code>acquirer.merchantIdentifier</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The merchant identifier assigned by the acquirer.</td>
+</tr>
+<tr>
+<td><code>ares</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The details of the 3DS Authentication Response (ARes).</td>
+</tr>
+<tr>
+<td><code>ares.cardholderInfo</code></td>
+<td><code>null,string</code></td>
+<td>No</td>
+<td>A message from the card issuer to display to the cardholder, such as guidance to contact their bank. Maximum 128 characters.</td>
+</tr>
+<tr>
+<td><code>ares.transStatus</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The transaction status.</td>
+</tr>
+<tr>
+<td><code>ares.transStatus.detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The detailed description of the transaction status.</td>
+</tr>
+<tr>
+<td><code>ares.transStatus.value</code></td>
+<td><code>enum: Y, N, U, A, C, D, ...</code></td>
+<td>No</td>
+<td>The raw value of the transaction status.</td>
+</tr>
+<tr>
+<td><code>ares.transStatusReason</code></td>
+<td><code>null,object</code></td>
+<td>No</td>
+<td>The reason for the transaction status if transStatus is 'N', 'U' or 'R'.</td>
+</tr>
+<tr>
+<td><code>ares.transStatusReason.detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The detailed description of the transaction status reason.</td>
+</tr>
+<tr>
+<td><code>ares.transStatusReason.value</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The raw value of the transaction status reason.</td>
+</tr>
+<tr>
+<td><code>authentication</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The details of the 3DS Authentication. This field is present when the status is <code>success</code>.</td>
+</tr>
+<tr>
+<td><code>authentication.flow</code></td>
+<td><code>enum: frictionless, challenge, attempt</code></td>
+<td>Yes</td>
+<td>The authentication flow.</td>
+</tr>
+<tr>
+<td><code>authentication.methods</code></td>
+<td><code>array of enum: static-passcode, sms-otp, emv-card-reader-otp, app-otp, other-otp, knowledge-based, ...</code></td>
+<td>No</td>
+<td>The authentication method(s). This field is only present when the flow is <code>challenge</code>.</td>
+</tr>
+<tr>
+<td><code>card</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>card.brand</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The card brand.</td>
+</tr>
+<tr>
+<td><code>card.country</code></td>
+<td><code>string (iso-3166-1-alpha-2)</code></td>
+<td>Yes</td>
+<td>The country code of the card.</td>
+</tr>
+<tr>
+<td><code>card.currency</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The currency code of the card. (ISO 4217 three-letter code)</td>
+</tr>
+<tr>
+<td><code>card.expiry</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>card.expiry.month</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The card expiry month, in MM format (for example 12 for December)</td>
+</tr>
+<tr>
+<td><code>card.expiry.year</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The card expiry year, in YY format (for example 26 for 2026)</td>
+</tr>
+<tr>
+<td><code>card.funding</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The card funding type.</td>
+</tr>
+<tr>
+<td><code>card.issuer</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The name of the card issuer.</td>
+</tr>
+<tr>
+<td><code>card.lastFour</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The last four digits of the card number.</td>
+</tr>
+<tr>
+<td><code>card.segment</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The card segment.</td>
+</tr>
+<tr>
+<td><code>challenge</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Details about the 3DS challenge.</td>
+</tr>
+<tr>
+<td><code>challenge.preference</code></td>
+<td><code>enum: no-preference, challenge-requested, challenge-mandated, no-challenge-requested</code></td>
+<td>Yes</td>
+<td>The 3DS challenge preference.</td>
+</tr>
+<tr>
+<td><code>challenge.reason</code></td>
+<td><code>enum: null, data-sharing, low-value, low-risk, secure-corporate-payment, authentication-already-performed</code></td>
+<td>No</td>
+<td>The reason for not requesting a challenge. This value should only be present when the preference is <code>no-challenge-requested</code>.</td>
+</tr>
+<tr>
+<td><code>createdAt</code></td>
+<td><code>integer (int64)</code></td>
+<td>Yes</td>
+<td>The exact time, in epoch milliseconds, when this 3DS-Session was created.</td>
+</tr>
+<tr>
+<td><code>cres</code></td>
+<td><code>null,object</code></td>
+<td>No</td>
+<td>The details of the 3DS Challenge Response (CRes).</td>
+</tr>
+<tr>
+<td><code>cres.transStatus</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The transaction status.</td>
+</tr>
+<tr>
+<td><code>cres.transStatus.detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The detailed description of the transaction status.</td>
+</tr>
+<tr>
+<td><code>cres.transStatus.value</code></td>
+<td><code>enum: Y, N</code></td>
+<td>No</td>
+<td>The raw value of the transaction status.</td>
+</tr>
+<tr>
+<td><code>cryptogram</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The 3DS cryptogram (also called Authentication Value). This value must be retrieved and provided to the payment gateway when processing the payment. This value is only present when the status is <code>success</code> and is retained for one hour.</td>
+</tr>
+<tr>
+<td><code>directoryServer</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Details about the Directory Server involved in the 3DS transaction.</td>
+</tr>
+<tr>
+<td><code>directoryServer.network</code></td>
+<td><code>enum: visa, mastercard, american-express, discover, jcb, unionpay, ...</code></td>
+<td>No</td>
+<td>The network of the Directory Server.</td>
+</tr>
+<tr>
+<td><code>directoryServer.referenceNumber</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The Directory Server's reference number assigned by EMVCo.</td>
+</tr>
+<tr>
+<td><code>directoryServer.transactionIdentifier</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The Directory Server's transaction identifier.</td>
+</tr>
+<tr>
+<td><code>eci</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The details of the Electronic Commerce Indicator. This value is only present when the status is <code>success</code>.</td>
+</tr>
+<tr>
+<td><code>eci.descriptor</code></td>
+<td><code>enum: fully-authenticated, attempted, not-authenticated</code></td>
+<td>No</td>
+<td>The descriptor of the ECI. This value must be retrieved and provided to the payment gateway when processing the payment.</td>
+</tr>
+<tr>
+<td><code>eci.liabilityShift</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>A boolean value indicating whether the liability shift has occurred.</td>
+</tr>
+<tr>
+<td><code>eci.value</code></td>
+<td><code>enum: 00, 01, 02, 04, 05, 06, ...</code></td>
+<td>No</td>
+<td>The value of the ECI. Below are descriptions of each of the possible values: Mastercard: - <code>00</code>: Not authenticated. No liability shift. - <code>01</code>: Attempted (Stand-in) authentication. Liability shift applies. - <code>02</code>: Successful authentication. Liability shift applies. - <code>04</code>: Data only authentication. No liability shift. - <code>06</code>: Transaction is exempt from SCA. No liability shift. - <code>07</code>: Recurring transaction authenticated. Liability shift applies for initial transaction only. Visa, American Express, Discover, Diners Club, JCB: - <code>05</code>: Successful authentication. Liability shift applies. - <code>06</code>: Attempted (Stand-in) authentication. Liability shift applies. - <code>07</code>: Not authenticated. No liability shift.</td>
+</tr>
+<tr>
+<td><code>failureReason</code></td>
+<td><code>enum: failed-authentication, card-not-enrolled, no-card-record, suspected-fraud, invalid-acquirer-details, cancelled, ...</code></td>
+<td>No</td>
+<td>The reason for the 3DS Authentication failure. This field is present when the status is <code>failure</code> and can be used for troubleshooting.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A unique identifier assigned to each 3DS Authentication.</td>
+</tr>
+<tr>
+<td><code>initiator</code></td>
+<td><code>object or object</code></td>
+<td>No</td>
+<td>Details about the transaction initiation process.</td>
+</tr>
+<tr>
+<td><code>merchant</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>The merchant details.</td>
+</tr>
+<tr>
+<td><code>merchant.categoryCode</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The category code of the merchant.</td>
+</tr>
+<tr>
+<td><code>merchant.country</code></td>
+<td><code>string (iso-3166-1-alpha-2)</code></td>
+<td>Yes</td>
+<td>The country code of the merchant.</td>
+</tr>
+<tr>
+<td><code>merchant.name</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The name of the merchant.</td>
+</tr>
+<tr>
+<td><code>merchant.website</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The website of the merchant.</td>
+</tr>
+<tr>
+<td><code>nextAction</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The next action required to complete the 3DS Authentication.</td>
+</tr>
+<tr>
+<td><code>nextAction.type</code></td>
+<td><code>enum: use-sdk</code></td>
+<td>Yes</td>
+<td>The next action required to progress the 3DS Authentication. If the type is <code>use-sdk</code> you must use our <a href="/sdks/javascript#ui.threedsecure()">Client-Side SDK</a> to complete the 3DS Authentication.</td>
+</tr>
+<tr>
+<td><code>payment</code></td>
+<td><code>object or object or object</code></td>
+<td>No</td>
+<td>The payment details of the 3D Secure Authentication.</td>
+</tr>
+<tr>
+<td><code>rreq</code></td>
+<td><code>null,object</code></td>
+<td>No</td>
+<td>The result of the 3DS authentication when a challenge has occurred.</td>
+</tr>
+<tr>
+<td><code>rreq.transStatus</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The transaction status.</td>
+</tr>
+<tr>
+<td><code>rreq.transStatus.detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The detailed description of the transaction status. Below are descriptions of each of the possible values: - <code>Y</code> - Authentication Verification Successful. - <code>N</code> - Not Authenticated/Account Not Verified; Transaction denied. - <code>U</code> - Authentication/Account Verification Could Not Be Performed; Technical or other problem. - <code>A</code> - Attempts Processing Performed; Not Authenticated/Verified, but a proof of attempted authentication/verification is provided. - <code>R</code> - Authentication/Account Verification Rejected; Issuer is rejecting.</td>
+</tr>
+<tr>
+<td><code>rreq.transStatus.value</code></td>
+<td><code>enum: Y, N, U, A, R</code></td>
+<td>No</td>
+<td>The raw value of the transaction status.</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>enum: action-required, success, failure</code></td>
+<td>Yes</td>
+<td>The status of the 3DS Authentication.</td>
+</tr>
+<tr>
+<td><code>threeDSServer</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Details about the 3DS Server involved in the 3DS transaction.</td>
+</tr>
+<tr>
+<td><code>threeDSServer.transactionIdentifier</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The unique identifier for the 3DS transaction.</td>
+</tr>
+<tr>
+<td><code>updatedAt</code></td>
+<td><code>integer (int64)</code></td>
+<td>No</td>
+<td>The exact time, in epoch milliseconds, when this 3DS-Session was last updated.</td>
+</tr>
+<tr>
+<td><code>version</code></td>
+<td><code>enum: 2.2.0</code></td>
+<td>Yes</td>
+<td>The 3D Secure version used to authenticate the session.</td>
+</tr>
+</tbody>
+</table>
+<h5 id="400-the-request-was-invalid-or-cannot-be-otherwise-served" class="status" data-status="4xx">400: The request was invalid or cannot be otherwise served.</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A distinct error code, presented in slug format, that identifies a specific error.</td>
+</tr>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation of the error.</td>
+</tr>
+<tr>
+<td><code>fields</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>fields[].pointer</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The JSON pointer to the field that caused the error.</td>
+</tr>
+<tr>
+<td><code>fields[].reason</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation of the error for this field.</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>The HTTP status code for the error.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A short, human-readable summary of the error.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="load">load</h2>
+<h3 id="get-payments3ds-sessions3ds_session_id" class="operation" data-method="get"><code>GET</code> /payments/3ds-sessions/{3ds_session_id}</h3>
+<p>Operation ID: <code>retrieveThreeDSSession</code>.</p>
+<p>Authentication: basic token (<code>ApiKey</code>).</p>
+<h4 id="parameters">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>3ds_session_id</code> | <code>path</code> | <code>string</code> | Yes | The id of the session |</p>
+<h4 id="responses-1">Responses</h4>
+<h5 id="200-returns-a-3ds-session-object" class="status" data-status="2xx">200: Returns a 3DS Session object</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>accessControlServer</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Details about the Access Control Server involved in the 3DS transaction.</td>
+</tr>
+<tr>
+<td><code>accessControlServer.operatorIdentifier</code></td>
+<td><code>null,string</code></td>
+<td>No</td>
+<td>The identifier of the Access Control Server's operator, when the ACS provides it.</td>
+</tr>
+<tr>
+<td><code>accessControlServer.referenceNumber</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The Access Control Server's reference number assigned by EMVCo.</td>
+</tr>
+<tr>
+<td><code>accessControlServer.transactionIdentifier</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The Access Control Server's transaction identifier.</td>
+</tr>
+<tr>
+<td><code>acquirer</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>The acquirer of the payment.</td>
+</tr>
+<tr>
+<td><code>acquirer.bin</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The Bank Identification Number (BIN) of the acquirer. Must be 6 to 11 digits.</td>
+</tr>
+<tr>
+<td><code>acquirer.country</code></td>
+<td><code>string (iso-3166-1-alpha-2)</code></td>
+<td>Yes</td>
+<td>The country code of the acquirer</td>
+</tr>
+<tr>
+<td><code>acquirer.merchantIdentifier</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The merchant identifier assigned by the acquirer.</td>
+</tr>
+<tr>
+<td><code>ares</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The details of the 3DS Authentication Response (ARes).</td>
+</tr>
+<tr>
+<td><code>ares.cardholderInfo</code></td>
+<td><code>null,string</code></td>
+<td>No</td>
+<td>A message from the card issuer to display to the cardholder, such as guidance to contact their bank. Maximum 128 characters.</td>
+</tr>
+<tr>
+<td><code>ares.transStatus</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The transaction status.</td>
+</tr>
+<tr>
+<td><code>ares.transStatus.detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The detailed description of the transaction status.</td>
+</tr>
+<tr>
+<td><code>ares.transStatus.value</code></td>
+<td><code>enum: Y, N, U, A, C, D, ...</code></td>
+<td>No</td>
+<td>The raw value of the transaction status.</td>
+</tr>
+<tr>
+<td><code>ares.transStatusReason</code></td>
+<td><code>null,object</code></td>
+<td>No</td>
+<td>The reason for the transaction status if transStatus is 'N', 'U' or 'R'.</td>
+</tr>
+<tr>
+<td><code>ares.transStatusReason.detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The detailed description of the transaction status reason.</td>
+</tr>
+<tr>
+<td><code>ares.transStatusReason.value</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The raw value of the transaction status reason.</td>
+</tr>
+<tr>
+<td><code>authentication</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The details of the 3DS Authentication. This field is present when the status is <code>success</code>.</td>
+</tr>
+<tr>
+<td><code>authentication.flow</code></td>
+<td><code>enum: frictionless, challenge, attempt</code></td>
+<td>Yes</td>
+<td>The authentication flow.</td>
+</tr>
+<tr>
+<td><code>authentication.methods</code></td>
+<td><code>array of enum: static-passcode, sms-otp, emv-card-reader-otp, app-otp, other-otp, knowledge-based, ...</code></td>
+<td>No</td>
+<td>The authentication method(s). This field is only present when the flow is <code>challenge</code>.</td>
+</tr>
+<tr>
+<td><code>card</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>card.brand</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The card brand.</td>
+</tr>
+<tr>
+<td><code>card.country</code></td>
+<td><code>string (iso-3166-1-alpha-2)</code></td>
+<td>Yes</td>
+<td>The country code of the card.</td>
+</tr>
+<tr>
+<td><code>card.currency</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The currency code of the card. (ISO 4217 three-letter code)</td>
+</tr>
+<tr>
+<td><code>card.expiry</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>card.expiry.month</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The card expiry month, in MM format (for example 12 for December)</td>
+</tr>
+<tr>
+<td><code>card.expiry.year</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The card expiry year, in YY format (for example 26 for 2026)</td>
+</tr>
+<tr>
+<td><code>card.funding</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The card funding type.</td>
+</tr>
+<tr>
+<td><code>card.issuer</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The name of the card issuer.</td>
+</tr>
+<tr>
+<td><code>card.lastFour</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The last four digits of the card number.</td>
+</tr>
+<tr>
+<td><code>card.segment</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The card segment.</td>
+</tr>
+<tr>
+<td><code>challenge</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Details about the 3DS challenge.</td>
+</tr>
+<tr>
+<td><code>challenge.preference</code></td>
+<td><code>enum: no-preference, challenge-requested, challenge-mandated, no-challenge-requested</code></td>
+<td>Yes</td>
+<td>The 3DS challenge preference.</td>
+</tr>
+<tr>
+<td><code>challenge.reason</code></td>
+<td><code>enum: null, data-sharing, low-value, low-risk, secure-corporate-payment, authentication-already-performed</code></td>
+<td>No</td>
+<td>The reason for not requesting a challenge. This value should only be present when the preference is <code>no-challenge-requested</code>.</td>
+</tr>
+<tr>
+<td><code>createdAt</code></td>
+<td><code>integer (int64)</code></td>
+<td>Yes</td>
+<td>The exact time, in epoch milliseconds, when this 3DS-Session was created.</td>
+</tr>
+<tr>
+<td><code>cres</code></td>
+<td><code>null,object</code></td>
+<td>No</td>
+<td>The details of the 3DS Challenge Response (CRes).</td>
+</tr>
+<tr>
+<td><code>cres.transStatus</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The transaction status.</td>
+</tr>
+<tr>
+<td><code>cres.transStatus.detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The detailed description of the transaction status.</td>
+</tr>
+<tr>
+<td><code>cres.transStatus.value</code></td>
+<td><code>enum: Y, N</code></td>
+<td>No</td>
+<td>The raw value of the transaction status.</td>
+</tr>
+<tr>
+<td><code>cryptogram</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The 3DS cryptogram (also called Authentication Value). This value must be retrieved and provided to the payment gateway when processing the payment. This value is only present when the status is <code>success</code> and is retained for one hour.</td>
+</tr>
+<tr>
+<td><code>directoryServer</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Details about the Directory Server involved in the 3DS transaction.</td>
+</tr>
+<tr>
+<td><code>directoryServer.network</code></td>
+<td><code>enum: visa, mastercard, american-express, discover, jcb, unionpay, ...</code></td>
+<td>No</td>
+<td>The network of the Directory Server.</td>
+</tr>
+<tr>
+<td><code>directoryServer.referenceNumber</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The Directory Server's reference number assigned by EMVCo.</td>
+</tr>
+<tr>
+<td><code>directoryServer.transactionIdentifier</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The Directory Server's transaction identifier.</td>
+</tr>
+<tr>
+<td><code>eci</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The details of the Electronic Commerce Indicator. This value is only present when the status is <code>success</code>.</td>
+</tr>
+<tr>
+<td><code>eci.descriptor</code></td>
+<td><code>enum: fully-authenticated, attempted, not-authenticated</code></td>
+<td>No</td>
+<td>The descriptor of the ECI. This value must be retrieved and provided to the payment gateway when processing the payment.</td>
+</tr>
+<tr>
+<td><code>eci.liabilityShift</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>A boolean value indicating whether the liability shift has occurred.</td>
+</tr>
+<tr>
+<td><code>eci.value</code></td>
+<td><code>enum: 00, 01, 02, 04, 05, 06, ...</code></td>
+<td>No</td>
+<td>The value of the ECI. Below are descriptions of each of the possible values: Mastercard: - <code>00</code>: Not authenticated. No liability shift. - <code>01</code>: Attempted (Stand-in) authentication. Liability shift applies. - <code>02</code>: Successful authentication. Liability shift applies. - <code>04</code>: Data only authentication. No liability shift. - <code>06</code>: Transaction is exempt from SCA. No liability shift. - <code>07</code>: Recurring transaction authenticated. Liability shift applies for initial transaction only. Visa, American Express, Discover, Diners Club, JCB: - <code>05</code>: Successful authentication. Liability shift applies. - <code>06</code>: Attempted (Stand-in) authentication. Liability shift applies. - <code>07</code>: Not authenticated. No liability shift.</td>
+</tr>
+<tr>
+<td><code>failureReason</code></td>
+<td><code>enum: failed-authentication, card-not-enrolled, no-card-record, suspected-fraud, invalid-acquirer-details, cancelled, ...</code></td>
+<td>No</td>
+<td>The reason for the 3DS Authentication failure. This field is present when the status is <code>failure</code> and can be used for troubleshooting.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A unique identifier assigned to each 3DS Authentication.</td>
+</tr>
+<tr>
+<td><code>initiator</code></td>
+<td><code>object or object</code></td>
+<td>No</td>
+<td>Details about the transaction initiation process.</td>
+</tr>
+<tr>
+<td><code>merchant</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>The merchant details.</td>
+</tr>
+<tr>
+<td><code>merchant.categoryCode</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The category code of the merchant.</td>
+</tr>
+<tr>
+<td><code>merchant.country</code></td>
+<td><code>string (iso-3166-1-alpha-2)</code></td>
+<td>Yes</td>
+<td>The country code of the merchant.</td>
+</tr>
+<tr>
+<td><code>merchant.name</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The name of the merchant.</td>
+</tr>
+<tr>
+<td><code>merchant.website</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The website of the merchant.</td>
+</tr>
+<tr>
+<td><code>nextAction</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The next action required to complete the 3DS Authentication.</td>
+</tr>
+<tr>
+<td><code>nextAction.type</code></td>
+<td><code>enum: use-sdk</code></td>
+<td>Yes</td>
+<td>The next action required to progress the 3DS Authentication. If the type is <code>use-sdk</code> you must use our <a href="/sdks/javascript#ui.threedsecure()">Client-Side SDK</a> to complete the 3DS Authentication.</td>
+</tr>
+<tr>
+<td><code>payment</code></td>
+<td><code>object or object or object</code></td>
+<td>No</td>
+<td>The payment details of the 3D Secure Authentication.</td>
+</tr>
+<tr>
+<td><code>rreq</code></td>
+<td><code>null,object</code></td>
+<td>No</td>
+<td>The result of the 3DS authentication when a challenge has occurred.</td>
+</tr>
+<tr>
+<td><code>rreq.transStatus</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The transaction status.</td>
+</tr>
+<tr>
+<td><code>rreq.transStatus.detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The detailed description of the transaction status. Below are descriptions of each of the possible values: - <code>Y</code> - Authentication Verification Successful. - <code>N</code> - Not Authenticated/Account Not Verified; Transaction denied. - <code>U</code> - Authentication/Account Verification Could Not Be Performed; Technical or other problem. - <code>A</code> - Attempts Processing Performed; Not Authenticated/Verified, but a proof of attempted authentication/verification is provided. - <code>R</code> - Authentication/Account Verification Rejected; Issuer is rejecting.</td>
+</tr>
+<tr>
+<td><code>rreq.transStatus.value</code></td>
+<td><code>enum: Y, N, U, A, R</code></td>
+<td>No</td>
+<td>The raw value of the transaction status.</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>enum: action-required, success, failure</code></td>
+<td>Yes</td>
+<td>The status of the 3DS Authentication.</td>
+</tr>
+<tr>
+<td><code>threeDSServer</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Details about the 3DS Server involved in the 3DS transaction.</td>
+</tr>
+<tr>
+<td><code>threeDSServer.transactionIdentifier</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The unique identifier for the 3DS transaction.</td>
+</tr>
+<tr>
+<td><code>updatedAt</code></td>
+<td><code>integer (int64)</code></td>
+<td>No</td>
+<td>The exact time, in epoch milliseconds, when this 3DS-Session was last updated.</td>
+</tr>
+<tr>
+<td><code>version</code></td>
+<td><code>enum: 2.2.0</code></td>
+<td>Yes</td>
+<td>The 3D Secure version used to authenticate the session.</td>
+</tr>
+</tbody>
+</table>
+</main></div>
+<script src="../assets/search.js" defer></script></body></html>

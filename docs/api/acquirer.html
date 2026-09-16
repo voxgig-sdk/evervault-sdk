@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Acquirer | Evervault API</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><a class="skip" href="#content">Skip to content</a>
+<header class="site-header"><a class="site-title" href="../index.html">Evervault API<span>SDK documentation</span></a><div class="site-links"><a class="repo-link" href="https://github.com/voxgig-sdk/evervault-sdk">voxgig-sdk/evervault-sdk</a></div></header>
+<div class="site-notice" role="note"></div>
+<div class="shell"><nav class="site-nav" aria-label="Documentation"><div class="search"><label for="search">Search documentation</label><input id="search" type="search" data-base="../" placeholder="Find a guide or reference"><div id="results" aria-live="polite"></div></div><details><summary>Overview</summary><a href="../index.html">Evervault API</a></details>
+<details open><summary>API</summary><a href="../api/index.html">API overview</a>
+<a aria-current="page" href="../api/acquirer.html">Acquirer</a><div class="nav-sections"><a class="nav-section" href="#post-paymentsacquirers">POST /payments/acquirers</a>
+<a class="nav-section" href="#get-paymentsacquirersacquirer_id">GET /payments/acquirers/{acquirer_id}</a>
+<a class="nav-section" href="#patch-paymentsacquirersacquirer_id">PATCH /payments/acquirers/{acquirer_id}</a></div>
+<a href="../api/bin_lookup.html">BinLookup</a>
+<a href="../api/card.html">Card</a>
+<a href="../api/card_art.html">CardArt</a>
+<a href="../api/client_side_token.html">ClientSideToken</a>
+<a href="../api/core.html">Core</a>
+<a href="../api/custom_domain.html">CustomDomain</a>
+<a href="../api/function_run.html">FunctionRun</a>
+<a href="../api/merchant.html">Merchant</a>
+<a href="../api/network_token.html">NetworkToken</a>
+<a href="../api/network_token_cryptogram.html">NetworkTokenCryptogram</a>
+<a href="../api/payment.html">Payment</a>
+<a href="../api/relay.html">Relay</a>
+<a href="../api/three_ds_session.html">ThreeDsSession</a>
+<a href="../api/webhook.html">Webhook</a>
+<a href="../api/webhook_endpoint.html">WebhookEndpoint</a></details>
+<details><summary>Guides</summary><a href="../guides/authentication.html">Authentication</a>
+<a href="../guides/first-call.html">Make your first API call</a>
+<a href="../guides/errors.html">Handle errors</a>
+<a href="../guides/concepts.html">Entities, SDKs, and tools</a></details>
+<details><summary>SDKs</summary><a href="../sdks/go.html">Golang</a>
+<a href="../sdks/lua.html">Lua</a>
+<a href="../sdks/php.html">PHP</a>
+<a href="../sdks/py.html">Python</a>
+<a href="../sdks/rb.html">Ruby</a>
+<a href="../sdks/ts.html">TypeScript</a></details>
+<details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
+<a href="../tools/go-mcp.html">Go MCP server</a></details>
+<details><summary>Features</summary><a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
+<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
+<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
+<a href="../features/paging.html">Pagination signals for list operations</a>
+<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
+<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
+<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
+<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="acquirer">Acquirer</h1>
+<h2 id="operations">Operations</h2>
+<p>Every route this entity exposes. Each route links to its own reference on this page.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Route</th>
+<th>SDK operation</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-paymentsacquirers"><code>/payments/acquirers</code></a></td>
+<td><code>create</code></td>
+<td>Returns the created Acquirer object</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-paymentsacquirersacquirer_id"><code>/payments/acquirers/{acquirer_id}</code></a></td>
+<td><code>load</code></td>
+<td>Returns an Acquirer object</td>
+</tr>
+<tr>
+<td><code>PATCH</code></td>
+<td><a href="#patch-paymentsacquirersacquirer_id"><code>/payments/acquirers/{acquirer_id}</code></a></td>
+<td><code>update</code></td>
+<td>Returns the updated Acquirer object</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fields">Fields</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>configurations</code></td>
+<td><code>array</code></td>
+<td>Yes</td>
+<td>The acquirer configuration settings.</td>
+</tr>
+<tr>
+<td><code>default</code></td>
+<td><code>boolean</code></td>
+<td>Yes</td>
+<td>Specifies whether this Acquirer is the default.</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The description of the acquirer configuration.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The unique identifier of the acquirer configuration.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The name of the acquirer configuration.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="create">create</h2>
+<h3 id="post-paymentsacquirers" class="operation" data-method="post"><code>POST</code> /payments/acquirers</h3>
+<p>Operation ID: <code>createAcquirer</code>.</p>
+<p>Authentication: basic token (<code>ApiKey</code>).</p>
+<h4 id="request-body">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>configurations</code></td>
+<td><code>array of object</code></td>
+<td>Yes</td>
+<td>The Acquirer configurations. Configurations are set according to each card network the Acquirer is associated with, and each <code>network</code> can only appear once. To use a different <code>bin</code>, <code>acquirerMerchantIdentifier</code>, or <code>country</code> for the same network, create a separate Acquirer.</td>
+</tr>
+<tr>
+<td><code>configurations[].acquirerMerchantIdentifier</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The merchant identifier associated with the configuration.</td>
+</tr>
+<tr>
+<td><code>configurations[].bin</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The Bank Identification Number (BIN) of the Acquirer. Must be 6 to 11 digits.</td>
+</tr>
+<tr>
+<td><code>configurations[].country</code></td>
+<td><code>string (iso-3166-1-alpha-2)</code></td>
+<td>Yes</td>
+<td>The country of the Acquirer configuration, used when creating 3DS sessions.</td>
+</tr>
+<tr>
+<td><code>configurations[].network</code></td>
+<td><code>enum: visa, mastercard, american-express, discover</code></td>
+<td>Yes</td>
+<td>The card network of the Acquirer. <code>discover</code> covers Discover, Diners Club, and JCB (US only).</td>
+</tr>
+<tr>
+<td><code>default</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>Specifies whether this Acquirer is the default. Only one default Acquirer configuration can exist at a time; setting a new one clears the previous default. If none is defined, the first Acquirer created becomes the default. See the <a href="/api#acquirers">Acquirers API</a> for details.</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The description of the Acquirer.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The name of the Acquirer.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses">Responses</h4>
+<h5 id="201-returns-the-created-acquirer-object" class="status" data-status="2xx">201: Returns the created Acquirer object</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>configurations</code></td>
+<td><code>array of object</code></td>
+<td>Yes</td>
+<td>The acquirer configuration settings.</td>
+</tr>
+<tr>
+<td><code>configurations[].acquirerMerchantIdentifier</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The merchant identifier the configuration is associated with.</td>
+</tr>
+<tr>
+<td><code>configurations[].bin</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The Bank Identification Number (BIN) of the Acquirer. Must be 6 to 11 digits.</td>
+</tr>
+<tr>
+<td><code>configurations[].country</code></td>
+<td><code>string (iso-3166-1-alpha-2)</code></td>
+<td>Yes</td>
+<td>The country of the acquirer configuration, used when creating 3DS sessions.</td>
+</tr>
+<tr>
+<td><code>configurations[].network</code></td>
+<td><code>enum: visa, mastercard, american-express, discover</code></td>
+<td>Yes</td>
+<td>The card network of the Acquirer. <code>discover</code> covers Discover, Diners Club, and JCB (US only).</td>
+</tr>
+<tr>
+<td><code>configurations[].state</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>default</code></td>
+<td><code>boolean</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The description of the acquirer configuration.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The unique identifier of the acquirer configuration.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The name of the acquirer configuration.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="load">load</h2>
+<h3 id="get-paymentsacquirersacquirer_id" class="operation" data-method="get"><code>GET</code> /payments/acquirers/{acquirer_id}</h3>
+<p>Operation ID: <code>getAcquirer</code>.</p>
+<p>Authentication: basic token (<code>ApiKey</code>).</p>
+<h4 id="parameters">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>acquirer_id</code> | <code>path</code> | <code>string</code> | Yes | The unique identifier of the Acquirer. |</p>
+<h4 id="responses-1">Responses</h4>
+<h5 id="200-returns-an-acquirer-object" class="status" data-status="2xx">200: Returns an Acquirer object</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>configurations</code></td>
+<td><code>array of object</code></td>
+<td>Yes</td>
+<td>The acquirer configuration settings.</td>
+</tr>
+<tr>
+<td><code>configurations[].acquirerMerchantIdentifier</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The merchant identifier the configuration is associated with.</td>
+</tr>
+<tr>
+<td><code>configurations[].bin</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The Bank Identification Number (BIN) of the Acquirer. Must be 6 to 11 digits.</td>
+</tr>
+<tr>
+<td><code>configurations[].country</code></td>
+<td><code>string (iso-3166-1-alpha-2)</code></td>
+<td>Yes</td>
+<td>The country of the acquirer configuration, used when creating 3DS sessions.</td>
+</tr>
+<tr>
+<td><code>configurations[].network</code></td>
+<td><code>enum: visa, mastercard, american-express, discover</code></td>
+<td>Yes</td>
+<td>The card network of the Acquirer. <code>discover</code> covers Discover, Diners Club, and JCB (US only).</td>
+</tr>
+<tr>
+<td><code>configurations[].state</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>default</code></td>
+<td><code>boolean</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The description of the acquirer configuration.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The unique identifier of the acquirer configuration.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The name of the acquirer configuration.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="update">update</h2>
+<h3 id="patch-paymentsacquirersacquirer_id" class="operation" data-method="patch"><code>PATCH</code> /payments/acquirers/{acquirer_id}</h3>
+<p>Operation ID: <code>updateAcquirer</code>.</p>
+<p>Authentication: basic token (<code>ApiKey</code>).</p>
+<h4 id="parameters-1">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>acquirer_id</code> | <code>path</code> | <code>string</code> | Yes | The id of the Acquirer to be updated. |</p>
+<h4 id="request-body-1">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>configurations</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td>The Acquirer configurations. Configurations are set according to each card network the Acquirer is associated with, and each <code>network</code> can only appear once. To use a different <code>bin</code>, <code>acquirerMerchantIdentifier</code>, or <code>country</code> for the same network, create a separate Acquirer.</td>
+</tr>
+<tr>
+<td><code>configurations[].acquirerMerchantIdentifier</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The merchant identifier the configuration is associated with.</td>
+</tr>
+<tr>
+<td><code>configurations[].bin</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The Bank Identification Number (BIN) of the acquirer. Must be 6 to 11 digits.</td>
+</tr>
+<tr>
+<td><code>configurations[].country</code></td>
+<td><code>string (iso-3166-1-alpha-2)</code></td>
+<td>No</td>
+<td>The country of the acquirer configuration, used when creating 3DS sessions.</td>
+</tr>
+<tr>
+<td><code>configurations[].network</code></td>
+<td><code>enum: visa, mastercard, american-express, discover</code></td>
+<td>Yes</td>
+<td>The card network to use the configuration for. <code>discover</code> covers Discover, Diners Club, and JCB (US only).</td>
+</tr>
+<tr>
+<td><code>default</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>Specifies whether this Acquirer is the default. Only one default Acquirer configuration can exist at a time; setting a new one clears the previous default. See the <a href="/api#acquirers">Acquirers API</a> for details.</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The description of the Acquirer.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The name of the Acquirer.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses-2">Responses</h4>
+<h5 id="200-returns-the-updated-acquirer-object" class="status" data-status="2xx">200: Returns the updated Acquirer object</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>configurations</code></td>
+<td><code>array of object</code></td>
+<td>Yes</td>
+<td>The acquirer configuration settings.</td>
+</tr>
+<tr>
+<td><code>configurations[].acquirerMerchantIdentifier</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The merchant identifier the configuration is associated with.</td>
+</tr>
+<tr>
+<td><code>configurations[].bin</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The Bank Identification Number (BIN) of the Acquirer. Must be 6 to 11 digits.</td>
+</tr>
+<tr>
+<td><code>configurations[].country</code></td>
+<td><code>string (iso-3166-1-alpha-2)</code></td>
+<td>Yes</td>
+<td>The country of the acquirer configuration, used when creating 3DS sessions.</td>
+</tr>
+<tr>
+<td><code>configurations[].network</code></td>
+<td><code>enum: visa, mastercard, american-express, discover</code></td>
+<td>Yes</td>
+<td>The card network of the Acquirer. <code>discover</code> covers Discover, Diners Club, and JCB (US only).</td>
+</tr>
+<tr>
+<td><code>configurations[].state</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>default</code></td>
+<td><code>boolean</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The description of the acquirer configuration.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The unique identifier of the acquirer configuration.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The name of the acquirer configuration.</td>
+</tr>
+</tbody>
+</table>
+</main></div>
+<script src="../assets/search.js" defer></script></body></html>

@@ -4,35 +4,35 @@
       "RELAY00": {
         "app": "s5a",
         "authentication": "s5b",
-        "createdAt": "s5c",
+        "createdAt": 92,
         "destinationDomain": "s5d",
         "encryptEmptyStrings": true,
         "evervaultDomain": "s5f",
         "id": "RELAY00",
         "routes": [],
-        "updatedAt": "s62"
+        "updatedAt": 98
       },
       "RELAY01": {
         "app": "sb4",
         "authentication": "sb5",
-        "createdAt": "sb6",
+        "createdAt": 182,
         "destinationDomain": "sb7",
         "encryptEmptyStrings": true,
         "evervaultDomain": "sb9",
         "id": "RELAY01",
         "routes": [],
-        "updatedAt": "sbc"
+        "updatedAt": 188
       },
       "RELAY02": {
         "app": "s10e",
         "authentication": "s10f",
-        "createdAt": "s110",
+        "createdAt": 272,
         "destinationDomain": "s111",
         "encryptEmptyStrings": true,
         "evervaultDomain": "s113",
         "id": "RELAY02",
         "routes": [],
-        "updatedAt": "s116"
+        "updatedAt": 278
       }
     }
   },
@@ -41,12 +41,845 @@
       "relay_ref01": {
         "app": "s168",
         "authentication": "s169",
-        "createdAt": "s16a",
+        "createdAt": 362,
         "destinationDomain": "s16b",
         "encryptEmptyStrings": true,
         "evervaultDomain": "s16d",
         "routes": [],
-        "updatedAt": "s170"
+        "updatedAt": 368
+      }
+    }
+  },
+  "requests": {
+    "GET /relays/{id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "fetchRelay",
+        "parameters": [
+          {
+            "description": "The id of the Relay to be fetched.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Basic": {
+                    "value": {
+                      "app": "app_cc7fcd533649",
+                      "authentication": "api-key",
+                      "createdAt": 1692972623233,
+                      "destinationDomain": "example.com",
+                      "encryptEmptyStrings": true,
+                      "evervaultDomain": "example-com.app-12345.relay.evervault.app",
+                      "id": "relay_destination_d4ja57js9lnh",
+                      "routes": [
+                        {
+                          "method": "POST",
+                          "path": "/checkout",
+                          "request": [
+                            {
+                              "action": "encrypt",
+                              "selections": [
+                                {
+                                  "role": "pci",
+                                  "selector": "$.cardNumber",
+                                  "type": "json"
+                                }
+                              ]
+                            }
+                          ],
+                          "response": []
+                        }
+                      ]
+                    }
+                  }
+                },
+                "schema": {
+                  "example": {
+                    "app": "app_cc7fcd533649",
+                    "authentication": null,
+                    "createdAt": 1692972623233,
+                    "destinationDomain": "example.com",
+                    "encryptEmptyStrings": true,
+                    "evervaultDomain": "example-com.app-12345.relay.evervault.app",
+                    "id": "relay_destination_d4ja57js9lnh",
+                    "routes": [
+                      {
+                        "method": "POST",
+                        "path": "/checkout",
+                        "request": [
+                          {
+                            "action": "encrypt",
+                            "selections": [
+                              {
+                                "role": "pci",
+                                "selector": "$.cardNumber",
+                                "type": "json"
+                              }
+                            ]
+                          }
+                        ],
+                        "response": [
+                          {
+                            "action": "decrypt",
+                            "selections": [
+                              {
+                                "selector": "$..*",
+                                "type": "json"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "updatedAt": 1692972623234
+                  },
+                  "properties": {
+                    "app": {
+                      "description": "The unique identifier for the app to which the Relay belongs.",
+                      "type": "string"
+                    },
+                    "authentication": {
+                      "description": "The type of authentication required for the Relay",
+                      "enum": [
+                        "api-key",
+                        null
+                      ],
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "createdAt": {
+                      "description": "The exact time, in epoch milliseconds, when this Relay was created.",
+                      "example": 1692972623233,
+                      "format": "int64",
+                      "type": "integer"
+                    },
+                    "destinationDomain": {
+                      "description": "The domain in front of which the Relay should be configured.",
+                      "example": "example.com",
+                      "type": "string"
+                    },
+                    "encryptEmptyStrings": {
+                      "description": "Whether or not empty strings should be encrypted.",
+                      "example": true,
+                      "type": "boolean"
+                    },
+                    "evervaultDomain": {
+                      "description": "The Evervault managed domain to which requests to be relayed to the destination domain should be sent.",
+                      "example": "example-com.app-12345.relay.evervault.app",
+                      "type": "string"
+                    },
+                    "id": {
+                      "description": "The unique identifier for the Relay.",
+                      "example": "relay_destination_d4ja57js9lnh",
+                      "type": "string"
+                    },
+                    "routes": {
+                      "description": "A collection of route configurations for the Relay.",
+                      "items": {
+                        "properties": {
+                          "method": {
+                            "description": "The HTTP method that must be matched for the operation to be performed. For any method, use null.",
+                            "enum": [
+                              "GET",
+                              "HEAD",
+                              "POST",
+                              "PUT",
+                              "DELETE",
+                              "PATCH"
+                            ],
+                            "example": "POST",
+                            "type": "string"
+                          },
+                          "path": {
+                            "description": "The path that must be matched for the operation to be performed. For wildcards, use '*'. For a catchall of all subsequent paths, use '**'.",
+                            "example": "/**",
+                            "type": "string"
+                          },
+                          "request": {
+                            "description": "The actions to be performed on the data on request.",
+                            "items": {
+                              "properties": {
+                                "action": {
+                                  "description": "The operation to perform on the selected data.",
+                                  "enum": [
+                                    "encrypt",
+                                    "decrypt"
+                                  ],
+                                  "example": "encrypt",
+                                  "type": "string"
+                                },
+                                "selections": {
+                                  "description": "The selections of data on which the operation will be performed.",
+                                  "items": {
+                                    "properties": {
+                                      "role": {
+                                        "description": "The role of the encrypted field that must be matched for the operation to be performed.",
+                                        "example": "pci",
+                                        "type": "string"
+                                      },
+                                      "selector": {
+                                        "description": "The selector that identifies the data on which the action should be performed\n",
+                                        "example": "$.cardNumber",
+                                        "type": "string"
+                                      },
+                                      "type": {
+                                        "description": "The type of the selector used to identify the data on which the action should be performed.",
+                                        "enum": [
+                                          "header",
+                                          "json",
+                                          "form"
+                                        ],
+                                        "example": "json",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "selector"
+                                    ],
+                                    "type": "object"
+                                  },
+                                  "type": "array"
+                                }
+                              },
+                              "required": [
+                                "action",
+                                "selections"
+                              ],
+                              "type": "object"
+                            },
+                            "maxItems": 1,
+                            "type": "array"
+                          },
+                          "response": {
+                            "description": "The actions to be performed on the data on response.",
+                            "items": {
+                              "properties": {
+                                "action": {
+                                  "description": "The operation to perform on the selected data.",
+                                  "enum": [
+                                    "encrypt",
+                                    "decrypt"
+                                  ],
+                                  "example": "encrypt",
+                                  "type": "string"
+                                },
+                                "selections": {
+                                  "description": "The selections of data on which the operation will be performed.",
+                                  "items": {
+                                    "properties": {
+                                      "role": {
+                                        "description": "The role of the encrypted field that must be matched for the operation to be performed.",
+                                        "example": "pci",
+                                        "type": "string"
+                                      },
+                                      "selector": {
+                                        "description": "The selector that identifies the data on which the action should be performed\n",
+                                        "example": "$.cardNumber",
+                                        "type": "string"
+                                      },
+                                      "type": {
+                                        "description": "The type of the selector used to identify the data on which the action should be performed.",
+                                        "enum": [
+                                          "header",
+                                          "json",
+                                          "form"
+                                        ],
+                                        "example": "json",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "selector"
+                                    ],
+                                    "type": "object"
+                                  },
+                                  "type": "array"
+                                }
+                              },
+                              "required": [
+                                "action",
+                                "selections"
+                              ],
+                              "type": "object"
+                            },
+                            "maxItems": 1,
+                            "type": "array"
+                          }
+                        },
+                        "required": [
+                          "path",
+                          "request",
+                          "response"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "updatedAt": {
+                      "description": "The exact time, in epoch milliseconds, when this Relay was updated.",
+                      "example": 1692972623234,
+                      "format": "int64",
+                      "type": "integer"
+                    }
+                  },
+                  "summary": "The Relay Object",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "The Relay has been fetched."
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "securitySchemes": {
+          "ApiKey": {
+            "description": "Authentication using an API key. The username is the App ID and the password is the Api Key.",
+            "scheme": "basic",
+            "type": "http"
+          },
+          "ClientSideToken": {
+            "bearerFormat": "Token",
+            "description": "Authentication using a short lived token that you can share with clients. The Authorization header must be formatted as follow: \"Token <Client-Side Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          },
+          "TokenAuth": {
+            "bearerFormat": "RunToken",
+            "description": "Authentication using a short lived run token that you can share with clients. The Authorization header must be formatted as follow: \"RunToken <Function Run Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          }
+        },
+        "securitySource": "operation"
+      }
+    },
+    "PATCH /relays/{id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "updateRelay",
+        "parameters": [
+          {
+            "description": "The id of the Relay to be updated.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "examples": {
+                "Basic": {
+                  "value": {
+                    "routes": [
+                      {
+                        "method": "POST",
+                        "path": "/checkout",
+                        "request": [
+                          {
+                            "action": "encrypt",
+                            "selections": [
+                              {
+                                "selector": "$.cardNumber",
+                                "type": "json"
+                              }
+                            ]
+                          }
+                        ],
+                        "response": []
+                      }
+                    ]
+                  }
+                }
+              },
+              "schema": {
+                "properties": {
+                  "authentication": {
+                    "description": "The type of authentication required for the Relay.",
+                    "enum": [
+                      "api-key",
+                      null
+                    ],
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "encryptEmptyStrings": {
+                    "description": "Whether or not empty strings should be encrypted.",
+                    "example": true,
+                    "type": "boolean"
+                  },
+                  "routes": {
+                    "description": "A collection of route configurations for the Relay. Any existing route configurations will be replaced with the new configurations.\n",
+                    "items": {
+                      "properties": {
+                        "method": {
+                          "description": "The HTTP method that must be matched for the operation to be performed. For any method, use null.",
+                          "enum": [
+                            "GET",
+                            "HEAD",
+                            "POST",
+                            "PUT",
+                            "DELETE",
+                            "PATCH"
+                          ],
+                          "example": "POST",
+                          "type": "string"
+                        },
+                        "path": {
+                          "description": "The path that must be matched for the operation to be performed. For wildcards, use '*'. For a catchall of all subsequent paths, use '**'.",
+                          "example": "/**",
+                          "type": "string"
+                        },
+                        "request": {
+                          "description": "The actions to be performed on the data on request.",
+                          "items": {
+                            "properties": {
+                              "action": {
+                                "description": "The operation to perform on the selected data.",
+                                "enum": [
+                                  "encrypt",
+                                  "decrypt"
+                                ],
+                                "example": "encrypt",
+                                "type": "string"
+                              },
+                              "selections": {
+                                "description": "The selections of data on which the operation will be performed.",
+                                "items": {
+                                  "properties": {
+                                    "role": {
+                                      "description": "The role of the encrypted field that must be matched for the operation to be performed.",
+                                      "example": "pci",
+                                      "type": "string"
+                                    },
+                                    "selector": {
+                                      "description": "The selector that identifies the data on which the action should be performed\n",
+                                      "example": "$.cardNumber",
+                                      "type": "string"
+                                    },
+                                    "type": {
+                                      "description": "The type of the selector used to identify the data on which the action should be performed.",
+                                      "enum": [
+                                        "header",
+                                        "json",
+                                        "form"
+                                      ],
+                                      "example": "json",
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "selector"
+                                  ],
+                                  "type": "object"
+                                },
+                                "type": "array"
+                              }
+                            },
+                            "required": [
+                              "action",
+                              "selections"
+                            ],
+                            "type": "object"
+                          },
+                          "maxItems": 1,
+                          "type": "array"
+                        },
+                        "response": {
+                          "description": "The actions to be performed on the data on response.",
+                          "items": {
+                            "properties": {
+                              "action": {
+                                "description": "The operation to perform on the selected data.",
+                                "enum": [
+                                  "encrypt",
+                                  "decrypt"
+                                ],
+                                "example": "encrypt",
+                                "type": "string"
+                              },
+                              "selections": {
+                                "description": "The selections of data on which the operation will be performed.",
+                                "items": {
+                                  "properties": {
+                                    "role": {
+                                      "description": "The role of the encrypted field that must be matched for the operation to be performed.",
+                                      "example": "pci",
+                                      "type": "string"
+                                    },
+                                    "selector": {
+                                      "description": "The selector that identifies the data on which the action should be performed\n",
+                                      "example": "$.cardNumber",
+                                      "type": "string"
+                                    },
+                                    "type": {
+                                      "description": "The type of the selector used to identify the data on which the action should be performed.",
+                                      "enum": [
+                                        "header",
+                                        "json",
+                                        "form"
+                                      ],
+                                      "example": "json",
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "selector"
+                                  ],
+                                  "type": "object"
+                                },
+                                "type": "array"
+                              }
+                            },
+                            "required": [
+                              "action",
+                              "selections"
+                            ],
+                            "type": "object"
+                          },
+                          "maxItems": 1,
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "path",
+                        "request",
+                        "response"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Basic": {
+                    "value": {
+                      "app": "app_cc7fcd533649",
+                      "authentication": null,
+                      "createdAt": 1692972623233,
+                      "destinationDomain": "example.com",
+                      "encryptEmptyStrings": true,
+                      "evervaultDomain": "example-com.app-12345.relay.evervault.app",
+                      "id": "relay_destination_d4ja57js9lnh",
+                      "routes": [
+                        {
+                          "method": "POST",
+                          "path": "/checkout",
+                          "request": [
+                            {
+                              "action": "encrypt",
+                              "selections": [
+                                {
+                                  "role": "pci",
+                                  "selector": "$.cardNumber",
+                                  "type": "json"
+                                }
+                              ]
+                            }
+                          ],
+                          "response": []
+                        }
+                      ],
+                      "updatedAt": 1692972623234
+                    }
+                  }
+                },
+                "schema": {
+                  "example": {
+                    "app": "app_cc7fcd533649",
+                    "authentication": null,
+                    "createdAt": 1692972623233,
+                    "destinationDomain": "example.com",
+                    "encryptEmptyStrings": true,
+                    "evervaultDomain": "example-com.app-12345.relay.evervault.app",
+                    "id": "relay_destination_d4ja57js9lnh",
+                    "routes": [
+                      {
+                        "method": "POST",
+                        "path": "/checkout",
+                        "request": [
+                          {
+                            "action": "encrypt",
+                            "selections": [
+                              {
+                                "role": "pci",
+                                "selector": "$.cardNumber",
+                                "type": "json"
+                              }
+                            ]
+                          }
+                        ],
+                        "response": [
+                          {
+                            "action": "decrypt",
+                            "selections": [
+                              {
+                                "selector": "$..*",
+                                "type": "json"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "updatedAt": 1692972623234
+                  },
+                  "properties": {
+                    "app": {
+                      "description": "The unique identifier for the app to which the Relay belongs.",
+                      "type": "string"
+                    },
+                    "authentication": {
+                      "description": "The type of authentication required for the Relay",
+                      "enum": [
+                        "api-key",
+                        null
+                      ],
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "createdAt": {
+                      "description": "The exact time, in epoch milliseconds, when this Relay was created.",
+                      "example": 1692972623233,
+                      "format": "int64",
+                      "type": "integer"
+                    },
+                    "destinationDomain": {
+                      "description": "The domain in front of which the Relay should be configured.",
+                      "example": "example.com",
+                      "type": "string"
+                    },
+                    "encryptEmptyStrings": {
+                      "description": "Whether or not empty strings should be encrypted.",
+                      "example": true,
+                      "type": "boolean"
+                    },
+                    "evervaultDomain": {
+                      "description": "The Evervault managed domain to which requests to be relayed to the destination domain should be sent.",
+                      "example": "example-com.app-12345.relay.evervault.app",
+                      "type": "string"
+                    },
+                    "id": {
+                      "description": "The unique identifier for the Relay.",
+                      "example": "relay_destination_d4ja57js9lnh",
+                      "type": "string"
+                    },
+                    "routes": {
+                      "description": "A collection of route configurations for the Relay.",
+                      "items": {
+                        "properties": {
+                          "method": {
+                            "description": "The HTTP method that must be matched for the operation to be performed. For any method, use null.",
+                            "enum": [
+                              "GET",
+                              "HEAD",
+                              "POST",
+                              "PUT",
+                              "DELETE",
+                              "PATCH"
+                            ],
+                            "example": "POST",
+                            "type": "string"
+                          },
+                          "path": {
+                            "description": "The path that must be matched for the operation to be performed. For wildcards, use '*'. For a catchall of all subsequent paths, use '**'.",
+                            "example": "/**",
+                            "type": "string"
+                          },
+                          "request": {
+                            "description": "The actions to be performed on the data on request.",
+                            "items": {
+                              "properties": {
+                                "action": {
+                                  "description": "The operation to perform on the selected data.",
+                                  "enum": [
+                                    "encrypt",
+                                    "decrypt"
+                                  ],
+                                  "example": "encrypt",
+                                  "type": "string"
+                                },
+                                "selections": {
+                                  "description": "The selections of data on which the operation will be performed.",
+                                  "items": {
+                                    "properties": {
+                                      "role": {
+                                        "description": "The role of the encrypted field that must be matched for the operation to be performed.",
+                                        "example": "pci",
+                                        "type": "string"
+                                      },
+                                      "selector": {
+                                        "description": "The selector that identifies the data on which the action should be performed\n",
+                                        "example": "$.cardNumber",
+                                        "type": "string"
+                                      },
+                                      "type": {
+                                        "description": "The type of the selector used to identify the data on which the action should be performed.",
+                                        "enum": [
+                                          "header",
+                                          "json",
+                                          "form"
+                                        ],
+                                        "example": "json",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "selector"
+                                    ],
+                                    "type": "object"
+                                  },
+                                  "type": "array"
+                                }
+                              },
+                              "required": [
+                                "action",
+                                "selections"
+                              ],
+                              "type": "object"
+                            },
+                            "maxItems": 1,
+                            "type": "array"
+                          },
+                          "response": {
+                            "description": "The actions to be performed on the data on response.",
+                            "items": {
+                              "properties": {
+                                "action": {
+                                  "description": "The operation to perform on the selected data.",
+                                  "enum": [
+                                    "encrypt",
+                                    "decrypt"
+                                  ],
+                                  "example": "encrypt",
+                                  "type": "string"
+                                },
+                                "selections": {
+                                  "description": "The selections of data on which the operation will be performed.",
+                                  "items": {
+                                    "properties": {
+                                      "role": {
+                                        "description": "The role of the encrypted field that must be matched for the operation to be performed.",
+                                        "example": "pci",
+                                        "type": "string"
+                                      },
+                                      "selector": {
+                                        "description": "The selector that identifies the data on which the action should be performed\n",
+                                        "example": "$.cardNumber",
+                                        "type": "string"
+                                      },
+                                      "type": {
+                                        "description": "The type of the selector used to identify the data on which the action should be performed.",
+                                        "enum": [
+                                          "header",
+                                          "json",
+                                          "form"
+                                        ],
+                                        "example": "json",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "selector"
+                                    ],
+                                    "type": "object"
+                                  },
+                                  "type": "array"
+                                }
+                              },
+                              "required": [
+                                "action",
+                                "selections"
+                              ],
+                              "type": "object"
+                            },
+                            "maxItems": 1,
+                            "type": "array"
+                          }
+                        },
+                        "required": [
+                          "path",
+                          "request",
+                          "response"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "updatedAt": {
+                      "description": "The exact time, in epoch milliseconds, when this Relay was updated.",
+                      "example": 1692972623234,
+                      "format": "int64",
+                      "type": "integer"
+                    }
+                  },
+                  "summary": "The Relay Object",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "The Relay has been updated"
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "securitySchemes": {
+          "ApiKey": {
+            "description": "Authentication using an API key. The username is the App ID and the password is the Api Key.",
+            "scheme": "basic",
+            "type": "http"
+          },
+          "ClientSideToken": {
+            "bearerFormat": "Token",
+            "description": "Authentication using a short lived token that you can share with clients. The Authorization header must be formatted as follow: \"Token <Client-Side Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          },
+          "TokenAuth": {
+            "bearerFormat": "RunToken",
+            "description": "Authentication using a short lived run token that you can share with clients. The Authorization header must be formatted as follow: \"RunToken <Function Run Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          }
+        },
+        "securitySource": "operation"
       }
     }
   }

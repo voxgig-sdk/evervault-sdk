@@ -6,8 +6,8 @@
         "business": {},
         "categoryCode": "sa2",
         "configurations": [],
-        "createdAt": "sa4",
-        "created_at": "sa5",
+        "createdAt": 164,
+        "created_at": 165,
         "data": {},
         "default": false,
         "description": "sa8",
@@ -16,7 +16,7 @@
         "networkTokens": {},
         "shortName": "sac",
         "type": "sad",
-        "updatedAt": "sae",
+        "updatedAt": 174,
         "website": "saf",
         "3ds_session_id": "3DS_SESSION01",
         "acquirer_id": "ACQUIRER01",
@@ -29,8 +29,8 @@
         "business": {},
         "categoryCode": "s142",
         "configurations": [],
-        "createdAt": "s144",
-        "created_at": "s145",
+        "createdAt": 324,
+        "created_at": 325,
         "data": {},
         "default": false,
         "description": "s148",
@@ -39,7 +39,7 @@
         "networkTokens": {},
         "shortName": "s14c",
         "type": "s14d",
-        "updatedAt": "s14e",
+        "updatedAt": 334,
         "website": "s14f",
         "3ds_session_id": "3DS_SESSION01",
         "acquirer_id": "ACQUIRER01",
@@ -52,8 +52,8 @@
         "business": {},
         "categoryCode": "s1e2",
         "configurations": [],
-        "createdAt": "s1e4",
-        "created_at": "s1e5",
+        "createdAt": 484,
+        "created_at": 485,
         "data": {},
         "default": false,
         "description": "s1e8",
@@ -62,7 +62,7 @@
         "networkTokens": {},
         "shortName": "s1ec",
         "type": "s1ed",
-        "updatedAt": "s1ee",
+        "updatedAt": 494,
         "website": "s1ef",
         "3ds_session_id": "3DS_SESSION01",
         "acquirer_id": "ACQUIRER01",
@@ -79,8 +79,8 @@
         "business": {},
         "categoryCode": "s282",
         "configurations": [],
-        "createdAt": "s284",
-        "created_at": "s285",
+        "createdAt": 644,
+        "created_at": 645,
         "data": {},
         "default": false,
         "description": "s288",
@@ -88,8 +88,995 @@
         "networkTokens": {},
         "shortName": "s28c",
         "type": "s28d",
-        "updatedAt": "s28e",
+        "updatedAt": 654,
         "website": "s28f"
+      }
+    }
+  },
+  "requests": {
+    "GET /payments/merchants": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "listMerchants",
+        "parameters": [
+          {
+            "description": "The page number to retrieve.",
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "The number of Merchants to retrieve per page (default is 50).",
+            "in": "query",
+            "name": "pageSize",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Filter the Merchants by name.",
+            "in": "query",
+            "name": "q",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "SuccessfulCreation": {
+                    "description": "The Merchants were retrieved successfully.",
+                    "summary": "Successful List",
+                    "value": {
+                      "data": [
+                        {
+                          "business": {
+                            "address": {
+                              "city": "London",
+                              "country": "gb",
+                              "line1": "Diagon Alley",
+                              "postalCode": "WD1 1AA"
+                            },
+                            "legalName": "Ollivanders Wand Shop Ltd"
+                          },
+                          "categoryCode": "5945",
+                          "createdAt": 1692972623233,
+                          "id": "merchant_eead1d640d7c",
+                          "name": "Ollivanders Wand Shop",
+                          "networkTokens": {
+                            "enrolment": [
+                              {
+                                "cardBrand": "mastercard",
+                                "status": "active",
+                                "tokenRequestorIdentifier": "50165156978"
+                              },
+                              {
+                                "cardBrand": "visa",
+                                "status": "active",
+                                "tokenRequestorIdentifier": "40238123804"
+                              },
+                              {
+                                "cardBrand": "american-express",
+                                "status": "inactive",
+                                "tokenRequestorIdentifier": null
+                              }
+                            ]
+                          },
+                          "updatedAt": 1692972623768,
+                          "website": "https://www.ollivanders.co.uk"
+                        }
+                      ],
+                      "nextPage": null,
+                      "pageSize": 50,
+                      "total": 1
+                    }
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "example": {
+                          "applePay": {
+                            "domains": [
+                              {
+                                "domain": "store.ollivanders.co.uk",
+                                "status": "active"
+                              }
+                            ]
+                          },
+                          "business": {
+                            "address": {
+                              "city": "London",
+                              "country": "gb",
+                              "line1": "Diagon Alley",
+                              "postalCode": "WD1 1AA"
+                            },
+                            "legalName": "Ollivanders Wand Shop Ltd"
+                          },
+                          "categoryCode": "5945",
+                          "createdAt": 1692972623233,
+                          "id": "merchant_eead1d640d7c",
+                          "name": "Ollivanders Wand Shop",
+                          "networkTokens": {
+                            "enrolment": [
+                              {
+                                "cardBrand": "mastercard",
+                                "status": "active",
+                                "tokenRequestorIdentifier": "50165156978"
+                              },
+                              {
+                                "cardBrand": "visa",
+                                "status": "active",
+                                "tokenRequestorIdentifier": "40238123804"
+                              },
+                              {
+                                "cardBrand": "american-express",
+                                "status": "inactive",
+                                "tokenRequestorIdentifier": null
+                              }
+                            ]
+                          },
+                          "updatedAt": 1692972623768,
+                          "website": "https://www.ollivanders.co.uk"
+                        },
+                        "properties": {
+                          "applePay": {
+                            "description": "The Merchant's Apple Pay configuration.",
+                            "properties": {
+                              "domains": {
+                                "description": "The domains the Merchant has enrolled with Apple Pay and the status of the enrollment.\n",
+                                "items": {
+                                  "properties": {
+                                    "domain": {
+                                      "description": "The top-level domain name of the Merchant's website.",
+                                      "example": "ollivanders.co.uk",
+                                      "type": "string"
+                                    },
+                                    "status": {
+                                      "description": "The current status of the Merchant's Apple Pay enrollment for the\nspecified domain. `active` means the Merchant is fully enrolled and\ncan accept Apple Pay payments on the domain.\n",
+                                      "enum": [
+                                        "active",
+                                        "pending",
+                                        "failed"
+                                      ],
+                                      "example": "active",
+                                      "type": "string"
+                                    }
+                                  },
+                                  "type": "object"
+                                },
+                                "type": "array"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "business": {
+                            "description": "The business details of the Merchant.",
+                            "properties": {
+                              "address": {
+                                "description": "The physical address of the Merchant's principal place of business.",
+                                "properties": {
+                                  "city": {
+                                    "description": "The city where the address is located.",
+                                    "example": "Springfield",
+                                    "pattern": "^[0-9a-zA-Z _\\-¡-￿]+$",
+                                    "type": "string"
+                                  },
+                                  "country": {
+                                    "description": "The country where the address is located.",
+                                    "example": "us",
+                                    "format": "iso-3166-1-alpha-2",
+                                    "type": "string"
+                                  },
+                                  "line1": {
+                                    "description": "The first line of the address.\n",
+                                    "example": "123 Main St",
+                                    "pattern": "^[À-ÖØ-öø-ǿa-zA-Z0-9().\\-_#,;/@$!% ]+$",
+                                    "type": "string"
+                                  },
+                                  "line2": {
+                                    "description": "The second line of the address.\n",
+                                    "example": "Floor 4",
+                                    "pattern": "^[À-ÖØ-öø-ǿa-zA-Z0-9().\\-_#,;/@$!% ]+$",
+                                    "type": "string"
+                                  },
+                                  "postalCode": {
+                                    "description": "The postal code of the address.",
+                                    "example": 13468,
+                                    "pattern": "^[0-9a-zA-Z ]*$",
+                                    "type": "string"
+                                  },
+                                  "state": {
+                                    "description": "The state or province code. Required when `country` is `us`, `ca`, or `au`.",
+                                    "example": "ny",
+                                    "format": "iso-3166-2-subdivision",
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "line1",
+                                  "city",
+                                  "postalCode",
+                                  "country"
+                                ],
+                                "type": "object"
+                              },
+                              "legalName": {
+                                "description": "The legal name under which the Merchant's business is registered.",
+                                "example": "Acme Corp",
+                                "pattern": "^[a-zA-Z0-9 ]{1,60}$",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "categoryCode": {
+                            "description": "The 4-digit Merchant Category Code (MCC).",
+                            "example": "5945",
+                            "type": "string"
+                          },
+                          "createdAt": {
+                            "description": "The exact time, in epoch milliseconds, when this Merchant was created.",
+                            "example": 1692972623233,
+                            "format": "int64",
+                            "type": "integer"
+                          },
+                          "id": {
+                            "description": "A unique identifier assigned to each Merchant.",
+                            "example": "merchant_eead1d640d7c",
+                            "type": "string"
+                          },
+                          "name": {
+                            "description": "The official name of the Merchant as recognized in transactions and communications. This name is used for display purposes and may be the company's trade name or a derived nickname.",
+                            "example": "Acme",
+                            "pattern": "^[a-zA-Z0-9 ]{1,60}$",
+                            "type": "string"
+                          },
+                          "networkTokens": {
+                            "description": "The Merchant's Network Token configuration.",
+                            "properties": {
+                              "enrolment": {
+                                "description": "An array detailing the Merchant's enrollment status for network token issuance across different card brands.\n",
+                                "items": {
+                                  "properties": {
+                                    "cardBrand": {
+                                      "description": "The card brand (e.g., Visa, Mastercard, American Express) for which the enrollment status is being described. Currently, Network Tokens is only supported for Visa, Mastercard and American Express.",
+                                      "enum": [
+                                        "visa",
+                                        "mastercard",
+                                        "american-express",
+                                        "discover",
+                                        "diners-club",
+                                        "jcb",
+                                        "unionpay"
+                                      ],
+                                      "example": "visa",
+                                      "type": "string"
+                                    },
+                                    "status": {
+                                      "description": "The current stage of the Merchant's enrolment process for network token issuance with the specified card brand.\n",
+                                      "enum": [
+                                        "active",
+                                        "inactive"
+                                      ],
+                                      "example": "active",
+                                      "type": "string"
+                                    },
+                                    "tokenRequestorIdentifier": {
+                                      "description": "The unique Token Requestor Identifier (TRID) associated with the Merchant for the specific card brand. This identifier is used when creating Network Tokens for the Merchant.",
+                                      "example": "50165156978",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    }
+                                  },
+                                  "type": "object"
+                                },
+                                "type": "array"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "shortName": {
+                            "description": "A shorter version of the Merchant's name. When creating a 3D Secure session that references this Merchant by ID, `shortName` is used in place of `name` if `name` exceeds the 40-character limit imposed by the 3D Secure specification.\n",
+                            "example": "Acme",
+                            "pattern": "^[a-zA-Z0-9 ]{1,40}$",
+                            "type": "string"
+                          },
+                          "updatedAt": {
+                            "description": "The exact time, in epoch milliseconds, when this Merchant was last updated.",
+                            "example": 1692972623768,
+                            "format": "int64",
+                            "type": "integer"
+                          },
+                          "website": {
+                            "description": "The official website URL of the Merchant. The domain must use a valid IANA top-level domain. See https://data.iana.org/TLD/tlds-alpha-by-domain.txt",
+                            "example": "https://www.acme.com",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "website",
+                          "createdAt"
+                        ],
+                        "summary": "The Merchant Object",
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "nextPage": {
+                      "description": "The next page number to retrieve. If there are no additional Merchants, this will be `null`.",
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "pageSize": {
+                      "description": "The number of Merchants retrieved per page.",
+                      "type": "integer"
+                    },
+                    "total": {
+                      "description": "The total count of all Merchants, after any filters.",
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "pageSize",
+                    "nextPage",
+                    "total"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns a list of Merchant objects."
+          }
+        },
+        "security": [
+          {
+            "ApiKey": [
+              "merchant:read"
+            ]
+          }
+        ],
+        "securitySchemes": {
+          "ApiKey": {
+            "description": "Authentication using an API key. The username is the App ID and the password is the Api Key.",
+            "scheme": "basic",
+            "type": "http"
+          },
+          "ClientSideToken": {
+            "bearerFormat": "Token",
+            "description": "Authentication using a short lived token that you can share with clients. The Authorization header must be formatted as follow: \"Token <Client-Side Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          },
+          "TokenAuth": {
+            "bearerFormat": "RunToken",
+            "description": "Authentication using a short lived run token that you can share with clients. The Authorization header must be formatted as follow: \"RunToken <Function Run Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          }
+        },
+        "securitySource": "operation"
+      }
+    },
+    "GET /payments/acquirers": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "listAcquirers",
+        "parameters": [
+          {
+            "description": "The page number to retrieve.",
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "The number of Acquirers to retrieve per page. The default is 50, which is also the maximum.",
+            "in": "query",
+            "name": "pageSize",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "maximum": 50,
+              "type": "integer"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "SimpleExample": {
+                    "description": "The Acquirers were retrieved successfully",
+                    "summary": "Successful List",
+                    "value": {
+                      "data": [
+                        {
+                          "configurations": [
+                            {
+                              "acquirerMerchantIdentifier": "38191048173",
+                              "bin": "424242",
+                              "country": "ie",
+                              "network": "mastercard",
+                              "state": "active"
+                            },
+                            {
+                              "acquirerMerchantIdentifier": "38191048173",
+                              "bin": "424242",
+                              "country": "ie",
+                              "network": "visa",
+                              "state": "active"
+                            }
+                          ],
+                          "default": true,
+                          "description": "Ollivanders Wand Shop Production Configuration",
+                          "id": "acquirer_adk3kdljc3",
+                          "name": "Ollivanders Wand Shop Production Configuration"
+                        }
+                      ],
+                      "nextPage": null,
+                      "pageSize": 50,
+                      "total": 1
+                    }
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "example": {
+                          "configurations": [
+                            {
+                              "acquirerMerchantIdentifier": "38191048173",
+                              "bin": "424242",
+                              "country": "ie",
+                              "network": "mastercard",
+                              "state": "active"
+                            },
+                            {
+                              "acquirerMerchantIdentifier": "38191048173",
+                              "bin": "424242",
+                              "country": "ie",
+                              "network": "visa",
+                              "state": "active"
+                            }
+                          ],
+                          "default": true,
+                          "description": "Ollivanders Wand Shop Production Configuration",
+                          "id": "acquirer_eead1d640d7c",
+                          "name": "Ollivanders Wand Shop Production Configuration"
+                        },
+                        "properties": {
+                          "configurations": {
+                            "description": "The acquirer configuration settings.",
+                            "items": {
+                              "properties": {
+                                "acquirerMerchantIdentifier": {
+                                  "description": "The merchant identifier the configuration is associated with.",
+                                  "example": "38191048173",
+                                  "type": "string"
+                                },
+                                "bin": {
+                                  "description": "The Bank Identification Number (BIN) of the Acquirer. Must be 6 to 11 digits.",
+                                  "example": "424242",
+                                  "maxLength": 11,
+                                  "minLength": 6,
+                                  "pattern": "^[0-9]{6,11}$",
+                                  "type": "string"
+                                },
+                                "country": {
+                                  "description": "The country of the acquirer configuration, used when creating 3DS sessions.",
+                                  "example": "ie",
+                                  "format": "iso-3166-1-alpha-2",
+                                  "type": "string"
+                                },
+                                "network": {
+                                  "description": "The card network of the Acquirer. `discover` covers Discover, Diners Club, and JCB (US only).",
+                                  "enum": [
+                                    "visa",
+                                    "mastercard",
+                                    "american-express",
+                                    "discover"
+                                  ],
+                                  "example": "mastercard",
+                                  "type": "string"
+                                },
+                                "state": {
+                                  "example": "active",
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "network",
+                                "bin",
+                                "acquirerMerchantIdentifier",
+                                "state",
+                                "country"
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
+                          },
+                          "default": {
+                            "type": "boolean"
+                          },
+                          "description": {
+                            "description": "The description of the acquirer configuration.",
+                            "type": "string"
+                          },
+                          "id": {
+                            "description": "The unique identifier of the acquirer configuration.",
+                            "example": "acquirer_eead1d640d7c",
+                            "type": "string"
+                          },
+                          "name": {
+                            "description": "The name of the acquirer configuration.",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "default",
+                          "configurations"
+                        ],
+                        "summary": "The Acquirer Object",
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "nextPage": {
+                      "description": "The next page number to retrieve. If there are no additional Acquirers, this will be `null`.",
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "pageSize": {
+                      "description": "The number of Acquirers retrieved per page.",
+                      "type": "integer"
+                    },
+                    "total": {
+                      "description": "The total count of all Acquirers.",
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "pageSize",
+                    "nextPage",
+                    "total"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns a list of Acquirer objects."
+          }
+        },
+        "security": [
+          {
+            "ApiKey": [
+              "acquirer:read"
+            ]
+          }
+        ],
+        "securitySchemes": {
+          "ApiKey": {
+            "description": "Authentication using an API key. The username is the App ID and the password is the Api Key.",
+            "scheme": "basic",
+            "type": "http"
+          },
+          "ClientSideToken": {
+            "bearerFormat": "Token",
+            "description": "Authentication using a short lived token that you can share with clients. The Authorization header must be formatted as follow: \"Token <Client-Side Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          },
+          "TokenAuth": {
+            "bearerFormat": "RunToken",
+            "description": "Authentication using a short lived run token that you can share with clients. The Authorization header must be formatted as follow: \"RunToken <Function Run Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          }
+        },
+        "securitySource": "operation"
+      }
+    },
+    "GET /payments/3ds-sessions/{3ds_session_id}/messages": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "retrieveThreeDSMessages",
+        "parameters": [
+          {
+            "description": "The id of the 3DS session",
+            "in": "path",
+            "name": "3ds_session_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "MessagesExample": {
+                    "summary": "3DS Messages",
+                    "value": {
+                      "messages": [
+                        {
+                          "created_at": 1751039450228,
+                          "data": {
+                            "acctNumber": "************1234",
+                            "acctType": "03",
+                            "acquirerBIN": "123456",
+                            "acquirerMerchantID": "123456789012",
+                            "browserAcceptHeader": "*/*",
+                            "browserColorDepth": "24",
+                            "browserIP": "192.168.1.1",
+                            "browserJavaEnabled": false,
+                            "browserJavascriptEnabled": true,
+                            "browserLanguage": "en-GB",
+                            "browserScreenHeight": "1080",
+                            "browserScreenWidth": "1920",
+                            "browserTZ": "0",
+                            "browserUserAgent": "Mozilla/5.0 (Example Browser)",
+                            "cardExpiryDate": "2712",
+                            "deviceChannel": "02",
+                            "mcc": "1234",
+                            "merchantCountryCode": "372",
+                            "merchantName": "Example Merchant",
+                            "messageCategory": "01",
+                            "notificationURL": "https://example.3ds.com/notification",
+                            "purchaseAmount": "100000",
+                            "purchaseCurrency": "978",
+                            "purchaseDate": "20250627155050",
+                            "purchaseExponent": "2",
+                            "threeDSCompInd": "N",
+                            "threeDSRequestorAuthenticationInd": "01",
+                            "threeDSRequestorChallengeInd": "82",
+                            "threeDSRequestorID": "10085939*Example",
+                            "threeDSRequestorName": "Example 3DSS_Merchant",
+                            "threeDSRequestorURL": "https://example.com/",
+                            "threeDSServerOperatorID": "10085939",
+                            "threeDSServerRefNumber": "EXAMPLE_3DS_REF_NUMBER",
+                            "threeDSServerTransID": "274af11d-2f5a-4050-b70e-8eda1e76f782",
+                            "threeDSServerURL": "https://example.3ds.com/result",
+                            "transType": "01",
+                            "type": "AReq"
+                          },
+                          "type": "AReq"
+                        },
+                        {
+                          "created_at": 1751039450626,
+                          "data": {
+                            "acsChallengeMandated": "Y",
+                            "acsOperatorID": "123456789",
+                            "acsReferenceNumber": "EXAMPLE_ACS_REF_NUMBER",
+                            "acsTransID": "123456789012",
+                            "acsURL": "https://example.3ds.com/creq",
+                            "authenticationType": "02",
+                            "dsReferenceNumber": "EXAMPLE_DS_REF_NUMBER",
+                            "dsTransID": "4912cee8-3c89-4504-ac5b-0b2a3ef9489d",
+                            "eci": "05",
+                            "threeDSServerTransID": "274af11d-2f5a-4050-b70e-8eda1e76f782",
+                            "transStatus": "Y",
+                            "type": "ARes"
+                          },
+                          "type": "ARes"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "messages": {
+                      "description": "Array of 3DS messages for the session",
+                      "items": {
+                        "properties": {
+                          "created_at": {
+                            "description": "Timestamp when the message was created",
+                            "example": 1751039450228,
+                            "type": "integer"
+                          },
+                          "data": {
+                            "description": "The message data payload",
+                            "type": "object"
+                          },
+                          "type": {
+                            "description": "The type of 3DS message (e.g., AReq, ARes, CReq, CRes, RReq, RRes)",
+                            "example": "AReq",
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns 3DS messages for the session."
+          }
+        },
+        "security": [
+          {
+            "ApiKey": [
+              "threeDSSession:read"
+            ]
+          }
+        ],
+        "securitySchemes": {
+          "ApiKey": {
+            "description": "Authentication using an API key. The username is the App ID and the password is the Api Key.",
+            "scheme": "basic",
+            "type": "http"
+          },
+          "ClientSideToken": {
+            "bearerFormat": "Token",
+            "description": "Authentication using a short lived token that you can share with clients. The Authorization header must be formatted as follow: \"Token <Client-Side Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          },
+          "TokenAuth": {
+            "bearerFormat": "RunToken",
+            "description": "Authentication using a short lived run token that you can share with clients. The Authorization header must be formatted as follow: \"RunToken <Function Run Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          }
+        },
+        "securitySource": "operation"
+      }
+    },
+    "DELETE /payments/acquirers/{acquirer_id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "deleteAcquirer",
+        "parameters": [
+          {
+            "description": "The id of the Acquirer to be deleted.",
+            "in": "path",
+            "name": "acquirer_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "204": {
+            "description": "Acquirer successfully deleted."
+          }
+        },
+        "security": [
+          {
+            "ApiKey": [
+              "acquirer:delete"
+            ]
+          }
+        ],
+        "securitySchemes": {
+          "ApiKey": {
+            "description": "Authentication using an API key. The username is the App ID and the password is the Api Key.",
+            "scheme": "basic",
+            "type": "http"
+          },
+          "ClientSideToken": {
+            "bearerFormat": "Token",
+            "description": "Authentication using a short lived token that you can share with clients. The Authorization header must be formatted as follow: \"Token <Client-Side Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          },
+          "TokenAuth": {
+            "bearerFormat": "RunToken",
+            "description": "Authentication using a short lived run token that you can share with clients. The Authorization header must be formatted as follow: \"RunToken <Function Run Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          }
+        },
+        "securitySource": "operation"
+      }
+    },
+    "DELETE /payments/cards/{card_id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "deleteCard",
+        "parameters": [
+          {
+            "description": "The unique identifier of the Card.",
+            "in": "path",
+            "name": "card_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "204": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "SuccessfulDeletion": {
+                    "summary": "Card successfully deleted",
+                    "value": {}
+                  }
+                }
+              }
+            },
+            "description": "Deletes a Card object."
+          }
+        },
+        "security": [
+          {
+            "ApiKey": [
+              "card:delete"
+            ]
+          }
+        ],
+        "securitySchemes": {
+          "ApiKey": {
+            "description": "Authentication using an API key. The username is the App ID and the password is the Api Key.",
+            "scheme": "basic",
+            "type": "http"
+          },
+          "ClientSideToken": {
+            "bearerFormat": "Token",
+            "description": "Authentication using a short lived token that you can share with clients. The Authorization header must be formatted as follow: \"Token <Client-Side Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          },
+          "TokenAuth": {
+            "bearerFormat": "RunToken",
+            "description": "Authentication using a short lived run token that you can share with clients. The Authorization header must be formatted as follow: \"RunToken <Function Run Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          }
+        },
+        "securitySource": "operation"
+      }
+    },
+    "DELETE /payments/merchants/{merchant_id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "deleteMerchant",
+        "parameters": [
+          {
+            "description": "The id of the Merchant to be deleted.",
+            "in": "path",
+            "name": "merchant_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "204": {
+            "description": "Merchant successfully deleted."
+          }
+        },
+        "security": [
+          {
+            "ApiKey": [
+              "merchant:delete"
+            ]
+          }
+        ],
+        "securitySchemes": {
+          "ApiKey": {
+            "description": "Authentication using an API key. The username is the App ID and the password is the Api Key.",
+            "scheme": "basic",
+            "type": "http"
+          },
+          "ClientSideToken": {
+            "bearerFormat": "Token",
+            "description": "Authentication using a short lived token that you can share with clients. The Authorization header must be formatted as follow: \"Token <Client-Side Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          },
+          "TokenAuth": {
+            "bearerFormat": "RunToken",
+            "description": "Authentication using a short lived run token that you can share with clients. The Authorization header must be formatted as follow: \"RunToken <Function Run Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          }
+        },
+        "securitySource": "operation"
+      }
+    },
+    "DELETE /payments/network-tokens/{network_token_id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "deleteNetworkToken",
+        "parameters": [
+          {
+            "description": "The unique identifier of the Network Token.",
+            "in": "path",
+            "name": "network_token_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "204": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "SuccessfulDeletion": {
+                    "summary": "Network Token successfully deleted",
+                    "value": {}
+                  }
+                }
+              }
+            },
+            "description": "Deletes a Network Token object."
+          }
+        },
+        "security": [
+          {
+            "ApiKey": [
+              "networkToken:delete"
+            ]
+          }
+        ],
+        "securitySchemes": {
+          "ApiKey": {
+            "description": "Authentication using an API key. The username is the App ID and the password is the Api Key.",
+            "scheme": "basic",
+            "type": "http"
+          },
+          "ClientSideToken": {
+            "bearerFormat": "Token",
+            "description": "Authentication using a short lived token that you can share with clients. The Authorization header must be formatted as follow: \"Token <Client-Side Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          },
+          "TokenAuth": {
+            "bearerFormat": "RunToken",
+            "description": "Authentication using a short lived run token that you can share with clients. The Authorization header must be formatted as follow: \"RunToken <Function Run Token>\"",
+            "scheme": "bearer",
+            "type": "http"
+          }
+        },
+        "securitySource": "operation"
       }
     }
   }

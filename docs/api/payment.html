@@ -1,0 +1,608 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Payment | Evervault API</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><a class="skip" href="#content">Skip to content</a>
+<header class="site-header"><a class="site-title" href="../index.html">Evervault API<span>SDK documentation</span></a><div class="site-links"><a class="repo-link" href="https://github.com/voxgig-sdk/evervault-sdk">voxgig-sdk/evervault-sdk</a></div></header>
+<div class="site-notice" role="note"></div>
+<div class="shell"><nav class="site-nav" aria-label="Documentation"><div class="search"><label for="search">Search documentation</label><input id="search" type="search" data-base="../" placeholder="Find a guide or reference"><div id="results" aria-live="polite"></div></div><details><summary>Overview</summary><a href="../index.html">Evervault API</a></details>
+<details open><summary>API</summary><a href="../api/index.html">API overview</a>
+<a href="../api/acquirer.html">Acquirer</a>
+<a href="../api/bin_lookup.html">BinLookup</a>
+<a href="../api/card.html">Card</a>
+<a href="../api/card_art.html">CardArt</a>
+<a href="../api/client_side_token.html">ClientSideToken</a>
+<a href="../api/core.html">Core</a>
+<a href="../api/custom_domain.html">CustomDomain</a>
+<a href="../api/function_run.html">FunctionRun</a>
+<a href="../api/merchant.html">Merchant</a>
+<a href="../api/network_token.html">NetworkToken</a>
+<a href="../api/network_token_cryptogram.html">NetworkTokenCryptogram</a>
+<a aria-current="page" href="../api/payment.html">Payment</a><div class="nav-sections"><a class="nav-section" href="#get-paymentsmerchants">GET /payments/merchants</a>
+<a class="nav-section" href="#get-paymentsacquirers">GET /payments/acquirers</a>
+<a class="nav-section" href="#get-payments3ds-sessions3ds_session_idmessages">GET /payments/3ds-sessions/{3ds_session_id}/messages</a>
+<a class="nav-section" href="#delete-paymentsacquirersacquirer_id">DELETE /payments/acquirers/{acquirer_id}</a>
+<a class="nav-section" href="#delete-paymentscardscard_id">DELETE /payments/cards/{card_id}</a>
+<a class="nav-section" href="#delete-paymentsmerchantsmerchant_id">DELETE /payments/merchants/{merchant_id}</a>
+<a class="nav-section" href="#delete-paymentsnetwork-tokensnetwork_token_id">DELETE /payments/network-tokens/{network_token_id}</a></div>
+<a href="../api/relay.html">Relay</a>
+<a href="../api/three_ds_session.html">ThreeDsSession</a>
+<a href="../api/webhook.html">Webhook</a>
+<a href="../api/webhook_endpoint.html">WebhookEndpoint</a></details>
+<details><summary>Guides</summary><a href="../guides/authentication.html">Authentication</a>
+<a href="../guides/first-call.html">Make your first API call</a>
+<a href="../guides/errors.html">Handle errors</a>
+<a href="../guides/concepts.html">Entities, SDKs, and tools</a></details>
+<details><summary>SDKs</summary><a href="../sdks/go.html">Golang</a>
+<a href="../sdks/lua.html">Lua</a>
+<a href="../sdks/php.html">PHP</a>
+<a href="../sdks/py.html">Python</a>
+<a href="../sdks/rb.html">Ruby</a>
+<a href="../sdks/ts.html">TypeScript</a></details>
+<details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
+<a href="../tools/go-mcp.html">Go MCP server</a></details>
+<details><summary>Features</summary><a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
+<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
+<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
+<a href="../features/paging.html">Pagination signals for list operations</a>
+<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
+<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
+<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
+<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="payment">Payment</h1>
+<h2 id="operations">Operations</h2>
+<p>Every route this entity exposes. Each route links to its own reference on this page.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Route</th>
+<th>SDK operation</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-paymentsmerchants"><code>/payments/merchants</code></a></td>
+<td><code>list</code></td>
+<td>Returns a list of Merchant objects</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-paymentsacquirers"><code>/payments/acquirers</code></a></td>
+<td><code>list</code></td>
+<td>Returns a list of Acquirer objects</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-payments3ds-sessions3ds_session_idmessages"><code>/payments/3ds-sessions/{3ds_session_id}/messages</code></a></td>
+<td><code>list</code></td>
+<td>Returns 3DS messages for the session</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><a href="#delete-paymentsacquirersacquirer_id"><code>/payments/acquirers/{acquirer_id}</code></a></td>
+<td><code>remove</code></td>
+<td>Acquirer successfully deleted</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><a href="#delete-paymentscardscard_id"><code>/payments/cards/{card_id}</code></a></td>
+<td><code>remove</code></td>
+<td>Deletes a Card object</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><a href="#delete-paymentsmerchantsmerchant_id"><code>/payments/merchants/{merchant_id}</code></a></td>
+<td><code>remove</code></td>
+<td>Merchant successfully deleted</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><a href="#delete-paymentsnetwork-tokensnetwork_token_id"><code>/payments/network-tokens/{network_token_id}</code></a></td>
+<td><code>remove</code></td>
+<td>Deletes a Network Token object</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fields">Fields</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>applePay</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The Merchant's Apple Pay configuration.</td>
+</tr>
+<tr>
+<td><code>business</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The business details of the Merchant.</td>
+</tr>
+<tr>
+<td><code>categoryCode</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The 4-digit Merchant Category Code (MCC).</td>
+</tr>
+<tr>
+<td><code>configurations</code></td>
+<td><code>array</code></td>
+<td>Yes</td>
+<td>The acquirer configuration settings.</td>
+</tr>
+<tr>
+<td><code>createdAt</code></td>
+<td><code>integer</code></td>
+<td>Yes</td>
+<td>The exact time, in epoch milliseconds, when this Merchant was created.</td>
+</tr>
+<tr>
+<td><code>created_at</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>Timestamp when the message was created</td>
+</tr>
+<tr>
+<td><code>data</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The message data payload</td>
+</tr>
+<tr>
+<td><code>default</code></td>
+<td><code>boolean</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The description of the acquirer configuration.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A unique identifier assigned to each Merchant.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The official name of the Merchant as recognized in transactions and communications.</td>
+</tr>
+<tr>
+<td><code>networkTokens</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The Merchant's Network Token configuration.</td>
+</tr>
+<tr>
+<td><code>shortName</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A shorter version of the Merchant's name.</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The type of 3DS message (for example, AReq, ARes, CReq, CRes, RReq, RRes)</td>
+</tr>
+<tr>
+<td><code>updatedAt</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>The exact time, in epoch milliseconds, when this Merchant was last updated.</td>
+</tr>
+<tr>
+<td><code>website</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The official website URL of the Merchant.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="list">list</h2>
+<h3 id="get-paymentsmerchants" class="operation" data-method="get"><code>GET</code> /payments/merchants</h3>
+<p>Operation ID: <code>listMerchants</code>.</p>
+<p>Authentication: basic token (<code>ApiKey</code>).</p>
+<h4 id="parameters">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>page</code> | <code>query</code> | <code>integer</code> | No | The page number to retrieve. |
+| <code>pageSize</code> | <code>query</code> | <code>integer</code> | No | The number of Merchants to retrieve per page (default is 50). |
+| <code>q</code> | <code>query</code> | <code>string</code> | No | Filter the Merchants by name. |</p>
+<h4 id="responses">Responses</h4>
+<h5 id="200-returns-a-list-of-merchant-objects" class="status" data-status="2xx">200: Returns a list of Merchant objects</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>data</code></td>
+<td><code>array of object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>data[].applePay</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The Merchant's Apple Pay configuration.</td>
+</tr>
+<tr>
+<td><code>data[].applePay.domains</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td>The domains the Merchant has enrolled with Apple Pay and the status of the enrollment.</td>
+</tr>
+<tr>
+<td><code>data[].applePay.domains[].domain</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The top-level domain name of the Merchant's website.</td>
+</tr>
+<tr>
+<td><code>data[].applePay.domains[].status</code></td>
+<td><code>enum: active, pending, failed</code></td>
+<td>No</td>
+<td>The current status of the Merchant's Apple Pay enrollment for the specified domain. <code>active</code> means the Merchant is fully enrolled and can accept Apple Pay payments on the domain.</td>
+</tr>
+<tr>
+<td><code>data[].business</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The business details of the Merchant.</td>
+</tr>
+<tr>
+<td><code>data[].business.address</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The physical address of the Merchant's principal place of business.</td>
+</tr>
+<tr>
+<td><code>data[].business.address.city</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The city where the address is located.</td>
+</tr>
+<tr>
+<td><code>data[].business.address.country</code></td>
+<td><code>string (iso-3166-1-alpha-2)</code></td>
+<td>Yes</td>
+<td>The country where the address is located.</td>
+</tr>
+<tr>
+<td><code>data[].business.address.line1</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The first line of the address.</td>
+</tr>
+<tr>
+<td><code>data[].business.address.line2</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The second line of the address.</td>
+</tr>
+<tr>
+<td><code>data[].business.address.postalCode</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The postal code of the address.</td>
+</tr>
+<tr>
+<td><code>data[].business.address.state</code></td>
+<td><code>string (iso-3166-2-subdivision)</code></td>
+<td>No</td>
+<td>The state or province code. Required when <code>country</code> is <code>us</code>, <code>ca</code>, or <code>au</code>.</td>
+</tr>
+<tr>
+<td><code>data[].business.legalName</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The legal name under which the Merchant's business is registered.</td>
+</tr>
+<tr>
+<td><code>data[].categoryCode</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The 4-digit Merchant Category Code (MCC).</td>
+</tr>
+<tr>
+<td><code>data[].createdAt</code></td>
+<td><code>integer (int64)</code></td>
+<td>Yes</td>
+<td>The exact time, in epoch milliseconds, when this Merchant was created.</td>
+</tr>
+<tr>
+<td><code>data[].id</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A unique identifier assigned to each Merchant.</td>
+</tr>
+<tr>
+<td><code>data[].name</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The official name of the Merchant as recognized in transactions and communications. This name is used for display purposes and may be the company's trade name or a derived nickname.</td>
+</tr>
+<tr>
+<td><code>data[].networkTokens</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The Merchant's Network Token configuration.</td>
+</tr>
+<tr>
+<td><code>data[].networkTokens.enrolment</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td>An array detailing the Merchant's enrollment status for network token issuance across different card brands.</td>
+</tr>
+<tr>
+<td><code>data[].networkTokens.enrolment[].cardBrand</code></td>
+<td><code>enum: visa, mastercard, american-express, discover, diners-club, jcb, ...</code></td>
+<td>No</td>
+<td>The card brand (for example, Visa, Mastercard, American Express) for which the enrollment status is being described. Currently, Network Tokens is only supported for Visa, Mastercard and American Express.</td>
+</tr>
+<tr>
+<td><code>data[].networkTokens.enrolment[].status</code></td>
+<td><code>enum: active, inactive</code></td>
+<td>No</td>
+<td>The current stage of the Merchant's enrolment process for network token issuance with the specified card brand.</td>
+</tr>
+<tr>
+<td><code>data[].networkTokens.enrolment[].tokenRequestorIdentifier</code></td>
+<td><code>string,null</code></td>
+<td>No</td>
+<td>The unique Token Requestor Identifier (TRID) associated with the Merchant for the specific card brand. This identifier is used when creating Network Tokens for the Merchant.</td>
+</tr>
+<tr>
+<td><code>data[].shortName</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A shorter version of the Merchant's name. When creating a 3D Secure session that references this Merchant by ID, <code>shortName</code> is used in place of <code>name</code> if <code>name</code> exceeds the 40-character limit imposed by the 3D Secure specification.</td>
+</tr>
+<tr>
+<td><code>data[].updatedAt</code></td>
+<td><code>integer (int64)</code></td>
+<td>No</td>
+<td>The exact time, in epoch milliseconds, when this Merchant was last updated.</td>
+</tr>
+<tr>
+<td><code>data[].website</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The official website URL of the Merchant. The domain must use a valid IANA top-level domain. See https://data.iana.org/TLD/tlds-alpha-by-domain.txt</td>
+</tr>
+<tr>
+<td><code>nextPage</code></td>
+<td><code>integer,null</code></td>
+<td>Yes</td>
+<td>The next page number to retrieve. If there are no additional Merchants, this will be <code>null</code>.</td>
+</tr>
+<tr>
+<td><code>pageSize</code></td>
+<td><code>integer</code></td>
+<td>Yes</td>
+<td>The number of Merchants retrieved per page.</td>
+</tr>
+<tr>
+<td><code>total</code></td>
+<td><code>integer</code></td>
+<td>Yes</td>
+<td>The total count of all Merchants, after any filters.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="get-paymentsacquirers" class="operation" data-method="get"><code>GET</code> /payments/acquirers</h3>
+<p>Operation ID: <code>listAcquirers</code>.</p>
+<p>Authentication: basic token (<code>ApiKey</code>).</p>
+<h4 id="parameters-1">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>page</code> | <code>query</code> | <code>integer</code> | No | The page number to retrieve. |
+| <code>pageSize</code> | <code>query</code> | <code>integer</code> | No | The number of Acquirers to retrieve per page. The default is 50, which is also the maximum. |</p>
+<h4 id="responses-1">Responses</h4>
+<h5 id="200-returns-a-list-of-acquirer-objects" class="status" data-status="2xx">200: Returns a list of Acquirer objects</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>data</code></td>
+<td><code>array of object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>data[].configurations</code></td>
+<td><code>array of object</code></td>
+<td>Yes</td>
+<td>The acquirer configuration settings.</td>
+</tr>
+<tr>
+<td><code>data[].configurations[].acquirerMerchantIdentifier</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The merchant identifier the configuration is associated with.</td>
+</tr>
+<tr>
+<td><code>data[].configurations[].bin</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The Bank Identification Number (BIN) of the Acquirer. Must be 6 to 11 digits.</td>
+</tr>
+<tr>
+<td><code>data[].configurations[].country</code></td>
+<td><code>string (iso-3166-1-alpha-2)</code></td>
+<td>Yes</td>
+<td>The country of the acquirer configuration, used when creating 3DS sessions.</td>
+</tr>
+<tr>
+<td><code>data[].configurations[].network</code></td>
+<td><code>enum: visa, mastercard, american-express, discover</code></td>
+<td>Yes</td>
+<td>The card network of the Acquirer. <code>discover</code> covers Discover, Diners Club, and JCB (US only).</td>
+</tr>
+<tr>
+<td><code>data[].configurations[].state</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>data[].default</code></td>
+<td><code>boolean</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>data[].description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The description of the acquirer configuration.</td>
+</tr>
+<tr>
+<td><code>data[].id</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The unique identifier of the acquirer configuration.</td>
+</tr>
+<tr>
+<td><code>data[].name</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The name of the acquirer configuration.</td>
+</tr>
+<tr>
+<td><code>nextPage</code></td>
+<td><code>integer,null</code></td>
+<td>Yes</td>
+<td>The next page number to retrieve. If there are no additional Acquirers, this will be <code>null</code>.</td>
+</tr>
+<tr>
+<td><code>pageSize</code></td>
+<td><code>integer</code></td>
+<td>Yes</td>
+<td>The number of Acquirers retrieved per page.</td>
+</tr>
+<tr>
+<td><code>total</code></td>
+<td><code>integer</code></td>
+<td>Yes</td>
+<td>The total count of all Acquirers.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="get-payments3ds-sessions3ds_session_idmessages" class="operation" data-method="get"><code>GET</code> /payments/3ds-sessions/{3ds_session_id}/messages</h3>
+<p>Operation ID: <code>retrieveThreeDSMessages</code>.</p>
+<p>Authentication: basic token (<code>ApiKey</code>).</p>
+<h4 id="parameters-2">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>3ds_session_id</code> | <code>path</code> | <code>string</code> | Yes | The id of the 3DS session |</p>
+<h4 id="responses-2">Responses</h4>
+<h5 id="200-returns-3ds-messages-for-the-session" class="status" data-status="2xx">200: Returns 3DS messages for the session</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>messages</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td>Array of 3DS messages for the session</td>
+</tr>
+<tr>
+<td><code>messages[].created_at</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>Timestamp when the message was created</td>
+</tr>
+<tr>
+<td><code>messages[].data</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The message data payload</td>
+</tr>
+<tr>
+<td><code>messages[].type</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The type of 3DS message (for example, AReq, ARes, CReq, CRes, RReq, RRes)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="remove">remove</h2>
+<h3 id="delete-paymentsacquirersacquirer_id" class="operation" data-method="delete"><code>DELETE</code> /payments/acquirers/{acquirer_id}</h3>
+<p>Operation ID: <code>deleteAcquirer</code>.</p>
+<p>Authentication: basic token (<code>ApiKey</code>).</p>
+<h4 id="parameters-3">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>acquirer_id</code> | <code>path</code> | <code>string</code> | Yes | The id of the Acquirer to be deleted. |</p>
+<h4 id="responses-3">Responses</h4>
+<h5 id="204-acquirer-successfully-deleted" class="status" data-status="2xx">204: Acquirer successfully deleted</h5>
+<h3 id="delete-paymentscardscard_id" class="operation" data-method="delete"><code>DELETE</code> /payments/cards/{card_id}</h3>
+<p>Operation ID: <code>deleteCard</code>.</p>
+<p>Authentication: basic token (<code>ApiKey</code>).</p>
+<h4 id="parameters-4">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>card_id</code> | <code>path</code> | <code>string</code> | Yes | The unique identifier of the Card. |</p>
+<h4 id="responses-4">Responses</h4>
+<h5 id="204-deletes-a-card-object" class="status" data-status="2xx">204: Deletes a Card object</h5>
+<p><code>application/json</code></p>
+<h3 id="delete-paymentsmerchantsmerchant_id" class="operation" data-method="delete"><code>DELETE</code> /payments/merchants/{merchant_id}</h3>
+<p>Operation ID: <code>deleteMerchant</code>.</p>
+<p>Authentication: basic token (<code>ApiKey</code>).</p>
+<h4 id="parameters-5">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>merchant_id</code> | <code>path</code> | <code>string</code> | Yes | The id of the Merchant to be deleted. |</p>
+<h4 id="responses-5">Responses</h4>
+<h5 id="204-merchant-successfully-deleted" class="status" data-status="2xx">204: Merchant successfully deleted</h5>
+<h3 id="delete-paymentsnetwork-tokensnetwork_token_id" class="operation" data-method="delete"><code>DELETE</code> /payments/network-tokens/{network_token_id}</h3>
+<p>Operation ID: <code>deleteNetworkToken</code>.</p>
+<p>Authentication: basic token (<code>ApiKey</code>).</p>
+<h4 id="parameters-6">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>network_token_id</code> | <code>path</code> | <code>string</code> | Yes | The unique identifier of the Network Token. |</p>
+<h4 id="responses-6">Responses</h4>
+<h5 id="204-deletes-a-network-token-object" class="status" data-status="2xx">204: Deletes a Network Token object</h5>
+<p><code>application/json</code></p>
+</main></div>
+<script src="../assets/search.js" defer></script></body></html>

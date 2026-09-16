@@ -1,0 +1,828 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Merchant | Evervault API</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><a class="skip" href="#content">Skip to content</a>
+<header class="site-header"><a class="site-title" href="../index.html">Evervault API<span>SDK documentation</span></a><div class="site-links"><a class="repo-link" href="https://github.com/voxgig-sdk/evervault-sdk">voxgig-sdk/evervault-sdk</a></div></header>
+<div class="site-notice" role="note"></div>
+<div class="shell"><nav class="site-nav" aria-label="Documentation"><div class="search"><label for="search">Search documentation</label><input id="search" type="search" data-base="../" placeholder="Find a guide or reference"><div id="results" aria-live="polite"></div></div><details><summary>Overview</summary><a href="../index.html">Evervault API</a></details>
+<details open><summary>API</summary><a href="../api/index.html">API overview</a>
+<a href="../api/acquirer.html">Acquirer</a>
+<a href="../api/bin_lookup.html">BinLookup</a>
+<a href="../api/card.html">Card</a>
+<a href="../api/card_art.html">CardArt</a>
+<a href="../api/client_side_token.html">ClientSideToken</a>
+<a href="../api/core.html">Core</a>
+<a href="../api/custom_domain.html">CustomDomain</a>
+<a href="../api/function_run.html">FunctionRun</a>
+<a aria-current="page" href="../api/merchant.html">Merchant</a><div class="nav-sections"><a class="nav-section" href="#post-paymentsmerchants">POST /payments/merchants</a>
+<a class="nav-section" href="#get-paymentsmerchantsmerchant_id">GET /payments/merchants/{merchant_id}</a>
+<a class="nav-section" href="#patch-paymentsmerchantsmerchant_id">PATCH /payments/merchants/{merchant_id}</a></div>
+<a href="../api/network_token.html">NetworkToken</a>
+<a href="../api/network_token_cryptogram.html">NetworkTokenCryptogram</a>
+<a href="../api/payment.html">Payment</a>
+<a href="../api/relay.html">Relay</a>
+<a href="../api/three_ds_session.html">ThreeDsSession</a>
+<a href="../api/webhook.html">Webhook</a>
+<a href="../api/webhook_endpoint.html">WebhookEndpoint</a></details>
+<details><summary>Guides</summary><a href="../guides/authentication.html">Authentication</a>
+<a href="../guides/first-call.html">Make your first API call</a>
+<a href="../guides/errors.html">Handle errors</a>
+<a href="../guides/concepts.html">Entities, SDKs, and tools</a></details>
+<details><summary>SDKs</summary><a href="../sdks/go.html">Golang</a>
+<a href="../sdks/lua.html">Lua</a>
+<a href="../sdks/php.html">PHP</a>
+<a href="../sdks/py.html">Python</a>
+<a href="../sdks/rb.html">Ruby</a>
+<a href="../sdks/ts.html">TypeScript</a></details>
+<details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
+<a href="../tools/go-mcp.html">Go MCP server</a></details>
+<details><summary>Features</summary><a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
+<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
+<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
+<a href="../features/paging.html">Pagination signals for list operations</a>
+<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
+<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
+<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
+<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="merchant">Merchant</h1>
+<h2 id="operations">Operations</h2>
+<p>Every route this entity exposes. Each route links to its own reference on this page.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Route</th>
+<th>SDK operation</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-paymentsmerchants"><code>/payments/merchants</code></a></td>
+<td><code>create</code></td>
+<td>Returns a Merchant object</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-paymentsmerchantsmerchant_id"><code>/payments/merchants/{merchant_id}</code></a></td>
+<td><code>load</code></td>
+<td>Returns a Merchant object</td>
+</tr>
+<tr>
+<td><code>PATCH</code></td>
+<td><a href="#patch-paymentsmerchantsmerchant_id"><code>/payments/merchants/{merchant_id}</code></a></td>
+<td><code>update</code></td>
+<td>Returns the updated Merchant object</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fields">Fields</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>applePay</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The Merchant's Apple Pay configuration.</td>
+</tr>
+<tr>
+<td><code>business</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The business details of the Merchant.</td>
+</tr>
+<tr>
+<td><code>categoryCode</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The 4-digit Merchant Category Code (MCC).</td>
+</tr>
+<tr>
+<td><code>createdAt</code></td>
+<td><code>integer</code></td>
+<td>Yes</td>
+<td>The exact time, in epoch milliseconds, when this Merchant was created.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A unique identifier assigned to each Merchant.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The official name of the Merchant as recognized in transactions and communications.</td>
+</tr>
+<tr>
+<td><code>networkTokens</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The Merchant's Network Token configuration.</td>
+</tr>
+<tr>
+<td><code>shortName</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A shorter version of the Merchant's name.</td>
+</tr>
+<tr>
+<td><code>updatedAt</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>The exact time, in epoch milliseconds, when this Merchant was last updated.</td>
+</tr>
+<tr>
+<td><code>website</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The official website URL of the Merchant.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="create">create</h2>
+<h3 id="post-paymentsmerchants" class="operation" data-method="post"><code>POST</code> /payments/merchants</h3>
+<p>Operation ID: <code>createMerchant</code>.</p>
+<p>Authentication: basic token (<code>ApiKey</code>).</p>
+<h4 id="request-body">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>applePay</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The Merchant's Apple Pay configuration.</td>
+</tr>
+<tr>
+<td><code>applePay.domains</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td>The domains the Merchant wants registered with Apple Pay. Only the domain name is required, without the protocol or path. For example, <code>example.com</code> is a valid domain, but <code>https://example.com</code> is not.</td>
+</tr>
+<tr>
+<td><code>business</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>The business details of the Merchant.</td>
+</tr>
+<tr>
+<td><code>business.address</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>The physical address of the Merchant's principal place of business.</td>
+</tr>
+<tr>
+<td><code>business.address.city</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The city where the address is located.</td>
+</tr>
+<tr>
+<td><code>business.address.country</code></td>
+<td><code>string (iso-3166-1-alpha-2)</code></td>
+<td>Yes</td>
+<td>The country where the address is located.</td>
+</tr>
+<tr>
+<td><code>business.address.line1</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The first line of the address.</td>
+</tr>
+<tr>
+<td><code>business.address.line2</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The second line of the address.</td>
+</tr>
+<tr>
+<td><code>business.address.postalCode</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The postal code of the address.</td>
+</tr>
+<tr>
+<td><code>business.address.state</code></td>
+<td><code>string (iso-3166-2-subdivision)</code></td>
+<td>No</td>
+<td>The state or province code. Required when <code>country</code> is <code>us</code>, <code>ca</code>, or <code>au</code>.</td>
+</tr>
+<tr>
+<td><code>business.legalName</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The legal name under which the Merchant's business is registered.</td>
+</tr>
+<tr>
+<td><code>categoryCode</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The 4-digit Merchant Category Code (MCC).</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The official name of the Merchant as recognized in transactions and communications. This name is used for display purposes and may be the company's trade name or a derived nickname.</td>
+</tr>
+<tr>
+<td><code>networkTokens</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The Merchant's Network Tokens configuration. This field should only be populated if the Merchant has already been enrolled in one of the Card Network programs and can use an existing Token Requestor ID (TRID).</td>
+</tr>
+<tr>
+<td><code>networkTokens.enrolment</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>networkTokens.enrolment[].cardBrand</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The Card Brand for which the configuration belongs to.</td>
+</tr>
+<tr>
+<td><code>networkTokens.enrolment[].tokenRequestorIdentifier</code></td>
+<td><code>string,null</code></td>
+<td>No</td>
+<td>The existing Token Requestor ID assigned by the Card Brand.</td>
+</tr>
+<tr>
+<td><code>shortName</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A shorter version of the Merchant's name. Optional. When creating a 3D Secure session that references this Merchant by ID, <code>shortName</code> is used in place of <code>name</code> if <code>name</code> exceeds the 40-character limit imposed by the 3D Secure specification.</td>
+</tr>
+<tr>
+<td><code>website</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The official website URL of the Merchant. The domain must use a valid IANA top-level domain. See https://data.iana.org/TLD/tlds-alpha-by-domain.txt</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses">Responses</h4>
+<h5 id="201-returns-a-merchant-object" class="status" data-status="2xx">201: Returns a Merchant object</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>applePay</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The Merchant's Apple Pay configuration.</td>
+</tr>
+<tr>
+<td><code>applePay.domains</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td>The domains the Merchant has enrolled with Apple Pay and the status of the enrollment.</td>
+</tr>
+<tr>
+<td><code>applePay.domains[].domain</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The top-level domain name of the Merchant's website.</td>
+</tr>
+<tr>
+<td><code>applePay.domains[].status</code></td>
+<td><code>enum: active, pending, failed</code></td>
+<td>No</td>
+<td>The current status of the Merchant's Apple Pay enrollment for the specified domain. <code>active</code> means the Merchant is fully enrolled and can accept Apple Pay payments on the domain.</td>
+</tr>
+<tr>
+<td><code>business</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The business details of the Merchant.</td>
+</tr>
+<tr>
+<td><code>business.address</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The physical address of the Merchant's principal place of business.</td>
+</tr>
+<tr>
+<td><code>business.address.city</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The city where the address is located.</td>
+</tr>
+<tr>
+<td><code>business.address.country</code></td>
+<td><code>string (iso-3166-1-alpha-2)</code></td>
+<td>Yes</td>
+<td>The country where the address is located.</td>
+</tr>
+<tr>
+<td><code>business.address.line1</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The first line of the address.</td>
+</tr>
+<tr>
+<td><code>business.address.line2</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The second line of the address.</td>
+</tr>
+<tr>
+<td><code>business.address.postalCode</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The postal code of the address.</td>
+</tr>
+<tr>
+<td><code>business.address.state</code></td>
+<td><code>string (iso-3166-2-subdivision)</code></td>
+<td>No</td>
+<td>The state or province code. Required when <code>country</code> is <code>us</code>, <code>ca</code>, or <code>au</code>.</td>
+</tr>
+<tr>
+<td><code>business.legalName</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The legal name under which the Merchant's business is registered.</td>
+</tr>
+<tr>
+<td><code>categoryCode</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The 4-digit Merchant Category Code (MCC).</td>
+</tr>
+<tr>
+<td><code>createdAt</code></td>
+<td><code>integer (int64)</code></td>
+<td>Yes</td>
+<td>The exact time, in epoch milliseconds, when this Merchant was created.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A unique identifier assigned to each Merchant.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The official name of the Merchant as recognized in transactions and communications. This name is used for display purposes and may be the company's trade name or a derived nickname.</td>
+</tr>
+<tr>
+<td><code>networkTokens</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The Merchant's Network Token configuration.</td>
+</tr>
+<tr>
+<td><code>networkTokens.enrolment</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td>An array detailing the Merchant's enrollment status for network token issuance across different card brands.</td>
+</tr>
+<tr>
+<td><code>networkTokens.enrolment[].cardBrand</code></td>
+<td><code>enum: visa, mastercard, american-express, discover, diners-club, jcb, ...</code></td>
+<td>No</td>
+<td>The card brand (for example, Visa, Mastercard, American Express) for which the enrollment status is being described. Currently, Network Tokens is only supported for Visa, Mastercard and American Express.</td>
+</tr>
+<tr>
+<td><code>networkTokens.enrolment[].status</code></td>
+<td><code>enum: active, inactive</code></td>
+<td>No</td>
+<td>The current stage of the Merchant's enrolment process for network token issuance with the specified card brand.</td>
+</tr>
+<tr>
+<td><code>networkTokens.enrolment[].tokenRequestorIdentifier</code></td>
+<td><code>string,null</code></td>
+<td>No</td>
+<td>The unique Token Requestor Identifier (TRID) associated with the Merchant for the specific card brand. This identifier is used when creating Network Tokens for the Merchant.</td>
+</tr>
+<tr>
+<td><code>shortName</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A shorter version of the Merchant's name. When creating a 3D Secure session that references this Merchant by ID, <code>shortName</code> is used in place of <code>name</code> if <code>name</code> exceeds the 40-character limit imposed by the 3D Secure specification.</td>
+</tr>
+<tr>
+<td><code>updatedAt</code></td>
+<td><code>integer (int64)</code></td>
+<td>No</td>
+<td>The exact time, in epoch milliseconds, when this Merchant was last updated.</td>
+</tr>
+<tr>
+<td><code>website</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The official website URL of the Merchant. The domain must use a valid IANA top-level domain. See https://data.iana.org/TLD/tlds-alpha-by-domain.txt</td>
+</tr>
+</tbody>
+</table>
+<h2 id="load">load</h2>
+<h3 id="get-paymentsmerchantsmerchant_id" class="operation" data-method="get"><code>GET</code> /payments/merchants/{merchant_id}</h3>
+<p>Operation ID: <code>getMerchant</code>.</p>
+<p>Authentication: basic token (<code>ApiKey</code>).</p>
+<h4 id="parameters">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>merchant_id</code> | <code>path</code> | <code>string</code> | Yes | The unique identifier of the merchant. |</p>
+<h4 id="responses-1">Responses</h4>
+<h5 id="200-returns-a-merchant-object" class="status" data-status="2xx">200: Returns a Merchant object</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>applePay</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The Merchant's Apple Pay configuration.</td>
+</tr>
+<tr>
+<td><code>applePay.domains</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td>The domains the Merchant has enrolled with Apple Pay and the status of the enrollment.</td>
+</tr>
+<tr>
+<td><code>applePay.domains[].domain</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The top-level domain name of the Merchant's website.</td>
+</tr>
+<tr>
+<td><code>applePay.domains[].status</code></td>
+<td><code>enum: active, pending, failed</code></td>
+<td>No</td>
+<td>The current status of the Merchant's Apple Pay enrollment for the specified domain. <code>active</code> means the Merchant is fully enrolled and can accept Apple Pay payments on the domain.</td>
+</tr>
+<tr>
+<td><code>business</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The business details of the Merchant.</td>
+</tr>
+<tr>
+<td><code>business.address</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The physical address of the Merchant's principal place of business.</td>
+</tr>
+<tr>
+<td><code>business.address.city</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The city where the address is located.</td>
+</tr>
+<tr>
+<td><code>business.address.country</code></td>
+<td><code>string (iso-3166-1-alpha-2)</code></td>
+<td>Yes</td>
+<td>The country where the address is located.</td>
+</tr>
+<tr>
+<td><code>business.address.line1</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The first line of the address.</td>
+</tr>
+<tr>
+<td><code>business.address.line2</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The second line of the address.</td>
+</tr>
+<tr>
+<td><code>business.address.postalCode</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The postal code of the address.</td>
+</tr>
+<tr>
+<td><code>business.address.state</code></td>
+<td><code>string (iso-3166-2-subdivision)</code></td>
+<td>No</td>
+<td>The state or province code. Required when <code>country</code> is <code>us</code>, <code>ca</code>, or <code>au</code>.</td>
+</tr>
+<tr>
+<td><code>business.legalName</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The legal name under which the Merchant's business is registered.</td>
+</tr>
+<tr>
+<td><code>categoryCode</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The 4-digit Merchant Category Code (MCC).</td>
+</tr>
+<tr>
+<td><code>createdAt</code></td>
+<td><code>integer (int64)</code></td>
+<td>Yes</td>
+<td>The exact time, in epoch milliseconds, when this Merchant was created.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A unique identifier assigned to each Merchant.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The official name of the Merchant as recognized in transactions and communications. This name is used for display purposes and may be the company's trade name or a derived nickname.</td>
+</tr>
+<tr>
+<td><code>networkTokens</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The Merchant's Network Token configuration.</td>
+</tr>
+<tr>
+<td><code>networkTokens.enrolment</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td>An array detailing the Merchant's enrollment status for network token issuance across different card brands.</td>
+</tr>
+<tr>
+<td><code>networkTokens.enrolment[].cardBrand</code></td>
+<td><code>enum: visa, mastercard, american-express, discover, diners-club, jcb, ...</code></td>
+<td>No</td>
+<td>The card brand (for example, Visa, Mastercard, American Express) for which the enrollment status is being described. Currently, Network Tokens is only supported for Visa, Mastercard and American Express.</td>
+</tr>
+<tr>
+<td><code>networkTokens.enrolment[].status</code></td>
+<td><code>enum: active, inactive</code></td>
+<td>No</td>
+<td>The current stage of the Merchant's enrolment process for network token issuance with the specified card brand.</td>
+</tr>
+<tr>
+<td><code>networkTokens.enrolment[].tokenRequestorIdentifier</code></td>
+<td><code>string,null</code></td>
+<td>No</td>
+<td>The unique Token Requestor Identifier (TRID) associated with the Merchant for the specific card brand. This identifier is used when creating Network Tokens for the Merchant.</td>
+</tr>
+<tr>
+<td><code>shortName</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A shorter version of the Merchant's name. When creating a 3D Secure session that references this Merchant by ID, <code>shortName</code> is used in place of <code>name</code> if <code>name</code> exceeds the 40-character limit imposed by the 3D Secure specification.</td>
+</tr>
+<tr>
+<td><code>updatedAt</code></td>
+<td><code>integer (int64)</code></td>
+<td>No</td>
+<td>The exact time, in epoch milliseconds, when this Merchant was last updated.</td>
+</tr>
+<tr>
+<td><code>website</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The official website URL of the Merchant. The domain must use a valid IANA top-level domain. See https://data.iana.org/TLD/tlds-alpha-by-domain.txt</td>
+</tr>
+</tbody>
+</table>
+<h2 id="update">update</h2>
+<h3 id="patch-paymentsmerchantsmerchant_id" class="operation" data-method="patch"><code>PATCH</code> /payments/merchants/{merchant_id}</h3>
+<p>Operation ID: <code>updateMerchant</code>.</p>
+<p>Authentication: basic token (<code>ApiKey</code>).</p>
+<h4 id="parameters-1">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>merchant_id</code> | <code>path</code> | <code>string</code> | Yes | The id of the Merchant to be updated. |</p>
+<h4 id="request-body-1">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>applePay</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The Merchant's Apple Pay configuration.</td>
+</tr>
+<tr>
+<td><code>applePay.domains</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td>The domains the Merchant wants registered with Apple Pay. To remove a domain previously registered with Apple Pay, exclude it from the list. Only the domain name is required, without the protocol or path. For example, <code>example.com</code> is a valid domain, but <code>https://example.com</code> is not.</td>
+</tr>
+<tr>
+<td><code>shortName</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A shorter version of the Merchant's name. When creating a 3D Secure session that references this Merchant by ID, <code>shortName</code> is used in place of <code>name</code> if <code>name</code> exceeds the 40-character limit imposed by the 3D Secure specification.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses-2">Responses</h4>
+<h5 id="200-returns-the-updated-merchant-object" class="status" data-status="2xx">200: Returns the updated Merchant object</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>applePay</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The Merchant's Apple Pay configuration.</td>
+</tr>
+<tr>
+<td><code>applePay.domains</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td>The domains the Merchant has enrolled with Apple Pay and the status of the enrollment.</td>
+</tr>
+<tr>
+<td><code>applePay.domains[].domain</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The top-level domain name of the Merchant's website.</td>
+</tr>
+<tr>
+<td><code>applePay.domains[].status</code></td>
+<td><code>enum: active, pending, failed</code></td>
+<td>No</td>
+<td>The current status of the Merchant's Apple Pay enrollment for the specified domain. <code>active</code> means the Merchant is fully enrolled and can accept Apple Pay payments on the domain.</td>
+</tr>
+<tr>
+<td><code>business</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The business details of the Merchant.</td>
+</tr>
+<tr>
+<td><code>business.address</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The physical address of the Merchant's principal place of business.</td>
+</tr>
+<tr>
+<td><code>business.address.city</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The city where the address is located.</td>
+</tr>
+<tr>
+<td><code>business.address.country</code></td>
+<td><code>string (iso-3166-1-alpha-2)</code></td>
+<td>Yes</td>
+<td>The country where the address is located.</td>
+</tr>
+<tr>
+<td><code>business.address.line1</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The first line of the address.</td>
+</tr>
+<tr>
+<td><code>business.address.line2</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The second line of the address.</td>
+</tr>
+<tr>
+<td><code>business.address.postalCode</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The postal code of the address.</td>
+</tr>
+<tr>
+<td><code>business.address.state</code></td>
+<td><code>string (iso-3166-2-subdivision)</code></td>
+<td>No</td>
+<td>The state or province code. Required when <code>country</code> is <code>us</code>, <code>ca</code>, or <code>au</code>.</td>
+</tr>
+<tr>
+<td><code>business.legalName</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The legal name under which the Merchant's business is registered.</td>
+</tr>
+<tr>
+<td><code>categoryCode</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The 4-digit Merchant Category Code (MCC).</td>
+</tr>
+<tr>
+<td><code>createdAt</code></td>
+<td><code>integer (int64)</code></td>
+<td>Yes</td>
+<td>The exact time, in epoch milliseconds, when this Merchant was created.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A unique identifier assigned to each Merchant.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The official name of the Merchant as recognized in transactions and communications. This name is used for display purposes and may be the company's trade name or a derived nickname.</td>
+</tr>
+<tr>
+<td><code>networkTokens</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The Merchant's Network Token configuration.</td>
+</tr>
+<tr>
+<td><code>networkTokens.enrolment</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td>An array detailing the Merchant's enrollment status for network token issuance across different card brands.</td>
+</tr>
+<tr>
+<td><code>networkTokens.enrolment[].cardBrand</code></td>
+<td><code>enum: visa, mastercard, american-express, discover, diners-club, jcb, ...</code></td>
+<td>No</td>
+<td>The card brand (for example, Visa, Mastercard, American Express) for which the enrollment status is being described. Currently, Network Tokens is only supported for Visa, Mastercard and American Express.</td>
+</tr>
+<tr>
+<td><code>networkTokens.enrolment[].status</code></td>
+<td><code>enum: active, inactive</code></td>
+<td>No</td>
+<td>The current stage of the Merchant's enrolment process for network token issuance with the specified card brand.</td>
+</tr>
+<tr>
+<td><code>networkTokens.enrolment[].tokenRequestorIdentifier</code></td>
+<td><code>string,null</code></td>
+<td>No</td>
+<td>The unique Token Requestor Identifier (TRID) associated with the Merchant for the specific card brand. This identifier is used when creating Network Tokens for the Merchant.</td>
+</tr>
+<tr>
+<td><code>shortName</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A shorter version of the Merchant's name. When creating a 3D Secure session that references this Merchant by ID, <code>shortName</code> is used in place of <code>name</code> if <code>name</code> exceeds the 40-character limit imposed by the 3D Secure specification.</td>
+</tr>
+<tr>
+<td><code>updatedAt</code></td>
+<td><code>integer (int64)</code></td>
+<td>No</td>
+<td>The exact time, in epoch milliseconds, when this Merchant was last updated.</td>
+</tr>
+<tr>
+<td><code>website</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The official website URL of the Merchant. The domain must use a valid IANA top-level domain. See https://data.iana.org/TLD/tlds-alpha-by-domain.txt</td>
+</tr>
+</tbody>
+</table>
+</main></div>
+<script src="../assets/search.js" defer></script></body></html>
