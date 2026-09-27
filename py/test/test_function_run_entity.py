@@ -67,7 +67,7 @@ def _function_run_basic_setup(extra):
 
     # Generate idmap via transform.
     idmap = vs.transform(
-        ["function_run01", "function_run02", "function_run03", "function01", "function02", "function03", "function_name01"],
+        ["function_run01", "function_run02", "function_run03", "function_name01"],
         {
             "`$PACK`": ["", {
                 "`$KEY`": "`$COPY`",

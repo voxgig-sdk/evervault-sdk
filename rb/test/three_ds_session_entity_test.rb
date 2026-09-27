@@ -67,7 +67,7 @@ def three_ds_session_basic_setup(extra)
 
   # Generate idmap via transform.
   idmap = Vs.transform(
-    ["three_ds_session01", "three_ds_session02", "three_ds_session03", "3ds_session01", "3ds_session02", "3ds_session03"],
+    ["three_ds_session01", "three_ds_session02", "three_ds_session03"],
     {
       "`$PACK`" => ["", {
         "`$KEY`" => "`$COPY`",

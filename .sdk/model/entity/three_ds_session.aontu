@@ -1,0 +1,290 @@
+# Entity: three_ds_session
+
+main: kit: entity: three_ds_session: {
+
+  alias: field: {}
+
+  fields: {
+    accessControlServer: {
+      h: "Access Control Server"
+      n: "accessControlServer"
+      r: false
+      sh: "Details about the Access Control Server involved in the 3DS transaction."
+      t: "`$OBJECT`"
+    }
+    acquirer: {
+      h: "Acquirer"
+      n: "acquirer"
+      op: {
+        create: {
+          req: false
+          type: "`$ANY`"
+        }
+      }
+      r: true
+      sh: "The acquirer of the payment."
+      t: "`$OBJECT`"
+    }
+    ares: {
+      h: "Ares"
+      n: "ares"
+      r: false
+      sh: "The details of the 3DS Authentication Response (ARes)."
+      t: "`$OBJECT`"
+    }
+    authentication: {
+      h: "Authentication"
+      n: "authentication"
+      r: true
+      sh: "The details of the 3DS Authentication."
+      t: "`$OBJECT`"
+    }
+    card: {
+      h: "Card"
+      n: "card"
+      r: true
+      sh: "The card details."
+      t: "`$OBJECT`"
+    }
+    challenge: {
+      h: "Challenge"
+      n: "challenge"
+      r: true
+      sh: "Details about the 3DS challenge."
+      t: "`$OBJECT`"
+    }
+    createdAt: {
+      fo: "int64"
+      h: "Created At"
+      n: "createdAt"
+      r: true
+      sh: "The exact time, in epoch milliseconds, when this 3DS-Session was created."
+      t: "`$INTEGER`"
+    }
+    cres: {
+      h: "Cres"
+      n: "cres"
+      r: false
+      sh: "The details of the 3DS Challenge Response (CRes)."
+      t: [
+        "`$ONE`"
+        [
+          "`$NULL`"
+          "`$OBJECT`"
+        ]
+      ]
+    }
+    cryptogram: {
+      h: "Cryptogram"
+      n: "cryptogram"
+      r: false
+      sh: "The 3DS cryptogram (also called Authentication Value)."
+      t: "`$STRING`"
+    }
+    customer: {
+      h: "Customer"
+      n: "customer"
+      r: false
+      sh: "The details of the customer who initiated the transaction."
+      t: "`$OBJECT`"
+    }
+    directoryServer: {
+      h: "Directory Server"
+      n: "directoryServer"
+      r: false
+      sh: "Details about the Directory Server involved in the 3DS transaction."
+      t: "`$OBJECT`"
+    }
+    eci: {
+      h: "Eci"
+      n: "eci"
+      r: false
+      sh: "The details of the Electronic Commerce Indicator."
+      t: "`$OBJECT`"
+    }
+    failureReason: {
+      h: "Failure Reason"
+      n: "failureReason"
+      r: false
+      sh: "The reason for the 3DS Authentication failure."
+      t: "`$STRING`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: true
+      sh: "A unique identifier assigned to each 3DS Authentication."
+      t: "`$STRING`"
+    }
+    initiator: {
+      h: "Initiator"
+      n: "initiator"
+      r: false
+      sh: "Details about the transaction initiation process."
+      t: "`$OBJECT`"
+      union: {
+        branches: 2
+        count: 1
+        depth: 0
+      }
+    }
+    merchant: {
+      h: "Merchant"
+      n: "merchant"
+      r: true
+      sh: "The merchant details."
+      t: "`$OBJECT`"
+    }
+    nextAction: {
+      h: "Next Action"
+      n: "nextAction"
+      r: true
+      sh: "The next action required to complete the 3DS Authentication."
+      t: "`$OBJECT`"
+    }
+    payment: {
+      h: "Payment"
+      n: "payment"
+      r: false
+      sh: "The payment details of the 3D Secure Authentication."
+      t: "`$OBJECT`"
+      union: {
+        branches: 3
+        count: 1
+        depth: 0
+      }
+    }
+    preferredVersions: {
+      h: "Preferred Versions"
+      n: "preferredVersions"
+      r: false
+      sh: "A prioritized list of preferred 3D Secure versions."
+      t: "`$ARRAY`"
+    }
+    rreq: {
+      h: "Rreq"
+      n: "rreq"
+      r: false
+      sh: "The result of the 3DS authentication when a challenge has occurred."
+      t: [
+        "`$ONE`"
+        [
+          "`$NULL`"
+          "`$OBJECT`"
+        ]
+      ]
+    }
+    status: {
+      h: "Status"
+      n: "status"
+      r: true
+      sh: "The status of the 3DS Authentication."
+      t: "`$STRING`"
+    }
+    threeDSServer: {
+      h: "Three Ds Server"
+      n: "threeDSServer"
+      r: false
+      sh: "Details about the 3DS Server involved in the 3DS transaction."
+      t: "`$OBJECT`"
+    }
+    updatedAt: {
+      fo: "int64"
+      h: "Updated At"
+      n: "updatedAt"
+      r: false
+      sh: "The exact time, in epoch milliseconds, when this 3DS-Session was last updated."
+      t: "`$INTEGER`"
+    }
+    version: {
+      h: "Version"
+      n: "version"
+      r: true
+      sh: "The 3D Secure version used to authenticate the session."
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "three_ds_session"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /payments/3ds-sessions"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/payments/3ds-sessions"
+          s: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "3ds-sessions"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /payments/3ds-sessions/{3ds_session_id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "3ds_session_id"
+                or: "3ds_session_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/payments/3ds-sessions/{3ds_session_id}"
+          q: {
+            exist: [
+              "3ds_session_id"
+            ]
+          }
+          s: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "3ds-sessions"
+            }
+            {
+              var: "3ds_session_id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

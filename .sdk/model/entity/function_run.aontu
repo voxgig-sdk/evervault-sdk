@@ -1,0 +1,122 @@
+# Entity: function_run
+
+main: kit: entity: function_run: {
+
+  alias: field: {}
+
+  fields: {
+    async: {
+      h: "Async"
+      n: "async"
+      r: false
+      sh: "If you want your Function to run asynchronously and notify a callback URL, this can be set to `true` and the API will queue your Function run and return a `202` response code."
+      t: "`$BOOLEAN`"
+    }
+    createdAt: {
+      fo: "int64"
+      h: "Created At"
+      n: "createdAt"
+      r: false
+      sh: "The exact time, in epoch milliseconds, when this Function execution was triggered."
+      t: "`$INTEGER`"
+    }
+    error: {
+      h: "Error"
+      n: "error"
+      r: false
+      sh: "This field details any error that occurred during Function execution."
+      t: [
+        "`$ONE`"
+        [
+          "`$OBJECT`"
+          "`$NULL`"
+        ]
+      ]
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      sh: "A unique identifier representing this specific Function execution instance."
+      t: "`$STRING`"
+    }
+    payload: {
+      h: "Payload"
+      n: "payload"
+      r: true
+      sh: "The data payload that the Function will use during its execution."
+      t: "`$OBJECT`"
+    }
+    result: {
+      h: "Result"
+      n: "result"
+      r: false
+      sh: "This field represents the output returned by the Function."
+      t: "`$OBJECT`"
+    }
+    status: {
+      h: "Status"
+      n: "status"
+      r: false
+      sh: "The outcome of the Function execution."
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "function_run"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /functions/{function_name}/runs"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "function_name"
+                or: "function_name"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/functions/{function_name}/runs"
+          q: {
+            exist: [
+              "function_name"
+            ]
+          }
+          s: [
+            {
+              lit: "functions"
+            }
+            {
+              var: "function_name"
+            }
+            {
+              lit: "runs"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

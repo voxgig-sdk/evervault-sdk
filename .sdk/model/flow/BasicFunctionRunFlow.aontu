@@ -1,0 +1,22 @@
+# BasicFunctionRunFlow
+
+main: kit: flow: BasicFunctionRunFlow:
+{
+  entity: "function_run",
+  kind: "basic",
+  name: "BasicFunctionRunFlow",
+  step: [
+    {
+      i: {
+        ref: "function_run_ref01"
+      }
+
+      m: {
+        function_name: "function_name01"
+      }
+
+      o: "create"
+    }
+  ],
+  "key$": "BasicFunctionRunFlow"
+}

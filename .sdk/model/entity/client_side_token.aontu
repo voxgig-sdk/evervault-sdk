@@ -1,0 +1,60 @@
+# Entity: client_side_token
+
+main: kit: entity: client_side_token: {
+
+  alias: field: {}
+
+  fields: {
+    action: {
+      h: "Action"
+      n: "action"
+      r: true
+      sh: "The action that the token should permit"
+      t: "`$STRING`"
+    }
+    expiry: {
+      h: "Expiry"
+      n: "expiry"
+      r: false
+      sh: "The expiry of the token in milliseconds format."
+      t: "`$INTEGER`"
+    }
+    payload: {
+      h: "Payload"
+      n: "payload"
+      r: false
+      sh: "The payload that the token must be used with"
+      t: "`$OBJECT`"
+    }
+  }
+
+  name: "client_side_token"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /client-side-tokens"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/client-side-tokens"
+          s: [
+            {
+              lit: "client-side-tokens"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

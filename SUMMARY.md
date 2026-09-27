@@ -47,8 +47,8 @@ Key fields to recognise:
 - `address`: The match code for the address portion of the AVS (excludes zip code)
 - `card`: The card details.
 - `cardholder`: Details about the cardholder that the name verification (ANI) is for.
+- `expiry`: The expiry date of the card.
 - `extensions`: The extensions to the card insight request.
-- `month`: The card expiry month, in MM format (for example 12 for December)
 
 ### [CardArt](docs/api/card_art.html)
 
@@ -150,6 +150,12 @@ Key fields to recognise:
 Results: Returns a Network Token Cryptogram object.
 
 SDK operations: `create`.
+
+Key fields to recognise:
+
+- `createdAt`: The exact time, in epoch milliseconds, when this Network Token Cryptogram was created.
+- `cryptogram`: The value of the Network Token Cryptogram. This is the value that is used embedded in the Authorization request.
+- `id`: A unique identifier representing a specific Network Token Cryptogram.
 
 ### [Payment](docs/api/payment.html)
 
@@ -278,9 +284,9 @@ The default credential is sent in the `Authorization` header with the `Basic` pr
 
 Authentication using an API key. The username is the App ID and the password is the Api Key.
 
-Authentication using a short lived token that you can share with clients. The Authorization header must be formatted as follow: &quot;Token &lt;Client-Side Token&gt;&quot;
-
 Authentication using a short lived run token that you can share with clients. The Authorization header must be formatted as follow: &quot;RunToken &lt;Function Run Token&gt;&quot;
+
+Authentication using a short lived token that you can share with clients. The Authorization header must be formatted as follow: &quot;Token &lt;Client-Side Token&gt;&quot;
 
 Check authentication for the route you plan to call. A route that declares no authentication can be used without credentials; this does not change the requirements of other routes. Keep credentials in environment variables or a configured secret provider, and keep them out of source control and logs.
 

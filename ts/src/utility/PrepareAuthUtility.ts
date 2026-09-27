@@ -2,7 +2,7 @@
 import { Context, Spec } from '../types'
 
 
-const HEADER_auth = 'authorization'
+const CRED_name = 'authorization'
 
 const OPTION_apikey = 'apikey'
 const OPTION_secret = 'secret'
@@ -25,15 +25,13 @@ function prepareAuth(ctx: Context): Spec | Error {
     return ctx.error('auth_no_spec', 'Expected context spec property to be defined.')
   }
 
-
-
   const headers = spec.headers
 
   const options = client.options()
 
   // Public APIs that need no auth omit the options.auth block entirely.
   if (null == options.auth) {
-    delprop(headers, HEADER_auth)
+    delprop(headers, CRED_name)
     return spec
   }
 
@@ -50,23 +48,23 @@ function prepareAuth(ctx: Context): Spec | Error {
     const noSecret = NOTFOUND === secret || null == secret || '' === secret
 
     if (noApikey || noSecret) {
-      delprop(headers, HEADER_auth)
+      delprop(headers, CRED_name)
     }
     else {
       const b64 = Buffer.from(apikey + ':' + secret).toString('base64')
-      setprop(headers, HEADER_auth, prefix ? prefix + ' ' + b64 : b64)
+      setprop(headers, CRED_name, prefix ? prefix + ' ' + b64 : b64)
     }
 
     return spec
   }
 
   if (NOTFOUND === apikey || null == apikey || '' === apikey) {
-    delprop(headers, HEADER_auth)
+    delprop(headers, CRED_name)
   }
   else {
     // A raw credential (empty prefix, e.g. an apiKey scheme) must go in
     // as-is; only a non-empty prefix (Bearer/Basic/OAuth) is space-joined.
-    setprop(headers, HEADER_auth, prefix ? prefix + ' ' + apikey : apikey)
+    setprop(headers, CRED_name, prefix ? prefix + ' ' + apikey : apikey)
   }
 
   return spec

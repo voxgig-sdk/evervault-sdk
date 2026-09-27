@@ -101,7 +101,7 @@ def payment_basic_setup(extra)
 
   # Generate idmap via transform.
   idmap = Vs.transform(
-    ["payment01", "payment02", "payment03", "3ds_session01", "3ds_session02", "3ds_session03", "acquirer01", "acquirer02", "acquirer03", "card01", "card02", "card03", "merchant01", "merchant02", "merchant03", "network_token01", "network_token02", "network_token03"],
+    ["payment01", "payment02", "payment03", "acquirer01", "acquirer02", "acquirer03", "card01", "card02", "card03", "merchant01", "merchant02", "merchant03", "network_token01", "network_token02", "network_token03", "3ds_session01"],
     {
       "`$PACK`" => ["", {
         "`$KEY`" => "`$COPY`",

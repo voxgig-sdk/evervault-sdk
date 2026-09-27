@@ -1,0 +1,194 @@
+# Entity: webhook
+
+main: kit: entity: webhook: {
+
+  alias: field: {}
+
+  fields: {
+    createdAt: {
+      fo: "int64"
+      h: "Created At"
+      n: "createdAt"
+      r: false
+      sh: "The exact time, in epoch milliseconds, when this Webhook Endpoint was created."
+      t: "`$INTEGER`"
+    }
+    events: {
+      h: "Events"
+      n: "events"
+      op: {
+        list: {
+          req: false
+          type: "`$ARRAY`"
+        }
+      }
+      r: true
+      sh: "A list of Events that the Webhook Endpoint should subscribe to."
+      t: "`$ARRAY`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      sh: "A unique identifier representing a specific Webhook Endpoint."
+      t: "`$STRING`"
+    }
+    updatedAt: {
+      fo: "int64"
+      h: "Updated At"
+      n: "updatedAt"
+      r: false
+      sh: "The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated."
+      t: [
+        "`$ONE`"
+        [
+          "`$INTEGER`"
+          "`$NULL`"
+        ]
+      ]
+    }
+    url: {
+      h: "Url"
+      n: "url"
+      op: {
+        list: {
+          req: false
+          type: "`$STRING`"
+        }
+      }
+      r: true
+      sh: "The URL of the Webhook Endpoint."
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "webhook"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /webhook-endpoints"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/webhook-endpoints"
+          s: [
+            {
+              lit: "webhook-endpoints"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /webhook-endpoints"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                ex: 10
+                k: "query"
+                n: "limit"
+                or: "limit"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                ex: "webhook_endpoint_wd7c640d1daee"
+                k: "query"
+                n: "starting_after"
+                or: "starting_after"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/webhook-endpoints"
+          q: {
+            exist: [
+              "limit"
+              "starting_after"
+            ]
+          }
+          s: [
+            {
+              lit: "webhook-endpoints"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+      ]
+    }
+    remove: {
+      name: "remove"
+      points: [
+        {
+          co: {
+            id: "DELETE /webhook-endpoints/{webhook_endpoint_id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                ex: "webhook_endpoint_eead1d640d7c"
+                k: "param"
+                n: "webhook_endpoint_id"
+                or: "webhook_endpoint_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "DELETE"
+          o: "/webhook-endpoints/{webhook_endpoint_id}"
+          q: {
+            exist: [
+              "webhook_endpoint_id"
+            ]
+          }
+          s: [
+            {
+              lit: "webhook-endpoints"
+            }
+            {
+              var: "webhook_endpoint_id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+  relations: ancestors: [
+    [path("$.main.kit.entity.webhook_endpoint")]
+  ]
+
+}

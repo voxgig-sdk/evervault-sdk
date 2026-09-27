@@ -67,7 +67,7 @@ function function_run_basic_setup($extra)
 
     // Generate idmap.
     $idmap = [];
-    foreach (["function_run01", "function_run02", "function_run03", "function01", "function02", "function03", "function_name01"] as $k) {
+    foreach (["function_run01", "function_run02", "function_run03", "function_name01"] as $k) {
         $idmap[$k] = strtoupper($k);
     }
 

@@ -1,0 +1,51 @@
+# BasicWebhookEndpointFlow
+
+main: kit: flow: BasicWebhookEndpointFlow:
+{
+  entity: "webhook_endpoint",
+  kind: "basic",
+  name: "BasicWebhookEndpointFlow",
+  step: [
+    {
+      i: {
+        ref: "webhook_endpoint_ref01",
+        srcdatavar: "webhook_endpoint_ref01_data",
+        suffix: "_up0",
+        textfield: "url"
+      }
+
+      o: "update",
+      s: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-webhook_endpoint_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      i: {
+        ref: "webhook_endpoint_ref01",
+        srcdatavar: "webhook_endpoint_ref01_data",
+        suffix: "_dt0"
+      }
+
+      m: {
+        id: "webhook_endpoint01"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-webhook_endpoint_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicWebhookEndpointFlow"
+}

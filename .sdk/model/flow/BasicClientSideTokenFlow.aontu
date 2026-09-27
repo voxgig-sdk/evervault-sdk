@@ -1,0 +1,18 @@
+# BasicClientSideTokenFlow
+
+main: kit: flow: BasicClientSideTokenFlow:
+{
+  entity: "client_side_token",
+  kind: "basic",
+  name: "BasicClientSideTokenFlow",
+  step: [
+    {
+      i: {
+        ref: "client_side_token_ref01"
+      }
+
+      o: "create"
+    }
+  ],
+  "key$": "BasicClientSideTokenFlow"
+}

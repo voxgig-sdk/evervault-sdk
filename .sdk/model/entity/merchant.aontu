@@ -1,0 +1,231 @@
+# Entity: merchant
+
+main: kit: entity: merchant: {
+
+  alias: field: {}
+
+  fields: {
+    applePay: {
+      h: "Apple Pay"
+      n: "applePay"
+      r: false
+      sh: "The Merchant's Apple Pay configuration."
+      t: "`$OBJECT`"
+    }
+    business: {
+      h: "Business"
+      n: "business"
+      op: {
+        create: {
+          req: true
+          type: "`$OBJECT`"
+        }
+      }
+      r: false
+      sh: "The business details of the Merchant."
+      t: "`$OBJECT`"
+    }
+    categoryCode: {
+      h: "Category Code"
+      n: "categoryCode"
+      op: {
+        create: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
+      r: false
+      sh: "The 4-digit Merchant Category Code (MCC)."
+      t: "`$STRING`"
+    }
+    createdAt: {
+      fo: "int64"
+      h: "Created At"
+      n: "createdAt"
+      r: true
+      sh: "The exact time, in epoch milliseconds, when this Merchant was created."
+      t: "`$INTEGER`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: true
+      sh: "A unique identifier assigned to each Merchant."
+      t: "`$STRING`"
+    }
+    name: {
+      h: "Name"
+      n: "name"
+      r: true
+      sh: "The official name of the Merchant as recognized in transactions and communications."
+      t: "`$STRING`"
+    }
+    networkTokens: {
+      h: "Network Tokens"
+      n: "networkTokens"
+      r: false
+      sh: "The Merchant's Network Token configuration."
+      t: "`$OBJECT`"
+    }
+    shortName: {
+      h: "Short Name"
+      n: "shortName"
+      r: false
+      sh: "A shorter version of the Merchant's name."
+      t: "`$STRING`"
+    }
+    updatedAt: {
+      fo: "int64"
+      h: "Updated At"
+      n: "updatedAt"
+      r: false
+      sh: "The exact time, in epoch milliseconds, when this Merchant was last updated."
+      t: "`$INTEGER`"
+    }
+    website: {
+      h: "Website"
+      n: "website"
+      r: true
+      sh: "The official website URL of the Merchant."
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "merchant"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /payments/merchants"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/payments/merchants"
+          s: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "merchants"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /payments/merchants/{merchant_id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "merchant_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/payments/merchants/{merchant_id}"
+          q: {
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              merchant_id: "id"
+            }
+          }
+          s: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "merchants"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    update: {
+      name: "update"
+      points: [
+        {
+          co: {
+            id: "PATCH /payments/merchants/{merchant_id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "merchant_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "PATCH"
+          o: "/payments/merchants/{merchant_id}"
+          q: {
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              merchant_id: "id"
+            }
+          }
+          s: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "merchants"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

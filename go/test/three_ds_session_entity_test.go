@@ -110,7 +110,7 @@ func three_ds_sessionBasicSetup(extra map[string]any) *entityTestSetup {
 
 	// Generate idmap via transform, matching TS pattern.
 	idmap, _ := vs.Transform(
-		[]any{"three_ds_session01", "three_ds_session02", "three_ds_session03", "3ds_session01", "3ds_session02", "3ds_session03"},
+		[]any{"three_ds_session01", "three_ds_session02", "three_ds_session03"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
 				"`$KEY`": "`$COPY`",

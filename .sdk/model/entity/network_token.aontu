@@ -1,0 +1,225 @@
+# Entity: network_token
+
+main: kit: entity: network_token: {
+
+  alias: field: {}
+
+  fields: {
+    card: {
+      h: "Card"
+      n: "card"
+      r: true
+      sh: "The details of the underlying encrypted card."
+      t: "`$OBJECT`"
+    }
+    createdAt: {
+      fo: "int64"
+      h: "Created At"
+      n: "createdAt"
+      r: true
+      sh: "The exact time, in epoch milliseconds, when this Network Token was created."
+      t: "`$INTEGER`"
+    }
+    expiry: {
+      h: "Expiry"
+      n: "expiry"
+      r: true
+      sh: "The expiry details of the Network Token."
+      t: "`$OBJECT`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: true
+      sh: "A unique identifier representing a specific Network Token."
+      t: "`$STRING`"
+    }
+    merchant: {
+      h: "Merchant"
+      n: "merchant"
+      r: true
+      sh: "The unique identifier of the Merchant associated with this Network Token."
+      t: "`$STRING`"
+    }
+    number: {
+      h: "Number"
+      n: "number"
+      r: true
+      sh: "The unique number of the Network Token."
+      t: "`$STRING`"
+    }
+    paymentAccountReference: {
+      h: "Payment Account Reference"
+      n: "paymentAccountReference"
+      r: false
+      sh: "The unique identifier of the Payment Account associated with this Network Token."
+      t: "`$STRING`"
+    }
+    status: {
+      h: "Status"
+      n: "status"
+      r: true
+      sh: "The status of the Network Token."
+      t: "`$STRING`"
+    }
+    tokenRequestorIdentifier: {
+      h: "Token Requestor Identifier"
+      n: "tokenRequestorIdentifier"
+      r: true
+      sh: "The identifier of the Token Requestor (TRID) that requested the Network Token."
+      t: "`$STRING`"
+    }
+    tokenServiceProvider: {
+      h: "Token Service Provider"
+      n: "tokenServiceProvider"
+      r: true
+      sh: "The Token Service Provider (TSP) that issued the Network Token."
+      t: "`$STRING`"
+    }
+    updatedAt: {
+      fo: "int64"
+      h: "Updated At"
+      n: "updatedAt"
+      r: false
+      sh: "The exact time, in epoch milliseconds, when this Network Token was last updated."
+      t: "`$INTEGER`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "network_token"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /payments/network-tokens/{network_token_id}/simulate"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "network_token_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/payments/network-tokens/{network_token_id}/simulate"
+          q: {
+            "$action": "simulate"
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              network_token_id: "id"
+            }
+          }
+          s: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "network-tokens"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "simulate"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "POST /payments/network-tokens"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/payments/network-tokens"
+          s: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "network-tokens"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /payments/network-tokens/{network_token_id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "network_token_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/payments/network-tokens/{network_token_id}"
+          q: {
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              network_token_id: "id"
+            }
+          }
+          s: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "network-tokens"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

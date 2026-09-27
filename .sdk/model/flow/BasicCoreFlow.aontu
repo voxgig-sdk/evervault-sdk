@@ -1,0 +1,63 @@
+# BasicCoreFlow
+
+main: kit: flow: BasicCoreFlow:
+{
+  entity: "core",
+  kind: "basic",
+  name: "BasicCoreFlow",
+  step: [
+    {
+      i: {
+        ref: "core_ref01"
+      }
+
+      m: {
+        relay_id: "relay01"
+      }
+
+      o: "create"
+    }
+
+    {
+      o: "list",
+      v: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "core_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      i: {
+        ref: "core_ref01",
+        suffix: "_rm0"
+      }
+
+      m: {
+        id: "core01"
+      }
+
+      o: "remove"
+    }
+
+    {
+      i: {
+        suffix: "_rt0"
+      }
+
+      o: "list",
+      v: [
+        {
+          apply: "ItemNotExists",
+          def: {
+            ref: "core_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicCoreFlow"
+}

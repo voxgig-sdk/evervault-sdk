@@ -1,0 +1,360 @@
+# Entity: payment
+
+main: kit: entity: payment: {
+
+  alias: field: {}
+
+  fields: {
+    created_at: {
+      h: "Created At"
+      n: "created_at"
+      r: false
+      sh: "Timestamp when the message was created"
+      t: "`$INTEGER`"
+    }
+    data: {
+      h: "Data"
+      n: "data"
+      r: false
+      sh: "The message data payload"
+      t: "`$OBJECT`"
+    }
+    type: {
+      h: "Type"
+      n: "type"
+      r: false
+      sh: "The type of 3DS message (e.g., AReq, ARes, CReq, CRes, RReq, RRes)"
+      t: "`$STRING`"
+    }
+  }
+
+  name: "payment"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /payments/merchants"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                ex: 0
+                k: "query"
+                n: "page"
+                or: "page"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                ex: 50
+                k: "query"
+                n: "page_size"
+                or: "page_size"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                k: "query"
+                n: "q"
+                or: "q"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/payments/merchants"
+          q: {
+            "$action": "merchant"
+            exist: [
+              "page"
+              "page_size"
+              "q"
+            ]
+          }
+          s: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "merchants"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+        {
+          co: {
+            id: "GET /payments/acquirers"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                ex: 0
+                k: "query"
+                n: "page"
+                or: "page"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                ex: 50
+                k: "query"
+                n: "page_size"
+                or: "page_size"
+                r: false
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/payments/acquirers"
+          q: {
+            "$action": "acquirer"
+            exist: [
+              "page"
+              "page_size"
+            ]
+          }
+          s: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "acquirers"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+        {
+          co: {
+            id: "GET /payments/3ds-sessions/{3ds_session_id}/messages"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "3ds_session_id"
+                or: "3ds_session_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/payments/3ds-sessions/{3ds_session_id}/messages"
+          q: {
+            exist: [
+              "3ds_session_id"
+            ]
+          }
+          s: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "3ds-sessions"
+            }
+            {
+              var: "3ds_session_id"
+            }
+            {
+              lit: "messages"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.messages`"
+          }
+        }
+      ]
+    }
+    remove: {
+      name: "remove"
+      points: [
+        {
+          co: {
+            id: "DELETE /payments/acquirers/{acquirer_id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "acquirer_id"
+                or: "acquirer_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "DELETE"
+          o: "/payments/acquirers/{acquirer_id}"
+          q: {
+            exist: [
+              "acquirer_id"
+            ]
+          }
+          s: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "acquirers"
+            }
+            {
+              var: "acquirer_id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "DELETE /payments/cards/{card_id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "card_id"
+                or: "card_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "DELETE"
+          o: "/payments/cards/{card_id}"
+          q: {
+            exist: [
+              "card_id"
+            ]
+          }
+          s: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "cards"
+            }
+            {
+              var: "card_id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "DELETE /payments/merchants/{merchant_id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "merchant_id"
+                or: "merchant_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "DELETE"
+          o: "/payments/merchants/{merchant_id}"
+          q: {
+            exist: [
+              "merchant_id"
+            ]
+          }
+          s: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "merchants"
+            }
+            {
+              var: "merchant_id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "DELETE /payments/network-tokens/{network_token_id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "network_token_id"
+                or: "network_token_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "DELETE"
+          o: "/payments/network-tokens/{network_token_id}"
+          q: {
+            exist: [
+              "network_token_id"
+            ]
+          }
+          s: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "network-tokens"
+            }
+            {
+              var: "network_token_id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+  relations: ancestors: [
+    [path("$.main.kit.entity.acquirer")]
+    [path("$.main.kit.entity.card")]
+    [path("$.main.kit.entity.merchant")]
+    [path("$.main.kit.entity.network_token")]
+  ]
+
+}

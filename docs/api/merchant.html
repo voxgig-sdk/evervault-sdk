@@ -36,14 +36,14 @@
 <a href="../sdks/ts.html">TypeScript</a></details>
 <details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
 <a href="../tools/go-mcp.html">Go MCP server</a></details>
-<details><summary>Features</summary><a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
-<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
-<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
-<a href="../features/paging.html">Pagination signals for list operations</a>
-<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
-<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
-<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
-<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="merchant">Merchant</h1>
+<details><summary>Features</summary><a href="../features/debug.html">Debug capture</a>
+<a href="../features/idempotency.html">Idempotency</a>
+<a href="../features/metrics.html">Metrics</a>
+<a href="../features/paging.html">Paging</a>
+<a href="../features/ratelimit.html">Rate limiting</a>
+<a href="../features/retry.html">Retry</a>
+<a href="../features/test.html">Test transport</a>
+<a href="../features/timeout.html">Timeout</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="merchant">Merchant</h1>
 <h2 id="operations">Operations</h2>
 <p>Every route this entity exposes. Each route links to its own reference on this page.</p>
 <table>
@@ -76,6 +76,56 @@
 </tr>
 </tbody>
 </table>
+<h2 id="examples">Examples</h2>
+<p>One example per SDK, generated from the API model. The argument names are the parameters and fields of this entity, and the values are placeholders. The examples are not compiled or executed.</p>
+<h3 id="golang">Golang</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/go.html#set-up-the-client">Golang setup</a>, then call the operations:</p>
+<pre><code class="language-go">merchant, err := client.Merchant(nil).Load(map[string]any{&quot;id&quot;: &quot;example_id&quot;}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(merchant)
+created, err := client.Merchant(nil).Create(map[string]any{&quot;createdAt&quot;: 1, &quot;id&quot;: &quot;example&quot;, &quot;name&quot;: &quot;example&quot;, &quot;website&quot;: &quot;example&quot;}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(created)
+updated, err := client.Merchant(nil).Update(map[string]any{&quot;id&quot;: &quot;example_id&quot;, &quot;applePay&quot;: map[string]any{}, &quot;business&quot;: map[string]any{}}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(updated)
+</code></pre>
+<h3 id="lua">Lua</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/lua.html#set-up-the-client">Lua setup</a>, then call the operations:</p>
+<pre><code class="language-lua">local merchant, err = client:Merchant():load({ id = &quot;example_id&quot; })
+local created, err = client:Merchant():create({ createdAt = 1, id = &quot;example&quot;, name = &quot;example&quot;, website = &quot;example&quot; })
+local updated, err = client:Merchant():update({ id = &quot;example_id&quot;, applePay = {}, business = {} })
+</code></pre>
+<h3 id="php">PHP</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/php.html#set-up-the-client">PHP setup</a>, then call the operations:</p>
+<pre><code class="language-php">$merchant = $client-&gt;Merchant()-&gt;load([&quot;id&quot; =&gt; &quot;example_id&quot;]);
+$created = $client-&gt;Merchant()-&gt;create([&quot;createdAt&quot; =&gt; 1, &quot;id&quot; =&gt; &quot;example&quot;, &quot;name&quot; =&gt; &quot;example&quot;, &quot;website&quot; =&gt; &quot;example&quot;]);
+$updated = $client-&gt;Merchant()-&gt;update([&quot;id&quot; =&gt; &quot;example_id&quot;, &quot;applePay&quot; =&gt; [], &quot;business&quot; =&gt; []]);
+</code></pre>
+<h3 id="python">Python</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/py.html#set-up-the-client">Python setup</a>, then call the operations:</p>
+<pre><code class="language-py">merchant = client.Merchant().load({&quot;id&quot;: &quot;example_id&quot;})
+created = client.Merchant().create({ &quot;createdAt&quot;: 1, &quot;id&quot;: &quot;example&quot;, &quot;name&quot;: &quot;example&quot;, &quot;website&quot;: &quot;example&quot; })
+updated = client.Merchant().update({&quot;id&quot;: &quot;example_id&quot;, &quot;applePay&quot;: {}, &quot;business&quot;: {}})
+</code></pre>
+<h3 id="ruby">Ruby</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/rb.html#set-up-the-client">Ruby setup</a>, then call the operations:</p>
+<pre><code class="language-rb">merchant = client.Merchant.load({ &quot;id&quot; =&gt; &quot;example_id&quot; })
+created = client.Merchant.create({ &quot;createdAt&quot; =&gt; 1, &quot;id&quot; =&gt; &quot;example&quot;, &quot;name&quot; =&gt; &quot;example&quot;, &quot;website&quot; =&gt; &quot;example&quot; })
+updated = client.Merchant.update({ &quot;id&quot; =&gt; &quot;example_id&quot;, &quot;applePay&quot; =&gt; {}, &quot;business&quot; =&gt; {} })
+</code></pre>
+<h3 id="typescript">TypeScript</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/ts.html#set-up-the-client">TypeScript setup</a>, then call the operations:</p>
+<pre><code class="language-ts">const merchant = await client.Merchant().load({ id: &quot;example_id&quot; })
+const created = await client.Merchant().create({ createdAt: 1, id: &quot;example&quot;, name: &quot;example&quot;, website: &quot;example&quot; })
+const updated = await client.Merchant().update({ id: &quot;example_id&quot;, applePay: {}, business: {} })
+</code></pre>
 <h2 id="fields">Fields</h2>
 <table>
 <thead>

@@ -1,0 +1,49 @@
+# Entity: bin_lookup
+
+main: kit: entity: bin_lookup: {
+
+  alias: field: {}
+
+  fields: {
+    number: {
+      h: "Number"
+      n: "number"
+      r: true
+      sh: "The card number for which the BIN lookup is being requested."
+      t: "`$STRING`"
+    }
+  }
+
+  name: "bin_lookup"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /payments/bin-lookups"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/payments/bin-lookups"
+          s: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "bin-lookups"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

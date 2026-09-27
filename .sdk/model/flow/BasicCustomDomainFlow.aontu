@@ -1,0 +1,45 @@
+# BasicCustomDomainFlow
+
+main: kit: flow: BasicCustomDomainFlow:
+{
+  entity: "custom_domain",
+  kind: "basic",
+  name: "BasicCustomDomainFlow",
+  step: [
+    {
+      i: {
+        ref: "custom_domain_ref01"
+      }
+
+      m: {
+        relay_id: "relay01"
+      }
+
+      o: "create"
+    }
+
+    {
+      i: {
+        ref: "custom_domain_ref01",
+        srcdatavar: "custom_domain_ref01_data",
+        suffix: "_dt0"
+      }
+
+      m: {
+        id: "custom_domain01",
+        relay_id: "relay01"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-custom_domain_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicCustomDomainFlow"
+}

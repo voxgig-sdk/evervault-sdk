@@ -175,17 +175,21 @@ local function make_config()
         ["fields"] = {
           {
             ["name"] = "configurations",
+            ["title"] = "Configurations",
+            ["type"] = "`$ARRAY`",
+            ["req"] = true,
             ["op"] = {
               ["update"] = {
                 ["type"] = "`$ARRAY`",
               },
             },
-            ["req"] = true,
             ["short"] = "The acquirer configuration settings.",
-            ["type"] = "`$ARRAY`",
           },
           {
             ["name"] = "default",
+            ["title"] = "Default",
+            ["type"] = "`$BOOLEAN`",
+            ["req"] = true,
             ["op"] = {
               ["create"] = {
                 ["type"] = "`$BOOLEAN`",
@@ -194,31 +198,32 @@ local function make_config()
                 ["type"] = "`$BOOLEAN`",
               },
             },
-            ["req"] = true,
             ["short"] = "Specifies whether this Acquirer is the default.",
-            ["type"] = "`$BOOLEAN`",
           },
           {
             ["name"] = "description",
-            ["short"] = "The description of the acquirer configuration.",
+            ["title"] = "Description",
             ["type"] = "`$STRING`",
+            ["short"] = "The description of the acquirer configuration.",
           },
           {
             ["name"] = "id",
+            ["title"] = "Id",
+            ["type"] = "`$STRING`",
             ["req"] = true,
             ["short"] = "The unique identifier of the acquirer configuration.",
-            ["type"] = "`$STRING`",
           },
           {
             ["name"] = "name",
+            ["title"] = "Name",
+            ["type"] = "`$STRING`",
+            ["req"] = true,
             ["op"] = {
               ["update"] = {
                 ["type"] = "`$STRING`",
               },
             },
-            ["req"] = true,
             ["short"] = "The name of the acquirer configuration.",
-            ["type"] = "`$STRING`",
           },
         },
         ["id"] = {
@@ -232,7 +237,6 @@ local function make_config()
             ["name"] = "create",
             ["points"] = {
               {
-                ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/payments/acquirers",
@@ -244,15 +248,17 @@ local function make_config()
                     ["lit"] = "acquirers",
                   },
                 },
-                ["select"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "payments",
                   "acquirers",
                 },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {},
+                ["select"] = {},
               },
             },
           },
@@ -261,25 +267,9 @@ local function make_config()
             ["name"] = "load",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "acquirer_id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/payments/acquirers/{acquirer_id}",
-                ["rename"] = {
-                  ["param"] = {
-                    ["acquirer_id"] = "id",
-                  },
-                },
                 ["segments"] = {
                   {
                     ["lit"] = "payments",
@@ -291,19 +281,35 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "id",
+                ["parts"] = {
+                  "payments",
+                  "acquirers",
+                  "{id}",
+                },
+                ["rename"] = {
+                  ["param"] = {
+                    ["acquirer_id"] = "id",
                   },
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["parts"] = {
-                  "payments",
-                  "acquirers",
-                  "{id}",
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "acquirer_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "id",
+                  },
                 },
               },
             },
@@ -313,25 +319,9 @@ local function make_config()
             ["name"] = "update",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "acquirer_id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "PATCH",
                 ["orig"] = "/payments/acquirers/{acquirer_id}",
-                ["rename"] = {
-                  ["param"] = {
-                    ["acquirer_id"] = "id",
-                  },
-                },
                 ["segments"] = {
                   {
                     ["lit"] = "payments",
@@ -343,19 +333,35 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "id",
+                ["parts"] = {
+                  "payments",
+                  "acquirers",
+                  "{id}",
+                },
+                ["rename"] = {
+                  ["param"] = {
+                    ["acquirer_id"] = "id",
                   },
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["parts"] = {
-                  "payments",
-                  "acquirers",
-                  "{id}",
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "acquirer_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "id",
+                  },
                 },
               },
             },
@@ -369,9 +375,10 @@ local function make_config()
         ["fields"] = {
           {
             ["name"] = "number",
+            ["title"] = "Number",
+            ["type"] = "`$STRING`",
             ["req"] = true,
             ["short"] = "The card number for which the BIN lookup is being requested.",
-            ["type"] = "`$STRING`",
           },
         },
         ["name"] = "bin_lookup",
@@ -381,7 +388,6 @@ local function make_config()
             ["name"] = "create",
             ["points"] = {
               {
-                ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/payments/bin-lookups",
@@ -393,15 +399,17 @@ local function make_config()
                     ["lit"] = "bin-lookups",
                   },
                 },
-                ["select"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "payments",
                   "bin-lookups",
                 },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {},
+                ["select"] = {},
               },
             },
           },
@@ -414,52 +422,61 @@ local function make_config()
         ["fields"] = {
           {
             ["name"] = "address",
+            ["title"] = "Address",
+            ["type"] = "`$OBJECT`",
             ["req"] = true,
             ["short"] = "Details about the cardholder's address that the address verification (AVS) is for.",
-            ["type"] = "`$OBJECT`",
           },
           {
             ["name"] = "card",
+            ["title"] = "Card",
+            ["type"] = "`$OBJECT`",
             ["req"] = true,
             ["short"] = "The card details.",
-            ["type"] = "`$OBJECT`",
           },
           {
             ["name"] = "cardholder",
-            ["short"] = "Details about the cardholder that the name verification (ANI) is for.",
+            ["title"] = "Cardholder",
             ["type"] = "`$OBJECT`",
+            ["short"] = "Details about the cardholder that the name verification (ANI) is for.",
           },
           {
             ["name"] = "expiry",
-            ["req"] = true,
+            ["title"] = "Expiry",
             ["type"] = "`$OBJECT`",
+            ["req"] = true,
           },
           {
             ["name"] = "extensions",
-            ["short"] = "The extensions to the card insight request.",
+            ["title"] = "Extensions",
             ["type"] = "`$ARRAY`",
+            ["short"] = "The extensions to the card insight request.",
           },
           {
             ["name"] = "id",
+            ["title"] = "Id",
             ["type"] = "`$STRING`",
           },
           {
             ["name"] = "month",
+            ["title"] = "Month",
+            ["type"] = "`$STRING`",
             ["req"] = true,
             ["short"] = "The card expiry month, in MM format (e.g.",
-            ["type"] = "`$STRING`",
           },
           {
             ["name"] = "number",
+            ["title"] = "Number",
+            ["type"] = "`$STRING`",
             ["req"] = true,
             ["short"] = "The card number.",
-            ["type"] = "`$STRING`",
           },
           {
             ["name"] = "year",
+            ["title"] = "Year",
+            ["type"] = "`$STRING`",
             ["req"] = true,
             ["short"] = "The card expiry year, in YY format (e.g.",
-            ["type"] = "`$STRING`",
           },
         },
         ["id"] = {
@@ -473,25 +490,9 @@ local function make_config()
             ["name"] = "create",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "card_id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/payments/cards/{card_id}/simulate",
-                ["rename"] = {
-                  ["param"] = {
-                    ["card_id"] = "id",
-                  },
-                },
                 ["segments"] = {
                   {
                     ["lit"] = "payments",
@@ -506,25 +507,40 @@ local function make_config()
                     ["lit"] = "simulate",
                   },
                 },
-                ["select"] = {
-                  ["$action"] = "simulate",
-                  ["exist"] = {
-                    "id",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body.expiry`",
-                },
                 ["parts"] = {
                   "payments",
                   "cards",
                   "{id}",
                   "simulate",
                 },
+                ["rename"] = {
+                  ["param"] = {
+                    ["card_id"] = "id",
+                  },
+                },
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body.expiry`",
+                },
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "card_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["$action"] = "simulate",
+                  ["exist"] = {
+                    "id",
+                  },
+                },
               },
               {
-                ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/insights/cards",
@@ -536,20 +552,21 @@ local function make_config()
                     ["lit"] = "cards",
                   },
                 },
-                ["select"] = {},
+                ["parts"] = {
+                  "insights",
+                  "cards",
+                },
+                ["rename"] = {},
                 ["transform"] = {
                   ["req"] = {
                     ["card"] = "`reqdata`",
                   },
                   ["res"] = "`body`",
                 },
-                ["parts"] = {
-                  "insights",
-                  "cards",
-                },
+                ["args"] = {},
+                ["select"] = {},
               },
               {
-                ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/payments/cards",
@@ -561,15 +578,17 @@ local function make_config()
                     ["lit"] = "cards",
                   },
                 },
-                ["select"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body.expiry`",
-                },
                 ["parts"] = {
                   "payments",
                   "cards",
                 },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body.expiry`",
+                },
+                ["args"] = {},
+                ["select"] = {},
               },
             },
           },
@@ -578,25 +597,9 @@ local function make_config()
             ["name"] = "load",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "card_id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/payments/cards/{card_id}",
-                ["rename"] = {
-                  ["param"] = {
-                    ["card_id"] = "id",
-                  },
-                },
                 ["segments"] = {
                   {
                     ["lit"] = "payments",
@@ -608,19 +611,35 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "id",
+                ["parts"] = {
+                  "payments",
+                  "cards",
+                  "{id}",
+                },
+                ["rename"] = {
+                  ["param"] = {
+                    ["card_id"] = "id",
                   },
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body.expiry`",
                 },
-                ["parts"] = {
-                  "payments",
-                  "cards",
-                  "{id}",
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "card_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "id",
+                  },
                 },
               },
             },
@@ -634,27 +653,31 @@ local function make_config()
         ["fields"] = {
           {
             ["name"] = "data",
+            ["title"] = "Data",
+            ["type"] = "`$STRING`",
             ["req"] = true,
             ["short"] = "The base64-encoded image data of the card art.",
-            ["type"] = "`$STRING`",
           },
           {
             ["name"] = "height",
+            ["title"] = "Height",
+            ["type"] = "`$INTEGER`",
             ["req"] = true,
             ["short"] = "The height of the card art image in pixels.",
-            ["type"] = "`$INTEGER`",
           },
           {
             ["name"] = "type",
+            ["title"] = "Type",
+            ["type"] = "`$STRING`",
             ["req"] = true,
             ["short"] = "The MIME type of the card art image.",
-            ["type"] = "`$STRING`",
           },
           {
             ["name"] = "width",
+            ["title"] = "Width",
+            ["type"] = "`$INTEGER`",
             ["req"] = true,
             ["short"] = "The width of the card art image in pixels.",
-            ["type"] = "`$INTEGER`",
           },
         },
         ["name"] = "card_art",
@@ -664,17 +687,6 @@ local function make_config()
             ["name"] = "load",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "network_token_id",
-                      ["orig"] = "network_token_id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/payments/network-tokens/{network_token_id}/card-art",
@@ -692,20 +704,32 @@ local function make_config()
                     ["lit"] = "card-art",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "network_token_id",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "payments",
                   "network-tokens",
                   "{network_token_id}",
                   "card-art",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "network_token_id",
+                      ["orig"] = "network_token_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "network_token_id",
+                  },
                 },
               },
             },
@@ -714,7 +738,7 @@ local function make_config()
         ["relations"] = {
           ["ancestors"] = {
             {
-              "network_token",
+              "$.main.kit.entity.network_token",
             },
           },
         },
@@ -723,19 +747,22 @@ local function make_config()
         ["fields"] = {
           {
             ["name"] = "action",
+            ["title"] = "Action",
+            ["type"] = "`$STRING`",
             ["req"] = true,
             ["short"] = "The action that the token should permit",
-            ["type"] = "`$STRING`",
           },
           {
             ["name"] = "expiry",
-            ["short"] = "The expiry of the token in milliseconds format.",
+            ["title"] = "Expiry",
             ["type"] = "`$INTEGER`",
+            ["short"] = "The expiry of the token in milliseconds format.",
           },
           {
             ["name"] = "payload",
-            ["short"] = "The payload that the token must be used with",
+            ["title"] = "Payload",
             ["type"] = "`$OBJECT`",
+            ["short"] = "The payload that the token must be used with",
           },
         },
         ["name"] = "client_side_token",
@@ -745,7 +772,6 @@ local function make_config()
             ["name"] = "create",
             ["points"] = {
               {
-                ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/client-side-tokens",
@@ -754,14 +780,16 @@ local function make_config()
                     ["lit"] = "client-side-tokens",
                   },
                 },
-                ["select"] = {},
+                ["parts"] = {
+                  "client-side-tokens",
+                },
+                ["rename"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["parts"] = {
-                  "client-side-tokens",
-                },
+                ["args"] = {},
+                ["select"] = {},
               },
             },
           },
@@ -774,12 +802,13 @@ local function make_config()
         ["fields"] = {
           {
             ["name"] = "app",
-            ["short"] = "The unique identifier for the app to which the Relay belongs.",
+            ["title"] = "App",
             ["type"] = "`$STRING`",
+            ["short"] = "The unique identifier for the app to which the Relay belongs.",
           },
           {
             ["name"] = "authentication",
-            ["short"] = "The type of authentication required for the Relay",
+            ["title"] = "Authentication",
             ["type"] = {
               "`$ONE`",
               {
@@ -787,86 +816,100 @@ local function make_config()
                 "`$NULL`",
               },
             },
+            ["short"] = "The type of authentication required for the Relay",
           },
           {
-            ["format"] = "int64",
             ["name"] = "createdAt",
-            ["short"] = "The exact time, in epoch milliseconds, when this custom domain was created.",
+            ["title"] = "Created At",
             ["type"] = "`$INTEGER`",
+            ["short"] = "The exact time, in epoch milliseconds, when this custom domain was created.",
+            ["format"] = "int64",
           },
           {
             ["name"] = "customDomain",
-            ["short"] = "The customer managed domain to which requests to be relayed to your domain should be sent.",
+            ["title"] = "Custom Domain",
             ["type"] = "`$STRING`",
+            ["short"] = "The customer managed domain to which requests to be relayed to your domain should be sent.",
           },
           {
             ["name"] = "destinationDomain",
+            ["title"] = "Destination Domain",
+            ["type"] = "`$STRING`",
+            ["req"] = true,
             ["op"] = {
               ["list"] = {
                 ["type"] = "`$STRING`",
               },
             },
-            ["req"] = true,
             ["short"] = "The domain in front of which you would like to configure a Relay",
-            ["type"] = "`$STRING`",
           },
           {
             ["name"] = "encryptEmptyStrings",
-            ["short"] = "Whether or not empty strings should be encrypted.",
+            ["title"] = "Encrypt Empty Strings",
             ["type"] = "`$BOOLEAN`",
+            ["short"] = "Whether or not empty strings should be encrypted.",
           },
           {
             ["name"] = "evervaultDomain",
-            ["short"] = "The Evervault managed domain to which requests to be relayed to the destination domain should be sent.",
+            ["title"] = "Evervault Domain",
             ["type"] = "`$STRING`",
+            ["short"] = "The Evervault managed domain to which requests to be relayed to the destination domain should be sent.",
           },
           {
             ["name"] = "id",
-            ["short"] = "The unique identifier for the custom domain.",
+            ["title"] = "Id",
             ["type"] = "`$STRING`",
+            ["short"] = "The unique identifier for the custom domain.",
           },
           {
             ["name"] = "phoneNumber",
+            ["title"] = "Phone Number",
             ["type"] = "`$STRING`",
           },
           {
             ["name"] = "relay",
-            ["short"] = "The ID of the Relay with which this custom domain is associated.",
+            ["title"] = "Relay",
             ["type"] = "`$STRING`",
+            ["short"] = "The ID of the Relay with which this custom domain is associated.",
           },
           {
             ["name"] = "routes",
+            ["title"] = "Routes",
+            ["type"] = "`$ARRAY`",
+            ["req"] = true,
             ["op"] = {
               ["list"] = {
                 ["type"] = "`$ARRAY`",
               },
             },
-            ["req"] = true,
             ["short"] = "A collection of route configurations for the Relay.",
-            ["type"] = "`$ARRAY`",
           },
           {
             ["name"] = "status",
-            ["short"] = "The status of the domains DNS verification.",
+            ["title"] = "Status",
             ["type"] = "`$STRING`",
+            ["short"] = "The status of the domains DNS verification.",
           },
           {
             ["name"] = "token",
+            ["title"] = "Token",
+            ["type"] = "`$STRING`",
             ["req"] = true,
             ["short"] = "The encrypted data to be inspected.",
-            ["type"] = "`$STRING`",
           },
           {
-            ["format"] = "int64",
             ["name"] = "updatedAt",
-            ["short"] = "The exact time, in epoch milliseconds, when this custom domain was last updated.",
+            ["title"] = "Updated At",
             ["type"] = "`$INTEGER`",
+            ["short"] = "The exact time, in epoch milliseconds, when this custom domain was last updated.",
+            ["format"] = "int64",
           },
           {
-            ["format"] = "uuidv4",
             ["name"] = "validationRecord",
-            ["short"] = "Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain",
+            ["title"] = "Validation Record",
             ["type"] = "`$STRING`",
+            ["short"] = "Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain",
+            ["format"] = "uuidv4",
           },
         },
         ["id"] = {
@@ -880,7 +923,6 @@ local function make_config()
             ["name"] = "create",
             ["points"] = {
               {
-                ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/decrypt",
@@ -889,17 +931,18 @@ local function make_config()
                     ["lit"] = "decrypt",
                   },
                 },
-                ["select"] = {},
+                ["parts"] = {
+                  "decrypt",
+                },
+                ["rename"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["parts"] = {
-                  "decrypt",
-                },
+                ["args"] = {},
+                ["select"] = {},
               },
               {
-                ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/encrypt",
@@ -908,17 +951,18 @@ local function make_config()
                     ["lit"] = "encrypt",
                   },
                 },
-                ["select"] = {},
+                ["parts"] = {
+                  "encrypt",
+                },
+                ["rename"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["parts"] = {
-                  "encrypt",
-                },
+                ["args"] = {},
+                ["select"] = {},
               },
               {
-                ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/inspect",
@@ -927,17 +971,18 @@ local function make_config()
                     ["lit"] = "inspect",
                   },
                 },
-                ["select"] = {},
+                ["parts"] = {
+                  "inspect",
+                },
+                ["rename"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body.metadata`",
                 },
-                ["parts"] = {
-                  "inspect",
-                },
+                ["args"] = {},
+                ["select"] = {},
               },
               {
-                ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/relays",
@@ -946,14 +991,16 @@ local function make_config()
                     ["lit"] = "relays",
                   },
                 },
-                ["select"] = {},
+                ["parts"] = {
+                  "relays",
+                },
+                ["rename"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["parts"] = {
-                  "relays",
-                },
+                ["args"] = {},
+                ["select"] = {},
               },
             },
           },
@@ -962,17 +1009,6 @@ local function make_config()
             ["name"] = "list",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "relay_id",
-                      ["orig"] = "relay_id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/relays/{relay_id}/custom-domains",
@@ -987,23 +1023,34 @@ local function make_config()
                     ["lit"] = "custom-domains",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "relay_id",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body.data`",
-                },
                 ["parts"] = {
                   "relays",
                   "{relay_id}",
                   "custom-domains",
                 },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body.data`",
+                },
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "relay_id",
+                      ["orig"] = "relay_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "relay_id",
+                  },
+                },
               },
               {
-                ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/relays",
@@ -1012,14 +1059,16 @@ local function make_config()
                     ["lit"] = "relays",
                   },
                 },
-                ["select"] = {},
+                ["parts"] = {
+                  "relays",
+                },
+                ["rename"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body.data`",
                 },
-                ["parts"] = {
-                  "relays",
-                },
+                ["args"] = {},
+                ["select"] = {},
               },
             },
           },
@@ -1028,24 +1077,6 @@ local function make_config()
             ["name"] = "remove",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "relay_id",
-                      ["orig"] = "relay_id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/relays/{relay_id}/custom-domains/{id}",
@@ -1063,35 +1094,43 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "id",
-                    "relay_id",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "relays",
                   "{relay_id}",
                   "custom-domains",
                   "{id}",
                 },
-              },
-              {
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
                 ["args"] = {
                   ["params"] = {
                     {
-                      ["kind"] = "param",
                       ["name"] = "id",
                       ["orig"] = "id",
-                      ["reqd"] = true,
                       ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                    {
+                      ["name"] = "relay_id",
+                      ["orig"] = "relay_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
                     },
                   },
                 },
+                ["select"] = {
+                  ["exist"] = {
+                    "id",
+                    "relay_id",
+                  },
+                },
+              },
+              {
                 ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/relays/{id}",
@@ -1103,18 +1142,30 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "id",
-                  },
+                ["parts"] = {
+                  "relays",
+                  "{id}",
                 },
+                ["rename"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["parts"] = {
-                  "relays",
-                  "{id}",
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "id",
+                  },
                 },
               },
             },
@@ -1123,7 +1174,7 @@ local function make_config()
         ["relations"] = {
           ["ancestors"] = {
             {
-              "relay",
+              "$.main.kit.entity.relay",
             },
           },
         },
@@ -1131,13 +1182,16 @@ local function make_config()
       ["custom_domain"] = {
         ["fields"] = {
           {
-            ["format"] = "int64",
             ["name"] = "createdAt",
-            ["short"] = "The exact time, in epoch milliseconds, when this custom domain was created.",
+            ["title"] = "Created At",
             ["type"] = "`$INTEGER`",
+            ["short"] = "The exact time, in epoch milliseconds, when this custom domain was created.",
+            ["format"] = "int64",
           },
           {
             ["name"] = "customDomain",
+            ["title"] = "Custom Domain",
+            ["type"] = "`$STRING`",
             ["op"] = {
               ["create"] = {
                 ["req"] = true,
@@ -1145,34 +1199,38 @@ local function make_config()
               },
             },
             ["short"] = "The customer managed domain to which requests to be relayed to your domain should be sent.",
-            ["type"] = "`$STRING`",
           },
           {
             ["name"] = "id",
-            ["short"] = "The unique identifier for the custom domain.",
+            ["title"] = "Id",
             ["type"] = "`$STRING`",
+            ["short"] = "The unique identifier for the custom domain.",
           },
           {
             ["name"] = "relay",
-            ["short"] = "The ID of the Relay with which this custom domain is associated.",
+            ["title"] = "Relay",
             ["type"] = "`$STRING`",
+            ["short"] = "The ID of the Relay with which this custom domain is associated.",
           },
           {
             ["name"] = "status",
+            ["title"] = "Status",
+            ["type"] = "`$STRING`",
             ["short"] = "The status of the domains DNS verification.",
-            ["type"] = "`$STRING`",
           },
           {
-            ["format"] = "int64",
             ["name"] = "updatedAt",
-            ["short"] = "The exact time, in epoch milliseconds, when this custom domain was last updated.",
+            ["title"] = "Updated At",
             ["type"] = "`$INTEGER`",
+            ["short"] = "The exact time, in epoch milliseconds, when this custom domain was last updated.",
+            ["format"] = "int64",
           },
           {
-            ["format"] = "uuidv4",
             ["name"] = "validationRecord",
-            ["short"] = "Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain",
+            ["title"] = "Validation Record",
             ["type"] = "`$STRING`",
+            ["short"] = "Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain",
+            ["format"] = "uuidv4",
           },
         },
         ["id"] = {
@@ -1186,17 +1244,6 @@ local function make_config()
             ["name"] = "create",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "relay_id",
-                      ["orig"] = "relay_id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/relays/{relay_id}/custom-domains",
@@ -1211,19 +1258,31 @@ local function make_config()
                     ["lit"] = "custom-domains",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "relay_id",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "relays",
                   "{relay_id}",
                   "custom-domains",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "relay_id",
+                      ["orig"] = "relay_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "relay_id",
+                  },
                 },
               },
             },
@@ -1233,24 +1292,6 @@ local function make_config()
             ["name"] = "load",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "relay_id",
-                      ["orig"] = "relay_id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/relays/{relay_id}/custom-domains/{id}",
@@ -1268,21 +1309,40 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "id",
-                    "relay_id",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "relays",
                   "{relay_id}",
                   "custom-domains",
                   "{id}",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                    {
+                      ["name"] = "relay_id",
+                      ["orig"] = "relay_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "id",
+                    "relay_id",
+                  },
                 },
               },
             },
@@ -1291,7 +1351,7 @@ local function make_config()
         ["relations"] = {
           ["ancestors"] = {
             {
-              "relay",
+              "$.main.kit.entity.relay",
             },
           },
         },
@@ -1300,18 +1360,20 @@ local function make_config()
         ["fields"] = {
           {
             ["name"] = "async",
-            ["short"] = "If you want your Function to run asynchronously and notify a callback URL, this can be set to `true` and the API will queue your Function run and return a `202` response code.",
+            ["title"] = "Async",
             ["type"] = "`$BOOLEAN`",
+            ["short"] = "If you want your Function to run asynchronously and notify a callback URL, this can be set to `true` and the API will queue your Function run and return a `202` response code.",
           },
           {
-            ["format"] = "int64",
             ["name"] = "createdAt",
-            ["short"] = "The exact time, in epoch milliseconds, when this Function execution was triggered.",
+            ["title"] = "Created At",
             ["type"] = "`$INTEGER`",
+            ["short"] = "The exact time, in epoch milliseconds, when this Function execution was triggered.",
+            ["format"] = "int64",
           },
           {
             ["name"] = "error",
-            ["short"] = "This field details any error that occurred during Function execution.",
+            ["title"] = "Error",
             ["type"] = {
               "`$ONE`",
               {
@@ -1319,27 +1381,32 @@ local function make_config()
                 "`$NULL`",
               },
             },
+            ["short"] = "This field details any error that occurred during Function execution.",
           },
           {
             ["name"] = "id",
-            ["short"] = "A unique identifier representing this specific Function execution instance.",
+            ["title"] = "Id",
             ["type"] = "`$STRING`",
+            ["short"] = "A unique identifier representing this specific Function execution instance.",
           },
           {
             ["name"] = "payload",
+            ["title"] = "Payload",
+            ["type"] = "`$OBJECT`",
             ["req"] = true,
             ["short"] = "The data payload that the Function will use during its execution.",
-            ["type"] = "`$OBJECT`",
           },
           {
             ["name"] = "result",
-            ["short"] = "This field represents the output returned by the Function.",
+            ["title"] = "Result",
             ["type"] = "`$OBJECT`",
+            ["short"] = "This field represents the output returned by the Function.",
           },
           {
             ["name"] = "status",
-            ["short"] = "The outcome of the Function execution.",
+            ["title"] = "Status",
             ["type"] = "`$STRING`",
+            ["short"] = "The outcome of the Function execution.",
           },
         },
         ["id"] = {
@@ -1353,17 +1420,6 @@ local function make_config()
             ["name"] = "create",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "function_name",
-                      ["orig"] = "function_name",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/functions/{function_name}/runs",
@@ -1378,41 +1434,52 @@ local function make_config()
                     ["lit"] = "runs",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "function_name",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "functions",
                   "{function_name}",
                   "runs",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "function_name",
+                      ["orig"] = "function_name",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "function_name",
+                  },
                 },
               },
             },
           },
         },
         ["relations"] = {
-          ["ancestors"] = {
-            {
-              "function",
-            },
-          },
+          ["ancestors"] = {},
         },
       },
       ["merchant"] = {
         ["fields"] = {
           {
             ["name"] = "applePay",
-            ["short"] = "The Merchant's Apple Pay configuration.",
+            ["title"] = "Apple Pay",
             ["type"] = "`$OBJECT`",
+            ["short"] = "The Merchant's Apple Pay configuration.",
           },
           {
             ["name"] = "business",
+            ["title"] = "Business",
+            ["type"] = "`$OBJECT`",
             ["op"] = {
               ["create"] = {
                 ["req"] = true,
@@ -1420,10 +1487,11 @@ local function make_config()
               },
             },
             ["short"] = "The business details of the Merchant.",
-            ["type"] = "`$OBJECT`",
           },
           {
             ["name"] = "categoryCode",
+            ["title"] = "Category Code",
+            ["type"] = "`$STRING`",
             ["op"] = {
               ["create"] = {
                 ["req"] = true,
@@ -1431,48 +1499,54 @@ local function make_config()
               },
             },
             ["short"] = "The 4-digit Merchant Category Code (MCC).",
-            ["type"] = "`$STRING`",
           },
           {
-            ["format"] = "int64",
             ["name"] = "createdAt",
+            ["title"] = "Created At",
+            ["type"] = "`$INTEGER`",
             ["req"] = true,
             ["short"] = "The exact time, in epoch milliseconds, when this Merchant was created.",
-            ["type"] = "`$INTEGER`",
+            ["format"] = "int64",
           },
           {
             ["name"] = "id",
+            ["title"] = "Id",
+            ["type"] = "`$STRING`",
             ["req"] = true,
             ["short"] = "A unique identifier assigned to each Merchant.",
-            ["type"] = "`$STRING`",
           },
           {
             ["name"] = "name",
+            ["title"] = "Name",
+            ["type"] = "`$STRING`",
             ["req"] = true,
             ["short"] = "The official name of the Merchant as recognized in transactions and communications.",
-            ["type"] = "`$STRING`",
           },
           {
             ["name"] = "networkTokens",
-            ["short"] = "The Merchant's Network Token configuration.",
+            ["title"] = "Network Tokens",
             ["type"] = "`$OBJECT`",
+            ["short"] = "The Merchant's Network Token configuration.",
           },
           {
             ["name"] = "shortName",
-            ["short"] = "A shorter version of the Merchant's name.",
+            ["title"] = "Short Name",
             ["type"] = "`$STRING`",
+            ["short"] = "A shorter version of the Merchant's name.",
           },
           {
-            ["format"] = "int64",
             ["name"] = "updatedAt",
-            ["short"] = "The exact time, in epoch milliseconds, when this Merchant was last updated.",
+            ["title"] = "Updated At",
             ["type"] = "`$INTEGER`",
+            ["short"] = "The exact time, in epoch milliseconds, when this Merchant was last updated.",
+            ["format"] = "int64",
           },
           {
             ["name"] = "website",
+            ["title"] = "Website",
+            ["type"] = "`$STRING`",
             ["req"] = true,
             ["short"] = "The official website URL of the Merchant.",
-            ["type"] = "`$STRING`",
           },
         },
         ["id"] = {
@@ -1486,7 +1560,6 @@ local function make_config()
             ["name"] = "create",
             ["points"] = {
               {
-                ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/payments/merchants",
@@ -1498,15 +1571,17 @@ local function make_config()
                     ["lit"] = "merchants",
                   },
                 },
-                ["select"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "payments",
                   "merchants",
                 },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {},
+                ["select"] = {},
               },
             },
           },
@@ -1515,25 +1590,9 @@ local function make_config()
             ["name"] = "load",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "merchant_id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/payments/merchants/{merchant_id}",
-                ["rename"] = {
-                  ["param"] = {
-                    ["merchant_id"] = "id",
-                  },
-                },
                 ["segments"] = {
                   {
                     ["lit"] = "payments",
@@ -1545,19 +1604,35 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "id",
+                ["parts"] = {
+                  "payments",
+                  "merchants",
+                  "{id}",
+                },
+                ["rename"] = {
+                  ["param"] = {
+                    ["merchant_id"] = "id",
                   },
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["parts"] = {
-                  "payments",
-                  "merchants",
-                  "{id}",
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "merchant_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "id",
+                  },
                 },
               },
             },
@@ -1567,25 +1642,9 @@ local function make_config()
             ["name"] = "update",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "merchant_id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "PATCH",
                 ["orig"] = "/payments/merchants/{merchant_id}",
-                ["rename"] = {
-                  ["param"] = {
-                    ["merchant_id"] = "id",
-                  },
-                },
                 ["segments"] = {
                   {
                     ["lit"] = "payments",
@@ -1597,19 +1656,35 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "id",
+                ["parts"] = {
+                  "payments",
+                  "merchants",
+                  "{id}",
+                },
+                ["rename"] = {
+                  ["param"] = {
+                    ["merchant_id"] = "id",
                   },
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["parts"] = {
-                  "payments",
-                  "merchants",
-                  "{id}",
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "merchant_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "id",
+                  },
                 },
               },
             },
@@ -1623,69 +1698,80 @@ local function make_config()
         ["fields"] = {
           {
             ["name"] = "card",
+            ["title"] = "Card",
+            ["type"] = "`$OBJECT`",
             ["req"] = true,
             ["short"] = "The details of the underlying encrypted card.",
-            ["type"] = "`$OBJECT`",
           },
           {
-            ["format"] = "int64",
             ["name"] = "createdAt",
+            ["title"] = "Created At",
+            ["type"] = "`$INTEGER`",
             ["req"] = true,
             ["short"] = "The exact time, in epoch milliseconds, when this Network Token was created.",
-            ["type"] = "`$INTEGER`",
+            ["format"] = "int64",
           },
           {
             ["name"] = "expiry",
+            ["title"] = "Expiry",
+            ["type"] = "`$OBJECT`",
             ["req"] = true,
             ["short"] = "The expiry details of the Network Token.",
-            ["type"] = "`$OBJECT`",
           },
           {
             ["name"] = "id",
+            ["title"] = "Id",
+            ["type"] = "`$STRING`",
             ["req"] = true,
             ["short"] = "A unique identifier representing a specific Network Token.",
-            ["type"] = "`$STRING`",
           },
           {
             ["name"] = "merchant",
+            ["title"] = "Merchant",
+            ["type"] = "`$STRING`",
             ["req"] = true,
             ["short"] = "The unique identifier of the Merchant associated with this Network Token.",
-            ["type"] = "`$STRING`",
           },
           {
             ["name"] = "number",
+            ["title"] = "Number",
+            ["type"] = "`$STRING`",
             ["req"] = true,
             ["short"] = "The unique number of the Network Token.",
-            ["type"] = "`$STRING`",
           },
           {
             ["name"] = "paymentAccountReference",
-            ["short"] = "The unique identifier of the Payment Account associated with this Network Token.",
+            ["title"] = "Payment Account Reference",
             ["type"] = "`$STRING`",
+            ["short"] = "The unique identifier of the Payment Account associated with this Network Token.",
           },
           {
             ["name"] = "status",
+            ["title"] = "Status",
+            ["type"] = "`$STRING`",
             ["req"] = true,
             ["short"] = "The status of the Network Token.",
-            ["type"] = "`$STRING`",
           },
           {
             ["name"] = "tokenRequestorIdentifier",
+            ["title"] = "Token Requestor Identifier",
+            ["type"] = "`$STRING`",
             ["req"] = true,
             ["short"] = "The identifier of the Token Requestor (TRID) that requested the Network Token.",
-            ["type"] = "`$STRING`",
           },
           {
             ["name"] = "tokenServiceProvider",
+            ["title"] = "Token Service Provider",
+            ["type"] = "`$STRING`",
             ["req"] = true,
             ["short"] = "The Token Service Provider (TSP) that issued the Network Token.",
-            ["type"] = "`$STRING`",
           },
           {
-            ["format"] = "int64",
             ["name"] = "updatedAt",
-            ["short"] = "The exact time, in epoch milliseconds, when this Network Token was last updated.",
+            ["title"] = "Updated At",
             ["type"] = "`$INTEGER`",
+            ["short"] = "The exact time, in epoch milliseconds, when this Network Token was last updated.",
+            ["format"] = "int64",
           },
         },
         ["id"] = {
@@ -1699,25 +1785,9 @@ local function make_config()
             ["name"] = "create",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "network_token_id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/payments/network-tokens/{network_token_id}/simulate",
-                ["rename"] = {
-                  ["param"] = {
-                    ["network_token_id"] = "id",
-                  },
-                },
                 ["segments"] = {
                   {
                     ["lit"] = "payments",
@@ -1732,25 +1802,40 @@ local function make_config()
                     ["lit"] = "simulate",
                   },
                 },
-                ["select"] = {
-                  ["$action"] = "simulate",
-                  ["exist"] = {
-                    "id",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "payments",
                   "network-tokens",
                   "{id}",
                   "simulate",
                 },
+                ["rename"] = {
+                  ["param"] = {
+                    ["network_token_id"] = "id",
+                  },
+                },
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "network_token_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["$action"] = "simulate",
+                  ["exist"] = {
+                    "id",
+                  },
+                },
               },
               {
-                ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/payments/network-tokens",
@@ -1762,15 +1847,17 @@ local function make_config()
                     ["lit"] = "network-tokens",
                   },
                 },
-                ["select"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "payments",
                   "network-tokens",
                 },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {},
+                ["select"] = {},
               },
             },
           },
@@ -1779,25 +1866,9 @@ local function make_config()
             ["name"] = "load",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "network_token_id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/payments/network-tokens/{network_token_id}",
-                ["rename"] = {
-                  ["param"] = {
-                    ["network_token_id"] = "id",
-                  },
-                },
                 ["segments"] = {
                   {
                     ["lit"] = "payments",
@@ -1809,19 +1880,35 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "id",
+                ["parts"] = {
+                  "payments",
+                  "network-tokens",
+                  "{id}",
+                },
+                ["rename"] = {
+                  ["param"] = {
+                    ["network_token_id"] = "id",
                   },
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["parts"] = {
-                  "payments",
-                  "network-tokens",
-                  "{id}",
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "network_token_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "id",
+                  },
                 },
               },
             },
@@ -1835,14 +1922,17 @@ local function make_config()
         ["fields"] = {
           {
             ["name"] = "createdAt",
+            ["title"] = "Created At",
             ["type"] = "`$INTEGER`",
           },
           {
             ["name"] = "cryptogram",
+            ["title"] = "Cryptogram",
             ["type"] = "`$STRING`",
           },
           {
             ["name"] = "id",
+            ["title"] = "Id",
             ["type"] = "`$STRING`",
           },
         },
@@ -1857,25 +1947,9 @@ local function make_config()
             ["name"] = "create",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "network_token_id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/payments/network-tokens/{network_token_id}/cryptograms",
-                ["rename"] = {
-                  ["param"] = {
-                    ["network_token_id"] = "id",
-                  },
-                },
                 ["segments"] = {
                   {
                     ["lit"] = "payments",
@@ -1890,20 +1964,36 @@ local function make_config()
                     ["lit"] = "cryptograms",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "id",
+                ["parts"] = {
+                  "payments",
+                  "network-tokens",
+                  "{id}",
+                  "cryptograms",
+                },
+                ["rename"] = {
+                  ["param"] = {
+                    ["network_token_id"] = "id",
                   },
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["parts"] = {
-                  "payments",
-                  "network-tokens",
-                  "{id}",
-                  "cryptograms",
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "network_token_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "id",
+                  },
                 },
               },
             },
@@ -1917,18 +2007,21 @@ local function make_config()
         ["fields"] = {
           {
             ["name"] = "created_at",
-            ["short"] = "Timestamp when the message was created",
+            ["title"] = "Created At",
             ["type"] = "`$INTEGER`",
+            ["short"] = "Timestamp when the message was created",
           },
           {
             ["name"] = "data",
-            ["short"] = "The message data payload",
+            ["title"] = "Data",
             ["type"] = "`$OBJECT`",
+            ["short"] = "The message data payload",
           },
           {
             ["name"] = "type",
-            ["short"] = "The type of 3DS message (e.g., AReq, ARes, CReq, CRes, RReq, RRes)",
+            ["title"] = "Type",
             ["type"] = "`$STRING`",
+            ["short"] = "The type of 3DS message (e.g., AReq, ARes, CReq, CRes, RReq, RRes)",
           },
         },
         ["name"] = "payment",
@@ -1938,30 +2031,6 @@ local function make_config()
             ["name"] = "list",
             ["points"] = {
               {
-                ["args"] = {
-                  ["query"] = {
-                    {
-                      ["example"] = 0,
-                      ["kind"] = "query",
-                      ["name"] = "page",
-                      ["orig"] = "page",
-                      ["type"] = "`$INTEGER`",
-                    },
-                    {
-                      ["example"] = 50,
-                      ["kind"] = "query",
-                      ["name"] = "page_size",
-                      ["orig"] = "page_size",
-                      ["type"] = "`$INTEGER`",
-                    },
-                    {
-                      ["kind"] = "query",
-                      ["name"] = "q",
-                      ["orig"] = "q",
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/payments/merchants",
@@ -1973,6 +2042,39 @@ local function make_config()
                     ["lit"] = "merchants",
                   },
                 },
+                ["parts"] = {
+                  "payments",
+                  "merchants",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body.data`",
+                },
+                ["args"] = {
+                  ["query"] = {
+                    {
+                      ["name"] = "page",
+                      ["orig"] = "page",
+                      ["type"] = "`$INTEGER`",
+                      ["kind"] = "query",
+                      ["example"] = 0,
+                    },
+                    {
+                      ["name"] = "page_size",
+                      ["orig"] = "page_size",
+                      ["type"] = "`$INTEGER`",
+                      ["kind"] = "query",
+                      ["example"] = 50,
+                    },
+                    {
+                      ["name"] = "q",
+                      ["orig"] = "q",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                    },
+                  },
+                },
                 ["select"] = {
                   ["$action"] = "merchant",
                   ["exist"] = {
@@ -1981,34 +2083,8 @@ local function make_config()
                     "q",
                   },
                 },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body.data`",
-                },
-                ["parts"] = {
-                  "payments",
-                  "merchants",
-                },
               },
               {
-                ["args"] = {
-                  ["query"] = {
-                    {
-                      ["example"] = 0,
-                      ["kind"] = "query",
-                      ["name"] = "page",
-                      ["orig"] = "page",
-                      ["type"] = "`$INTEGER`",
-                    },
-                    {
-                      ["example"] = 50,
-                      ["kind"] = "query",
-                      ["name"] = "page_size",
-                      ["orig"] = "page_size",
-                      ["type"] = "`$INTEGER`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/payments/acquirers",
@@ -2020,6 +2096,33 @@ local function make_config()
                     ["lit"] = "acquirers",
                   },
                 },
+                ["parts"] = {
+                  "payments",
+                  "acquirers",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body.data`",
+                },
+                ["args"] = {
+                  ["query"] = {
+                    {
+                      ["name"] = "page",
+                      ["orig"] = "page",
+                      ["type"] = "`$INTEGER`",
+                      ["kind"] = "query",
+                      ["example"] = 0,
+                    },
+                    {
+                      ["name"] = "page_size",
+                      ["orig"] = "page_size",
+                      ["type"] = "`$INTEGER`",
+                      ["kind"] = "query",
+                      ["example"] = 50,
+                    },
+                  },
+                },
                 ["select"] = {
                   ["$action"] = "acquirer",
                   ["exist"] = {
@@ -2027,27 +2130,8 @@ local function make_config()
                     "page_size",
                   },
                 },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body.data`",
-                },
-                ["parts"] = {
-                  "payments",
-                  "acquirers",
-                },
               },
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "3ds_session_id",
-                      ["orig"] = "3ds_session_id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/payments/3ds-sessions/{3ds_session_id}/messages",
@@ -2065,20 +2149,32 @@ local function make_config()
                     ["lit"] = "messages",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "3ds_session_id",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body.messages`",
-                },
                 ["parts"] = {
                   "payments",
                   "3ds-sessions",
                   "{3ds_session_id}",
                   "messages",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body.messages`",
+                },
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "3ds_session_id",
+                      ["orig"] = "3ds_session_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "3ds_session_id",
+                  },
                 },
               },
             },
@@ -2088,17 +2184,6 @@ local function make_config()
             ["name"] = "remove",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "acquirer_id",
-                      ["orig"] = "acquirer_id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/payments/acquirers/{acquirer_id}",
@@ -2113,33 +2198,34 @@ local function make_config()
                     ["var"] = "acquirer_id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "acquirer_id",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "payments",
                   "acquirers",
                   "{acquirer_id}",
                 },
-              },
-              {
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
                 ["args"] = {
                   ["params"] = {
                     {
-                      ["kind"] = "param",
-                      ["name"] = "card_id",
-                      ["orig"] = "card_id",
-                      ["reqd"] = true,
+                      ["name"] = "acquirer_id",
+                      ["orig"] = "acquirer_id",
                       ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
                     },
                   },
                 },
+                ["select"] = {
+                  ["exist"] = {
+                    "acquirer_id",
+                  },
+                },
+              },
+              {
                 ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/payments/cards/{card_id}",
@@ -2154,33 +2240,34 @@ local function make_config()
                     ["var"] = "card_id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "card_id",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "payments",
                   "cards",
                   "{card_id}",
                 },
-              },
-              {
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
                 ["args"] = {
                   ["params"] = {
                     {
-                      ["kind"] = "param",
-                      ["name"] = "merchant_id",
-                      ["orig"] = "merchant_id",
-                      ["reqd"] = true,
+                      ["name"] = "card_id",
+                      ["orig"] = "card_id",
                       ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
                     },
                   },
                 },
+                ["select"] = {
+                  ["exist"] = {
+                    "card_id",
+                  },
+                },
+              },
+              {
                 ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/payments/merchants/{merchant_id}",
@@ -2195,33 +2282,34 @@ local function make_config()
                     ["var"] = "merchant_id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "merchant_id",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "payments",
                   "merchants",
                   "{merchant_id}",
                 },
-              },
-              {
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
                 ["args"] = {
                   ["params"] = {
                     {
-                      ["kind"] = "param",
-                      ["name"] = "network_token_id",
-                      ["orig"] = "network_token_id",
-                      ["reqd"] = true,
+                      ["name"] = "merchant_id",
+                      ["orig"] = "merchant_id",
                       ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
                     },
                   },
                 },
+                ["select"] = {
+                  ["exist"] = {
+                    "merchant_id",
+                  },
+                },
+              },
+              {
                 ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/payments/network-tokens/{network_token_id}",
@@ -2236,19 +2324,31 @@ local function make_config()
                     ["var"] = "network_token_id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "network_token_id",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "payments",
                   "network-tokens",
                   "{network_token_id}",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "network_token_id",
+                      ["orig"] = "network_token_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "network_token_id",
+                  },
                 },
               },
             },
@@ -2257,19 +2357,16 @@ local function make_config()
         ["relations"] = {
           ["ancestors"] = {
             {
-              "3ds_session",
+              "$.main.kit.entity.acquirer",
             },
             {
-              "acquirer",
+              "$.main.kit.entity.card",
             },
             {
-              "card",
+              "$.main.kit.entity.merchant",
             },
             {
-              "merchant",
-            },
-            {
-              "network_token",
+              "$.main.kit.entity.network_token",
             },
           },
         },
@@ -2278,12 +2375,13 @@ local function make_config()
         ["fields"] = {
           {
             ["name"] = "app",
-            ["short"] = "The unique identifier for the app to which the Relay belongs.",
+            ["title"] = "App",
             ["type"] = "`$STRING`",
+            ["short"] = "The unique identifier for the app to which the Relay belongs.",
           },
           {
             ["name"] = "authentication",
-            ["short"] = "The type of authentication required for the Relay",
+            ["title"] = "Authentication",
             ["type"] = {
               "`$ONE`",
               {
@@ -2291,43 +2389,51 @@ local function make_config()
                 "`$NULL`",
               },
             },
+            ["short"] = "The type of authentication required for the Relay",
           },
           {
-            ["format"] = "int64",
             ["name"] = "createdAt",
-            ["short"] = "The exact time, in epoch milliseconds, when this Relay was created.",
+            ["title"] = "Created At",
             ["type"] = "`$INTEGER`",
+            ["short"] = "The exact time, in epoch milliseconds, when this Relay was created.",
+            ["format"] = "int64",
           },
           {
             ["name"] = "destinationDomain",
-            ["short"] = "The domain in front of which the Relay should be configured.",
+            ["title"] = "Destination Domain",
             ["type"] = "`$STRING`",
+            ["short"] = "The domain in front of which the Relay should be configured.",
           },
           {
             ["name"] = "encryptEmptyStrings",
-            ["short"] = "Whether or not empty strings should be encrypted.",
+            ["title"] = "Encrypt Empty Strings",
             ["type"] = "`$BOOLEAN`",
+            ["short"] = "Whether or not empty strings should be encrypted.",
           },
           {
             ["name"] = "evervaultDomain",
-            ["short"] = "The Evervault managed domain to which requests to be relayed to the destination domain should be sent.",
+            ["title"] = "Evervault Domain",
             ["type"] = "`$STRING`",
+            ["short"] = "The Evervault managed domain to which requests to be relayed to the destination domain should be sent.",
           },
           {
             ["name"] = "id",
-            ["short"] = "The unique identifier for the Relay.",
+            ["title"] = "Id",
             ["type"] = "`$STRING`",
+            ["short"] = "The unique identifier for the Relay.",
           },
           {
             ["name"] = "routes",
-            ["short"] = "A collection of route configurations for the Relay.",
+            ["title"] = "Routes",
             ["type"] = "`$ARRAY`",
+            ["short"] = "A collection of route configurations for the Relay.",
           },
           {
-            ["format"] = "int64",
             ["name"] = "updatedAt",
-            ["short"] = "The exact time, in epoch milliseconds, when this Relay was updated.",
+            ["title"] = "Updated At",
             ["type"] = "`$INTEGER`",
+            ["short"] = "The exact time, in epoch milliseconds, when this Relay was updated.",
+            ["format"] = "int64",
           },
         },
         ["id"] = {
@@ -2341,17 +2447,6 @@ local function make_config()
             ["name"] = "load",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/relays/{id}",
@@ -2363,18 +2458,30 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "id",
-                  },
+                ["parts"] = {
+                  "relays",
+                  "{id}",
                 },
+                ["rename"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["parts"] = {
-                  "relays",
-                  "{id}",
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "id",
+                  },
                 },
               },
             },
@@ -2384,17 +2491,6 @@ local function make_config()
             ["name"] = "update",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "PATCH",
                 ["orig"] = "/relays/{id}",
@@ -2406,18 +2502,30 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "id",
-                  },
+                ["parts"] = {
+                  "relays",
+                  "{id}",
                 },
+                ["rename"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["parts"] = {
-                  "relays",
-                  "{id}",
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "id",
+                  },
                 },
               },
             },
@@ -2431,53 +2539,60 @@ local function make_config()
         ["fields"] = {
           {
             ["name"] = "accessControlServer",
-            ["short"] = "Details about the Access Control Server involved in the 3DS transaction.",
+            ["title"] = "Access Control Server",
             ["type"] = "`$OBJECT`",
+            ["short"] = "Details about the Access Control Server involved in the 3DS transaction.",
           },
           {
             ["name"] = "acquirer",
+            ["title"] = "Acquirer",
+            ["type"] = "`$OBJECT`",
+            ["req"] = true,
             ["op"] = {
               ["create"] = {
                 ["type"] = "`$ANY`",
               },
             },
-            ["req"] = true,
             ["short"] = "The acquirer of the payment.",
-            ["type"] = "`$OBJECT`",
           },
           {
             ["name"] = "ares",
-            ["short"] = "The details of the 3DS Authentication Response (ARes).",
+            ["title"] = "Ares",
             ["type"] = "`$OBJECT`",
+            ["short"] = "The details of the 3DS Authentication Response (ARes).",
           },
           {
             ["name"] = "authentication",
+            ["title"] = "Authentication",
+            ["type"] = "`$OBJECT`",
             ["req"] = true,
             ["short"] = "The details of the 3DS Authentication.",
-            ["type"] = "`$OBJECT`",
           },
           {
             ["name"] = "card",
+            ["title"] = "Card",
+            ["type"] = "`$OBJECT`",
             ["req"] = true,
             ["short"] = "The card details.",
-            ["type"] = "`$OBJECT`",
           },
           {
             ["name"] = "challenge",
+            ["title"] = "Challenge",
+            ["type"] = "`$OBJECT`",
             ["req"] = true,
             ["short"] = "Details about the 3DS challenge.",
-            ["type"] = "`$OBJECT`",
           },
           {
-            ["format"] = "int64",
             ["name"] = "createdAt",
+            ["title"] = "Created At",
+            ["type"] = "`$INTEGER`",
             ["req"] = true,
             ["short"] = "The exact time, in epoch milliseconds, when this 3DS-Session was created.",
-            ["type"] = "`$INTEGER`",
+            ["format"] = "int64",
           },
           {
             ["name"] = "cres",
-            ["short"] = "The details of the 3DS Challenge Response (CRes).",
+            ["title"] = "Cres",
             ["type"] = {
               "`$ONE`",
               {
@@ -2485,78 +2600,80 @@ local function make_config()
                 "`$OBJECT`",
               },
             },
+            ["short"] = "The details of the 3DS Challenge Response (CRes).",
           },
           {
             ["name"] = "cryptogram",
-            ["short"] = "The 3DS cryptogram (also called Authentication Value).",
+            ["title"] = "Cryptogram",
             ["type"] = "`$STRING`",
+            ["short"] = "The 3DS cryptogram (also called Authentication Value).",
           },
           {
             ["name"] = "customer",
-            ["short"] = "The details of the customer who initiated the transaction.",
+            ["title"] = "Customer",
             ["type"] = "`$OBJECT`",
+            ["short"] = "The details of the customer who initiated the transaction.",
           },
           {
             ["name"] = "directoryServer",
-            ["short"] = "Details about the Directory Server involved in the 3DS transaction.",
+            ["title"] = "Directory Server",
             ["type"] = "`$OBJECT`",
+            ["short"] = "Details about the Directory Server involved in the 3DS transaction.",
           },
           {
             ["name"] = "eci",
-            ["short"] = "The details of the Electronic Commerce Indicator.",
+            ["title"] = "Eci",
             ["type"] = "`$OBJECT`",
+            ["short"] = "The details of the Electronic Commerce Indicator.",
           },
           {
             ["name"] = "failureReason",
-            ["short"] = "The reason for the 3DS Authentication failure.",
+            ["title"] = "Failure Reason",
             ["type"] = "`$STRING`",
+            ["short"] = "The reason for the 3DS Authentication failure.",
           },
           {
             ["name"] = "id",
+            ["title"] = "Id",
+            ["type"] = "`$STRING`",
             ["req"] = true,
             ["short"] = "A unique identifier assigned to each 3DS Authentication.",
-            ["type"] = "`$STRING`",
           },
           {
             ["name"] = "initiator",
-            ["short"] = "Details about the transaction initiation process.",
+            ["title"] = "Initiator",
             ["type"] = "`$OBJECT`",
-            ["union"] = {
-              ["branches"] = 2,
-              ["count"] = 1,
-              ["depth"] = 0,
-            },
+            ["short"] = "Details about the transaction initiation process.",
           },
           {
             ["name"] = "merchant",
+            ["title"] = "Merchant",
+            ["type"] = "`$OBJECT`",
             ["req"] = true,
             ["short"] = "The merchant details.",
-            ["type"] = "`$OBJECT`",
           },
           {
             ["name"] = "nextAction",
+            ["title"] = "Next Action",
+            ["type"] = "`$OBJECT`",
             ["req"] = true,
             ["short"] = "The next action required to complete the 3DS Authentication.",
-            ["type"] = "`$OBJECT`",
           },
           {
             ["name"] = "payment",
-            ["short"] = "The payment details of the 3D Secure Authentication.",
+            ["title"] = "Payment",
             ["type"] = "`$OBJECT`",
-            ["union"] = {
-              ["branches"] = 3,
-              ["count"] = 1,
-              ["depth"] = 0,
-            },
+            ["short"] = "The payment details of the 3D Secure Authentication.",
           },
           {
             ["name"] = "preferredVersions",
-            ["short"] = "A prioritized list of preferred 3D Secure versions.",
+            ["title"] = "Preferred Versions",
             ["type"] = "`$ARRAY`",
+            ["short"] = "A prioritized list of preferred 3D Secure versions.",
           },
           {
             ["name"] = "rreq",
-            ["short"] = "The result of the 3DS authentication when a challenge has occurred.",
+            ["title"] = "Rreq",
             ["type"] = {
               "`$ONE`",
               {
@@ -2564,29 +2681,34 @@ local function make_config()
                 "`$OBJECT`",
               },
             },
+            ["short"] = "The result of the 3DS authentication when a challenge has occurred.",
           },
           {
             ["name"] = "status",
+            ["title"] = "Status",
+            ["type"] = "`$STRING`",
             ["req"] = true,
             ["short"] = "The status of the 3DS Authentication.",
-            ["type"] = "`$STRING`",
           },
           {
             ["name"] = "threeDSServer",
-            ["short"] = "Details about the 3DS Server involved in the 3DS transaction.",
+            ["title"] = "Three Ds Server",
             ["type"] = "`$OBJECT`",
+            ["short"] = "Details about the 3DS Server involved in the 3DS transaction.",
           },
           {
-            ["format"] = "int64",
             ["name"] = "updatedAt",
-            ["short"] = "The exact time, in epoch milliseconds, when this 3DS-Session was last updated.",
+            ["title"] = "Updated At",
             ["type"] = "`$INTEGER`",
+            ["short"] = "The exact time, in epoch milliseconds, when this 3DS-Session was last updated.",
+            ["format"] = "int64",
           },
           {
             ["name"] = "version",
+            ["title"] = "Version",
+            ["type"] = "`$STRING`",
             ["req"] = true,
             ["short"] = "The 3D Secure version used to authenticate the session.",
-            ["type"] = "`$STRING`",
           },
         },
         ["id"] = {
@@ -2600,7 +2722,6 @@ local function make_config()
             ["name"] = "create",
             ["points"] = {
               {
-                ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/payments/3ds-sessions",
@@ -2612,15 +2733,17 @@ local function make_config()
                     ["lit"] = "3ds-sessions",
                   },
                 },
-                ["select"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "payments",
                   "3ds-sessions",
                 },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {},
+                ["select"] = {},
               },
             },
           },
@@ -2629,17 +2752,6 @@ local function make_config()
             ["name"] = "load",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "3ds_session_id",
-                      ["orig"] = "3ds_session_id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/payments/3ds-sessions/{3ds_session_id}",
@@ -2654,60 +2766,70 @@ local function make_config()
                     ["var"] = "3ds_session_id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "3ds_session_id",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "payments",
                   "3ds-sessions",
                   "{3ds_session_id}",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "3ds_session_id",
+                      ["orig"] = "3ds_session_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "3ds_session_id",
+                  },
                 },
               },
             },
           },
         },
         ["relations"] = {
-          ["ancestors"] = {
-            {
-              "3ds_session",
-            },
-          },
+          ["ancestors"] = {},
         },
       },
       ["webhook"] = {
         ["fields"] = {
           {
-            ["format"] = "int64",
             ["name"] = "createdAt",
-            ["short"] = "The exact time, in epoch milliseconds, when this Webhook Endpoint was created.",
+            ["title"] = "Created At",
             ["type"] = "`$INTEGER`",
+            ["short"] = "The exact time, in epoch milliseconds, when this Webhook Endpoint was created.",
+            ["format"] = "int64",
           },
           {
             ["name"] = "events",
+            ["title"] = "Events",
+            ["type"] = "`$ARRAY`",
+            ["req"] = true,
             ["op"] = {
               ["list"] = {
                 ["type"] = "`$ARRAY`",
               },
             },
-            ["req"] = true,
             ["short"] = "A list of Events that the Webhook Endpoint should subscribe to.",
-            ["type"] = "`$ARRAY`",
           },
           {
             ["name"] = "id",
-            ["short"] = "A unique identifier representing a specific Webhook Endpoint.",
+            ["title"] = "Id",
             ["type"] = "`$STRING`",
+            ["short"] = "A unique identifier representing a specific Webhook Endpoint.",
           },
           {
-            ["format"] = "int64",
             ["name"] = "updatedAt",
-            ["short"] = "The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated.",
+            ["title"] = "Updated At",
             ["type"] = {
               "`$ONE`",
               {
@@ -2715,17 +2837,20 @@ local function make_config()
                 "`$NULL`",
               },
             },
+            ["short"] = "The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated.",
+            ["format"] = "int64",
           },
           {
             ["name"] = "url",
+            ["title"] = "Url",
+            ["type"] = "`$STRING`",
+            ["req"] = true,
             ["op"] = {
               ["list"] = {
                 ["type"] = "`$STRING`",
               },
             },
-            ["req"] = true,
             ["short"] = "The URL of the Webhook Endpoint.",
-            ["type"] = "`$STRING`",
           },
         },
         ["id"] = {
@@ -2739,7 +2864,6 @@ local function make_config()
             ["name"] = "create",
             ["points"] = {
               {
-                ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/webhook-endpoints",
@@ -2748,14 +2872,16 @@ local function make_config()
                     ["lit"] = "webhook-endpoints",
                   },
                 },
-                ["select"] = {},
+                ["parts"] = {
+                  "webhook-endpoints",
+                },
+                ["rename"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["parts"] = {
-                  "webhook-endpoints",
-                },
+                ["args"] = {},
+                ["select"] = {},
               },
             },
           },
@@ -2764,24 +2890,6 @@ local function make_config()
             ["name"] = "list",
             ["points"] = {
               {
-                ["args"] = {
-                  ["query"] = {
-                    {
-                      ["example"] = 10,
-                      ["kind"] = "query",
-                      ["name"] = "limit",
-                      ["orig"] = "limit",
-                      ["type"] = "`$INTEGER`",
-                    },
-                    {
-                      ["example"] = "webhook_endpoint_wd7c640d1daee",
-                      ["kind"] = "query",
-                      ["name"] = "starting_after",
-                      ["orig"] = "starting_after",
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/webhook-endpoints",
@@ -2790,18 +2898,37 @@ local function make_config()
                     ["lit"] = "webhook-endpoints",
                   },
                 },
+                ["parts"] = {
+                  "webhook-endpoints",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body.data`",
+                },
+                ["args"] = {
+                  ["query"] = {
+                    {
+                      ["name"] = "limit",
+                      ["orig"] = "limit",
+                      ["type"] = "`$INTEGER`",
+                      ["kind"] = "query",
+                      ["example"] = 10,
+                    },
+                    {
+                      ["name"] = "starting_after",
+                      ["orig"] = "starting_after",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                      ["example"] = "webhook_endpoint_wd7c640d1daee",
+                    },
+                  },
+                },
                 ["select"] = {
                   ["exist"] = {
                     "limit",
                     "starting_after",
                   },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body.data`",
-                },
-                ["parts"] = {
-                  "webhook-endpoints",
                 },
               },
             },
@@ -2811,18 +2938,6 @@ local function make_config()
             ["name"] = "remove",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["example"] = "webhook_endpoint_eead1d640d7c",
-                      ["kind"] = "param",
-                      ["name"] = "webhook_endpoint_id",
-                      ["orig"] = "webhook_endpoint_id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/webhook-endpoints/{webhook_endpoint_id}",
@@ -2834,18 +2949,31 @@ local function make_config()
                     ["var"] = "webhook_endpoint_id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "webhook_endpoint_id",
-                  },
+                ["parts"] = {
+                  "webhook-endpoints",
+                  "{webhook_endpoint_id}",
                 },
+                ["rename"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["parts"] = {
-                  "webhook-endpoints",
-                  "{webhook_endpoint_id}",
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "webhook_endpoint_id",
+                      ["orig"] = "webhook_endpoint_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                      ["example"] = "webhook_endpoint_eead1d640d7c",
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "webhook_endpoint_id",
+                  },
                 },
               },
             },
@@ -2854,7 +2982,7 @@ local function make_config()
         ["relations"] = {
           ["ancestors"] = {
             {
-              "webhook_endpoint",
+              "$.main.kit.entity.webhook_endpoint",
             },
           },
         },
@@ -2862,13 +2990,16 @@ local function make_config()
       ["webhook_endpoint"] = {
         ["fields"] = {
           {
-            ["format"] = "int64",
             ["name"] = "createdAt",
-            ["short"] = "The exact time, in epoch milliseconds, when this Webhook Endpoint was created.",
+            ["title"] = "Created At",
             ["type"] = "`$INTEGER`",
+            ["short"] = "The exact time, in epoch milliseconds, when this Webhook Endpoint was created.",
+            ["format"] = "int64",
           },
           {
             ["name"] = "events",
+            ["title"] = "Events",
+            ["type"] = "`$ARRAY`",
             ["op"] = {
               ["update"] = {
                 ["req"] = true,
@@ -2876,17 +3007,16 @@ local function make_config()
               },
             },
             ["short"] = "A list of Events that the Webhook Endpoint is subscribed to.",
-            ["type"] = "`$ARRAY`",
           },
           {
             ["name"] = "id",
-            ["short"] = "A unique identifier representing a specific Webhook Endpoint.",
+            ["title"] = "Id",
             ["type"] = "`$STRING`",
+            ["short"] = "A unique identifier representing a specific Webhook Endpoint.",
           },
           {
-            ["format"] = "int64",
             ["name"] = "updatedAt",
-            ["short"] = "The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated.",
+            ["title"] = "Updated At",
             ["type"] = {
               "`$ONE`",
               {
@@ -2894,11 +3024,14 @@ local function make_config()
                 "`$NULL`",
               },
             },
+            ["short"] = "The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated.",
+            ["format"] = "int64",
           },
           {
             ["name"] = "url",
-            ["short"] = "The URL of the Webhook Endpoint.",
+            ["title"] = "Url",
             ["type"] = "`$STRING`",
+            ["short"] = "The URL of the Webhook Endpoint.",
           },
         },
         ["id"] = {
@@ -2912,26 +3045,9 @@ local function make_config()
             ["name"] = "load",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["example"] = "webhook_endpoint_eead1d640d7c",
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "webhook_endpoint_id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/webhook-endpoints/{webhook_endpoint_id}",
-                ["rename"] = {
-                  ["param"] = {
-                    ["webhook_endpoint_id"] = "id",
-                  },
-                },
                 ["segments"] = {
                   {
                     ["lit"] = "webhook-endpoints",
@@ -2940,18 +3056,35 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "id",
+                ["parts"] = {
+                  "webhook-endpoints",
+                  "{id}",
+                },
+                ["rename"] = {
+                  ["param"] = {
+                    ["webhook_endpoint_id"] = "id",
                   },
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["parts"] = {
-                  "webhook-endpoints",
-                  "{id}",
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "webhook_endpoint_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                      ["example"] = "webhook_endpoint_eead1d640d7c",
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "id",
+                  },
                 },
               },
             },
@@ -2961,26 +3094,9 @@ local function make_config()
             ["name"] = "update",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["example"] = "webhook_endpoint_eead1d640d7c",
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "webhook_endpoint_id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "PATCH",
                 ["orig"] = "/webhook-endpoints/{webhook_endpoint_id}",
-                ["rename"] = {
-                  ["param"] = {
-                    ["webhook_endpoint_id"] = "id",
-                  },
-                },
                 ["segments"] = {
                   {
                     ["lit"] = "webhook-endpoints",
@@ -2989,18 +3105,35 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "id",
+                ["parts"] = {
+                  "webhook-endpoints",
+                  "{id}",
+                },
+                ["rename"] = {
+                  ["param"] = {
+                    ["webhook_endpoint_id"] = "id",
                   },
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["parts"] = {
-                  "webhook-endpoints",
-                  "{id}",
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "webhook_endpoint_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                      ["example"] = "webhook_endpoint_eead1d640d7c",
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "id",
+                  },
                 },
               },
             },

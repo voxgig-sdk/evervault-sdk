@@ -1,7 +1,7 @@
 // Typed models for the Evervault SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 package entity
@@ -14,11 +14,6 @@ import (
 
 // Acquirer is the typed data model for the acquirer entity.
 type Acquirer struct {
-	Configurations []any `json:"configurations"`
-	Default bool `json:"default"`
-	Description *string `json:"description,omitempty"`
-	Id string `json:"id"`
-	Name string `json:"name"`
 }
 
 // AcquirerLoadMatch is the typed request payload for Acquirer.LoadTyped.
@@ -46,7 +41,6 @@ type AcquirerUpdateData struct {
 
 // BinLookup is the typed data model for the bin_lookup entity.
 type BinLookup struct {
-	Number string `json:"number"`
 }
 
 // BinLookupCreateData is the typed request payload for BinLookup.CreateTyped.
@@ -56,15 +50,6 @@ type BinLookupCreateData struct {
 
 // Card is the typed data model for the card entity.
 type Card struct {
-	Address map[string]any `json:"address"`
-	Card map[string]any `json:"card"`
-	Cardholder *map[string]any `json:"cardholder,omitempty"`
-	Expiry map[string]any `json:"expiry"`
-	Extensions *[]any `json:"extensions,omitempty"`
-	Id *string `json:"id,omitempty"`
-	Month string `json:"month"`
-	Number string `json:"number"`
-	Year string `json:"year"`
 }
 
 // CardLoadMatch is the typed request payload for Card.LoadTyped.
@@ -87,10 +72,6 @@ type CardCreateData struct {
 
 // CardArt is the typed data model for the card_art entity.
 type CardArt struct {
-	Data string `json:"data"`
-	Height int `json:"height"`
-	Type string `json:"type"`
-	Width int `json:"width"`
 }
 
 // CardArtLoadMatch is the typed request payload for CardArt.LoadTyped.
@@ -100,9 +81,6 @@ type CardArtLoadMatch struct {
 
 // ClientSideToken is the typed data model for the client_side_token entity.
 type ClientSideToken struct {
-	Action string `json:"action"`
-	Expiry *int `json:"expiry,omitempty"`
-	Payload *map[string]any `json:"payload,omitempty"`
 }
 
 // ClientSideTokenCreateData is the typed request payload for ClientSideToken.CreateTyped.
@@ -114,21 +92,6 @@ type ClientSideTokenCreateData struct {
 
 // Core is the typed data model for the core entity.
 type Core struct {
-	App *string `json:"app,omitempty"`
-	Authentication *any `json:"authentication,omitempty"`
-	CreatedAt *int `json:"createdAt,omitempty"`
-	CustomDomain *string `json:"customDomain,omitempty"`
-	DestinationDomain string `json:"destinationDomain"`
-	EncryptEmptyStrings *bool `json:"encryptEmptyStrings,omitempty"`
-	EvervaultDomain *string `json:"evervaultDomain,omitempty"`
-	Id *string `json:"id,omitempty"`
-	PhoneNumber *string `json:"phoneNumber,omitempty"`
-	Relay *string `json:"relay,omitempty"`
-	Routes []any `json:"routes"`
-	Status *string `json:"status,omitempty"`
-	Token string `json:"token"`
-	UpdatedAt *int `json:"updatedAt,omitempty"`
-	ValidationRecord *string `json:"validationRecord,omitempty"`
 }
 
 // CoreListMatch is the typed request payload for Core.ListTyped.
@@ -177,13 +140,6 @@ type CoreRemoveMatch struct {
 
 // CustomDomain is the typed data model for the custom_domain entity.
 type CustomDomain struct {
-	CreatedAt *int `json:"createdAt,omitempty"`
-	CustomDomain *string `json:"customDomain,omitempty"`
-	Id *string `json:"id,omitempty"`
-	Relay *string `json:"relay,omitempty"`
-	Status *string `json:"status,omitempty"`
-	UpdatedAt *int `json:"updatedAt,omitempty"`
-	ValidationRecord *string `json:"validationRecord,omitempty"`
 }
 
 // CustomDomainLoadMatch is the typed request payload for CustomDomain.LoadTyped.
@@ -206,13 +162,6 @@ type CustomDomainCreateData struct {
 
 // FunctionRun is the typed data model for the function_run entity.
 type FunctionRun struct {
-	Async *bool `json:"async,omitempty"`
-	CreatedAt *int `json:"createdAt,omitempty"`
-	Error *any `json:"error,omitempty"`
-	Id *string `json:"id,omitempty"`
-	Payload map[string]any `json:"payload"`
-	Result *map[string]any `json:"result,omitempty"`
-	Status *string `json:"status,omitempty"`
 }
 
 // FunctionRunCreateData is the typed request payload for FunctionRun.CreateTyped.
@@ -229,16 +178,6 @@ type FunctionRunCreateData struct {
 
 // Merchant is the typed data model for the merchant entity.
 type Merchant struct {
-	ApplePay *map[string]any `json:"applePay,omitempty"`
-	Business *map[string]any `json:"business,omitempty"`
-	CategoryCode *string `json:"categoryCode,omitempty"`
-	CreatedAt int `json:"createdAt"`
-	Id string `json:"id"`
-	Name string `json:"name"`
-	NetworkTokens *map[string]any `json:"networkTokens,omitempty"`
-	ShortName *string `json:"shortName,omitempty"`
-	UpdatedAt *int `json:"updatedAt,omitempty"`
-	Website string `json:"website"`
 }
 
 // MerchantLoadMatch is the typed request payload for Merchant.LoadTyped.
@@ -276,17 +215,6 @@ type MerchantUpdateData struct {
 
 // NetworkToken is the typed data model for the network_token entity.
 type NetworkToken struct {
-	Card map[string]any `json:"card"`
-	CreatedAt int `json:"createdAt"`
-	Expiry map[string]any `json:"expiry"`
-	Id string `json:"id"`
-	Merchant string `json:"merchant"`
-	Number string `json:"number"`
-	PaymentAccountReference *string `json:"paymentAccountReference,omitempty"`
-	Status string `json:"status"`
-	TokenRequestorIdentifier string `json:"tokenRequestorIdentifier"`
-	TokenServiceProvider string `json:"tokenServiceProvider"`
-	UpdatedAt *int `json:"updatedAt,omitempty"`
 }
 
 // NetworkTokenLoadMatch is the typed request payload for NetworkToken.LoadTyped.
@@ -311,9 +239,6 @@ type NetworkTokenCreateData struct {
 
 // NetworkTokenCryptogram is the typed data model for the network_token_cryptogram entity.
 type NetworkTokenCryptogram struct {
-	CreatedAt *int `json:"createdAt,omitempty"`
-	Cryptogram *string `json:"cryptogram,omitempty"`
-	Id *string `json:"id,omitempty"`
 }
 
 // NetworkTokenCryptogramCreateData is the typed request payload for NetworkTokenCryptogram.CreateTyped.
@@ -325,9 +250,6 @@ type NetworkTokenCryptogramCreateData struct {
 
 // Payment is the typed data model for the payment entity.
 type Payment struct {
-	CreatedAt *int `json:"created_at,omitempty"`
-	Data *map[string]any `json:"data,omitempty"`
-	Type *string `json:"type,omitempty"`
 }
 
 // PaymentListMatch is the typed request payload for Payment.ListTyped.
@@ -342,15 +264,6 @@ type PaymentRemoveMatch struct {
 
 // Relay is the typed data model for the relay entity.
 type Relay struct {
-	App *string `json:"app,omitempty"`
-	Authentication *any `json:"authentication,omitempty"`
-	CreatedAt *int `json:"createdAt,omitempty"`
-	DestinationDomain *string `json:"destinationDomain,omitempty"`
-	EncryptEmptyStrings *bool `json:"encryptEmptyStrings,omitempty"`
-	EvervaultDomain *string `json:"evervaultDomain,omitempty"`
-	Id *string `json:"id,omitempty"`
-	Routes *[]any `json:"routes,omitempty"`
-	UpdatedAt *int `json:"updatedAt,omitempty"`
 }
 
 // RelayLoadMatch is the typed request payload for Relay.LoadTyped.
@@ -373,30 +286,6 @@ type RelayUpdateData struct {
 
 // ThreeDsSession is the typed data model for the three_ds_session entity.
 type ThreeDsSession struct {
-	AccessControlServer *map[string]any `json:"accessControlServer,omitempty"`
-	Acquirer map[string]any `json:"acquirer"`
-	Ares *map[string]any `json:"ares,omitempty"`
-	Authentication map[string]any `json:"authentication"`
-	Card map[string]any `json:"card"`
-	Challenge map[string]any `json:"challenge"`
-	CreatedAt int `json:"createdAt"`
-	Cres *any `json:"cres,omitempty"`
-	Cryptogram *string `json:"cryptogram,omitempty"`
-	Customer *map[string]any `json:"customer,omitempty"`
-	DirectoryServer *map[string]any `json:"directoryServer,omitempty"`
-	Eci *map[string]any `json:"eci,omitempty"`
-	FailureReason *string `json:"failureReason,omitempty"`
-	Id string `json:"id"`
-	Initiator *map[string]any `json:"initiator,omitempty"`
-	Merchant map[string]any `json:"merchant"`
-	NextAction map[string]any `json:"nextAction"`
-	Payment *map[string]any `json:"payment,omitempty"`
-	PreferredVersions *[]any `json:"preferredVersions,omitempty"`
-	Rreq *any `json:"rreq,omitempty"`
-	Status string `json:"status"`
-	ThreeDSServer *map[string]any `json:"threeDSServer,omitempty"`
-	UpdatedAt *int `json:"updatedAt,omitempty"`
-	Version string `json:"version"`
 }
 
 // ThreeDsSessionLoadMatch is the typed request payload for ThreeDsSession.LoadTyped.
@@ -434,11 +323,6 @@ type ThreeDsSessionCreateData struct {
 
 // Webhook is the typed data model for the webhook entity.
 type Webhook struct {
-	CreatedAt *int `json:"createdAt,omitempty"`
-	Events []any `json:"events"`
-	Id *string `json:"id,omitempty"`
-	UpdatedAt *any `json:"updatedAt,omitempty"`
-	Url string `json:"url"`
 }
 
 // WebhookListMatch is the typed request payload for Webhook.ListTyped.
@@ -463,11 +347,6 @@ type WebhookRemoveMatch struct {
 
 // WebhookEndpoint is the typed data model for the webhook_endpoint entity.
 type WebhookEndpoint struct {
-	CreatedAt *int `json:"createdAt,omitempty"`
-	Events *[]any `json:"events,omitempty"`
-	Id *string `json:"id,omitempty"`
-	UpdatedAt *any `json:"updatedAt,omitempty"`
-	Url *string `json:"url,omitempty"`
 }
 
 // WebhookEndpointLoadMatch is the typed request payload for WebhookEndpoint.LoadTyped.

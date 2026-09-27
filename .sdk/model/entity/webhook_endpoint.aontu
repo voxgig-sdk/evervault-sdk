@@ -1,0 +1,166 @@
+# Entity: webhook_endpoint
+
+main: kit: entity: webhook_endpoint: {
+
+  alias: field: {}
+
+  fields: {
+    createdAt: {
+      fo: "int64"
+      h: "Created At"
+      n: "createdAt"
+      r: false
+      sh: "The exact time, in epoch milliseconds, when this Webhook Endpoint was created."
+      t: "`$INTEGER`"
+    }
+    events: {
+      h: "Events"
+      n: "events"
+      op: {
+        update: {
+          req: true
+          type: "`$ARRAY`"
+        }
+      }
+      r: false
+      sh: "A list of Events that the Webhook Endpoint is subscribed to."
+      t: "`$ARRAY`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      sh: "A unique identifier representing a specific Webhook Endpoint."
+      t: "`$STRING`"
+    }
+    updatedAt: {
+      fo: "int64"
+      h: "Updated At"
+      n: "updatedAt"
+      r: false
+      sh: "The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated."
+      t: [
+        "`$ONE`"
+        [
+          "`$INTEGER`"
+          "`$NULL`"
+        ]
+      ]
+    }
+    url: {
+      h: "Url"
+      n: "url"
+      r: false
+      sh: "The URL of the Webhook Endpoint."
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "webhook_endpoint"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /webhook-endpoints/{webhook_endpoint_id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                ex: "webhook_endpoint_eead1d640d7c"
+                k: "param"
+                n: "id"
+                or: "webhook_endpoint_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/webhook-endpoints/{webhook_endpoint_id}"
+          q: {
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              webhook_endpoint_id: "id"
+            }
+          }
+          s: [
+            {
+              lit: "webhook-endpoints"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    update: {
+      name: "update"
+      points: [
+        {
+          co: {
+            id: "PATCH /webhook-endpoints/{webhook_endpoint_id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                ex: "webhook_endpoint_eead1d640d7c"
+                k: "param"
+                n: "id"
+                or: "webhook_endpoint_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "PATCH"
+          o: "/webhook-endpoints/{webhook_endpoint_id}"
+          q: {
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              webhook_endpoint_id: "id"
+            }
+          }
+          s: [
+            {
+              lit: "webhook-endpoints"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

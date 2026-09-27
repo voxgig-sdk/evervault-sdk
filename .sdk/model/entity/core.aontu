@@ -1,0 +1,382 @@
+# Entity: core
+
+main: kit: entity: core: {
+
+  alias: field: {}
+
+  fields: {
+    app: {
+      h: "App"
+      n: "app"
+      r: false
+      sh: "The unique identifier for the app to which the Relay belongs."
+      t: "`$STRING`"
+    }
+    authentication: {
+      h: "Authentication"
+      n: "authentication"
+      r: false
+      sh: "The type of authentication required for the Relay"
+      t: [
+        "`$ONE`"
+        [
+          "`$STRING`"
+          "`$NULL`"
+        ]
+      ]
+    }
+    createdAt: {
+      fo: "int64"
+      h: "Created At"
+      n: "createdAt"
+      r: false
+      sh: "The exact time, in epoch milliseconds, when this custom domain was created."
+      t: "`$INTEGER`"
+    }
+    customDomain: {
+      h: "Custom Domain"
+      n: "customDomain"
+      r: false
+      sh: "The customer managed domain to which requests to be relayed to your domain should be sent."
+      t: "`$STRING`"
+    }
+    destinationDomain: {
+      h: "Destination Domain"
+      n: "destinationDomain"
+      op: {
+        list: {
+          req: false
+          type: "`$STRING`"
+        }
+      }
+      r: true
+      sh: "The domain in front of which you would like to configure a Relay"
+      t: "`$STRING`"
+    }
+    encryptEmptyStrings: {
+      h: "Encrypt Empty Strings"
+      n: "encryptEmptyStrings"
+      r: false
+      sh: "Whether or not empty strings should be encrypted."
+      t: "`$BOOLEAN`"
+    }
+    evervaultDomain: {
+      h: "Evervault Domain"
+      n: "evervaultDomain"
+      r: false
+      sh: "The Evervault managed domain to which requests to be relayed to the destination domain should be sent."
+      t: "`$STRING`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      sh: "The unique identifier for the custom domain."
+      t: "`$STRING`"
+    }
+    phoneNumber: {
+      h: "Phone Number"
+      n: "phoneNumber"
+      r: false
+      t: "`$STRING`"
+    }
+    relay: {
+      h: "Relay"
+      n: "relay"
+      r: false
+      sh: "The ID of the Relay with which this custom domain is associated."
+      t: "`$STRING`"
+    }
+    routes: {
+      h: "Routes"
+      n: "routes"
+      op: {
+        list: {
+          req: false
+          type: "`$ARRAY`"
+        }
+      }
+      r: true
+      sh: "A collection of route configurations for the Relay."
+      t: "`$ARRAY`"
+    }
+    status: {
+      h: "Status"
+      n: "status"
+      r: false
+      sh: "The status of the domains DNS verification."
+      t: "`$STRING`"
+    }
+    token: {
+      h: "Token"
+      n: "token"
+      r: true
+      sh: "The encrypted data to be inspected."
+      t: "`$STRING`"
+    }
+    updatedAt: {
+      fo: "int64"
+      h: "Updated At"
+      n: "updatedAt"
+      r: false
+      sh: "The exact time, in epoch milliseconds, when this custom domain was last updated."
+      t: "`$INTEGER`"
+    }
+    validationRecord: {
+      fo: "uuidv4"
+      h: "Validation Record"
+      n: "validationRecord"
+      r: false
+      sh: "Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain"
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "core"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /decrypt"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/decrypt"
+          s: [
+            {
+              lit: "decrypt"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "POST /encrypt"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/encrypt"
+          s: [
+            {
+              lit: "encrypt"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "POST /inspect"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/inspect"
+          s: [
+            {
+              lit: "inspect"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.metadata`"
+          }
+        }
+        {
+          co: {
+            id: "POST /relays"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/relays"
+          s: [
+            {
+              lit: "relays"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /relays/{relay_id}/custom-domains"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "relay_id"
+                or: "relay_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/relays/{relay_id}/custom-domains"
+          q: {
+            exist: [
+              "relay_id"
+            ]
+          }
+          s: [
+            {
+              lit: "relays"
+            }
+            {
+              var: "relay_id"
+            }
+            {
+              lit: "custom-domains"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+        {
+          co: {
+            id: "GET /relays"
+            source: "openapi3"
+            version: 2
+          }
+          m: "GET"
+          o: "/relays"
+          s: [
+            {
+              lit: "relays"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+      ]
+    }
+    remove: {
+      name: "remove"
+      points: [
+        {
+          co: {
+            id: "DELETE /relays/{relay_id}/custom-domains/{id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "id"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "param"
+                n: "relay_id"
+                or: "relay_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "DELETE"
+          o: "/relays/{relay_id}/custom-domains/{id}"
+          q: {
+            exist: [
+              "id"
+              "relay_id"
+            ]
+          }
+          s: [
+            {
+              lit: "relays"
+            }
+            {
+              var: "relay_id"
+            }
+            {
+              lit: "custom-domains"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "DELETE /relays/{id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "DELETE"
+          o: "/relays/{id}"
+          q: {
+            exist: [
+              "id"
+            ]
+          }
+          s: [
+            {
+              lit: "relays"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+  relations: ancestors: [
+    [path("$.main.kit.entity.relay")]
+  ]
+
+}

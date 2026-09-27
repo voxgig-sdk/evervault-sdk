@@ -1,0 +1,230 @@
+# Entity: card
+
+main: kit: entity: card: {
+
+  alias: field: {}
+
+  fields: {
+    address: {
+      h: "Address"
+      n: "address"
+      r: true
+      sh: "Details about the cardholder's address that the address verification (AVS) is for."
+      t: "`$OBJECT`"
+    }
+    card: {
+      h: "Card"
+      n: "card"
+      r: true
+      sh: "The card details."
+      t: "`$OBJECT`"
+    }
+    cardholder: {
+      h: "Cardholder"
+      n: "cardholder"
+      r: false
+      sh: "Details about the cardholder that the name verification (ANI) is for."
+      t: "`$OBJECT`"
+    }
+    expiry: {
+      h: "Expiry"
+      n: "expiry"
+      r: true
+      t: "`$OBJECT`"
+    }
+    extensions: {
+      h: "Extensions"
+      n: "extensions"
+      r: false
+      sh: "The extensions to the card insight request."
+      t: "`$ARRAY`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      t: "`$STRING`"
+    }
+    month: {
+      h: "Month"
+      n: "month"
+      r: true
+      sh: "The card expiry month, in MM format (e.g."
+      t: "`$STRING`"
+    }
+    number: {
+      h: "Number"
+      n: "number"
+      r: true
+      sh: "The card number."
+      t: "`$STRING`"
+    }
+    year: {
+      h: "Year"
+      n: "year"
+      r: true
+      sh: "The card expiry year, in YY format (e.g."
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "card"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /payments/cards/{card_id}/simulate"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "card_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/payments/cards/{card_id}/simulate"
+          q: {
+            "$action": "simulate"
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              card_id: "id"
+            }
+          }
+          s: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "cards"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "simulate"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.expiry`"
+          }
+        }
+        {
+          co: {
+            id: "POST /insights/cards"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/insights/cards"
+          s: [
+            {
+              lit: "insights"
+            }
+            {
+              lit: "cards"
+            }
+          ]
+          t: {
+            req: {
+              card: "`reqdata`"
+            }
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "POST /payments/cards"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/payments/cards"
+          s: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "cards"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.expiry`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /payments/cards/{card_id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "card_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/payments/cards/{card_id}"
+          q: {
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              card_id: "id"
+            }
+          }
+          s: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "cards"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.expiry`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

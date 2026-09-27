@@ -1,0 +1,92 @@
+# Entity: network_token_cryptogram
+
+main: kit: entity: network_token_cryptogram: {
+
+  alias: field: {}
+
+  fields: {
+    createdAt: {
+      h: "Created At"
+      n: "createdAt"
+      r: false
+      t: "`$INTEGER`"
+    }
+    cryptogram: {
+      h: "Cryptogram"
+      n: "cryptogram"
+      r: false
+      t: "`$STRING`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "network_token_cryptogram"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /payments/network-tokens/{network_token_id}/cryptograms"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "network_token_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/payments/network-tokens/{network_token_id}/cryptograms"
+          q: {
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              network_token_id: "id"
+            }
+          }
+          s: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "network-tokens"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "cryptograms"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

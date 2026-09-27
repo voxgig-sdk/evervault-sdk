@@ -1,0 +1,183 @@
+# Entity: custom_domain
+
+main: kit: entity: custom_domain: {
+
+  alias: field: {}
+
+  fields: {
+    createdAt: {
+      fo: "int64"
+      h: "Created At"
+      n: "createdAt"
+      r: false
+      sh: "The exact time, in epoch milliseconds, when this custom domain was created."
+      t: "`$INTEGER`"
+    }
+    customDomain: {
+      h: "Custom Domain"
+      n: "customDomain"
+      op: {
+        create: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
+      r: false
+      sh: "The customer managed domain to which requests to be relayed to your domain should be sent."
+      t: "`$STRING`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      sh: "The unique identifier for the custom domain."
+      t: "`$STRING`"
+    }
+    relay: {
+      h: "Relay"
+      n: "relay"
+      r: false
+      sh: "The ID of the Relay with which this custom domain is associated."
+      t: "`$STRING`"
+    }
+    status: {
+      h: "Status"
+      n: "status"
+      r: false
+      sh: "The status of the domains DNS verification."
+      t: "`$STRING`"
+    }
+    updatedAt: {
+      fo: "int64"
+      h: "Updated At"
+      n: "updatedAt"
+      r: false
+      sh: "The exact time, in epoch milliseconds, when this custom domain was last updated."
+      t: "`$INTEGER`"
+    }
+    validationRecord: {
+      fo: "uuidv4"
+      h: "Validation Record"
+      n: "validationRecord"
+      r: false
+      sh: "Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain"
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "custom_domain"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /relays/{relay_id}/custom-domains"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "relay_id"
+                or: "relay_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/relays/{relay_id}/custom-domains"
+          q: {
+            exist: [
+              "relay_id"
+            ]
+          }
+          s: [
+            {
+              lit: "relays"
+            }
+            {
+              var: "relay_id"
+            }
+            {
+              lit: "custom-domains"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /relays/{relay_id}/custom-domains/{id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "id"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "param"
+                n: "relay_id"
+                or: "relay_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/relays/{relay_id}/custom-domains/{id}"
+          q: {
+            exist: [
+              "id"
+              "relay_id"
+            ]
+          }
+          s: [
+            {
+              lit: "relays"
+            }
+            {
+              var: "relay_id"
+            }
+            {
+              lit: "custom-domains"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+  relations: ancestors: [
+    [path("$.main.kit.entity.relay")]
+  ]
+
+}

@@ -1,0 +1,176 @@
+# Entity: relay
+
+main: kit: entity: relay: {
+
+  alias: field: {}
+
+  fields: {
+    app: {
+      h: "App"
+      n: "app"
+      r: false
+      sh: "The unique identifier for the app to which the Relay belongs."
+      t: "`$STRING`"
+    }
+    authentication: {
+      h: "Authentication"
+      n: "authentication"
+      r: false
+      sh: "The type of authentication required for the Relay"
+      t: [
+        "`$ONE`"
+        [
+          "`$STRING`"
+          "`$NULL`"
+        ]
+      ]
+    }
+    createdAt: {
+      fo: "int64"
+      h: "Created At"
+      n: "createdAt"
+      r: false
+      sh: "The exact time, in epoch milliseconds, when this Relay was created."
+      t: "`$INTEGER`"
+    }
+    destinationDomain: {
+      h: "Destination Domain"
+      n: "destinationDomain"
+      r: false
+      sh: "The domain in front of which the Relay should be configured."
+      t: "`$STRING`"
+    }
+    encryptEmptyStrings: {
+      h: "Encrypt Empty Strings"
+      n: "encryptEmptyStrings"
+      r: false
+      sh: "Whether or not empty strings should be encrypted."
+      t: "`$BOOLEAN`"
+    }
+    evervaultDomain: {
+      h: "Evervault Domain"
+      n: "evervaultDomain"
+      r: false
+      sh: "The Evervault managed domain to which requests to be relayed to the destination domain should be sent."
+      t: "`$STRING`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      sh: "The unique identifier for the Relay."
+      t: "`$STRING`"
+    }
+    routes: {
+      h: "Routes"
+      n: "routes"
+      r: false
+      sh: "A collection of route configurations for the Relay."
+      t: "`$ARRAY`"
+    }
+    updatedAt: {
+      fo: "int64"
+      h: "Updated At"
+      n: "updatedAt"
+      r: false
+      sh: "The exact time, in epoch milliseconds, when this Relay was updated."
+      t: "`$INTEGER`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "relay"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /relays/{id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/relays/{id}"
+          q: {
+            exist: [
+              "id"
+            ]
+          }
+          s: [
+            {
+              lit: "relays"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    update: {
+      name: "update"
+      points: [
+        {
+          co: {
+            id: "PATCH /relays/{id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "PATCH"
+          o: "/relays/{id}"
+          q: {
+            exist: [
+              "id"
+            ]
+          }
+          s: [
+            {
+              lit: "relays"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}
