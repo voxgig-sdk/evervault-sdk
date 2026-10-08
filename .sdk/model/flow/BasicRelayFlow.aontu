@@ -8,6 +8,26 @@ main: kit: flow: BasicRelayFlow:
   step: [
     {
       i: {
+        ref: "relay_ref01"
+      }
+
+      o: "create"
+    }
+
+    {
+      o: "list",
+      v: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "relay_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      i: {
         ref: "relay_ref01",
         srcdatavar: "relay_ref01_data",
         suffix: "_up0",

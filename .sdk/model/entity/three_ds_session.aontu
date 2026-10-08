@@ -216,6 +216,16 @@ main: kit: entity: three_ds_session: {
       name: "create"
       points: [
         {
+          bf: [
+            "acquirer"
+            "card"
+            "challenge"
+            "customer"
+            "initiator"
+            "merchant"
+            "payment"
+            "preferredVersions"
+          ]
           co: {
             id: "POST /payments/3ds-sessions"
             source: "openapi3"
@@ -223,6 +233,10 @@ main: kit: entity: three_ds_session: {
           }
           m: "POST"
           o: "/payments/3ds-sessions"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "payments"
@@ -264,6 +278,10 @@ main: kit: entity: three_ds_session: {
             exist: [
               "3ds_session_id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

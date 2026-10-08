@@ -16,6 +16,10 @@
 ---@class AcquirerLoadMatch
 ---@field id string
 
+---@class AcquirerListMatch
+---@field page? number
+---@field page_size? number
+
 ---@class AcquirerCreateData
 ---@field configurations table
 ---@field default boolean
@@ -38,28 +42,50 @@
 
 ---@class Card
 ---@field address table
+---@field automaticUpdates? string
+---@field bin string
+---@field brand? string
 ---@field card table
 ---@field cardholder? table
+---@field country? string
+---@field createdAt number
+---@field currency? string
 ---@field expiry table
 ---@field extensions? table
+---@field funding? string
 ---@field id? string
----@field month string
+---@field issuer? string
+---@field lastFour string
 ---@field number string
----@field year string
+---@field replacement? string|nil
+---@field segment? string
+---@field status? string
+---@field updatedAt? number|nil
 
 ---@class CardLoadMatch
 ---@field id string
 
 ---@class CardCreateData
 ---@field address table
+---@field automaticUpdates? string
+---@field bin string
+---@field brand? string
 ---@field card table
 ---@field cardholder? table
+---@field country? string
+---@field createdAt number
+---@field currency? string
 ---@field expiry table
 ---@field extensions? table
+---@field funding? string
 ---@field id? string
----@field month string
+---@field issuer? string
+---@field lastFour string
 ---@field number string
----@field year string
+---@field replacement? string|nil
+---@field segment? string
+---@field status? string
+---@field updatedAt? number|nil
 
 ---@class CardArt
 ---@field data string
@@ -81,53 +107,43 @@
 ---@field payload? table
 
 ---@class Core
----@field app? string
----@field authentication? string|nil
+---@field category? string
+---@field core_list? table|string|number|boolean
+---@field cores? table|string
 ---@field createdAt? number
 ---@field customDomain? string
----@field destinationDomain string
----@field encryptEmptyStrings? boolean
----@field evervaultDomain? string
+---@field encryptedAt? number
+---@field fingerprint? string
 ---@field id? string
+---@field metadata? any
 ---@field phoneNumber? string
 ---@field relay? string
----@field routes table
+---@field role? string
 ---@field status? string
 ---@field token string
+---@field type? string
 ---@field updatedAt? number
 ---@field validationRecord? string
 
 ---@class CoreListMatch
----@field app? string
----@field authentication? string|nil
----@field createdAt? number
----@field customDomain? string
----@field destinationDomain? string
----@field encryptEmptyStrings? boolean
----@field evervaultDomain? string
----@field id? string
----@field phoneNumber? string
----@field relay? string
----@field routes? table
----@field status? string
----@field token? string
----@field updatedAt? number
----@field validationRecord? string
+---@field relay_id string
 
 ---@class CoreCreateData
----@field app? string
----@field authentication? string|nil
+---@field category? string
+---@field core_list? table|string|number|boolean
+---@field cores? table|string
 ---@field createdAt? number
 ---@field customDomain? string
----@field destinationDomain string
----@field encryptEmptyStrings? boolean
----@field evervaultDomain? string
+---@field encryptedAt? number
+---@field fingerprint? string
 ---@field id? string
+---@field metadata? any
 ---@field phoneNumber? string
 ---@field relay? string
----@field routes table
+---@field role? string
 ---@field status? string
 ---@field token string
+---@field type? string
 ---@field updatedAt? number
 ---@field validationRecord? string
 
@@ -191,6 +207,11 @@
 
 ---@class MerchantLoadMatch
 ---@field id string
+
+---@class MerchantListMatch
+---@field page? number
+---@field page_size? number
+---@field q? string
 
 ---@class MerchantCreateData
 ---@field applePay? table
@@ -280,6 +301,28 @@
 ---@class RelayLoadMatch
 ---@field id string
 
+---@class RelayListMatch
+---@field app? string
+---@field authentication? string|nil
+---@field createdAt? number
+---@field destinationDomain? string
+---@field encryptEmptyStrings? boolean
+---@field evervaultDomain? string
+---@field id? string
+---@field routes? table
+---@field updatedAt? number
+
+---@class RelayCreateData
+---@field app? string
+---@field authentication? string|nil
+---@field createdAt? number
+---@field destinationDomain? string
+---@field encryptEmptyStrings? boolean
+---@field evervaultDomain? string
+---@field id? string
+---@field routes? table
+---@field updatedAt? number
+
 ---@class RelayUpdateData
 ---@field id string
 ---@field app? string
@@ -347,22 +390,6 @@
 ---@field version string
 
 ---@class Webhook
----@field createdAt? number
----@field events table
----@field id? string
----@field updatedAt? number|nil
----@field url string
-
----@class WebhookListMatch
----@field limit? number
----@field starting_after? string
-
----@class WebhookCreateData
----@field createdAt? number
----@field events table
----@field id? string
----@field updatedAt? number|nil
----@field url string
 
 ---@class WebhookRemoveMatch
 ---@field webhook_endpoint_id string
@@ -376,6 +403,17 @@
 
 ---@class WebhookEndpointLoadMatch
 ---@field id string
+
+---@class WebhookEndpointListMatch
+---@field limit? number
+---@field starting_after? string
+
+---@class WebhookEndpointCreateData
+---@field createdAt? number
+---@field events? table
+---@field id? string
+---@field updatedAt? number|nil
+---@field url? string
 
 ---@class WebhookEndpointUpdateData
 ---@field id string

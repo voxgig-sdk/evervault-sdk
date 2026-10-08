@@ -15,6 +15,13 @@ import (
 	vs "github.com/voxgig-sdk/evervault-sdk/go/utility/struct"
 )
 
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const webhookEntityLiveStrict = true
+
+
 func TestWebhookEntity(t *testing.T) {
 	t.Run("instance", func(t *testing.T) {
 		testsdk := sdk.TestSDK(nil, nil)
@@ -24,55 +31,21 @@ func TestWebhookEntity(t *testing.T) {
 		}
 	})
 
-	// Feature #4: the entity Stream(action, ...) method runs the op pipeline and
-	// returns a channel over result items. With the streaming feature active it
-	// yields the feature's incremental output; otherwise it falls back to the
-	// materialised list so Stream always yields.
-	t.Run("stream", func(t *testing.T) {
-		seed := map[string]any{
-			"entity": map[string]any{
-				"webhook": map[string]any{
-					"s1": map[string]any{"id": "s1"},
-					"s2": map[string]any{"id": "s2"},
-					"s3": map[string]any{"id": "s3"},
-				},
-			},
+	t.Run("validate", func(t *testing.T) {
+		if !fhHasFeature("validate") {
+			t.Skip("feature not present in this SDK: validate")
 		}
-
-		// Fallback: streaming inactive -> yields the materialised list items.
-		base := sdk.TestSDK(seed, nil)
-		var seen []any
-		for item := range base.Webhook(nil).Stream("list", nil, nil) {
-			seen = append(seen, item)
-		}
-		if len(seen) != 3 {
-			t.Fatalf("expected 3 streamed items, got %d", len(seen))
-		}
-
-		// Inbound: streaming active -> yields each item from the feature iterator.
-		hasStreaming := false
-		if fm, ok := core.SharedConfig()["feature"].(map[string]any); ok {
-			_, hasStreaming = fm["streaming"]
-		}
-		if hasStreaming {
-			streamSdk := sdk.TestSDK(seed, map[string]any{
-				"feature": map[string]any{"streaming": map[string]any{"active": true}},
-			})
-			var got []any
-			for item := range streamSdk.Webhook(nil).Stream("list", nil, nil) {
-				if sub, ok := item.([]any); ok {
-					got = append(got, sub...)
-				} else {
-					got = append(got, item)
-				}
-			}
-			if len(got) != 3 {
-				t.Fatalf("expected 3 items via streaming feature, got %d", len(got))
-			}
+		client := sdk.TestSDK(nil, map[string]any{
+			"feature": map[string]any{"validate": map[string]any{"active": true}},
+		})
+		_, err := client.Webhook(nil).Remove(map[string]any{"webhook_endpoint_id": 1}, nil)
+		if sdkerr, ok := err.(*core.EvervaultError); !ok || "validate_failed" != sdkerr.Code {
+			t.Fatalf("expected validate_failed, got %v", err)
 		}
 	})
 
-	t.Run("basic", func(t *testing.T) {
+	t.Run("basic", func(tt *testing.T) {
+		var t testing.TB = tt
 		setup := webhookBasicSetup(nil)
 		// Per-op sdk-test-control.json skip — basic test exercises a flow
 		// with multiple ops; skipping any op skips the whole flow.
@@ -80,7 +53,7 @@ func TestWebhookEntity(t *testing.T) {
 		if setup.live {
 			_mode = "live"
 		}
-		for _, _op := range []string{"create", "list", "remove"} {
+		for _, _op := range []string{} {
 			if _shouldSkip, _reason := isControlSkipped("entityOp", "webhook." + _op, _mode); _shouldSkip {
 				if _reason == "" {
 					_reason = "skipped via sdk-test-control.json"
@@ -89,73 +62,15 @@ func TestWebhookEntity(t *testing.T) {
 				return
 			}
 		}
-		// The basic flow consumes synthetic IDs from the fixture. In live mode
-		// without an *_ENTID env override, those IDs hit the live API and 4xx.
-		if setup.syntheticOnly {
-			t.Skip("live entity test uses synthetic IDs from fixture — set EVERVAULT_TEST_WEBHOOK_ENTID JSON to run live")
-			return
+		// Bootstrap entity data from existing test data (no create step in flow).
+		webhookRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath(setup.data, "existing.webhook")))
+		var webhookRef01Data map[string]any
+		if len(webhookRef01DataRaw) > 0 {
+			webhookRef01Data = core.ToMapAny(webhookRef01DataRaw[0][1])
 		}
-		client := setup.client
-
-		// CREATE
-		webhookRef01Ent := client.Webhook(nil)
-		webhookRef01Data := core.ToMapAny(vs.GetProp(
-			vs.GetPath(setup.data, []any{"new", "webhook"}), "webhook_ref01"))
-
-		webhookRef01DataResult, err := webhookRef01Ent.Create(webhookRef01Data, nil)
-		if err != nil {
-			t.Fatalf("create failed: %v", err)
-		}
-		webhookRef01Data = core.ToMapAny(entityData(webhookRef01DataResult))
-		if webhookRef01Data == nil {
-			t.Fatal("expected create result to be a map")
-		}
-		if webhookRef01Data["id"] == nil {
-			t.Fatal("expected created entity to have an id")
-		}
-
-		// LIST
-		webhookRef01Match := map[string]any{}
-
-		webhookRef01ListResult, err := webhookRef01Ent.List(webhookRef01Match, nil)
-		if err != nil {
-			t.Fatalf("list failed: %v", err)
-		}
-		webhookRef01List, webhookRef01ListOk := webhookRef01ListResult.([]any)
-		if !webhookRef01ListOk {
-			t.Fatalf("expected list result to be an array, got %T", webhookRef01ListResult)
-		}
-
-		foundItem := vs.Select(entityListToData(webhookRef01List), map[string]any{"id": webhookRef01Data["id"]})
-		if vs.IsEmpty(foundItem) {
-			t.Fatal("expected to find created entity in list")
-		}
-
-		// REMOVE
-		webhookRef01MatchRm0 := map[string]any{
-			"id": webhookRef01Data["id"],
-		}
-		_, err = webhookRef01Ent.Remove(webhookRef01MatchRm0, nil)
-		if err != nil {
-			t.Fatalf("remove failed: %v", err)
-		}
-
-		// LIST
-		webhookRef01MatchRt0 := map[string]any{}
-
-		webhookRef01ListRt0Result, err := webhookRef01Ent.List(webhookRef01MatchRt0, nil)
-		if err != nil {
-			t.Fatalf("list failed: %v", err)
-		}
-		webhookRef01ListRt0, webhookRef01ListRt0Ok := webhookRef01ListRt0Result.([]any)
-		if !webhookRef01ListRt0Ok {
-			t.Fatalf("expected list result to be an array, got %T", webhookRef01ListRt0Result)
-		}
-
-		notFoundItem := vs.Select(entityListToData(webhookRef01ListRt0), map[string]any{"id": webhookRef01Data["id"]})
-		if !vs.IsEmpty(notFoundItem) {
-			t.Fatal("expected removed entity to not be in list")
-		}
+		// Discard guards against Go's unused-var check when the flow's steps
+		// happen not to consume the bootstrap data (e.g. list-only flows).
+		_ = webhookRef01Data
 
 	})
 }
@@ -194,9 +109,8 @@ func webhookBasicSetup(extra map[string]any) *entityTestSetup {
 		},
 	)
 
-	// Detect ENTID env override before envOverride consumes it. When live
-	// mode is on without a real override, the basic test runs against synthetic
-	// IDs from the fixture and 4xx's. Surface this so the test can skip.
+	// Whether *_ENTID supplied the idmap, read before envOverride consumes it:
+	// without it, the ids a live flow binds are the fixture's synthetic ones.
 	entidEnvRaw := os.Getenv("EVERVAULT_TEST_WEBHOOK_ENTID")
 	idmapOverridden := entidEnvRaw != "" && strings.HasPrefix(strings.TrimSpace(entidEnvRaw), "{")
 

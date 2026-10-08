@@ -51,6 +51,16 @@
     }
   },
   "requests": {
+    "POST /relays": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /relays": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
     "GET /relays/{id}": {
       "provenance": "operation-contract",
       "version": 2,

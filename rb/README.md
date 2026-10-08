@@ -12,9 +12,18 @@ The SDK exposes the API as capitalised, semantic **Entities** — for example `c
 
 ## Install
 This package is not yet published to RubyGems. Install it from the
-GitHub release tag (`rb/vX.Y.Z`):
+GitHub release tag (`rb/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/evervault-sdk/tags)), or
+from a clone:
 
-- Releases: [https://github.com/voxgig-sdk/evervault-sdk/releases](https://github.com/voxgig-sdk/evervault-sdk/releases)
+```bash
+git clone https://github.com/voxgig-sdk/evervault-sdk
+```
+
+Then add it to your `Gemfile` by path, and run `bundle install`:
+
+```ruby
+gem "voxgig-sdk-evervault-sdk", path: "./evervault-sdk/rb"
+```
 
 
 ## Tutorial: your first API call
@@ -32,6 +41,21 @@ client = EvervaultSDK.new({
 })
 ```
 
+### 2. List acquirer records
+
+```ruby
+begin
+  # list returns an Array of Acquirer entities, one per record; data_get reads the record.
+  acquirers = client.Acquirer.list
+  acquirers.each do |item|
+    record = item.data_get
+    puts "#{record["id"]} #{record["configurations"]}"
+  end
+rescue => err
+  warn "list failed: #{err}"
+end
+```
+
 ### 3. Load a cardart
 
 CardArt is nested under network_token, so provide the `network_token_id`.
@@ -40,7 +64,7 @@ CardArt is nested under network_token, so provide the `network_token_id`.
 begin
   # load returns the ENTITY — call data_get for the CardArt record (raises on error).
   cardart = client.CardArt.load({ "network_token_id" => "example_network_token_id" })
-  puts cardart
+  puts cardart.data_get
 rescue => err
   warn "load failed: #{err}"
 end
@@ -64,9 +88,9 @@ Entity operations raise on failure, so rescue them:
 
 ```ruby
 begin
-  merchant = client.Merchant.load({ "id" => "example_id" })
+  merchants = client.Merchant.list()
 rescue => err
-  warn "load failed: #{err}"
+  warn "list failed: #{err}"
 end
 ```
 
@@ -135,10 +159,10 @@ client = EvervaultSDK.test({
   "entity" => { "merchant" => { "test01" => { "id" => "test01" } } },
 })
 
-# Entity ops return the ENTITY (raises on error);
-# call data_get for the mock record.
-merchant = client.Merchant.load({ "id" => "test01" })
-puts merchant
+# list returns an Array of Merchant entities, one per mock record (raises on
+# error); data_get reads each record.
+merchants = client.Merchant.list()
+merchants.each { |item| puts item.data_get }
 ```
 
 ### Use a custom fetch function
@@ -239,11 +263,11 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria. Raises on error. |
-| `list` | `(reqmatch = nil, ctrl) -> Array` | List entities matching the criteria (call with no argument to list all). Raises on error. |
-| `create` | `(reqdata, ctrl) -> any` | Create a new entity. Raises on error. |
-| `update` | `(reqdata, ctrl) -> any` | Update an existing entity. Raises on error. |
-| `remove` | `(reqmatch, ctrl) -> any` | Remove an entity. Raises on error. |
+| `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria, and return it. Raises on error. |
+| `list` | `(reqmatch = nil, ctrl) -> Array` | List entities matching the criteria (call with no argument to list all), one per record. Raises on error. |
+| `create` | `(reqdata, ctrl) -> any` | Create a new entity, and return it. Raises on error. |
+| `update` | `(reqdata, ctrl) -> any` | Update an existing entity, and return it. Raises on error. |
+| `remove` | `(reqmatch, ctrl) -> any` | Remove an entity, and return it marked as deleted. Raises on error. |
 | `data_get` | `() -> Hash` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
 | `match_get` | `() -> Hash` | Get entity match criteria. |
@@ -253,9 +277,10 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the result data directly. On failure they
-raise a `EvervaultError` (a `StandardError` subclass), so wrap
-calls in `begin`/`rescue` where you need to handle errors.
+Entity operations return the entity, and `list` an `Array` of entities, one
+per record; an entity's `data_get` reads its record. On failure they raise a
+`EvervaultError` (a `StandardError` subclass), so wrap calls in
+`begin`/`rescue` where you need to handle errors.
 
 The `direct` escape hatch is the exception: it never raises and instead
 returns a result `Hash` with these keys:
@@ -280,7 +305,7 @@ returns a result `Hash` with these keys:
 | `id` | The unique identifier of the acquirer configuration. |
 | `name` | The name of the acquirer configuration. |
 
-Operations: Create, Load, Update.
+Operations: Create, List, Load, Update.
 
 API path: `/payments/acquirers`
 
@@ -299,14 +324,25 @@ API path: `/payments/bin-lookups`
 | Field | Description |
 | --- | --- |
 | `address` | Details about the cardholder's address that the address verification (AVS) is for. |
+| `automaticUpdates` | The status of Card Account Updater on this card. |
+| `bin` | The first 6 or 8 digits of the card number. |
+| `brand` | The card brand associated with the payment card. |
 | `card` | The card details. |
 | `cardholder` | Details about the cardholder that the name verification (ANI) is for. |
-| `expiry` |  |
+| `country` | The country where the card was issued. |
+| `createdAt` | The Unix timestamp of when the card was created. |
+| `currency` | The currency of the card. |
+| `expiry` | The expiry date of the card. |
 | `extensions` | The extensions to the card insight request. |
-| `id` |  |
-| `month` | The card expiry month, in MM format (e.g. |
-| `number` | The card number. |
-| `year` | The card expiry year, in YY format (e.g. |
+| `funding` | The card funding type specifies the method by which transactions are financed. |
+| `id` | The unique identifier for the card. |
+| `issuer` | The name of the card issuer. |
+| `lastFour` | The last 4 digits of the card number. |
+| `number` | The Evervault encrypted card number. |
+| `replacement` | The ID of the replacement card. |
+| `segment` | The card segment indicates the primary market or usage category of the card. |
+| `status` | The current status of the card. |
+| `updatedAt` | The Unix timestamp of when the card was last updated. |
 
 Operations: Create, Load.
 
@@ -341,19 +377,21 @@ API path: `/client-side-tokens`
 
 | Field | Description |
 | --- | --- |
-| `app` | The unique identifier for the app to which the Relay belongs. |
-| `authentication` | The type of authentication required for the Relay |
+| `category` | The category or specific nature of the encrypted value. |
+| `core_list` | A JSON value or file to be encrypted. |
+| `cores` | A JSON value or file to be decrypted. |
 | `createdAt` | The exact time, in epoch milliseconds, when this custom domain was created. |
 | `customDomain` | The customer managed domain to which requests to be relayed to your domain should be sent. |
-| `destinationDomain` | The domain in front of which you would like to configure a Relay |
-| `encryptEmptyStrings` | Whether or not empty strings should be encrypted. |
-| `evervaultDomain` | The Evervault managed domain to which requests to be relayed to the destination domain should be sent. |
+| `encryptedAt` | The date and time when the value was encrypted. |
+| `fingerprint` | A unique identifier for the encrypted value. |
 | `id` | The unique identifier for the custom domain. |
+| `metadata` | Further metadata about the encrypted value. |
 | `phoneNumber` |  |
 | `relay` | The ID of the Relay with which this custom domain is associated. |
-| `routes` | A collection of route configurations for the Relay. |
+| `role` | The data role of the encrypted value. |
 | `status` | The status of the domains DNS verification. |
 | `token` | The encrypted data to be inspected. |
+| `type` | The type of the encrypted value. |
 | `updatedAt` | The exact time, in epoch milliseconds, when this custom domain was last updated. |
 | `validationRecord` | Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain |
 
@@ -408,7 +446,7 @@ API path: `/functions/{function_name}/runs`
 | `updatedAt` | The exact time, in epoch milliseconds, when this Merchant was last updated. |
 | `website` | The official website URL of the Merchant. |
 
-Operations: Create, Load, Update.
+Operations: Create, List, Load, Update.
 
 API path: `/payments/merchants`
 
@@ -454,7 +492,7 @@ API path: `/payments/network-tokens/{network_token_id}/cryptograms`
 
 Operations: List, Remove.
 
-API path: `/payments/merchants`
+API path: `/payments/3ds-sessions/{3ds_session_id}/messages`
 
 #### Relay
 
@@ -470,9 +508,9 @@ API path: `/payments/merchants`
 | `routes` | A collection of route configurations for the Relay. |
 | `updatedAt` | The exact time, in epoch milliseconds, when this Relay was updated. |
 
-Operations: Load, Update.
+Operations: Create, List, Load, Update.
 
-API path: `/relays/{id}`
+API path: `/relays`
 
 #### ThreeDsSession
 
@@ -511,15 +549,10 @@ API path: `/payments/3ds-sessions`
 
 | Field | Description |
 | --- | --- |
-| `createdAt` | The exact time, in epoch milliseconds, when this Webhook Endpoint was created. |
-| `events` | A list of Events that the Webhook Endpoint should subscribe to. |
-| `id` | A unique identifier representing a specific Webhook Endpoint. |
-| `updatedAt` | The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated. |
-| `url` | The URL of the Webhook Endpoint. |
 
-Operations: Create, List, Remove.
+Operations: Remove.
 
-API path: `/webhook-endpoints`
+API path: `/webhook-endpoints/{webhook_endpoint_id}`
 
 #### WebhookEndpoint
 
@@ -531,9 +564,9 @@ API path: `/webhook-endpoints`
 | `updatedAt` | The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated. |
 | `url` | The URL of the Webhook Endpoint. |
 
-Operations: Load, Update.
+Operations: Create, List, Load, Update.
 
-API path: `/webhook-endpoints/{webhook_endpoint_id}`
+API path: `/webhook-endpoints`
 
 
 
@@ -549,6 +582,7 @@ Create an instance: `acquirer = client.Acquirer`
 | Method | Description |
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
+| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 | `update(data)` | Update an existing entity. |
 
@@ -567,6 +601,14 @@ Create an instance: `acquirer = client.Acquirer`
 ```ruby
 # load returns the ENTITY — call data_get for the Acquirer record (raises on error).
 acquirer = client.Acquirer.load({ "id" => "acquirer_id" })
+```
+
+#### Example: List
+
+```ruby
+# list returns an Array of Acquirer entities, one per record (raises on error).
+acquirers = client.Acquirer.list
+acquirers.each { |item| puts item.data_get }
 ```
 
 #### Example: Create
@@ -622,14 +664,25 @@ Create an instance: `card = client.Card`
 | Field | Type | Description |
 | --- | --- | --- |
 | `address` | `Hash` | Details about the cardholder's address that the address verification (AVS) is for. |
+| `automaticUpdates` | `String` | The status of Card Account Updater on this card. |
+| `bin` | `String` | The first 6 or 8 digits of the card number. |
+| `brand` | `String` | The card brand associated with the payment card. |
 | `card` | `Hash` | The card details. |
 | `cardholder` | `Hash` | Details about the cardholder that the name verification (ANI) is for. |
-| `expiry` | `Hash` |  |
+| `country` | `String` | The country where the card was issued. |
+| `createdAt` | `Integer` | The Unix timestamp of when the card was created. |
+| `currency` | `String` | The currency of the card. |
+| `expiry` | `Hash` | The expiry date of the card. |
 | `extensions` | `Array` | The extensions to the card insight request. |
-| `id` | `String` |  |
-| `month` | `String` | The card expiry month, in MM format (e.g. |
-| `number` | `String` | The card number. |
-| `year` | `String` | The card expiry year, in YY format (e.g. |
+| `funding` | `String` | The card funding type specifies the method by which transactions are financed. |
+| `id` | `String` | The unique identifier for the card. |
+| `issuer` | `String` | The name of the card issuer. |
+| `lastFour` | `String` | The last 4 digits of the card number. |
+| `number` | `String` | The Evervault encrypted card number. |
+| `replacement` | `Object` | The ID of the replacement card. |
+| `segment` | `String` | The card segment indicates the primary market or usage category of the card. |
+| `status` | `String` | The current status of the card. |
+| `updatedAt` | `Object` | The Unix timestamp of when the card was last updated. |
 
 #### Example: Load
 
@@ -643,11 +696,12 @@ card = client.Card.load({ "id" => "card_id" })
 ```ruby
 card = client.Card.create({
   "address" => {}, # Hash
+  "bin" => "example_bin", # String
   "card" => {}, # Hash
+  "createdAt" => 1, # Integer
   "expiry" => {}, # Hash
-  "month" => "example_month", # String
+  "lastFour" => "example_lastFour", # String
   "number" => "example_number", # String
-  "year" => "example_year", # String
 })
 ```
 
@@ -722,35 +776,36 @@ Create an instance: `core = client.Core`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `app` | `String` | The unique identifier for the app to which the Relay belongs. |
-| `authentication` | `Object` | The type of authentication required for the Relay |
+| `category` | `String` | The category or specific nature of the encrypted value. |
+| `core_list` | `Object` | A JSON value or file to be encrypted. |
+| `cores` | `Object` | A JSON value or file to be decrypted. |
 | `createdAt` | `Integer` | The exact time, in epoch milliseconds, when this custom domain was created. |
 | `customDomain` | `String` | The customer managed domain to which requests to be relayed to your domain should be sent. |
-| `destinationDomain` | `String` | The domain in front of which you would like to configure a Relay |
-| `encryptEmptyStrings` | `Boolean` | Whether or not empty strings should be encrypted. |
-| `evervaultDomain` | `String` | The Evervault managed domain to which requests to be relayed to the destination domain should be sent. |
+| `encryptedAt` | `Integer` | The date and time when the value was encrypted. |
+| `fingerprint` | `String` | A unique identifier for the encrypted value. |
 | `id` | `String` | The unique identifier for the custom domain. |
+| `metadata` | `Object` | Further metadata about the encrypted value. |
 | `phoneNumber` | `String` |  |
 | `relay` | `String` | The ID of the Relay with which this custom domain is associated. |
-| `routes` | `Array` | A collection of route configurations for the Relay. |
+| `role` | `String` | The data role of the encrypted value. |
 | `status` | `String` | The status of the domains DNS verification. |
 | `token` | `String` | The encrypted data to be inspected. |
+| `type` | `String` | The type of the encrypted value. |
 | `updatedAt` | `Integer` | The exact time, in epoch milliseconds, when this custom domain was last updated. |
 | `validationRecord` | `String` | Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain |
 
 #### Example: List
 
 ```ruby
-# list returns an Array of Core records (raises on error).
-cores = client.Core.list
+# list returns an Array of Core entities, one per record (raises on error).
+cores = client.Core.list({ "relay_id" => "example" })
+cores.each { |item| puts item.data_get }
 ```
 
 #### Example: Create
 
 ```ruby
 core = client.Core.create({
-  "destinationDomain" => "example_destinationDomain", # String
-  "routes" => [], # Array
   "token" => "example_token", # String
 })
 ```
@@ -836,6 +891,7 @@ Create an instance: `merchant = client.Merchant`
 | Method | Description |
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
+| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 | `update(data)` | Update an existing entity. |
 
@@ -859,6 +915,14 @@ Create an instance: `merchant = client.Merchant`
 ```ruby
 # load returns the ENTITY — call data_get for the Merchant record (raises on error).
 merchant = client.Merchant.load({ "id" => "merchant_id" })
+```
+
+#### Example: List
+
+```ruby
+# list returns an Array of Merchant entities, one per record (raises on error).
+merchants = client.Merchant.list
+merchants.each { |item| puts item.data_get }
 ```
 
 #### Example: Create
@@ -973,8 +1037,9 @@ Create an instance: `payment = client.Payment`
 #### Example: List
 
 ```ruby
-# list returns an Array of Payment records (raises on error).
-payments = client.Payment.list
+# list returns an Array of Payment entities, one per record (raises on error).
+payments = client.Payment.list({ "3ds_session_id" => "example" })
+payments.each { |item| puts item.data_get }
 ```
 
 
@@ -986,6 +1051,8 @@ Create an instance: `relay = client.Relay`
 
 | Method | Description |
 | --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 | `update(data)` | Update an existing entity. |
 
@@ -1008,6 +1075,21 @@ Create an instance: `relay = client.Relay`
 ```ruby
 # load returns the ENTITY — call data_get for the Relay record (raises on error).
 relay = client.Relay.load({ "id" => "relay_id" })
+```
+
+#### Example: List
+
+```ruby
+# list returns an Array of Relay entities, one per record (raises on error).
+relays = client.Relay.list
+relays.each { |item| puts item.data_get }
+```
+
+#### Example: Create
+
+```ruby
+relay = client.Relay.create({
+})
 ```
 
 
@@ -1084,35 +1166,7 @@ Create an instance: `webhook = client.Webhook`
 
 | Method | Description |
 | --- | --- |
-| `create(data)` | Create a new entity with the given data. |
-| `list(match)` | List entities matching the criteria. |
 | `remove(match)` | Remove the matching entity. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `createdAt` | `Integer` | The exact time, in epoch milliseconds, when this Webhook Endpoint was created. |
-| `events` | `Array` | A list of Events that the Webhook Endpoint should subscribe to. |
-| `id` | `String` | A unique identifier representing a specific Webhook Endpoint. |
-| `updatedAt` | `Object` | The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated. |
-| `url` | `String` | The URL of the Webhook Endpoint. |
-
-#### Example: List
-
-```ruby
-# list returns an Array of Webhook records (raises on error).
-webhooks = client.Webhook.list
-```
-
-#### Example: Create
-
-```ruby
-webhook = client.Webhook.create({
-  "events" => [], # Array
-  "url" => "example_url", # String
-})
-```
 
 
 ### WebhookEndpoint
@@ -1123,6 +1177,8 @@ Create an instance: `webhook_endpoint = client.WebhookEndpoint`
 
 | Method | Description |
 | --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 | `update(data)` | Update an existing entity. |
 
@@ -1141,6 +1197,21 @@ Create an instance: `webhook_endpoint = client.WebhookEndpoint`
 ```ruby
 # load returns the ENTITY — call data_get for the WebhookEndpoint record (raises on error).
 webhook_endpoint = client.WebhookEndpoint.load({ "id" => "webhook_endpoint_id" })
+```
+
+#### Example: List
+
+```ruby
+# list returns an Array of WebhookEndpoint entities, one per record (raises on error).
+webhook_endpoints = client.WebhookEndpoint.list
+webhook_endpoints.each { |item| puts item.data_get }
+```
+
+#### Example: Create
+
+```ruby
+webhook_endpoint = client.WebhookEndpoint.create({
+})
 ```
 
 ## Features
@@ -1378,14 +1449,14 @@ when needed.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `load`, the entity
+Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```ruby
 merchant = client.Merchant
-merchant.load({ "id" => "example_id" })
+merchant.list()
 
-# merchant.data_get now returns the merchant data from the last load
+# merchant.data_get now returns the merchant data from the last list
 # merchant.match_get returns the last match criteria
 ```
 

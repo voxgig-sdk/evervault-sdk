@@ -9,7 +9,7 @@ import { createLiveTransport } from '../../live-runner'
 import { runLiveEntity } from '../../live-entity'
 
 
-import { EvervaultSDK, BaseFeature, stdutil } from '../../..'
+import { EvervaultSDK, BaseFeature, config, stdutil } from '../../..'
 
 import {
   envOverride,
@@ -41,6 +41,18 @@ describe('BinLookupEntity', async () => {
   })
 
 
+  test('validate', async (t) => {
+    if (null == (config as any).feature?.validate) {
+      t.skip('feature not present in this SDK: validate')
+      return
+    }
+    const client = EvervaultSDK.test(undefined, { feature: { validate: { active: true } } })
+    await assert.rejects(client.BinLookup().create({"number":1} as any),
+      (err: any) => 'validate_failed' === err.code)
+  })
+
+
+
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.EVERVAULT_TEST_LIVE
@@ -51,7 +63,7 @@ describe('BinLookupEntity', async () => {
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"number":{"a":true,"h":"Number","n":"number","r":true,"sh":"The card number for which the BIN lookup is being requested.","t":"`$STRING`","key$":"number","index$":0}},"name":"bin_lookup","op":{"create":{"input":"data","name":"create","points":[{"a":true,"co":{"id":"POST /payments/bin-lookups","source":"openapi3","version":2},"g":{},"k":"http","m":"POST","o":"/payments/bin-lookups","q":{},"r":{},"s":[{"lit":"payments"},{"lit":"bin-lookups"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"create"}},"relations":{"ancestors":[]},"key$":"bin_lookup","name__orig":"bin_lookup","Name":"BinLookup","name_":"bin_lookup","name-":"bin-lookup","NAME":"BIN_LOOKUP","index$":1}, {"active":true,"entity":"bin_lookup","key$":"BasicBinLookupFlow","kind":"basic","name":"BasicBinLookupFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"bin_lookup_ref01"},"m":{},"o":"create","s":[],"v":[],"index$":0}]}, 'BinLookup', {"POST /payments/bin-lookups":{"protocol":"http","requestBody":{"description":"The BIN (Bank Identification Number) lookup request body, which includes the card number.\n","required":true,"content":{"application/json":{"schema":{"type":"object","properties":{"number":{"type":"string","description":"The card number for which the BIN lookup is being requested.\nIt can be a plaintext Card number (FPAN) / Network Token number (DPAN), an encrypted\nCard number / Network Token number or simply just a BIN (6-10 first digits of a Card Number) for range lookup.\n","key$":"number"}},"required":["number"],"index$":1},"examples":{"BinLookupExample":{"summary":"Example BIN lookup request","value":{"number":"4242424242424242"}}}}}},"parameters":[]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"number":{"a":true,"h":"Number","n":"number","r":true,"sh":"The card number for which the BIN lookup is being requested.","t":"`$STRING`","key$":"number","index$":0}},"name":"bin_lookup","op":{"create":{"input":"data","name":"create","points":[{"a":true,"bf":["number"],"co":{"id":"POST /payments/bin-lookups","source":"openapi3","version":2},"g":{},"k":"http","m":"POST","o":"/payments/bin-lookups","q":{},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"payments"},{"lit":"bin-lookups"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"create"}},"relations":{"ancestors":[]},"key$":"bin_lookup","name__orig":"bin_lookup","Name":"BinLookup","name_":"bin_lookup","name-":"bin-lookup","NAME":"BIN_LOOKUP","index$":1}, {"active":true,"entity":"bin_lookup","key$":"BasicBinLookupFlow","kind":"basic","name":"BasicBinLookupFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"bin_lookup_ref01"},"m":{},"o":"create","s":[],"v":[],"index$":0}]}, 'BinLookup', {"POST /payments/bin-lookups":{"protocol":"http","requestBody":{"description":"The BIN (Bank Identification Number) lookup request body, which includes the card number.\n","required":true,"content":{"application/json":{"schema":{"type":"object","properties":{"number":{"type":"string","description":"The card number for which the BIN lookup is being requested.\nIt can be a plaintext Card number (FPAN) / Network Token number (DPAN), an encrypted\nCard number / Network Token number or simply just a BIN (6-10 first digits of a Card Number) for range lookup.\n","key$":"number"}},"required":["number"],"index$":1},"examples":{"BinLookupExample":{"summary":"Example BIN lookup request","value":{"number":"4242424242424242"}}}}}},"parameters":[]}}, { strict: LIVE_STRICT, t })
     }
     const client = setup.client
     const struct = setup.struct
@@ -72,6 +84,12 @@ describe('BinLookupEntity', async () => {
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function basicSetup(extra?: any) {
   // TODO: fix test def options

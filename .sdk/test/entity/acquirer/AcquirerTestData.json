@@ -40,6 +40,11 @@
       "version": 2,
       "source": "openapi3"
     },
+    "GET /payments/acquirers": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
     "GET /payments/acquirers/{acquirer_id}": {
       "provenance": "operation-contract",
       "version": 2,

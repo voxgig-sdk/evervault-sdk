@@ -149,6 +149,7 @@ module EvervaultConfig
           },
           "optspec" => {
             "clearTimer" => "`$FUNCTION`",
+            "now" => "`$FUNCTION`",
             "setTimer" => "`$FUNCTION`",
           },
           "strict" => false,
@@ -204,9 +205,6 @@ module EvervaultConfig
               "type" => "`$BOOLEAN`",
               "req" => true,
               "op" => {
-                "create" => {
-                  "type" => "`$BOOLEAN`",
-                },
                 "update" => {
                   "type" => "`$BOOLEAN`",
                 },
@@ -271,7 +269,66 @@ module EvervaultConfig
                     "res" => "`body`",
                   },
                   "args" => {},
-                  "select" => {},
+                  "select" => {
+                    "$action" => "acquirer",
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
+                },
+              ],
+            },
+            "list" => {
+              "input" => "data",
+              "name" => "list",
+              "points" => [
+                {
+                  "kind" => "http",
+                  "method" => "GET",
+                  "orig" => "/payments/acquirers",
+                  "segments" => [
+                    {
+                      "lit" => "payments",
+                    },
+                    {
+                      "lit" => "acquirers",
+                    },
+                  ],
+                  "parts" => [
+                    "payments",
+                    "acquirers",
+                  ],
+                  "rename" => {},
+                  "transform" => {
+                    "req" => "`reqdata`",
+                    "res" => "`body.data`",
+                  },
+                  "args" => {
+                    "query" => [
+                      {
+                        "name" => "page",
+                        "orig" => "page",
+                        "type" => "`$INTEGER`",
+                        "kind" => "query",
+                        "example" => 0,
+                      },
+                      {
+                        "name" => "page_size",
+                        "orig" => "pageSize",
+                        "type" => "`$INTEGER`",
+                        "kind" => "query",
+                        "example" => 50,
+                      },
+                    ],
+                  },
+                  "select" => {
+                    "$action" => "acquirer",
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
                 },
               ],
             },
@@ -323,6 +380,10 @@ module EvervaultConfig
                     "exist" => [
                       "id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -376,6 +437,10 @@ module EvervaultConfig
                       "id",
                     ],
                   },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
                 },
               ],
             },
@@ -423,6 +488,10 @@ module EvervaultConfig
                   },
                   "args" => {},
                   "select" => {},
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
                 },
               ],
             },
@@ -441,6 +510,25 @@ module EvervaultConfig
               "short" => "Details about the cardholder's address that the address verification (AVS) is for.",
             },
             {
+              "name" => "automaticUpdates",
+              "title" => "Automatic Updates",
+              "type" => "`$STRING`",
+              "short" => "The status of Card Account Updater on this card.",
+            },
+            {
+              "name" => "bin",
+              "title" => "Bin",
+              "type" => "`$STRING`",
+              "req" => true,
+              "short" => "The first 6 or 8 digits of the card number.",
+            },
+            {
+              "name" => "brand",
+              "title" => "Brand",
+              "type" => "`$STRING`",
+              "short" => "The card brand associated with the payment card.",
+            },
+            {
               "name" => "card",
               "title" => "Card",
               "type" => "`$OBJECT`",
@@ -454,10 +542,32 @@ module EvervaultConfig
               "short" => "Details about the cardholder that the name verification (ANI) is for.",
             },
             {
+              "name" => "country",
+              "title" => "Country",
+              "type" => "`$STRING`",
+              "short" => "The country where the card was issued.",
+              "format" => "iso-3166-1-alpha-2",
+            },
+            {
+              "name" => "createdAt",
+              "title" => "Created At",
+              "type" => "`$INTEGER`",
+              "req" => true,
+              "short" => "The Unix timestamp of when the card was created.",
+            },
+            {
+              "name" => "currency",
+              "title" => "Currency",
+              "type" => "`$STRING`",
+              "short" => "The currency of the card.",
+              "format" => "iso-4217-alphabetic",
+            },
+            {
               "name" => "expiry",
               "title" => "Expiry",
               "type" => "`$OBJECT`",
               "req" => true,
+              "short" => "The expiry date of the card.",
             },
             {
               "name" => "extensions",
@@ -466,30 +576,72 @@ module EvervaultConfig
               "short" => "The extensions to the card insight request.",
             },
             {
+              "name" => "funding",
+              "title" => "Funding",
+              "type" => "`$STRING`",
+              "short" => "The card funding type specifies the method by which transactions are financed.",
+            },
+            {
               "name" => "id",
               "title" => "Id",
               "type" => "`$STRING`",
+              "short" => "The unique identifier for the card.",
             },
             {
-              "name" => "month",
-              "title" => "Month",
+              "name" => "issuer",
+              "title" => "Issuer",
+              "type" => "`$STRING`",
+              "short" => "The name of the card issuer.",
+            },
+            {
+              "name" => "lastFour",
+              "title" => "Last Four",
               "type" => "`$STRING`",
               "req" => true,
-              "short" => "The card expiry month, in MM format (e.g.",
+              "short" => "The last 4 digits of the card number.",
             },
             {
               "name" => "number",
               "title" => "Number",
               "type" => "`$STRING`",
               "req" => true,
-              "short" => "The card number.",
+              "short" => "The Evervault encrypted card number.",
             },
             {
-              "name" => "year",
-              "title" => "Year",
+              "name" => "replacement",
+              "title" => "Replacement",
+              "type" => [
+                "`$ONE`",
+                [
+                  "`$STRING`",
+                  "`$NULL`",
+                ],
+              ],
+              "short" => "The ID of the replacement card.",
+            },
+            {
+              "name" => "segment",
+              "title" => "Segment",
               "type" => "`$STRING`",
-              "req" => true,
-              "short" => "The card expiry year, in YY format (e.g.",
+              "short" => "The card segment indicates the primary market or usage category of the card.",
+            },
+            {
+              "name" => "status",
+              "title" => "Status",
+              "type" => "`$STRING`",
+              "short" => "The current status of the card.",
+            },
+            {
+              "name" => "updatedAt",
+              "title" => "Updated At",
+              "type" => [
+                "`$ONE`",
+                [
+                  "`$INTEGER`",
+                  "`$NULL`",
+                ],
+              ],
+              "short" => "The Unix timestamp of when the card was last updated.",
             },
           ],
           "id" => {
@@ -533,7 +685,7 @@ module EvervaultConfig
                   },
                   "transform" => {
                     "req" => "`reqdata`",
-                    "res" => "`body.expiry`",
+                    "res" => "`body`",
                   },
                   "args" => {
                     "params" => [
@@ -551,6 +703,10 @@ module EvervaultConfig
                     "exist" => [
                       "id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
                 {
@@ -571,13 +727,15 @@ module EvervaultConfig
                   ],
                   "rename" => {},
                   "transform" => {
-                    "req" => {
-                      "card" => "`reqdata`",
-                    },
+                    "req" => "`reqdata`",
                     "res" => "`body`",
                   },
                   "args" => {},
                   "select" => {},
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
                 },
                 {
                   "kind" => "http",
@@ -598,10 +756,14 @@ module EvervaultConfig
                   "rename" => {},
                   "transform" => {
                     "req" => "`reqdata`",
-                    "res" => "`body.expiry`",
+                    "res" => "`body`",
                   },
                   "args" => {},
                   "select" => {},
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
                 },
               ],
             },
@@ -636,7 +798,7 @@ module EvervaultConfig
                   },
                   "transform" => {
                     "req" => "`reqdata`",
-                    "res" => "`body.expiry`",
+                    "res" => "`body`",
                   },
                   "args" => {
                     "params" => [
@@ -653,6 +815,10 @@ module EvervaultConfig
                     "exist" => [
                       "id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -744,6 +910,10 @@ module EvervaultConfig
                       "network_token_id",
                     ],
                   },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
                 },
               ],
             },
@@ -803,6 +973,10 @@ module EvervaultConfig
                   },
                   "args" => {},
                   "select" => {},
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
                 },
               ],
             },
@@ -814,22 +988,38 @@ module EvervaultConfig
         "core" => {
           "fields" => [
             {
-              "name" => "app",
-              "title" => "App",
+              "name" => "category",
+              "title" => "Category",
               "type" => "`$STRING`",
-              "short" => "The unique identifier for the app to which the Relay belongs.",
+              "short" => "The category or specific nature of the encrypted value.",
             },
             {
-              "name" => "authentication",
-              "title" => "Authentication",
+              "name" => "core_list",
+              "title" => "Core List",
               "type" => [
                 "`$ONE`",
                 [
+                  "`$OBJECT`",
+                  "`$ARRAY`",
                   "`$STRING`",
-                  "`$NULL`",
+                  "`$NUMBER`",
+                  "`$BOOLEAN`",
                 ],
               ],
-              "short" => "The type of authentication required for the Relay",
+              "short" => "A JSON value or file to be encrypted.",
+            },
+            {
+              "name" => "cores",
+              "title" => "Cores",
+              "type" => [
+                "`$ONE`",
+                [
+                  "`$OBJECT`",
+                  "`$ARRAY`",
+                  "`$STRING`",
+                ],
+              ],
+              "short" => "A JSON value or file to be decrypted.",
             },
             {
               "name" => "createdAt",
@@ -845,34 +1035,28 @@ module EvervaultConfig
               "short" => "The customer managed domain to which requests to be relayed to your domain should be sent.",
             },
             {
-              "name" => "destinationDomain",
-              "title" => "Destination Domain",
-              "type" => "`$STRING`",
-              "req" => true,
-              "op" => {
-                "list" => {
-                  "type" => "`$STRING`",
-                },
-              },
-              "short" => "The domain in front of which you would like to configure a Relay",
+              "name" => "encryptedAt",
+              "title" => "Encrypted At",
+              "type" => "`$INTEGER`",
+              "short" => "The date and time when the value was encrypted.",
             },
             {
-              "name" => "encryptEmptyStrings",
-              "title" => "Encrypt Empty Strings",
-              "type" => "`$BOOLEAN`",
-              "short" => "Whether or not empty strings should be encrypted.",
-            },
-            {
-              "name" => "evervaultDomain",
-              "title" => "Evervault Domain",
+              "name" => "fingerprint",
+              "title" => "Fingerprint",
               "type" => "`$STRING`",
-              "short" => "The Evervault managed domain to which requests to be relayed to the destination domain should be sent.",
+              "short" => "A unique identifier for the encrypted value.",
             },
             {
               "name" => "id",
               "title" => "Id",
               "type" => "`$STRING`",
               "short" => "The unique identifier for the custom domain.",
+            },
+            {
+              "name" => "metadata",
+              "title" => "Metadata",
+              "type" => "`$ANY`",
+              "short" => "Further metadata about the encrypted value.",
             },
             {
               "name" => "phoneNumber",
@@ -886,16 +1070,10 @@ module EvervaultConfig
               "short" => "The ID of the Relay with which this custom domain is associated.",
             },
             {
-              "name" => "routes",
-              "title" => "Routes",
-              "type" => "`$ARRAY`",
-              "req" => true,
-              "op" => {
-                "list" => {
-                  "type" => "`$ARRAY`",
-                },
-              },
-              "short" => "A collection of route configurations for the Relay.",
+              "name" => "role",
+              "title" => "Role",
+              "type" => "`$STRING`",
+              "short" => "The data role of the encrypted value.",
             },
             {
               "name" => "status",
@@ -909,6 +1087,12 @@ module EvervaultConfig
               "type" => "`$STRING`",
               "req" => true,
               "short" => "The encrypted data to be inspected.",
+            },
+            {
+              "name" => "type",
+              "title" => "Type",
+              "type" => "`$STRING`",
+              "short" => "The type of the encrypted value.",
             },
             {
               "name" => "updatedAt",
@@ -949,11 +1133,33 @@ module EvervaultConfig
                   ],
                   "rename" => {},
                   "transform" => {
-                    "req" => "`reqdata`",
+                    "req" => "`reqdata.cores`",
                     "res" => "`body`",
                   },
                   "args" => {},
                   "select" => {},
+                  "body" => {
+                    "alternatives" => [
+                      {
+                        "binary" => true,
+                        "kind" => "raw",
+                        "media" => "application/octet-stream",
+                      },
+                    ],
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
+                  "response" => {
+                    "alternatives" => [
+                      {
+                        "binary" => true,
+                        "kind" => "raw",
+                        "media" => "application/octet-stream",
+                      },
+                    ],
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
                 },
                 {
                   "kind" => "http",
@@ -969,11 +1175,33 @@ module EvervaultConfig
                   ],
                   "rename" => {},
                   "transform" => {
-                    "req" => "`reqdata`",
+                    "req" => "`reqdata.core_list`",
                     "res" => "`body`",
                   },
                   "args" => {},
                   "select" => {},
+                  "body" => {
+                    "alternatives" => [
+                      {
+                        "binary" => true,
+                        "kind" => "raw",
+                        "media" => "application/octet-stream",
+                      },
+                    ],
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
+                  "response" => {
+                    "alternatives" => [
+                      {
+                        "binary" => true,
+                        "kind" => "raw",
+                        "media" => "application/octet-stream",
+                      },
+                    ],
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
                 },
                 {
                   "kind" => "http",
@@ -990,30 +1218,14 @@ module EvervaultConfig
                   "rename" => {},
                   "transform" => {
                     "req" => "`reqdata`",
-                    "res" => "`body.metadata`",
-                  },
-                  "args" => {},
-                  "select" => {},
-                },
-                {
-                  "kind" => "http",
-                  "method" => "POST",
-                  "orig" => "/relays",
-                  "segments" => [
-                    {
-                      "lit" => "relays",
-                    },
-                  ],
-                  "parts" => [
-                    "relays",
-                  ],
-                  "rename" => {},
-                  "transform" => {
-                    "req" => "`reqdata`",
                     "res" => "`body`",
                   },
                   "args" => {},
                   "select" => {},
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
                 },
               ],
             },
@@ -1062,26 +1274,10 @@ module EvervaultConfig
                       "relay_id",
                     ],
                   },
-                },
-                {
-                  "kind" => "http",
-                  "method" => "GET",
-                  "orig" => "/relays",
-                  "segments" => [
-                    {
-                      "lit" => "relays",
-                    },
-                  ],
-                  "parts" => [
-                    "relays",
-                  ],
-                  "rename" => {},
-                  "transform" => {
-                    "req" => "`reqdata`",
-                    "res" => "`body.data`",
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
-                  "args" => {},
-                  "select" => {},
                 },
               ],
             },
@@ -1297,6 +1493,10 @@ module EvervaultConfig
                       "relay_id",
                     ],
                   },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
                 },
               ],
             },
@@ -1356,6 +1556,10 @@ module EvervaultConfig
                       "id",
                       "relay_id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -1473,6 +1677,10 @@ module EvervaultConfig
                       "function_name",
                     ],
                   },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
                 },
               ],
             },
@@ -1493,24 +1701,12 @@ module EvervaultConfig
               "name" => "business",
               "title" => "Business",
               "type" => "`$OBJECT`",
-              "op" => {
-                "create" => {
-                  "req" => true,
-                  "type" => "`$OBJECT`",
-                },
-              },
               "short" => "The business details of the Merchant.",
             },
             {
               "name" => "categoryCode",
               "title" => "Category Code",
               "type" => "`$STRING`",
-              "op" => {
-                "create" => {
-                  "req" => true,
-                  "type" => "`$STRING`",
-                },
-              },
               "short" => "The 4-digit Merchant Category Code (MCC).",
             },
             {
@@ -1594,7 +1790,72 @@ module EvervaultConfig
                     "res" => "`body`",
                   },
                   "args" => {},
-                  "select" => {},
+                  "select" => {
+                    "$action" => "merchant",
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
+                },
+              ],
+            },
+            "list" => {
+              "input" => "data",
+              "name" => "list",
+              "points" => [
+                {
+                  "kind" => "http",
+                  "method" => "GET",
+                  "orig" => "/payments/merchants",
+                  "segments" => [
+                    {
+                      "lit" => "payments",
+                    },
+                    {
+                      "lit" => "merchants",
+                    },
+                  ],
+                  "parts" => [
+                    "payments",
+                    "merchants",
+                  ],
+                  "rename" => {},
+                  "transform" => {
+                    "req" => "`reqdata`",
+                    "res" => "`body.data`",
+                  },
+                  "args" => {
+                    "query" => [
+                      {
+                        "name" => "page",
+                        "orig" => "page",
+                        "type" => "`$INTEGER`",
+                        "kind" => "query",
+                        "example" => 0,
+                      },
+                      {
+                        "name" => "page_size",
+                        "orig" => "pageSize",
+                        "type" => "`$INTEGER`",
+                        "kind" => "query",
+                        "example" => 50,
+                      },
+                      {
+                        "name" => "q",
+                        "orig" => "q",
+                        "type" => "`$STRING`",
+                        "kind" => "query",
+                      },
+                    ],
+                  },
+                  "select" => {
+                    "$action" => "merchant",
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
                 },
               ],
             },
@@ -1647,6 +1908,10 @@ module EvervaultConfig
                       "id",
                     ],
                   },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
                 },
               ],
             },
@@ -1698,6 +1963,10 @@ module EvervaultConfig
                     "exist" => [
                       "id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -1847,6 +2116,10 @@ module EvervaultConfig
                       "id",
                     ],
                   },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
                 },
                 {
                   "kind" => "http",
@@ -1871,6 +2144,10 @@ module EvervaultConfig
                   },
                   "args" => {},
                   "select" => {},
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
                 },
               ],
             },
@@ -1922,6 +2199,10 @@ module EvervaultConfig
                     "exist" => [
                       "id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -2008,6 +2289,10 @@ module EvervaultConfig
                       "id",
                     ],
                   },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
                 },
               ],
             },
@@ -2043,107 +2328,6 @@ module EvervaultConfig
               "input" => "data",
               "name" => "list",
               "points" => [
-                {
-                  "kind" => "http",
-                  "method" => "GET",
-                  "orig" => "/payments/merchants",
-                  "segments" => [
-                    {
-                      "lit" => "payments",
-                    },
-                    {
-                      "lit" => "merchants",
-                    },
-                  ],
-                  "parts" => [
-                    "payments",
-                    "merchants",
-                  ],
-                  "rename" => {},
-                  "transform" => {
-                    "req" => "`reqdata`",
-                    "res" => "`body.data`",
-                  },
-                  "args" => {
-                    "query" => [
-                      {
-                        "name" => "page",
-                        "orig" => "page",
-                        "type" => "`$INTEGER`",
-                        "kind" => "query",
-                        "example" => 0,
-                      },
-                      {
-                        "name" => "page_size",
-                        "orig" => "page_size",
-                        "type" => "`$INTEGER`",
-                        "kind" => "query",
-                        "example" => 50,
-                      },
-                      {
-                        "name" => "q",
-                        "orig" => "q",
-                        "type" => "`$STRING`",
-                        "kind" => "query",
-                      },
-                    ],
-                  },
-                  "select" => {
-                    "$action" => "merchant",
-                    "exist" => [
-                      "page",
-                      "page_size",
-                      "q",
-                    ],
-                  },
-                },
-                {
-                  "kind" => "http",
-                  "method" => "GET",
-                  "orig" => "/payments/acquirers",
-                  "segments" => [
-                    {
-                      "lit" => "payments",
-                    },
-                    {
-                      "lit" => "acquirers",
-                    },
-                  ],
-                  "parts" => [
-                    "payments",
-                    "acquirers",
-                  ],
-                  "rename" => {},
-                  "transform" => {
-                    "req" => "`reqdata`",
-                    "res" => "`body.data`",
-                  },
-                  "args" => {
-                    "query" => [
-                      {
-                        "name" => "page",
-                        "orig" => "page",
-                        "type" => "`$INTEGER`",
-                        "kind" => "query",
-                        "example" => 0,
-                      },
-                      {
-                        "name" => "page_size",
-                        "orig" => "page_size",
-                        "type" => "`$INTEGER`",
-                        "kind" => "query",
-                        "example" => 50,
-                      },
-                    ],
-                  },
-                  "select" => {
-                    "$action" => "acquirer",
-                    "exist" => [
-                      "page",
-                      "page_size",
-                    ],
-                  },
-                },
                 {
                   "kind" => "http",
                   "method" => "GET",
@@ -2188,6 +2372,10 @@ module EvervaultConfig
                     "exist" => [
                       "3ds_session_id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -2279,6 +2467,10 @@ module EvervaultConfig
                       "card_id",
                     ],
                   },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
                 },
                 {
                   "kind" => "http",
@@ -2363,6 +2555,10 @@ module EvervaultConfig
                       "network_token_id",
                     ],
                   },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
                 },
               ],
             },
@@ -2415,6 +2611,12 @@ module EvervaultConfig
               "name" => "destinationDomain",
               "title" => "Destination Domain",
               "type" => "`$STRING`",
+              "op" => {
+                "create" => {
+                  "req" => true,
+                  "type" => "`$STRING`",
+                },
+              },
               "short" => "The domain in front of which the Relay should be configured.",
             },
             {
@@ -2439,6 +2641,12 @@ module EvervaultConfig
               "name" => "routes",
               "title" => "Routes",
               "type" => "`$ARRAY`",
+              "op" => {
+                "create" => {
+                  "req" => true,
+                  "type" => "`$ARRAY`",
+                },
+              },
               "short" => "A collection of route configurations for the Relay.",
             },
             {
@@ -2455,6 +2663,66 @@ module EvervaultConfig
           },
           "name" => "relay",
           "op" => {
+            "create" => {
+              "input" => "data",
+              "name" => "create",
+              "points" => [
+                {
+                  "kind" => "http",
+                  "method" => "POST",
+                  "orig" => "/relays",
+                  "segments" => [
+                    {
+                      "lit" => "relays",
+                    },
+                  ],
+                  "parts" => [
+                    "relays",
+                  ],
+                  "rename" => {},
+                  "transform" => {
+                    "req" => "`reqdata`",
+                    "res" => "`body`",
+                  },
+                  "args" => {},
+                  "select" => {},
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
+                },
+              ],
+            },
+            "list" => {
+              "input" => "data",
+              "name" => "list",
+              "points" => [
+                {
+                  "kind" => "http",
+                  "method" => "GET",
+                  "orig" => "/relays",
+                  "segments" => [
+                    {
+                      "lit" => "relays",
+                    },
+                  ],
+                  "parts" => [
+                    "relays",
+                  ],
+                  "rename" => {},
+                  "transform" => {
+                    "req" => "`reqdata`",
+                    "res" => "`body.data`",
+                  },
+                  "args" => {},
+                  "select" => {},
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
+                },
+              ],
+            },
             "load" => {
               "input" => "data",
               "name" => "load",
@@ -2495,6 +2763,10 @@ module EvervaultConfig
                     "exist" => [
                       "id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -2539,6 +2811,10 @@ module EvervaultConfig
                     "exist" => [
                       "id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -2757,6 +3033,10 @@ module EvervaultConfig
                   },
                   "args" => {},
                   "select" => {},
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
                 },
               ],
             },
@@ -2805,6 +3085,10 @@ module EvervaultConfig
                       "3ds_session_id",
                     ],
                   },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
                 },
               ],
             },
@@ -2814,138 +3098,9 @@ module EvervaultConfig
           },
         },
         "webhook" => {
-          "fields" => [
-            {
-              "name" => "createdAt",
-              "title" => "Created At",
-              "type" => "`$INTEGER`",
-              "short" => "The exact time, in epoch milliseconds, when this Webhook Endpoint was created.",
-              "format" => "int64",
-            },
-            {
-              "name" => "events",
-              "title" => "Events",
-              "type" => "`$ARRAY`",
-              "req" => true,
-              "op" => {
-                "list" => {
-                  "type" => "`$ARRAY`",
-                },
-              },
-              "short" => "A list of Events that the Webhook Endpoint should subscribe to.",
-            },
-            {
-              "name" => "id",
-              "title" => "Id",
-              "type" => "`$STRING`",
-              "short" => "A unique identifier representing a specific Webhook Endpoint.",
-            },
-            {
-              "name" => "updatedAt",
-              "title" => "Updated At",
-              "type" => [
-                "`$ONE`",
-                [
-                  "`$INTEGER`",
-                  "`$NULL`",
-                ],
-              ],
-              "short" => "The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated.",
-              "format" => "int64",
-            },
-            {
-              "name" => "url",
-              "title" => "Url",
-              "type" => "`$STRING`",
-              "req" => true,
-              "op" => {
-                "list" => {
-                  "type" => "`$STRING`",
-                },
-              },
-              "short" => "The URL of the Webhook Endpoint.",
-            },
-          ],
-          "id" => {
-            "field" => "id",
-            "name" => "id",
-          },
+          "fields" => [],
           "name" => "webhook",
           "op" => {
-            "create" => {
-              "input" => "data",
-              "name" => "create",
-              "points" => [
-                {
-                  "kind" => "http",
-                  "method" => "POST",
-                  "orig" => "/webhook-endpoints",
-                  "segments" => [
-                    {
-                      "lit" => "webhook-endpoints",
-                    },
-                  ],
-                  "parts" => [
-                    "webhook-endpoints",
-                  ],
-                  "rename" => {},
-                  "transform" => {
-                    "req" => "`reqdata`",
-                    "res" => "`body`",
-                  },
-                  "args" => {},
-                  "select" => {},
-                },
-              ],
-            },
-            "list" => {
-              "input" => "data",
-              "name" => "list",
-              "points" => [
-                {
-                  "kind" => "http",
-                  "method" => "GET",
-                  "orig" => "/webhook-endpoints",
-                  "segments" => [
-                    {
-                      "lit" => "webhook-endpoints",
-                    },
-                  ],
-                  "parts" => [
-                    "webhook-endpoints",
-                  ],
-                  "rename" => {},
-                  "transform" => {
-                    "req" => "`reqdata`",
-                    "res" => "`body.data`",
-                  },
-                  "args" => {
-                    "query" => [
-                      {
-                        "name" => "limit",
-                        "orig" => "limit",
-                        "type" => "`$INTEGER`",
-                        "kind" => "query",
-                        "example" => 10,
-                      },
-                      {
-                        "name" => "starting_after",
-                        "orig" => "starting_after",
-                        "type" => "`$STRING`",
-                        "kind" => "query",
-                        "example" => "webhook_endpoint_wd7c640d1daee",
-                      },
-                    ],
-                  },
-                  "select" => {
-                    "exist" => [
-                      "limit",
-                      "starting_after",
-                    ],
-                  },
-                },
-              ],
-            },
             "remove" => {
               "input" => "data",
               "name" => "remove",
@@ -3014,6 +3169,10 @@ module EvervaultConfig
               "title" => "Events",
               "type" => "`$ARRAY`",
               "op" => {
+                "create" => {
+                  "req" => true,
+                  "type" => "`$ARRAY`",
+                },
                 "update" => {
                   "req" => true,
                   "type" => "`$ARRAY`",
@@ -3044,6 +3203,12 @@ module EvervaultConfig
               "name" => "url",
               "title" => "Url",
               "type" => "`$STRING`",
+              "op" => {
+                "create" => {
+                  "req" => true,
+                  "type" => "`$STRING`",
+                },
+              },
               "short" => "The URL of the Webhook Endpoint.",
             },
           ],
@@ -3053,6 +3218,83 @@ module EvervaultConfig
           },
           "name" => "webhook_endpoint",
           "op" => {
+            "create" => {
+              "input" => "data",
+              "name" => "create",
+              "points" => [
+                {
+                  "kind" => "http",
+                  "method" => "POST",
+                  "orig" => "/webhook-endpoints",
+                  "segments" => [
+                    {
+                      "lit" => "webhook-endpoints",
+                    },
+                  ],
+                  "parts" => [
+                    "webhook-endpoints",
+                  ],
+                  "rename" => {},
+                  "transform" => {
+                    "req" => "`reqdata`",
+                    "res" => "`body`",
+                  },
+                  "args" => {},
+                  "select" => {},
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
+                },
+              ],
+            },
+            "list" => {
+              "input" => "data",
+              "name" => "list",
+              "points" => [
+                {
+                  "kind" => "http",
+                  "method" => "GET",
+                  "orig" => "/webhook-endpoints",
+                  "segments" => [
+                    {
+                      "lit" => "webhook-endpoints",
+                    },
+                  ],
+                  "parts" => [
+                    "webhook-endpoints",
+                  ],
+                  "rename" => {},
+                  "transform" => {
+                    "req" => "`reqdata`",
+                    "res" => "`body.data`",
+                  },
+                  "args" => {
+                    "query" => [
+                      {
+                        "name" => "limit",
+                        "orig" => "limit",
+                        "type" => "`$INTEGER`",
+                        "kind" => "query",
+                        "example" => 10,
+                      },
+                      {
+                        "name" => "starting_after",
+                        "orig" => "startingAfter",
+                        "type" => "`$STRING`",
+                        "kind" => "query",
+                        "example" => "webhook_endpoint_wd7c640d1daee",
+                      },
+                    ],
+                  },
+                  "select" => {},
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
+                },
+              ],
+            },
             "load" => {
               "input" => "data",
               "name" => "load",
@@ -3098,6 +3340,10 @@ module EvervaultConfig
                     "exist" => [
                       "id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -3147,6 +3393,10 @@ module EvervaultConfig
                     "exist" => [
                       "id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],

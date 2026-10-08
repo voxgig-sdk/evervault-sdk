@@ -54,26 +54,36 @@ const utility_1 = require("../../utility");
         const ent = testsdk.CardArt();
         (0, node_assert_1.default)(null != ent);
     });
+    (0, node_test_1.test)('validate', async (t) => {
+        if (null == __1.config.feature?.validate) {
+            t.skip('feature not present in this SDK: validate');
+            return;
+        }
+        const client = __1.EvervaultSDK.test(undefined, { feature: { validate: { active: true } } });
+        await node_assert_1.default.rejects(client.CardArt().load({ "network_token_id": 1 }), (err) => 'validate_failed' === err.code);
+    });
     (0, node_test_1.test)('basic', async (t) => {
         const live = 'TRUE' === process.env.EVERVAULT_TEST_LIVE;
-        for (const op of ['load']) {
+        for (const op of []) {
             if (!live && (0, utility_1.maybeSkipControl)(t, 'entityOp', 'card_art.' + op, live))
                 return;
         }
         const setup = basicSetup();
         if (setup.live) {
-            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": { "data": { "a": true, "h": "Data", "n": "data", "r": true, "sh": "The base64-encoded image data of the card art.", "t": "`$STRING`", "key$": "data", "index$": 0 }, "height": { "a": true, "h": "Height", "n": "height", "r": true, "sh": "The height of the card art image in pixels.", "t": "`$INTEGER`", "key$": "height", "index$": 1 }, "type": { "a": true, "h": "Type", "n": "type", "r": true, "sh": "The MIME type of the card art image.", "t": "`$STRING`", "key$": "type", "index$": 2 }, "width": { "a": true, "h": "Width", "n": "width", "r": true, "sh": "The width of the card art image in pixels.", "t": "`$INTEGER`", "key$": "width", "index$": 3 } }, "name": "card_art", "op": { "load": { "input": "data", "name": "load", "points": [{ "a": true, "co": { "id": "GET /payments/network-tokens/{network_token_id}/card-art", "source": "openapi3", "version": 2 }, "g": { "params": [{ "a": true, "k": "param", "n": "network_token_id", "or": "network_token_id", "r": true, "t": "`$STRING`", "index$": 0 }] }, "k": "http", "m": "GET", "o": "/payments/network-tokens/{network_token_id}/card-art", "q": { "exist": ["network_token_id"] }, "r": {}, "s": [{ "lit": "payments" }, { "lit": "network-tokens" }, { "var": "network_token_id" }, { "lit": "card-art" }], "t": { "req": "`reqdata`", "res": "`body`" }, "index$": 0 }], "key$": "load" } }, "relations": { "ancestors": [["$.main.kit.entity.network_token"]] }, "key$": "card_art", "name__orig": "card_art", "Name": "CardArt", "name_": "card_art", "name-": "card-art", "NAME": "CARD_ART", "index$": 3 }, { "active": true, "entity": "card_art", "key$": "BasicCardArtFlow", "kind": "basic", "name": "BasicCardArtFlow", "param": {}, "step": [{ "a": true, "d": {}, "i": { "ref": "card_art_ref01", "srcdatavar": "card_art_ref01_data", "suffix": "_dt0" }, "m": { "id": "card_art01" }, "o": "load", "s": [], "v": [{ "apply": "TextFieldMark", "def": { "mark": "Mark01-card_art_ref01" } }], "index$": 0 }] }, 'CardArt', { "GET /payments/network-tokens/{network_token_id}/card-art": { "protocol": "http", "parameters": [{ "name": "network_token_id", "in": "path", "description": "The unique identifier of the Network Token.", "required": true, "schema": { "type": "string" }, "index$": 0 }] } });
+            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": { "data": { "a": true, "h": "Data", "n": "data", "r": true, "sh": "The base64-encoded image data of the card art.", "t": "`$STRING`", "key$": "data", "index$": 0 }, "height": { "a": true, "h": "Height", "n": "height", "r": true, "sh": "The height of the card art image in pixels.", "t": "`$INTEGER`", "key$": "height", "index$": 1 }, "type": { "a": true, "h": "Type", "n": "type", "r": true, "sh": "The MIME type of the card art image.", "t": "`$STRING`", "key$": "type", "index$": 2 }, "width": { "a": true, "h": "Width", "n": "width", "r": true, "sh": "The width of the card art image in pixels.", "t": "`$INTEGER`", "key$": "width", "index$": 3 } }, "name": "card_art", "op": { "load": { "input": "data", "name": "load", "points": [{ "a": true, "co": { "id": "GET /payments/network-tokens/{network_token_id}/card-art", "source": "openapi3", "version": 2 }, "g": { "params": [{ "a": true, "k": "param", "n": "network_token_id", "or": "network_token_id", "r": true, "t": "`$STRING`", "index$": 0 }] }, "k": "http", "m": "GET", "o": "/payments/network-tokens/{network_token_id}/card-art", "q": { "exist": ["network_token_id"] }, "r": {}, "rs": { "kind": "json", "media": "application/json" }, "s": [{ "lit": "payments" }, { "lit": "network-tokens" }, { "var": "network_token_id" }, { "lit": "card-art" }], "t": { "req": "`reqdata`", "res": "`body`" }, "index$": 0 }], "key$": "load" } }, "relations": { "ancestors": [["$.main.kit.entity.network_token"]] }, "key$": "card_art", "name__orig": "card_art", "Name": "CardArt", "name_": "card_art", "name-": "card-art", "NAME": "CARD_ART", "index$": 3 }, { "active": true, "entity": "card_art", "key$": "BasicCardArtFlow", "kind": "basic", "name": "BasicCardArtFlow", "param": {}, "step": [{ "a": false, "d": {}, "i": { "ref": "card_art_ref01", "srcdatavar": "card_art_ref01_data", "suffix": "_dt0" }, "m": { "id": "card_art01" }, "o": "load", "s": [], "v": [{ "apply": "TextFieldMark", "def": { "mark": "Mark01-card_art_ref01" } }], "unreachable": true }] }, 'CardArt', { "GET /payments/network-tokens/{network_token_id}/card-art": { "protocol": "http", "parameters": [{ "name": "network_token_id", "in": "path", "description": "The unique identifier of the Network Token.", "required": true, "schema": { "type": "string" }, "index$": 0 }] } }, { strict: LIVE_STRICT, t });
         }
         const client = setup.client;
         const struct = setup.struct;
         const isempty = struct.isempty;
         const select = struct.select;
         let card_art_ref01_data = Object.values(setup.data.existing.card_art)[0];
-        // LOAD: skipped — no entity id field and load requires path params.
-        // Entity-var is declared here so later flow steps still compile.
-        const card_art_ref01_ent = client.CardArt();
     });
 });
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true;
 function basicSetup(extra) {
     // TODO: fix test def options
     const options = {}; // null

@@ -20,6 +20,9 @@ main: kit: entity: bin_lookup: {
       name: "create"
       points: [
         {
+          bf: [
+            "number"
+          ]
           co: {
             id: "POST /payments/bin-lookups"
             source: "openapi3"
@@ -27,6 +30,10 @@ main: kit: entity: bin_lookup: {
           }
           m: "POST"
           o: "/payments/bin-lookups"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "payments"

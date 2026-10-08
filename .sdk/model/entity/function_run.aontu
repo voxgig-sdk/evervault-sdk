@@ -74,6 +74,10 @@ main: kit: entity: function_run: {
       name: "create"
       points: [
         {
+          bf: [
+            "async"
+            "payload"
+          ]
           co: {
             id: "POST /functions/{function_name}/runs"
             source: "openapi3"
@@ -96,6 +100,10 @@ main: kit: entity: function_run: {
             exist: [
               "function_name"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

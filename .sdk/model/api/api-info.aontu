@@ -11,6 +11,26 @@ main: {
       }
       description: "The Evervault API allows developers to interact programmatically with their Evervault apps using HTTP requests."
       security: {
+        alternatives: [
+          [
+            {
+              in: "header"
+              name: "Authorization"
+              prefix: "Bearer"
+              scheme: "ClientSideToken"
+              type: "http"
+            }
+          ]
+          [
+            {
+              in: "header"
+              name: "Authorization"
+              prefix: "Bearer"
+              scheme: "TokenAuth"
+              type: "http"
+            }
+          ]
+        ]
         in: "header"
         name: "Authorization"
         prefix: "Basic"

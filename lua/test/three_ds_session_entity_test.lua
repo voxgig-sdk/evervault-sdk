@@ -8,6 +8,13 @@ local runner = require("test.runner")
 
 local _test_dir = debug.getinfo(1, "S").source:match("^@(.+/)")  or "./"
 
+-- main.kit.test.live.strict is true (the default is true): a live
+-- request that fails, or a live test missing an input it needs,
+-- fails the test.
+-- An account with no record for a test to read skips it either way.
+local LIVE_STRICT = true
+
+
 describe("ThreeDsSessionEntity", function()
   it("should create instance", function()
     local testsdk = sdk.test(nil, nil)
@@ -15,22 +22,27 @@ describe("ThreeDsSessionEntity", function()
     assert.is_not_nil(ent)
   end)
 
+  it("should refuse an invalid request", function()
+    local config = require("config_shared")()
+    if type(config.feature) ~= "table" or config.feature.validate == nil then
+      pending("feature not present in this SDK: validate")
+      return
+    end
+    local client = sdk.test(nil, { feature = { validate = { active = true } } })
+    local _, err = client:ThreeDsSession(nil):load({ ["3ds_session_id"] = 1 }, nil)
+    assert.are.equal("validate_failed", type(err) == "table" and err.code or nil)
+  end)
+
   it("should run basic flow", function()
     local setup = three_ds_session_basic_setup(nil)
     -- Per-op sdk-test-control.json skip.
     local _live = setup.live or false
-    for _, _op in ipairs({"create", "load"}) do
+    for _, _op in ipairs({"create"}) do
       local _should_skip, _reason = runner.is_control_skipped("entityOp", "three_ds_session." .. _op, _live and "live" or "unit")
       if _should_skip then
         pending(_reason or "skipped via sdk-test-control.json")
         return
       end
-    end
-    -- The basic flow consumes synthetic IDs from the fixture. In live mode
-    -- without an *_ENTID env override, those IDs hit the live API and 4xx.
-    if setup.synthetic_only then
-      pending("live entity test uses synthetic IDs from fixture — set EVERVAULT_TEST_THREE_DS_SESSION_ENTID JSON to run live")
-      return
     end
     local client = setup.client
 
@@ -44,16 +56,6 @@ describe("ThreeDsSessionEntity", function()
     three_ds_session_ref01_data = helpers.to_map(type(three_ds_session_ref01_data_result) == 'table' and three_ds_session_ref01_data_result.data_get and three_ds_session_ref01_data_result:data_get() or three_ds_session_ref01_data_result)
     assert.is_not_nil(three_ds_session_ref01_data)
     assert.is_not_nil(three_ds_session_ref01_data["id"])
-
-    -- LOAD
-    local three_ds_session_ref01_match_dt0 = {
-      id = three_ds_session_ref01_data["id"],
-    }
-    local three_ds_session_ref01_data_dt0_loaded, err = three_ds_session_ref01_ent:load(three_ds_session_ref01_match_dt0, nil)
-    assert.is_nil(err)
-    local three_ds_session_ref01_data_dt0_load_result = helpers.to_map(type(three_ds_session_ref01_data_dt0_loaded) == 'table' and three_ds_session_ref01_data_dt0_loaded.data_get and three_ds_session_ref01_data_dt0_loaded:data_get() or three_ds_session_ref01_data_dt0_loaded)
-    assert.is_not_nil(three_ds_session_ref01_data_dt0_load_result)
-    assert.are.equal(three_ds_session_ref01_data_dt0_load_result["id"], three_ds_session_ref01_data["id"])
 
   end)
 end)
@@ -87,9 +89,8 @@ function three_ds_session_basic_setup(extra)
     }
   )
 
-  -- Detect ENTID env override before envOverride consumes it. When live
-  -- mode is on without a real override, the basic test runs against synthetic
-  -- IDs from the fixture and 4xx's. Surface this so the test can skip.
+  -- Whether *_ENTID supplied the idmap, read before env_override consumes
+  -- it: without it, the ids a live flow binds are the fixture's synthetic ones.
   local entid_env_raw = os.getenv("EVERVAULT_TEST_THREE_DS_SESSION_ENTID")
   local idmap_overridden = entid_env_raw ~= nil and entid_env_raw:match("^%s*{") ~= nil
 

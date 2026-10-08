@@ -161,19 +161,19 @@ $acquirer = $client->Acquirer();
 
 ### Field Usage by Operation
 
-| Field | load | create | update |
-| --- | --- | --- | --- |
-| `configurations` | - | - | Yes |
-| `default` | - | Yes | Yes |
-| `description` | - | - | - |
-| `id` | - | - | - |
-| `name` | - | - | Yes |
+| Field | load | list | create | update |
+| --- | --- | --- | --- | --- |
+| `configurations` | - | - | - | Yes |
+| `default` | - | - | - | Yes |
+| `description` | - | - | - | - |
+| `id` | - | - | - | - |
+| `name` | - | - | - | Yes |
 
 ### Operations
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->Acquirer()->create([
@@ -184,9 +184,17 @@ $result = $client->Acquirer()->create([
 ]);
 ```
 
+#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
+
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
+
+```php
+$results = $client->Acquirer()->list();
+```
+
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->Acquirer()->load(["id" => "acquirer_id"]);
@@ -194,7 +202,7 @@ $result = $client->Acquirer()->load(["id" => "acquirer_id"]);
 
 #### `update(array $reqdata, ?array $ctrl = null): mixed`
 
-Update an existing entity. The data must include the entity `id`. Throws on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and throws on error.
 
 ```php
 $result = $client->Acquirer()->update([
@@ -249,7 +257,7 @@ $bin_lookup = $client->BinLookup();
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->BinLookup()->create([
@@ -298,35 +306,47 @@ $card = $client->Card();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `address` | `array` | Yes | Details about the cardholder's address that the address verification (AVS) is for. |
+| `automaticUpdates` | `string` | No | The status of Card Account Updater on this card. |
+| `bin` | `string` | Yes | The first 6 or 8 digits of the card number. |
+| `brand` | `string` | No | The card brand associated with the payment card. |
 | `card` | `array` | Yes | The card details. |
 | `cardholder` | `array` | No | Details about the cardholder that the name verification (ANI) is for. |
-| `expiry` | `array` | Yes |  |
+| `country` | `string` | No | The country where the card was issued. |
+| `createdAt` | `int` | Yes | The Unix timestamp of when the card was created. |
+| `currency` | `string` | No | The currency of the card. |
+| `expiry` | `array` | Yes | The expiry date of the card. |
 | `extensions` | `array` | No | The extensions to the card insight request. |
-| `id` | `string` | No |  |
-| `month` | `string` | Yes | The card expiry month, in MM format (e.g. |
-| `number` | `string` | Yes | The card number. |
-| `year` | `string` | Yes | The card expiry year, in YY format (e.g. |
+| `funding` | `string` | No | The card funding type specifies the method by which transactions are financed. |
+| `id` | `string` | No | The unique identifier for the card. |
+| `issuer` | `string` | No | The name of the card issuer. |
+| `lastFour` | `string` | Yes | The last 4 digits of the card number. |
+| `number` | `string` | Yes | The Evervault encrypted card number. |
+| `replacement` | `mixed` | No | The ID of the replacement card. |
+| `segment` | `string` | No | The card segment indicates the primary market or usage category of the card. |
+| `status` | `string` | No | The current status of the card. |
+| `updatedAt` | `mixed` | No | The Unix timestamp of when the card was last updated. |
 
 ### Operations
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->Card()->create([
   "address" => null, // array
+  "bin" => null, // string
   "card" => null, // array
+  "createdAt" => null, // int
   "expiry" => null, // array
-  "month" => null, // string
+  "lastFour" => null, // string
   "number" => null, // string
-  "year" => null, // string
 ]);
 ```
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->Card()->load(["id" => "card_id"]);
@@ -381,7 +401,7 @@ $card_art = $client->CardArt();
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->CardArt()->load(["network_token_id" => "network_token_id"]);
@@ -435,7 +455,7 @@ $client_side_token = $client->ClientSideToken();
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->ClientSideToken()->create([
@@ -483,67 +503,47 @@ $core = $client->Core();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app` | `string` | No | The unique identifier for the app to which the Relay belongs. |
-| `authentication` | `mixed` | No | The type of authentication required for the Relay |
+| `category` | `string` | No | The category or specific nature of the encrypted value. |
+| `core_list` | `mixed` | No | A JSON value or file to be encrypted. |
+| `cores` | `mixed` | No | A JSON value or file to be decrypted. |
 | `createdAt` | `int` | No | The exact time, in epoch milliseconds, when this custom domain was created. |
 | `customDomain` | `string` | No | The customer managed domain to which requests to be relayed to your domain should be sent. |
-| `destinationDomain` | `string` | Yes | The domain in front of which you would like to configure a Relay |
-| `encryptEmptyStrings` | `bool` | No | Whether or not empty strings should be encrypted. |
-| `evervaultDomain` | `string` | No | The Evervault managed domain to which requests to be relayed to the destination domain should be sent. |
+| `encryptedAt` | `int` | No | The date and time when the value was encrypted. |
+| `fingerprint` | `string` | No | A unique identifier for the encrypted value. |
 | `id` | `string` | No | The unique identifier for the custom domain. |
+| `metadata` | `mixed` | No | Further metadata about the encrypted value. |
 | `phoneNumber` | `string` | No |  |
 | `relay` | `string` | No | The ID of the Relay with which this custom domain is associated. |
-| `routes` | `array` | Yes | A collection of route configurations for the Relay. |
+| `role` | `string` | No | The data role of the encrypted value. |
 | `status` | `string` | No | The status of the domains DNS verification. |
 | `token` | `string` | Yes | The encrypted data to be inspected. |
+| `type` | `string` | No | The type of the encrypted value. |
 | `updatedAt` | `int` | No | The exact time, in epoch milliseconds, when this custom domain was last updated. |
 | `validationRecord` | `string` | No | Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain |
-
-### Field Usage by Operation
-
-| Field | list | create | remove |
-| --- | --- | --- | --- |
-| `app` | - | - | - |
-| `authentication` | - | - | - |
-| `createdAt` | - | - | - |
-| `customDomain` | - | - | - |
-| `destinationDomain` | Yes | - | - |
-| `encryptEmptyStrings` | - | - | - |
-| `evervaultDomain` | - | - | - |
-| `id` | - | - | - |
-| `phoneNumber` | - | - | - |
-| `relay` | - | - | - |
-| `routes` | Yes | - | - |
-| `status` | - | - | - |
-| `token` | - | - | - |
-| `updatedAt` | - | - | - |
-| `validationRecord` | - | - | - |
 
 ### Operations
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->Core()->create([
-  "destinationDomain" => null, // string
-  "routes" => null, // array
   "token" => null, // string
 ]);
 ```
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
-$results = $client->Core()->list();
+$results = $client->Core()->list(["relay_id" => "example"]);
 ```
 
 #### `remove(array $reqmatch, ?array $ctrl = null): mixed`
 
-Remove the entity matching the given criteria. Throws on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
 
 ```php
 $result = $client->Core()->remove(["id" => "id"]);
@@ -613,7 +613,7 @@ $custom_domain = $client->CustomDomain();
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->CustomDomain()->create([
@@ -623,7 +623,7 @@ $result = $client->CustomDomain()->create([
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->CustomDomain()->load(["id" => "custom_domain_id", "relay_id" => "relay_id"]);
@@ -681,7 +681,7 @@ $function_run = $client->FunctionRun();
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->FunctionRun()->create([
@@ -741,26 +741,11 @@ $merchant = $client->Merchant();
 | `updatedAt` | `int` | No | The exact time, in epoch milliseconds, when this Merchant was last updated. |
 | `website` | `string` | Yes | The official website URL of the Merchant. |
 
-### Field Usage by Operation
-
-| Field | load | create | update |
-| --- | --- | --- | --- |
-| `applePay` | - | - | - |
-| `business` | - | Yes | - |
-| `categoryCode` | - | Yes | - |
-| `createdAt` | - | - | - |
-| `id` | - | - | - |
-| `name` | - | - | - |
-| `networkTokens` | - | - | - |
-| `shortName` | - | - | - |
-| `updatedAt` | - | - | - |
-| `website` | - | - | - |
-
 ### Operations
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->Merchant()->create([
@@ -771,9 +756,17 @@ $result = $client->Merchant()->create([
 ]);
 ```
 
+#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
+
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
+
+```php
+$results = $client->Merchant()->list();
+```
+
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->Merchant()->load(["id" => "merchant_id"]);
@@ -781,7 +774,7 @@ $result = $client->Merchant()->load(["id" => "merchant_id"]);
 
 #### `update(array $reqdata, ?array $ctrl = null): mixed`
 
-Update an existing entity. The data must include the entity `id`. Throws on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and throws on error.
 
 ```php
 $result = $client->Merchant()->update([
@@ -846,7 +839,7 @@ $network_token = $client->NetworkToken();
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->NetworkToken()->create([
@@ -864,7 +857,7 @@ $result = $client->NetworkToken()->create([
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->NetworkToken()->load(["id" => "network_token_id"]);
@@ -918,7 +911,7 @@ $network_token_cryptogram = $client->NetworkTokenCryptogram();
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->NetworkTokenCryptogram()->create([
@@ -974,15 +967,15 @@ $payment = $client->Payment();
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
-$results = $client->Payment()->list();
+$results = $client->Payment()->list(["3ds_session_id" => "example"]);
 ```
 
 #### `remove(array $reqmatch, ?array $ctrl = null): mixed`
 
-Remove the entity matching the given criteria. Throws on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
 
 ```php
 $result = $client->Payment()->remove(["acquirer_id" => "acquirer_id"]);
@@ -1038,11 +1031,42 @@ $relay = $client->Relay();
 | `routes` | `array` | No | A collection of route configurations for the Relay. |
 | `updatedAt` | `int` | No | The exact time, in epoch milliseconds, when this Relay was updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create | update |
+| --- | --- | --- | --- | --- |
+| `app` | - | - | - | - |
+| `authentication` | - | - | - | - |
+| `createdAt` | - | - | - | - |
+| `destinationDomain` | - | - | Yes | - |
+| `encryptEmptyStrings` | - | - | - | - |
+| `evervaultDomain` | - | - | - | - |
+| `id` | - | - | - | - |
+| `routes` | - | - | Yes | - |
+| `updatedAt` | - | - | - | - |
+
 ### Operations
+
+#### `create(array $reqdata, ?array $ctrl = null): mixed`
+
+Create a new entity with the given data. Returns the created entity and throws on error.
+
+```php
+$result = $client->Relay()->create([
+]);
+```
+
+#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
+
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
+
+```php
+$results = $client->Relay()->list();
+```
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->Relay()->load(["id" => "relay_id"]);
@@ -1050,7 +1074,7 @@ $result = $client->Relay()->load(["id" => "relay_id"]);
 
 #### `update(array $reqdata, ?array $ctrl = null): mixed`
 
-Update an existing entity. The data must include the entity `id`. Throws on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and throws on error.
 
 ```php
 $result = $client->Relay()->update([
@@ -1157,7 +1181,7 @@ $three_ds_session = $client->ThreeDsSession();
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->ThreeDsSession()->create([
@@ -1176,7 +1200,7 @@ $result = $client->ThreeDsSession()->create([
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->ThreeDsSession()->load(["3ds_session_id" => "3ds_session_id"]);
@@ -1218,50 +1242,11 @@ Return the entity name.
 $webhook = $client->Webhook();
 ```
 
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `createdAt` | `int` | No | The exact time, in epoch milliseconds, when this Webhook Endpoint was created. |
-| `events` | `array` | Yes | A list of Events that the Webhook Endpoint should subscribe to. |
-| `id` | `string` | No | A unique identifier representing a specific Webhook Endpoint. |
-| `updatedAt` | `mixed` | No | The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated. |
-| `url` | `string` | Yes | The URL of the Webhook Endpoint. |
-
-### Field Usage by Operation
-
-| Field | list | create | remove |
-| --- | --- | --- | --- |
-| `createdAt` | - | - | - |
-| `events` | Yes | - | - |
-| `id` | - | - | - |
-| `updatedAt` | - | - | - |
-| `url` | Yes | - | - |
-
 ### Operations
-
-#### `create(array $reqdata, ?array $ctrl = null): mixed`
-
-Create a new entity with the given data. Throws on error.
-
-```php
-$result = $client->Webhook()->create([
-  "events" => null, // array
-  "url" => null, // string
-]);
-```
-
-#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
-
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
-
-```php
-$results = $client->Webhook()->list();
-```
 
 #### `remove(array $reqmatch, ?array $ctrl = null): mixed`
 
-Remove the entity matching the given criteria. Throws on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
 
 ```php
 $result = $client->Webhook()->remove(["webhook_endpoint_id" => "webhook_endpoint_id"]);
@@ -1315,19 +1300,36 @@ $webhook_endpoint = $client->WebhookEndpoint();
 
 ### Field Usage by Operation
 
-| Field | load | update |
-| --- | --- | --- |
-| `createdAt` | - | - |
-| `events` | - | Yes |
-| `id` | - | - |
-| `updatedAt` | - | - |
-| `url` | - | - |
+| Field | load | list | create | update |
+| --- | --- | --- | --- | --- |
+| `createdAt` | - | - | - | - |
+| `events` | - | - | Yes | Yes |
+| `id` | - | - | - | - |
+| `updatedAt` | - | - | - | - |
+| `url` | - | - | Yes | - |
 
 ### Operations
 
+#### `create(array $reqdata, ?array $ctrl = null): mixed`
+
+Create a new entity with the given data. Returns the created entity and throws on error.
+
+```php
+$result = $client->WebhookEndpoint()->create([
+]);
+```
+
+#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
+
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
+
+```php
+$results = $client->WebhookEndpoint()->list();
+```
+
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->WebhookEndpoint()->load(["id" => "webhook_endpoint_id"]);
@@ -1335,7 +1337,7 @@ $result = $client->WebhookEndpoint()->load(["id" => "webhook_endpoint_id"]);
 
 #### `update(array $reqdata, ?array $ctrl = null): mixed`
 
-Update an existing entity. The data must include the entity `id`. Throws on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and throws on error.
 
 ```php
 $result = $client->WebhookEndpoint()->update([
@@ -1664,6 +1666,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

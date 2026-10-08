@@ -15,6 +15,18 @@ main: kit: flow: BasicMerchantFlow:
     }
 
     {
+      o: "list",
+      v: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "merchant_ref01"
+          }
+        }
+      ]
+    }
+
+    {
       i: {
         ref: "merchant_ref01",
         srcdatavar: "merchant_ref01_data",

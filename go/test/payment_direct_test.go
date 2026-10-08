@@ -10,6 +10,12 @@ import (
 	"github.com/voxgig-sdk/evervault-sdk/go/core"
 )
 
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const paymentDirectLiveStrict = true
+
 func TestPaymentDirect(t *testing.T) {
 	t.Run("direct-list-payment", func(t *testing.T) {
 		setup := paymentDirectSetup([]any{
@@ -27,28 +33,37 @@ func TestPaymentDirect(t *testing.T) {
 			t.Skip(_reason)
 			return
 		}
+		if setup.live {
+			for _, _liveKey := range []string{"3ds_session01"} {
+				if v := setup.idmap[_liveKey]; v == nil {
+					liveMiss(t, paymentDirectLiveStrict, "Live test blocked: needs %s via EVERVAULT_TEST_PAYMENT_ENTID", _liveKey)
+					return
+				}
+			}
+		}
 		client := setup.client
 
+		params := map[string]any{}
+		if setup.live {
+			params["3ds_session_id"] = setup.idmap["3ds_session01"]
+		} else {
+			params["3ds_session_id"] = "direct01"
+		}
 
 		result, err := client.Direct(map[string]any{
-			"path":   "payments/merchants",
+			"path":   "payments/3ds-sessions/{3ds_session_id}/messages",
 			"method": "GET",
-			"params": map[string]any{},
+			"params": params,
 		})
 		if setup.live {
-			// Live-mode leniency is a model decision
-			// (main.kit.test.live.strict): synthetic IDs 4xx constantly
-			// against an arbitrary public API, so the default SKIPS here.
-			// A project that owns its test server sets strict and FAILS.
 			if err != nil {
-				t.Fatalf("list call failed (likely synthetic IDs against live API): %v", err)
+				liveMiss(t, paymentDirectLiveStrict, "Live list failed: %v", err)
 			}
-			if result["ok"] != true {
-				t.Fatalf("list call not ok (likely synthetic IDs against live API): %v", result)
+			if status := core.ToInt(result["status"]); result["ok"] != true || status < 200 || status >= 300 {
+				liveMiss(t, paymentDirectLiveStrict, "Live list failed: %s", liveDescribe(result))
 			}
-			status := core.ToInt(result["status"])
-			if status < 200 || status >= 300 {
-				t.Fatalf("expected 2xx status, got %v", result["status"])
+			if _, ok := liveList(result["data"]); !ok {
+				liveMiss(t, paymentDirectLiveStrict, "Live list returned no list: %s", liveDescribe(result))
 			}
 		} else {
 			if err != nil {
@@ -73,6 +88,17 @@ func TestPaymentDirect(t *testing.T) {
 
 			if len(*setup.calls) != 1 {
 				t.Fatalf("expected 1 call, got %d", len(*setup.calls))
+			}
+			call := (*setup.calls)[0]
+			if initMap, ok := call["init"].(map[string]any); ok {
+				if initMap["method"] != "GET" {
+					t.Fatalf("expected method GET, got %v", initMap["method"])
+				}
+			}
+			if url, ok := call["url"].(string); ok {
+				if !strings.Contains(url, "direct01") {
+					t.Fatalf("expected url to contain direct01, got %v", url)
+				}
 			}
 		}
 	})

@@ -9,7 +9,7 @@ import { createLiveTransport } from '../../live-runner'
 import { runLiveEntity } from '../../live-entity'
 
 
-import { EvervaultSDK, BaseFeature, stdutil } from '../../..'
+import { EvervaultSDK, BaseFeature, config, stdutil } from '../../..'
 
 import {
   envOverride,
@@ -41,6 +41,18 @@ describe('ClientSideTokenEntity', async () => {
   })
 
 
+  test('validate', async (t) => {
+    if (null == (config as any).feature?.validate) {
+      t.skip('feature not present in this SDK: validate')
+      return
+    }
+    const client = EvervaultSDK.test(undefined, { feature: { validate: { active: true } } })
+    await assert.rejects(client.ClientSideToken().create({"action":1} as any),
+      (err: any) => 'validate_failed' === err.code)
+  })
+
+
+
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.EVERVAULT_TEST_LIVE
@@ -51,7 +63,7 @@ describe('ClientSideTokenEntity', async () => {
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"action":{"a":true,"h":"Action","n":"action","r":true,"sh":"The action that the token should permit","t":"`$STRING`","key$":"action","index$":0},"expiry":{"a":true,"h":"Expiry","n":"expiry","r":false,"sh":"The expiry of the token in milliseconds format.","t":"`$INTEGER`","key$":"expiry","index$":1},"payload":{"a":true,"h":"Payload","n":"payload","r":false,"sh":"The payload that the token must be used with","t":"`$OBJECT`","key$":"payload","index$":2}},"name":"client_side_token","op":{"create":{"input":"data","name":"create","points":[{"a":true,"co":{"id":"POST /client-side-tokens","source":"openapi3","version":2},"g":{},"k":"http","m":"POST","o":"/client-side-tokens","q":{},"r":{},"s":[{"lit":"client-side-tokens"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"create"}},"relations":{"ancestors":[]},"key$":"client_side_token","name__orig":"client_side_token","Name":"ClientSideToken","name_":"client_side_token","name-":"client-side-token","NAME":"CLIENT_SIDE_TOKEN","index$":4}, {"active":true,"entity":"client_side_token","key$":"BasicClientSideTokenFlow","kind":"basic","name":"BasicClientSideTokenFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"client_side_token_ref01"},"m":{},"o":"create","s":[],"v":[],"index$":0}]}, 'ClientSideToken', {"POST /client-side-tokens":{"protocol":"http","requestBody":{"content":{"application/json":{"schema":{"type":"object","required":["action"],"properties":{"action":{"type":"string","enum":["api:decrypt"],"description":"The action that the token should permit","key$":"action"},"payload":{"type":"object","description":"The payload that the token must be used with","example":{"name":"ev:debug:Tk9D:OJzdN+H2FxM86+Oa:AuUCGfKH8yYkzUvg0EjFgBOI/95D3RDZp5nwz3f2eqwJ:Zg7lsCwr2liYQOkjaRI6mwHScyn4f/Y2cxlayglTTYk1VmmDxBa5:$"},"key$":"payload"},"expiry":{"type":"integer","description":"The expiry of the token in milliseconds format. Must be less than 10 minutes from now.","example":1619712000000,"key$":"expiry"}},"index$":1},"examples":{"Decrypt":{"value":{"action":"api:decrypt","payload":{"phoneNumber":"ev:Tk9D:GWgxSXezEFNw10b/:A6JZWe29uiZpP72w+nc0RXOdWdvgCulNqJv8aJpLE/gH:3V/PD54obBv0j+EJMaNNa/ny2tmZq7QM:$"}}}}}}},"parameters":[]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"action":{"a":true,"h":"Action","n":"action","r":true,"sh":"The action that the token should permit","t":"`$STRING`","key$":"action","index$":0},"expiry":{"a":true,"h":"Expiry","n":"expiry","r":false,"sh":"The expiry of the token in milliseconds format.","t":"`$INTEGER`","key$":"expiry","index$":1},"payload":{"a":true,"h":"Payload","n":"payload","r":false,"sh":"The payload that the token must be used with","t":"`$OBJECT`","key$":"payload","index$":2}},"name":"client_side_token","op":{"create":{"input":"data","name":"create","points":[{"a":true,"bf":["action","expiry","payload"],"co":{"id":"POST /client-side-tokens","source":"openapi3","version":2},"g":{},"k":"http","m":"POST","o":"/client-side-tokens","q":{},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"client-side-tokens"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"create"}},"relations":{"ancestors":[]},"key$":"client_side_token","name__orig":"client_side_token","Name":"ClientSideToken","name_":"client_side_token","name-":"client-side-token","NAME":"CLIENT_SIDE_TOKEN","index$":4}, {"active":true,"entity":"client_side_token","key$":"BasicClientSideTokenFlow","kind":"basic","name":"BasicClientSideTokenFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"client_side_token_ref01"},"m":{},"o":"create","s":[],"v":[],"index$":0}]}, 'ClientSideToken', {"POST /client-side-tokens":{"protocol":"http","requestBody":{"content":{"application/json":{"schema":{"type":"object","required":["action"],"properties":{"action":{"type":"string","enum":["api:decrypt"],"description":"The action that the token should permit","key$":"action"},"payload":{"type":"object","description":"The payload that the token must be used with","example":{"name":"ev:debug:Tk9D:OJzdN+H2FxM86+Oa:AuUCGfKH8yYkzUvg0EjFgBOI/95D3RDZp5nwz3f2eqwJ:Zg7lsCwr2liYQOkjaRI6mwHScyn4f/Y2cxlayglTTYk1VmmDxBa5:$"},"key$":"payload"},"expiry":{"type":"integer","description":"The expiry of the token in milliseconds format. Must be less than 10 minutes from now.","example":1619712000000,"key$":"expiry"}},"index$":1},"examples":{"Decrypt":{"value":{"action":"api:decrypt","payload":{"phoneNumber":"ev:Tk9D:GWgxSXezEFNw10b/:A6JZWe29uiZpP72w+nc0RXOdWdvgCulNqJv8aJpLE/gH:3V/PD54obBv0j+EJMaNNa/ny2tmZq7QM:$"}}}}}}},"parameters":[]}}, { strict: LIVE_STRICT, t })
     }
     const client = setup.client
     const struct = setup.struct
@@ -72,6 +84,12 @@ describe('ClientSideTokenEntity', async () => {
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function basicSetup(extra?: any) {
   // TODO: fix test def options

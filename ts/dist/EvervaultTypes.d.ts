@@ -8,12 +8,20 @@ export interface Acquirer {
 export interface AcquirerLoadMatch {
     id: string;
 }
+export interface AcquirerListMatch {
+    page?: number;
+    page_size?: number;
+    $action?: string;
+    [action: string]: any;
+}
 export interface AcquirerCreateData {
     configurations: any[];
     default: boolean;
     description?: string;
     id: string;
     name: string;
+    $action?: string;
+    [action: string]: any;
 }
 export interface AcquirerUpdateData {
     id: string;
@@ -30,28 +38,50 @@ export interface BinLookupCreateData {
 }
 export interface Card {
     address: Record<string, any>;
+    automaticUpdates?: string;
+    bin: string;
+    brand?: string;
     card: Record<string, any>;
     cardholder?: Record<string, any>;
+    country?: string;
+    createdAt: number;
+    currency?: string;
     expiry: Record<string, any>;
     extensions?: any[];
+    funding?: string;
     id?: string;
-    month: string;
+    issuer?: string;
+    lastFour: string;
     number: string;
-    year: string;
+    replacement?: string | null;
+    segment?: string;
+    status?: string;
+    updatedAt?: number | null;
 }
 export interface CardLoadMatch {
     id: string;
 }
 export interface CardCreateData {
     address: Record<string, any>;
+    automaticUpdates?: string;
+    bin: string;
+    brand?: string;
     card: Record<string, any>;
     cardholder?: Record<string, any>;
+    country?: string;
+    createdAt: number;
+    currency?: string;
     expiry: Record<string, any>;
     extensions?: any[];
+    funding?: string;
     id?: string;
-    month: string;
+    issuer?: string;
+    lastFour: string;
     number: string;
-    year: string;
+    replacement?: string | null;
+    segment?: string;
+    status?: string;
+    updatedAt?: number | null;
     $action?: string;
     [action: string]: any;
 }
@@ -75,53 +105,43 @@ export interface ClientSideTokenCreateData {
     payload?: Record<string, any>;
 }
 export interface Core {
-    app?: string;
-    authentication?: string | null;
+    category?: string;
+    core_list?: Record<string, any> | any[] | string | number | boolean;
+    cores?: Record<string, any> | any[] | string;
     createdAt?: number;
     customDomain?: string;
-    destinationDomain: string;
-    encryptEmptyStrings?: boolean;
-    evervaultDomain?: string;
+    encryptedAt?: number;
+    fingerprint?: string;
     id?: string;
+    metadata?: any;
     phoneNumber?: string;
     relay?: string;
-    routes: any[];
+    role?: string;
     status?: string;
     token: string;
+    type?: string;
     updatedAt?: number;
     validationRecord?: string;
 }
 export interface CoreListMatch {
-    app?: string;
-    authentication?: string | null;
-    createdAt?: number;
-    customDomain?: string;
-    destinationDomain?: string;
-    encryptEmptyStrings?: boolean;
-    evervaultDomain?: string;
-    id?: string;
-    phoneNumber?: string;
-    relay?: string;
-    routes?: any[];
-    status?: string;
-    token?: string;
-    updatedAt?: number;
-    validationRecord?: string;
+    relay_id: string;
 }
 export interface CoreCreateData {
-    app?: string;
-    authentication?: string | null;
+    category?: string;
+    core_list?: Record<string, any> | any[] | string | number | boolean;
+    cores?: Record<string, any> | any[] | string;
     createdAt?: number;
     customDomain?: string;
-    destinationDomain: string;
-    encryptEmptyStrings?: boolean;
-    evervaultDomain?: string;
+    encryptedAt?: number;
+    fingerprint?: string;
     id?: string;
+    metadata?: any;
     phoneNumber?: string;
     relay?: string;
-    routes: any[];
+    role?: string;
     status?: string;
     token: string;
+    type?: string;
     updatedAt?: number;
     validationRecord?: string;
 }
@@ -186,6 +206,13 @@ export interface Merchant {
 export interface MerchantLoadMatch {
     id: string;
 }
+export interface MerchantListMatch {
+    page?: number;
+    page_size?: number;
+    q?: string;
+    $action?: string;
+    [action: string]: any;
+}
 export interface MerchantCreateData {
     applePay?: Record<string, any>;
     business?: Record<string, any>;
@@ -197,6 +224,8 @@ export interface MerchantCreateData {
     shortName?: string;
     updatedAt?: number;
     website: string;
+    $action?: string;
+    [action: string]: any;
 }
 export interface MerchantUpdateData {
     id: string;
@@ -258,8 +287,6 @@ export interface Payment {
 }
 export interface PaymentListMatch {
     "3ds_session_id": string;
-    $action?: string;
-    [action: string]: any;
 }
 export interface PaymentRemoveMatch {
     acquirer_id: string;
@@ -277,6 +304,28 @@ export interface Relay {
 }
 export interface RelayLoadMatch {
     id: string;
+}
+export interface RelayListMatch {
+    app?: string;
+    authentication?: string | null;
+    createdAt?: number;
+    destinationDomain?: string;
+    encryptEmptyStrings?: boolean;
+    evervaultDomain?: string;
+    id?: string;
+    routes?: any[];
+    updatedAt?: number;
+}
+export interface RelayCreateData {
+    app?: string;
+    authentication?: string | null;
+    createdAt?: number;
+    destinationDomain?: string;
+    encryptEmptyStrings?: boolean;
+    evervaultDomain?: string;
+    id?: string;
+    routes?: any[];
+    updatedAt?: number;
 }
 export interface RelayUpdateData {
     id: string;
@@ -345,22 +394,6 @@ export interface ThreeDsSessionCreateData {
     version: string;
 }
 export interface Webhook {
-    createdAt?: number;
-    events: any[];
-    id?: string;
-    updatedAt?: number | null;
-    url: string;
-}
-export interface WebhookListMatch {
-    limit?: number;
-    starting_after?: string;
-}
-export interface WebhookCreateData {
-    createdAt?: number;
-    events: any[];
-    id?: string;
-    updatedAt?: number | null;
-    url: string;
 }
 export interface WebhookRemoveMatch {
     webhook_endpoint_id: string;
@@ -374,6 +407,17 @@ export interface WebhookEndpoint {
 }
 export interface WebhookEndpointLoadMatch {
     id: string;
+}
+export interface WebhookEndpointListMatch {
+    limit?: number;
+    starting_after?: string;
+}
+export interface WebhookEndpointCreateData {
+    createdAt?: number;
+    events?: any[];
+    id?: string;
+    updatedAt?: number | null;
+    url?: string;
 }
 export interface WebhookEndpointUpdateData {
     id: string;

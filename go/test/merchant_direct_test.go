@@ -10,7 +10,74 @@ import (
 	"github.com/voxgig-sdk/evervault-sdk/go/core"
 )
 
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const merchantDirectLiveStrict = true
+
 func TestMerchantDirect(t *testing.T) {
+	t.Run("direct-list-merchant", func(t *testing.T) {
+		setup := merchantDirectSetup([]any{
+			map[string]any{"id": "direct01"},
+			map[string]any{"id": "direct02"},
+		})
+		_mode := "unit"
+		if setup.live {
+			_mode = "live"
+		}
+		if _shouldSkip, _reason := isControlSkipped("direct", "direct-list-merchant", _mode); _shouldSkip {
+			if _reason == "" {
+				_reason = "skipped via sdk-test-control.json"
+			}
+			t.Skip(_reason)
+			return
+		}
+		client := setup.client
+
+
+		result, err := client.Direct(map[string]any{
+			"path":   "payments/merchants",
+			"method": "GET",
+			"params": map[string]any{},
+		})
+		if setup.live {
+			if err != nil {
+				liveMiss(t, merchantDirectLiveStrict, "Live list failed: %v", err)
+			}
+			if status := core.ToInt(result["status"]); result["ok"] != true || status < 200 || status >= 300 {
+				liveMiss(t, merchantDirectLiveStrict, "Live list failed: %s", liveDescribe(result))
+			}
+			if _, ok := liveList(result["data"]); !ok {
+				liveMiss(t, merchantDirectLiveStrict, "Live list returned no list: %s", liveDescribe(result))
+			}
+		} else {
+			if err != nil {
+				t.Fatalf("direct failed: %v", err)
+			}
+			if result["ok"] != true {
+				t.Fatalf("expected ok to be true, got %v", result["ok"])
+			}
+			if core.ToInt(result["status"]) != 200 {
+				t.Fatalf("expected status 200, got %v", result["status"])
+			}
+		}
+
+		if !setup.live {
+			if dataList, ok := result["data"].([]any); ok {
+				if len(dataList) != 2 {
+					t.Fatalf("expected 2 items, got %d", len(dataList))
+				}
+			} else {
+				t.Fatalf("expected data to be an array, got %T", result["data"])
+			}
+
+			if len(*setup.calls) != 1 {
+				t.Fatalf("expected 1 call, got %d", len(*setup.calls))
+			}
+		}
+	})
+
 	t.Run("direct-load-merchant", func(t *testing.T) {
 		setup := merchantDirectSetup(map[string]any{"id": "direct01"})
 		_mode := "unit"
@@ -24,19 +91,35 @@ func TestMerchantDirect(t *testing.T) {
 			t.Skip(_reason)
 			return
 		}
-		if setup.live {
-			for _, _liveKey := range []string{"id01"} {
-				if v := setup.idmap[_liveKey]; v == nil {
-					t.Skipf("live test needs %s via *_ENTID env var (synthetic IDs only)", _liveKey)
-					return
-				}
-			}
-		}
 		client := setup.client
 
 		params := map[string]any{}
 		query := map[string]any{}
 		if setup.live {
+			listParams := map[string]any{}
+			listResult, listErr := client.Direct(map[string]any{
+				"path":   "payments/merchants",
+				"method": "GET",
+				"params": listParams,
+			})
+			if listErr != nil {
+				liveMiss(t, merchantDirectLiveStrict, "Live list discovery failed: %v", listErr)
+			}
+			if listResult["ok"] != true {
+				liveMiss(t, merchantDirectLiveStrict, "Live list discovery failed: %s", liveDescribe(listResult))
+			}
+			listData, listOk := liveList(listResult["data"])
+			if !listOk {
+				liveMiss(t, merchantDirectLiveStrict, "Live list discovery returned no list: %s", liveDescribe(listResult))
+			}
+			if len(listData) == 0 {
+				liveEmpty(t, "The account has no merchant record to load")
+			}
+			firstEnt := core.ToMapAny(listData[0])
+			if firstEnt["id"] == nil {
+				liveMiss(t, merchantDirectLiveStrict, "Live load blocked: discovery returned no usable identity")
+			}
+			params["id"] = firstEnt["id"]
 		} else {
 			params["id"] = "direct01"
 		}
@@ -48,19 +131,14 @@ func TestMerchantDirect(t *testing.T) {
 			"query":  query,
 		})
 		if setup.live {
-			// Live mode is lenient: synthetic IDs frequently 4xx. Skip
-			// rather than fail when the load endpoint isn't reachable with
-			// the IDs we can construct from setup.idmap — unless the model
-			// sets main.kit.test.live.strict.
 			if err != nil {
-				t.Fatalf("load call failed (likely synthetic IDs against live API): %v", err)
+				liveMiss(t, merchantDirectLiveStrict, "Live load failed: %v", err)
 			}
-			if result["ok"] != true {
-				t.Fatalf("load call not ok (likely synthetic IDs against live API): %v", result)
+			if status := core.ToInt(result["status"]); result["ok"] != true || status < 200 || status >= 300 {
+				liveMiss(t, merchantDirectLiveStrict, "Live load failed: %s", liveDescribe(result))
 			}
-			status := core.ToInt(result["status"])
-			if status < 200 || status >= 300 {
-				t.Fatalf("expected 2xx status, got %v", result["status"])
+			if result["data"] == nil {
+				liveMiss(t, merchantDirectLiveStrict, "Live load returned no data: %s", liveDescribe(result))
 			}
 		} else {
 			if err != nil {

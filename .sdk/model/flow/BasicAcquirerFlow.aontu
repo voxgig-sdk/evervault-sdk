@@ -15,6 +15,18 @@ main: kit: flow: BasicAcquirerFlow:
     }
 
     {
+      o: "list",
+      v: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "acquirer_ref01"
+          }
+        }
+      ]
+    }
+
+    {
       i: {
         ref: "acquirer_ref01",
         srcdatavar: "acquirer_ref01_data",

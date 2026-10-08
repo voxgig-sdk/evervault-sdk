@@ -15,7 +15,7 @@ keeps the cognitive load low.
 
 ## Install
 This package is not yet published to PyPI. Install it from the GitHub
-release tag (`py/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/evervault-sdk/releases)) or
+release tag (`py/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/evervault-sdk/tags)) or
 from a source checkout:
 
 ```bash
@@ -39,6 +39,20 @@ client = EvervaultSDK({
 })
 ```
 
+### 2. List acquirer records
+
+`list()` returns a `list` of entities, one per record, and raises on
+error; an entity's `data_get()` reads its record (a `dict`).
+
+```python
+try:
+    acquirers = client.Acquirer().list()
+    for acquirer in acquirers:
+        print(acquirer.data_get())
+except Exception as err:
+    print(f"list failed: {err}")
+```
+
 ### 3. Load a cardart
 
 CardArt is nested under network_token, so provide the `network_token_id`.
@@ -47,7 +61,7 @@ CardArt is nested under network_token, so provide the `network_token_id`.
 ```python
 try:
     cardart = client.CardArt().load({"network_token_id": "example_network_token_id"})
-    print(cardart)
+    print(cardart.data_get())
 except Exception as err:
     print(f"load failed: {err}")
 ```
@@ -58,7 +72,7 @@ except Exception as err:
 # Create — returns the ENTITY (call data_get() for the record)
 created = client.Acquirer().create({"configurations": [], "default": True, "id": "example_id", "name": "example_name"})
 
-# Update — the created record's id is a plain dict key
+# Update — the created entity's record holds its id
 client.Acquirer().update({"id": created.data_get()["id"], "configurations": [], "default": True})
 
 ```
@@ -70,10 +84,10 @@ Entity operations raise on failure, so wrap them in `try` / `except`:
 
 ```python
 try:
-    merchant = client.Merchant().load({"id": "example_id"})
-    print(merchant)
+    merchants = client.Merchant().list()
+    print([item.data_get() for item in merchants])
 except Exception as err:
-    print(f"load failed: {err}")
+    print(f"list failed: {err}")
 ```
 
 `direct()` does **not** raise — it returns the result envelope. Branch
@@ -137,10 +151,9 @@ Create a mock client for unit testing — no server required:
 ```python
 client = EvervaultSDK.test()
 
-# Entity ops return the ENTITY and raises on error;
-# call data_get() for the record.
-merchant = client.Merchant().load({"id": "test01"})
-# merchant contains the mock response record
+# Entity ops return the entity, and list one per record; they raise on error.
+merchant = client.Merchant().list()
+# data_get() on an entity reads its mock response record
 ```
 
 ### Use a custom fetch function
@@ -241,11 +254,11 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria. Raises on error. |
-| `list` | `(reqmatch, ctrl) -> list` | List entities matching the criteria. Raises on error. |
-| `create` | `(reqdata, ctrl) -> any` | Create a new entity. Raises on error. |
-| `update` | `(reqdata, ctrl) -> any` | Update an existing entity. Raises on error. |
-| `remove` | `(reqmatch, ctrl) -> any` | Remove an entity. Raises on error. |
+| `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria, and return it. Raises on error. |
+| `list` | `(reqmatch, ctrl) -> list` | List entities matching the criteria, one per record. Raises on error. |
+| `create` | `(reqdata, ctrl) -> any` | Create a new entity, and return it. Raises on error. |
+| `update` | `(reqdata, ctrl) -> any` | Update an existing entity, and return it. Raises on error. |
+| `remove` | `(reqmatch, ctrl) -> any` | Remove an entity, and return it marked as deleted. Raises on error. |
 | `data_get` | `() -> dict` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
 | `match_get` | `() -> dict` | Get entity match criteria. |
@@ -255,9 +268,9 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the ENTITY (call data_get() for the record) (a `dict` for single-entity
-ops, a `list` for `list`) and raise on error. Wrap calls in
-`try`/`except` to handle failures.
+Entity operations return the entity, and `list` a `list` of entities, one
+per record; an entity's `data_get()` reads its record (a `dict`). They raise
+on error, so wrap calls in `try`/`except` to handle failures.
 
 The `direct()` escape hatch never raises — it returns a result `dict`
 you branch on via `result["ok"]`:
@@ -283,7 +296,7 @@ On error, `ok` is `False` and `err` contains the error value.
 | `id` | The unique identifier of the acquirer configuration. |
 | `name` | The name of the acquirer configuration. |
 
-Operations: Create, Load, Update.
+Operations: Create, List, Load, Update.
 
 API path: `/payments/acquirers`
 
@@ -302,14 +315,25 @@ API path: `/payments/bin-lookups`
 | Field | Description |
 | --- | --- |
 | `address` | Details about the cardholder's address that the address verification (AVS) is for. |
+| `automaticUpdates` | The status of Card Account Updater on this card. |
+| `bin` | The first 6 or 8 digits of the card number. |
+| `brand` | The card brand associated with the payment card. |
 | `card` | The card details. |
 | `cardholder` | Details about the cardholder that the name verification (ANI) is for. |
-| `expiry` |  |
+| `country` | The country where the card was issued. |
+| `createdAt` | The Unix timestamp of when the card was created. |
+| `currency` | The currency of the card. |
+| `expiry` | The expiry date of the card. |
 | `extensions` | The extensions to the card insight request. |
-| `id` |  |
-| `month` | The card expiry month, in MM format (e.g. |
-| `number` | The card number. |
-| `year` | The card expiry year, in YY format (e.g. |
+| `funding` | The card funding type specifies the method by which transactions are financed. |
+| `id` | The unique identifier for the card. |
+| `issuer` | The name of the card issuer. |
+| `lastFour` | The last 4 digits of the card number. |
+| `number` | The Evervault encrypted card number. |
+| `replacement` | The ID of the replacement card. |
+| `segment` | The card segment indicates the primary market or usage category of the card. |
+| `status` | The current status of the card. |
+| `updatedAt` | The Unix timestamp of when the card was last updated. |
 
 Operations: Create, Load.
 
@@ -344,19 +368,21 @@ API path: `/client-side-tokens`
 
 | Field | Description |
 | --- | --- |
-| `app` | The unique identifier for the app to which the Relay belongs. |
-| `authentication` | The type of authentication required for the Relay |
+| `category` | The category or specific nature of the encrypted value. |
+| `core_list` | A JSON value or file to be encrypted. |
+| `cores` | A JSON value or file to be decrypted. |
 | `createdAt` | The exact time, in epoch milliseconds, when this custom domain was created. |
 | `customDomain` | The customer managed domain to which requests to be relayed to your domain should be sent. |
-| `destinationDomain` | The domain in front of which you would like to configure a Relay |
-| `encryptEmptyStrings` | Whether or not empty strings should be encrypted. |
-| `evervaultDomain` | The Evervault managed domain to which requests to be relayed to the destination domain should be sent. |
+| `encryptedAt` | The date and time when the value was encrypted. |
+| `fingerprint` | A unique identifier for the encrypted value. |
 | `id` | The unique identifier for the custom domain. |
+| `metadata` | Further metadata about the encrypted value. |
 | `phoneNumber` |  |
 | `relay` | The ID of the Relay with which this custom domain is associated. |
-| `routes` | A collection of route configurations for the Relay. |
+| `role` | The data role of the encrypted value. |
 | `status` | The status of the domains DNS verification. |
 | `token` | The encrypted data to be inspected. |
+| `type` | The type of the encrypted value. |
 | `updatedAt` | The exact time, in epoch milliseconds, when this custom domain was last updated. |
 | `validationRecord` | Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain |
 
@@ -411,7 +437,7 @@ API path: `/functions/{function_name}/runs`
 | `updatedAt` | The exact time, in epoch milliseconds, when this Merchant was last updated. |
 | `website` | The official website URL of the Merchant. |
 
-Operations: Create, Load, Update.
+Operations: Create, List, Load, Update.
 
 API path: `/payments/merchants`
 
@@ -457,7 +483,7 @@ API path: `/payments/network-tokens/{network_token_id}/cryptograms`
 
 Operations: List, Remove.
 
-API path: `/payments/merchants`
+API path: `/payments/3ds-sessions/{3ds_session_id}/messages`
 
 #### Relay
 
@@ -473,9 +499,9 @@ API path: `/payments/merchants`
 | `routes` | A collection of route configurations for the Relay. |
 | `updatedAt` | The exact time, in epoch milliseconds, when this Relay was updated. |
 
-Operations: Load, Update.
+Operations: Create, List, Load, Update.
 
-API path: `/relays/{id}`
+API path: `/relays`
 
 #### ThreeDsSession
 
@@ -514,15 +540,10 @@ API path: `/payments/3ds-sessions`
 
 | Field | Description |
 | --- | --- |
-| `createdAt` | The exact time, in epoch milliseconds, when this Webhook Endpoint was created. |
-| `events` | A list of Events that the Webhook Endpoint should subscribe to. |
-| `id` | A unique identifier representing a specific Webhook Endpoint. |
-| `updatedAt` | The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated. |
-| `url` | The URL of the Webhook Endpoint. |
 
-Operations: Create, List, Remove.
+Operations: Remove.
 
-API path: `/webhook-endpoints`
+API path: `/webhook-endpoints/{webhook_endpoint_id}`
 
 #### WebhookEndpoint
 
@@ -534,9 +555,9 @@ API path: `/webhook-endpoints`
 | `updatedAt` | The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated. |
 | `url` | The URL of the Webhook Endpoint. |
 
-Operations: Load, Update.
+Operations: Create, List, Load, Update.
 
-API path: `/webhook-endpoints/{webhook_endpoint_id}`
+API path: `/webhook-endpoints`
 
 
 
@@ -552,6 +573,7 @@ Create an instance: `acquirer = client.Acquirer()`
 | Method | Description |
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
+| `list()` | List entities, optionally matching the given criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 | `update(data)` | Update an existing entity. |
 
@@ -569,6 +591,12 @@ Create an instance: `acquirer = client.Acquirer()`
 
 ```python
 acquirer = client.Acquirer().load({"id": "acquirer_id"})
+```
+
+#### Example: List
+
+```python
+acquirers = client.Acquirer().list()
 ```
 
 #### Example: Create
@@ -624,14 +652,25 @@ Create an instance: `card = client.Card()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `address` | `dict` | Details about the cardholder's address that the address verification (AVS) is for. |
+| `automaticUpdates` | `str` | The status of Card Account Updater on this card. |
+| `bin` | `str` | The first 6 or 8 digits of the card number. |
+| `brand` | `str` | The card brand associated with the payment card. |
 | `card` | `dict` | The card details. |
 | `cardholder` | `dict` | Details about the cardholder that the name verification (ANI) is for. |
-| `expiry` | `dict` |  |
+| `country` | `str` | The country where the card was issued. |
+| `createdAt` | `int` | The Unix timestamp of when the card was created. |
+| `currency` | `str` | The currency of the card. |
+| `expiry` | `dict` | The expiry date of the card. |
 | `extensions` | `list` | The extensions to the card insight request. |
-| `id` | `str` |  |
-| `month` | `str` | The card expiry month, in MM format (e.g. |
-| `number` | `str` | The card number. |
-| `year` | `str` | The card expiry year, in YY format (e.g. |
+| `funding` | `str` | The card funding type specifies the method by which transactions are financed. |
+| `id` | `str` | The unique identifier for the card. |
+| `issuer` | `str` | The name of the card issuer. |
+| `lastFour` | `str` | The last 4 digits of the card number. |
+| `number` | `str` | The Evervault encrypted card number. |
+| `replacement` | `str | None` | The ID of the replacement card. |
+| `segment` | `str` | The card segment indicates the primary market or usage category of the card. |
+| `status` | `str` | The current status of the card. |
+| `updatedAt` | `int | None` | The Unix timestamp of when the card was last updated. |
 
 #### Example: Load
 
@@ -644,11 +683,12 @@ card = client.Card().load({"id": "card_id"})
 ```python
 card = client.Card().create({
     "address": {},  # dict
+    "bin": "example_bin",  # str
     "card": {},  # dict
+    "createdAt": 1,  # int
     "expiry": {},  # dict
-    "month": "example_month",  # str
+    "lastFour": "example_lastFour",  # str
     "number": "example_number",  # str
-    "year": "example_year",  # str
 })
 ```
 
@@ -722,34 +762,34 @@ Create an instance: `core = client.Core()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `app` | `str` | The unique identifier for the app to which the Relay belongs. |
-| `authentication` | `str | None` | The type of authentication required for the Relay |
+| `category` | `str` | The category or specific nature of the encrypted value. |
+| `core_list` | `dict | list | str | float | bool` | A JSON value or file to be encrypted. |
+| `cores` | `dict | list | str` | A JSON value or file to be decrypted. |
 | `createdAt` | `int` | The exact time, in epoch milliseconds, when this custom domain was created. |
 | `customDomain` | `str` | The customer managed domain to which requests to be relayed to your domain should be sent. |
-| `destinationDomain` | `str` | The domain in front of which you would like to configure a Relay |
-| `encryptEmptyStrings` | `bool` | Whether or not empty strings should be encrypted. |
-| `evervaultDomain` | `str` | The Evervault managed domain to which requests to be relayed to the destination domain should be sent. |
+| `encryptedAt` | `int` | The date and time when the value was encrypted. |
+| `fingerprint` | `str` | A unique identifier for the encrypted value. |
 | `id` | `str` | The unique identifier for the custom domain. |
+| `metadata` | `Any` | Further metadata about the encrypted value. |
 | `phoneNumber` | `str` |  |
 | `relay` | `str` | The ID of the Relay with which this custom domain is associated. |
-| `routes` | `list` | A collection of route configurations for the Relay. |
+| `role` | `str` | The data role of the encrypted value. |
 | `status` | `str` | The status of the domains DNS verification. |
 | `token` | `str` | The encrypted data to be inspected. |
+| `type` | `str` | The type of the encrypted value. |
 | `updatedAt` | `int` | The exact time, in epoch milliseconds, when this custom domain was last updated. |
 | `validationRecord` | `str` | Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain |
 
 #### Example: List
 
 ```python
-cores = client.Core().list()
+cores = client.Core().list({"relay_id": "example"})
 ```
 
 #### Example: Create
 
 ```python
 core = client.Core().create({
-    "destinationDomain": "example_destinationDomain",  # str
-    "routes": [],  # list
     "token": "example_token",  # str
 })
 ```
@@ -834,6 +874,7 @@ Create an instance: `merchant = client.Merchant()`
 | Method | Description |
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
+| `list()` | List entities, optionally matching the given criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 | `update(data)` | Update an existing entity. |
 
@@ -856,6 +897,12 @@ Create an instance: `merchant = client.Merchant()`
 
 ```python
 merchant = client.Merchant().load({"id": "merchant_id"})
+```
+
+#### Example: List
+
+```python
+merchants = client.Merchant().list()
 ```
 
 #### Example: Create
@@ -981,6 +1028,8 @@ Create an instance: `relay = client.Relay()`
 
 | Method | Description |
 | --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+| `list()` | List entities, optionally matching the given criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 | `update(data)` | Update an existing entity. |
 
@@ -1002,6 +1051,19 @@ Create an instance: `relay = client.Relay()`
 
 ```python
 relay = client.Relay().load({"id": "relay_id"})
+```
+
+#### Example: List
+
+```python
+relays = client.Relay().list()
+```
+
+#### Example: Create
+
+```python
+relay = client.Relay().create({
+})
 ```
 
 
@@ -1077,34 +1139,7 @@ Create an instance: `webhook = client.Webhook()`
 
 | Method | Description |
 | --- | --- |
-| `create(data)` | Create a new entity with the given data. |
-| `list()` | List entities, optionally matching the given criteria. |
 | `remove(match)` | Remove the matching entity. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `createdAt` | `int` | The exact time, in epoch milliseconds, when this Webhook Endpoint was created. |
-| `events` | `list` | A list of Events that the Webhook Endpoint should subscribe to. |
-| `id` | `str` | A unique identifier representing a specific Webhook Endpoint. |
-| `updatedAt` | `int | None` | The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated. |
-| `url` | `str` | The URL of the Webhook Endpoint. |
-
-#### Example: List
-
-```python
-webhooks = client.Webhook().list()
-```
-
-#### Example: Create
-
-```python
-webhook = client.Webhook().create({
-    "events": [],  # list
-    "url": "example_url",  # str
-})
-```
 
 
 ### WebhookEndpoint
@@ -1115,6 +1150,8 @@ Create an instance: `webhook_endpoint = client.WebhookEndpoint()`
 
 | Method | Description |
 | --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+| `list()` | List entities, optionally matching the given criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 | `update(data)` | Update an existing entity. |
 
@@ -1132,6 +1169,19 @@ Create an instance: `webhook_endpoint = client.WebhookEndpoint()`
 
 ```python
 webhook_endpoint = client.WebhookEndpoint().load({"id": "webhook_endpoint_id"})
+```
+
+#### Example: List
+
+```python
+webhook_endpoints = client.WebhookEndpoint().list()
+```
+
+#### Example: Create
+
+```python
+webhook_endpoint = client.WebhookEndpoint().create({
+})
 ```
 
 ## Features
@@ -1368,14 +1418,14 @@ Import entity or utility modules directly only when needed.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `load`, the entity
+Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```python
 merchant = client.Merchant()
-merchant.load({"id": "example_id"})
+merchant.list()
 
-# merchant.data_get() now returns the merchant data from the last load
+# merchant.data_get() now returns the merchant data from the last list
 # merchant.match_get() returns the last match criteria
 ```
 

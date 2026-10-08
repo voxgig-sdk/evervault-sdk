@@ -33,6 +33,8 @@ require_relative 'transform_response'
 
 EvervaultUtility.registrar = ->(u) {
   u.clean = EvervaultUtilities::Clean
+  u.clean_add = EvervaultUtilities::CleanAdd
+  u.clean_explain = EvervaultUtilities::CleanExplain
   u.done = EvervaultUtilities::Done
   u.make_error = EvervaultUtilities::MakeError
   u.feature_add = EvervaultUtilities::FeatureAdd

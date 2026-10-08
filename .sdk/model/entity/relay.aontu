@@ -36,6 +36,12 @@ main: kit: entity: relay: {
     destinationDomain: {
       h: "Destination Domain"
       n: "destinationDomain"
+      op: {
+        create: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
       r: false
       sh: "The domain in front of which the Relay should be configured."
       t: "`$STRING`"
@@ -64,6 +70,12 @@ main: kit: entity: relay: {
     routes: {
       h: "Routes"
       n: "routes"
+      op: {
+        create: {
+          req: true
+          type: "`$ARRAY`"
+        }
+      }
       r: false
       sh: "A collection of route configurations for the Relay."
       t: "`$ARRAY`"
@@ -85,6 +97,66 @@ main: kit: entity: relay: {
 
   name: "relay"
   op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          bf: [
+            "authentication"
+            "destinationDomain"
+            "encryptEmptyStrings"
+            "routes"
+          ]
+          co: {
+            id: "POST /relays"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/relays"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "relays"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /relays"
+            source: "openapi3"
+            version: 2
+          }
+          m: "GET"
+          o: "/relays"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "relays"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+      ]
+    }
     load: {
       name: "load"
       points: [
@@ -112,6 +184,10 @@ main: kit: entity: relay: {
               "id"
             ]
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "relays"
@@ -131,6 +207,11 @@ main: kit: entity: relay: {
       name: "update"
       points: [
         {
+          bf: [
+            "authentication"
+            "encryptEmptyStrings"
+            "routes"
+          ]
           co: {
             id: "PATCH /relays/{id}"
             source: "openapi3"
@@ -153,6 +234,10 @@ main: kit: entity: relay: {
             exist: [
               "id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

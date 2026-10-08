@@ -35,110 +35,6 @@ main: kit: entity: payment: {
       points: [
         {
           co: {
-            id: "GET /payments/merchants"
-            source: "openapi3"
-            version: 2
-          }
-          g: {
-            query: [
-              {
-                ex: 0
-                k: "query"
-                n: "page"
-                or: "page"
-                r: false
-                t: "`$INTEGER`"
-              }
-              {
-                ex: 50
-                k: "query"
-                n: "page_size"
-                or: "page_size"
-                r: false
-                t: "`$INTEGER`"
-              }
-              {
-                k: "query"
-                n: "q"
-                or: "q"
-                r: false
-                t: "`$STRING`"
-              }
-            ]
-          }
-          m: "GET"
-          o: "/payments/merchants"
-          q: {
-            "$action": "merchant"
-            exist: [
-              "page"
-              "page_size"
-              "q"
-            ]
-          }
-          s: [
-            {
-              lit: "payments"
-            }
-            {
-              lit: "merchants"
-            }
-          ]
-          t: {
-            req: "`reqdata`"
-            res: "`body.data`"
-          }
-        }
-        {
-          co: {
-            id: "GET /payments/acquirers"
-            source: "openapi3"
-            version: 2
-          }
-          g: {
-            query: [
-              {
-                ex: 0
-                k: "query"
-                n: "page"
-                or: "page"
-                r: false
-                t: "`$INTEGER`"
-              }
-              {
-                ex: 50
-                k: "query"
-                n: "page_size"
-                or: "page_size"
-                r: false
-                t: "`$INTEGER`"
-              }
-            ]
-          }
-          m: "GET"
-          o: "/payments/acquirers"
-          q: {
-            "$action": "acquirer"
-            exist: [
-              "page"
-              "page_size"
-            ]
-          }
-          s: [
-            {
-              lit: "payments"
-            }
-            {
-              lit: "acquirers"
-            }
-          ]
-          t: {
-            req: "`reqdata`"
-            res: "`body.data`"
-          }
-        }
-        {
-          co: {
             id: "GET /payments/3ds-sessions/{3ds_session_id}/messages"
             source: "openapi3"
             version: 2
@@ -160,6 +56,10 @@ main: kit: entity: payment: {
             exist: [
               "3ds_session_id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -249,6 +149,10 @@ main: kit: entity: payment: {
               "card_id"
             ]
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "payments"
@@ -328,6 +232,10 @@ main: kit: entity: payment: {
             exist: [
               "network_token_id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

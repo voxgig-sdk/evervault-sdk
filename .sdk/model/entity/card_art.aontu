@@ -64,6 +64,10 @@ main: kit: entity: card_art: {
               "network_token_id"
             ]
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "payments"

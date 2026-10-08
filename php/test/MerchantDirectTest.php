@@ -10,6 +10,56 @@ use PHPUnit\Framework\TestCase;
 
 class MerchantDirectTest extends TestCase
 {
+    // main.kit.test.live.strict is true (the default is true): a live
+    // request that fails, or a live test missing an input it needs,
+    // fails the test.
+    // An account with no record for a test to read skips it either way.
+    private const LIVE_STRICT = true;
+
+    private static function liveOk(array $result): bool
+    {
+        $status = Helpers::to_int($result["status"] ?? 0);
+        return empty($result["err"]) && !empty($result["ok"]) && $status >= 200 && $status < 300;
+    }
+
+    public function test_direct_list_merchant(): void
+    {
+        $setup = merchant_direct_setup([
+            ["id" => "direct01"],
+            ["id" => "direct02"],
+        ]);
+        [$_shouldSkip, $_reason] = Runner::is_control_skipped("direct", "direct-list-merchant", $setup["live"] ? "live" : "unit");
+        if ($_shouldSkip) {
+            $this->markTestSkipped($_reason ?? "skipped via sdk-test-control.json");
+            return;
+        }
+        $client = $setup["client"];
+
+        $params = [];
+
+        $result = $client->direct([
+            "path" => "payments/merchants",
+            "method" => "GET",
+            "params" => $params,
+        ]);
+        if ($setup["live"]) {
+            if (!self::liveOk($result)) {
+                Runner::live_miss(self::LIVE_STRICT, "Live list failed: " . Runner::live_describe($result));
+            }
+            if (null === Runner::live_list($result["data"] ?? null)) {
+                Runner::live_miss(self::LIVE_STRICT, "Live list returned no list: " . Runner::live_describe($result));
+            }
+            $this->assertIsArray(Runner::live_list($result["data"]));
+        } else {
+            $this->assertArrayNotHasKey("err", $result);
+            $this->assertTrue($result["ok"]);
+            $this->assertEquals(200, Helpers::to_int($result["status"]));
+            $this->assertIsArray($result["data"]);
+            $this->assertCount(2, $result["data"]);
+            $this->assertCount(1, $setup["calls"]);
+        }
+    }
+
     public function test_direct_load_merchant(): void
     {
         $setup = merchant_direct_setup(["id" => "direct01"]);
@@ -18,15 +68,33 @@ class MerchantDirectTest extends TestCase
             $this->markTestSkipped($_reason ?? "skipped via sdk-test-control.json");
             return;
         }
-        if ($setup["live"]) {
-            $this->markTestSkipped("live direct-load needs real ID — set *_ENTID env var with real IDs to run");
-            return;
-        }
         $client = $setup["client"];
 
         $params = [];
         $query = [];
-        if (!$setup["live"]) {
+        if ($setup["live"]) {
+            $list_result = $client->direct([
+                "path" => "payments/merchants",
+                "method" => "GET",
+                "params" => [],
+            ]);
+            if (!self::liveOk($list_result)) {
+                Runner::live_miss(self::LIVE_STRICT, "Live list discovery failed: " . Runner::live_describe($list_result));
+            }
+            $records = Runner::live_list($list_result["data"] ?? null);
+            if (null === $records) {
+                Runner::live_miss(self::LIVE_STRICT, "Live list discovery returned no list: " . Runner::live_describe($list_result));
+            }
+            if (0 === count($records)) {
+                Runner::live_empty("The account has no merchant record to load");
+            }
+            $first = is_array($records[0]) ? $records[0] : [];
+            $found = $first["id"] ?? $first["id"] ?? null;
+            if (null === $found) {
+                Runner::live_miss(self::LIVE_STRICT, "Live load blocked: discovery returned no usable identity");
+            }
+            $params["id"] = $found;
+        } else {
             $params["id"] = "direct01";
         }
 
@@ -37,22 +105,13 @@ class MerchantDirectTest extends TestCase
             "query" => $query,
         ]);
         if ($setup["live"]) {
-            // Live mode is lenient: synthetic IDs frequently 4xx. Skip
-            // rather than fail when the load endpoint isn't reachable
-            // with the IDs we can construct from setup.idmap.
-            if (!empty($result["err"])) {
-                $this->markTestSkipped("load call failed (likely synthetic IDs against live API): " . (string)$result["err"]);
-                return;
+            if (!self::liveOk($result)) {
+                Runner::live_miss(self::LIVE_STRICT, "Live load failed: " . Runner::live_describe($result));
             }
-            if (empty($result["ok"])) {
-                $this->markTestSkipped("load call not ok (likely synthetic IDs against live API)");
-                return;
+            if (null === ($result["data"] ?? null)) {
+                Runner::live_miss(self::LIVE_STRICT, "Live load returned no data: " . Runner::live_describe($result));
             }
-            $status = Helpers::to_int($result["status"]);
-            if ($status < 200 || $status >= 300) {
-                $this->markTestSkipped("expected 2xx status, got " . $status);
-                return;
-            }
+            $this->assertNotNull($result["data"]);
         } else {
             $this->assertArrayNotHasKey("err", $result);
             $this->assertTrue($result["ok"]);
@@ -89,11 +148,12 @@ function merchant_direct_setup($mockres)
             "apikey" => $env["EVERVAULT_APIKEY"],
         ]);
         $client = new EvervaultSDK($merged_opts);
+        $idmap = $env["EVERVAULT_TEST_MERCHANT_ENTID"] ?? [];
         return [
             "client" => $client,
             "calls" => $calls,
             "live" => true,
-            "idmap" => [],
+            "idmap" => is_array($idmap) ? $idmap : [],
         ];
     }
 

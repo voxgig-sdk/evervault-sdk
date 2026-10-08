@@ -21,6 +21,12 @@ type AcquirerLoadMatch struct {
 	Id string `json:"id"`
 }
 
+// AcquirerListMatch is the typed request payload for Acquirer.ListTyped.
+type AcquirerListMatch struct {
+	Page *int `json:"page,omitempty"`
+	PageSize *int `json:"page_size,omitempty"`
+}
+
 // AcquirerCreateData is the typed request payload for Acquirer.CreateTyped.
 type AcquirerCreateData struct {
 	Configurations []any `json:"configurations"`
@@ -60,14 +66,25 @@ type CardLoadMatch struct {
 // CardCreateData is the typed request payload for Card.CreateTyped.
 type CardCreateData struct {
 	Address map[string]any `json:"address"`
+	AutomaticUpdates *string `json:"automaticUpdates,omitempty"`
+	Bin string `json:"bin"`
+	Brand *string `json:"brand,omitempty"`
 	Card map[string]any `json:"card"`
 	Cardholder *map[string]any `json:"cardholder,omitempty"`
+	Country *string `json:"country,omitempty"`
+	CreatedAt int `json:"createdAt"`
+	Currency *string `json:"currency,omitempty"`
 	Expiry map[string]any `json:"expiry"`
 	Extensions *[]any `json:"extensions,omitempty"`
+	Funding *string `json:"funding,omitempty"`
 	Id *string `json:"id,omitempty"`
-	Month string `json:"month"`
+	Issuer *string `json:"issuer,omitempty"`
+	LastFour string `json:"lastFour"`
 	Number string `json:"number"`
-	Year string `json:"year"`
+	Replacement *any `json:"replacement,omitempty"`
+	Segment *string `json:"segment,omitempty"`
+	Status *string `json:"status,omitempty"`
+	UpdatedAt *any `json:"updatedAt,omitempty"`
 }
 
 // CardArt is the typed data model for the card_art entity.
@@ -96,38 +113,26 @@ type Core struct {
 
 // CoreListMatch is the typed request payload for Core.ListTyped.
 type CoreListMatch struct {
-	App *string `json:"app,omitempty"`
-	Authentication *any `json:"authentication,omitempty"`
-	CreatedAt *int `json:"createdAt,omitempty"`
-	CustomDomain *string `json:"customDomain,omitempty"`
-	DestinationDomain *string `json:"destinationDomain,omitempty"`
-	EncryptEmptyStrings *bool `json:"encryptEmptyStrings,omitempty"`
-	EvervaultDomain *string `json:"evervaultDomain,omitempty"`
-	Id *string `json:"id,omitempty"`
-	PhoneNumber *string `json:"phoneNumber,omitempty"`
-	Relay *string `json:"relay,omitempty"`
-	Routes *[]any `json:"routes,omitempty"`
-	Status *string `json:"status,omitempty"`
-	Token *string `json:"token,omitempty"`
-	UpdatedAt *int `json:"updatedAt,omitempty"`
-	ValidationRecord *string `json:"validationRecord,omitempty"`
+	RelayId string `json:"relay_id"`
 }
 
 // CoreCreateData is the typed request payload for Core.CreateTyped.
 type CoreCreateData struct {
-	App *string `json:"app,omitempty"`
-	Authentication *any `json:"authentication,omitempty"`
+	Category *string `json:"category,omitempty"`
+	CoreList *any `json:"core_list,omitempty"`
+	Cores *any `json:"cores,omitempty"`
 	CreatedAt *int `json:"createdAt,omitempty"`
 	CustomDomain *string `json:"customDomain,omitempty"`
-	DestinationDomain string `json:"destinationDomain"`
-	EncryptEmptyStrings *bool `json:"encryptEmptyStrings,omitempty"`
-	EvervaultDomain *string `json:"evervaultDomain,omitempty"`
+	EncryptedAt *int `json:"encryptedAt,omitempty"`
+	Fingerprint *string `json:"fingerprint,omitempty"`
 	Id *string `json:"id,omitempty"`
+	Metadata *any `json:"metadata,omitempty"`
 	PhoneNumber *string `json:"phoneNumber,omitempty"`
 	Relay *string `json:"relay,omitempty"`
-	Routes []any `json:"routes"`
+	Role *string `json:"role,omitempty"`
 	Status *string `json:"status,omitempty"`
 	Token string `json:"token"`
+	Type *string `json:"type,omitempty"`
 	UpdatedAt *int `json:"updatedAt,omitempty"`
 	ValidationRecord *string `json:"validationRecord,omitempty"`
 }
@@ -183,6 +188,13 @@ type Merchant struct {
 // MerchantLoadMatch is the typed request payload for Merchant.LoadTyped.
 type MerchantLoadMatch struct {
 	Id string `json:"id"`
+}
+
+// MerchantListMatch is the typed request payload for Merchant.ListTyped.
+type MerchantListMatch struct {
+	Page *int `json:"page,omitempty"`
+	PageSize *int `json:"page_size,omitempty"`
+	Q *string `json:"q,omitempty"`
 }
 
 // MerchantCreateData is the typed request payload for Merchant.CreateTyped.
@@ -271,6 +283,32 @@ type RelayLoadMatch struct {
 	Id string `json:"id"`
 }
 
+// RelayListMatch is the typed request payload for Relay.ListTyped.
+type RelayListMatch struct {
+	App *string `json:"app,omitempty"`
+	Authentication *any `json:"authentication,omitempty"`
+	CreatedAt *int `json:"createdAt,omitempty"`
+	DestinationDomain *string `json:"destinationDomain,omitempty"`
+	EncryptEmptyStrings *bool `json:"encryptEmptyStrings,omitempty"`
+	EvervaultDomain *string `json:"evervaultDomain,omitempty"`
+	Id *string `json:"id,omitempty"`
+	Routes *[]any `json:"routes,omitempty"`
+	UpdatedAt *int `json:"updatedAt,omitempty"`
+}
+
+// RelayCreateData is the typed request payload for Relay.CreateTyped.
+type RelayCreateData struct {
+	App *string `json:"app,omitempty"`
+	Authentication *any `json:"authentication,omitempty"`
+	CreatedAt *int `json:"createdAt,omitempty"`
+	DestinationDomain *string `json:"destinationDomain,omitempty"`
+	EncryptEmptyStrings *bool `json:"encryptEmptyStrings,omitempty"`
+	EvervaultDomain *string `json:"evervaultDomain,omitempty"`
+	Id *string `json:"id,omitempty"`
+	Routes *[]any `json:"routes,omitempty"`
+	UpdatedAt *int `json:"updatedAt,omitempty"`
+}
+
 // RelayUpdateData is the typed request payload for Relay.UpdateTyped.
 type RelayUpdateData struct {
 	Id string `json:"id"`
@@ -325,21 +363,6 @@ type ThreeDsSessionCreateData struct {
 type Webhook struct {
 }
 
-// WebhookListMatch is the typed request payload for Webhook.ListTyped.
-type WebhookListMatch struct {
-	Limit *int `json:"limit,omitempty"`
-	StartingAfter *string `json:"starting_after,omitempty"`
-}
-
-// WebhookCreateData is the typed request payload for Webhook.CreateTyped.
-type WebhookCreateData struct {
-	CreatedAt *int `json:"createdAt,omitempty"`
-	Events []any `json:"events"`
-	Id *string `json:"id,omitempty"`
-	UpdatedAt *any `json:"updatedAt,omitempty"`
-	Url string `json:"url"`
-}
-
 // WebhookRemoveMatch is the typed request payload for Webhook.RemoveTyped.
 type WebhookRemoveMatch struct {
 	WebhookEndpointId string `json:"webhook_endpoint_id"`
@@ -352,6 +375,21 @@ type WebhookEndpoint struct {
 // WebhookEndpointLoadMatch is the typed request payload for WebhookEndpoint.LoadTyped.
 type WebhookEndpointLoadMatch struct {
 	Id string `json:"id"`
+}
+
+// WebhookEndpointListMatch is the typed request payload for WebhookEndpoint.ListTyped.
+type WebhookEndpointListMatch struct {
+	Limit *int `json:"limit,omitempty"`
+	StartingAfter *string `json:"starting_after,omitempty"`
+}
+
+// WebhookEndpointCreateData is the typed request payload for WebhookEndpoint.CreateTyped.
+type WebhookEndpointCreateData struct {
+	CreatedAt *int `json:"createdAt,omitempty"`
+	Events *[]any `json:"events,omitempty"`
+	Id *string `json:"id,omitempty"`
+	UpdatedAt *any `json:"updatedAt,omitempty"`
+	Url *string `json:"url,omitempty"`
 }
 
 // WebhookEndpointUpdateData is the typed request payload for WebhookEndpoint.UpdateTyped.

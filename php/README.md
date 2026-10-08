@@ -12,9 +12,14 @@ The SDK exposes the API as capitalised, semantic **Entities** — for example `$
 
 ## Install
 This package is not yet published to Packagist. Install it from the
-GitHub release tag (`php/vX.Y.Z`):
+GitHub release tag (`php/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/evervault-sdk/tags)), or
+from a clone as a Composer path repository:
 
-- Releases: [https://github.com/voxgig-sdk/evervault-sdk/releases](https://github.com/voxgig-sdk/evervault-sdk/releases)
+```bash
+git clone https://github.com/voxgig-sdk/evervault-sdk
+composer config repositories.evervault-sdk path ./evervault-sdk/php
+composer require voxgig-sdk/evervault-sdk:@dev
+```
 
 
 ## Tutorial: your first API call
@@ -31,6 +36,21 @@ require_once 'evervault_sdk.php';
 $client = new EvervaultSDK([
     "apikey" => getenv("EVERVAULT_APIKEY"),
 ]);
+```
+
+### 2. List acquirer records
+
+```php
+try {
+    // list() returns entity instances; data_get() reads each record.
+    $acquirers = $client->Acquirer()->list();
+    foreach ($acquirers as $record) {
+        $item = $record->data_get();
+        echo $item["id"] . " " . $item["configurations"] . "\n";
+    }
+} catch (\Throwable $err) {
+    echo "Error: " . $err->getMessage();
+}
 ```
 
 ### 3. Load a cardart
@@ -66,7 +86,7 @@ Entity operations throw a `\Throwable` on failure, so wrap them in
 
 ```php
 try {
-    $merchant = $client->Merchant()->load(["id" => "example_id"]);
+    $merchants = $client->Merchant()->list();
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
 }
@@ -141,10 +161,10 @@ $client = EvervaultSDK::test([
     "entity" => ["merchant" => ["test01" => ["id" => "test01"]]],
 ]);
 
-// Entity ops return the ENTITY (throws on error);
+// list() returns entity instances (throws on error);
 // call data_get() for the mock record.
-$merchant = $client->Merchant()->load(["id" => "test01"]);
-print_r($merchant->data_get());
+$merchant = $client->Merchant()->list();
+print_r(array_map(fn($item) => $item->data_get(), $merchant));
 ```
 
 ### Use a custom fetch function
@@ -248,11 +268,11 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `($reqmatch, $ctrl): array` | Load a single entity by match criteria. |
-| `list` | `(?array $reqmatch = null, $ctrl): array` | List entities matching the criteria (call with no argument to list all). |
-| `create` | `($reqdata, $ctrl): array` | Create a new entity. |
-| `update` | `($reqdata, $ctrl): array` | Update an existing entity. |
-| `remove` | `($reqmatch, $ctrl): array` | Remove an entity. |
+| `load` | `($reqmatch, $ctrl): mixed` | Load a single entity by match criteria, and return it. |
+| `list` | `(?array $reqmatch = null, $ctrl): mixed` | List entities matching the criteria (call with no argument to list all), one per record. |
+| `create` | `($reqdata, $ctrl): mixed` | Create a new entity, and return it. |
+| `update` | `($reqdata, $ctrl): mixed` | Update an existing entity, and return it. |
+| `remove` | `($reqmatch, $ctrl): mixed` | Remove an entity, and return it marked as deleted. |
 | `data_get` | `(): array` | Get entity data. |
 | `data_set` | `($data): void` | Set entity data. |
 | `match_get` | `(): array` | Get entity match criteria. |
@@ -262,9 +282,9 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the ENTITY (call data_get() for the record) (an `array` for single-entity
-ops, a `list` for `list`) and throw on error. Wrap calls in
-`try`/`catch` to handle failures.
+Entity operations return the entity, and `list` an `array` of entities, one
+per record; an entity's `data_get()` reads its record (an `array`). They
+throw on error, so wrap calls in `try`/`catch` to handle failures.
 
 The `direct()` escape hatch never throws — it returns a result `array`
 you branch on via `$result["ok"]`:
@@ -290,7 +310,7 @@ On error, `ok` is `false` and `$err` contains the error value.
 | `id` | The unique identifier of the acquirer configuration. |
 | `name` | The name of the acquirer configuration. |
 
-Operations: Create, Load, Update.
+Operations: Create, List, Load, Update.
 
 API path: `/payments/acquirers`
 
@@ -309,14 +329,25 @@ API path: `/payments/bin-lookups`
 | Field | Description |
 | --- | --- |
 | `address` | Details about the cardholder's address that the address verification (AVS) is for. |
+| `automaticUpdates` | The status of Card Account Updater on this card. |
+| `bin` | The first 6 or 8 digits of the card number. |
+| `brand` | The card brand associated with the payment card. |
 | `card` | The card details. |
 | `cardholder` | Details about the cardholder that the name verification (ANI) is for. |
-| `expiry` |  |
+| `country` | The country where the card was issued. |
+| `createdAt` | The Unix timestamp of when the card was created. |
+| `currency` | The currency of the card. |
+| `expiry` | The expiry date of the card. |
 | `extensions` | The extensions to the card insight request. |
-| `id` |  |
-| `month` | The card expiry month, in MM format (e.g. |
-| `number` | The card number. |
-| `year` | The card expiry year, in YY format (e.g. |
+| `funding` | The card funding type specifies the method by which transactions are financed. |
+| `id` | The unique identifier for the card. |
+| `issuer` | The name of the card issuer. |
+| `lastFour` | The last 4 digits of the card number. |
+| `number` | The Evervault encrypted card number. |
+| `replacement` | The ID of the replacement card. |
+| `segment` | The card segment indicates the primary market or usage category of the card. |
+| `status` | The current status of the card. |
+| `updatedAt` | The Unix timestamp of when the card was last updated. |
 
 Operations: Create, Load.
 
@@ -351,19 +382,21 @@ API path: `/client-side-tokens`
 
 | Field | Description |
 | --- | --- |
-| `app` | The unique identifier for the app to which the Relay belongs. |
-| `authentication` | The type of authentication required for the Relay |
+| `category` | The category or specific nature of the encrypted value. |
+| `core_list` | A JSON value or file to be encrypted. |
+| `cores` | A JSON value or file to be decrypted. |
 | `createdAt` | The exact time, in epoch milliseconds, when this custom domain was created. |
 | `customDomain` | The customer managed domain to which requests to be relayed to your domain should be sent. |
-| `destinationDomain` | The domain in front of which you would like to configure a Relay |
-| `encryptEmptyStrings` | Whether or not empty strings should be encrypted. |
-| `evervaultDomain` | The Evervault managed domain to which requests to be relayed to the destination domain should be sent. |
+| `encryptedAt` | The date and time when the value was encrypted. |
+| `fingerprint` | A unique identifier for the encrypted value. |
 | `id` | The unique identifier for the custom domain. |
+| `metadata` | Further metadata about the encrypted value. |
 | `phoneNumber` |  |
 | `relay` | The ID of the Relay with which this custom domain is associated. |
-| `routes` | A collection of route configurations for the Relay. |
+| `role` | The data role of the encrypted value. |
 | `status` | The status of the domains DNS verification. |
 | `token` | The encrypted data to be inspected. |
+| `type` | The type of the encrypted value. |
 | `updatedAt` | The exact time, in epoch milliseconds, when this custom domain was last updated. |
 | `validationRecord` | Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain |
 
@@ -418,7 +451,7 @@ API path: `/functions/{function_name}/runs`
 | `updatedAt` | The exact time, in epoch milliseconds, when this Merchant was last updated. |
 | `website` | The official website URL of the Merchant. |
 
-Operations: Create, Load, Update.
+Operations: Create, List, Load, Update.
 
 API path: `/payments/merchants`
 
@@ -464,7 +497,7 @@ API path: `/payments/network-tokens/{network_token_id}/cryptograms`
 
 Operations: List, Remove.
 
-API path: `/payments/merchants`
+API path: `/payments/3ds-sessions/{3ds_session_id}/messages`
 
 #### Relay
 
@@ -480,9 +513,9 @@ API path: `/payments/merchants`
 | `routes` | A collection of route configurations for the Relay. |
 | `updatedAt` | The exact time, in epoch milliseconds, when this Relay was updated. |
 
-Operations: Load, Update.
+Operations: Create, List, Load, Update.
 
-API path: `/relays/{id}`
+API path: `/relays`
 
 #### ThreeDsSession
 
@@ -521,15 +554,10 @@ API path: `/payments/3ds-sessions`
 
 | Field | Description |
 | --- | --- |
-| `createdAt` | The exact time, in epoch milliseconds, when this Webhook Endpoint was created. |
-| `events` | A list of Events that the Webhook Endpoint should subscribe to. |
-| `id` | A unique identifier representing a specific Webhook Endpoint. |
-| `updatedAt` | The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated. |
-| `url` | The URL of the Webhook Endpoint. |
 
-Operations: Create, List, Remove.
+Operations: Remove.
 
-API path: `/webhook-endpoints`
+API path: `/webhook-endpoints/{webhook_endpoint_id}`
 
 #### WebhookEndpoint
 
@@ -541,9 +569,9 @@ API path: `/webhook-endpoints`
 | `updatedAt` | The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated. |
 | `url` | The URL of the Webhook Endpoint. |
 
-Operations: Load, Update.
+Operations: Create, List, Load, Update.
 
-API path: `/webhook-endpoints/{webhook_endpoint_id}`
+API path: `/webhook-endpoints`
 
 
 
@@ -559,6 +587,7 @@ Create an instance: `$acquirer = $client->Acquirer();`
 | Method | Description |
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
+| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 | `update(data)` | Update an existing entity. |
 
@@ -577,6 +606,13 @@ Create an instance: `$acquirer = $client->Acquirer();`
 ```php
 // load() returns the ENTITY — call data_get() for the Acquirer record (throws on error).
 $acquirer = $client->Acquirer()->load(["id" => "acquirer_id"]);
+```
+
+#### Example: List
+
+```php
+// list() returns an array of Acquirer entities, one per record (throws on error).
+$acquirers = $client->Acquirer()->list();
 ```
 
 #### Example: Create
@@ -632,14 +668,25 @@ Create an instance: `$card = $client->Card();`
 | Field | Type | Description |
 | --- | --- | --- |
 | `address` | `array` | Details about the cardholder's address that the address verification (AVS) is for. |
+| `automaticUpdates` | `string` | The status of Card Account Updater on this card. |
+| `bin` | `string` | The first 6 or 8 digits of the card number. |
+| `brand` | `string` | The card brand associated with the payment card. |
 | `card` | `array` | The card details. |
 | `cardholder` | `array` | Details about the cardholder that the name verification (ANI) is for. |
-| `expiry` | `array` |  |
+| `country` | `string` | The country where the card was issued. |
+| `createdAt` | `int` | The Unix timestamp of when the card was created. |
+| `currency` | `string` | The currency of the card. |
+| `expiry` | `array` | The expiry date of the card. |
 | `extensions` | `array` | The extensions to the card insight request. |
-| `id` | `string` |  |
-| `month` | `string` | The card expiry month, in MM format (e.g. |
-| `number` | `string` | The card number. |
-| `year` | `string` | The card expiry year, in YY format (e.g. |
+| `funding` | `string` | The card funding type specifies the method by which transactions are financed. |
+| `id` | `string` | The unique identifier for the card. |
+| `issuer` | `string` | The name of the card issuer. |
+| `lastFour` | `string` | The last 4 digits of the card number. |
+| `number` | `string` | The Evervault encrypted card number. |
+| `replacement` | `mixed` | The ID of the replacement card. |
+| `segment` | `string` | The card segment indicates the primary market or usage category of the card. |
+| `status` | `string` | The current status of the card. |
+| `updatedAt` | `mixed` | The Unix timestamp of when the card was last updated. |
 
 #### Example: Load
 
@@ -653,11 +700,12 @@ $card = $client->Card()->load(["id" => "card_id"]);
 ```php
 $card = $client->Card()->create([
     "address" => null, // array
+    "bin" => null, // string
     "card" => null, // array
+    "createdAt" => null, // int
     "expiry" => null, // array
-    "month" => null, // string
+    "lastFour" => null, // string
     "number" => null, // string
-    "year" => null, // string
 ]);
 ```
 
@@ -732,35 +780,35 @@ Create an instance: `$core = $client->Core();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `app` | `string` | The unique identifier for the app to which the Relay belongs. |
-| `authentication` | `mixed` | The type of authentication required for the Relay |
+| `category` | `string` | The category or specific nature of the encrypted value. |
+| `core_list` | `mixed` | A JSON value or file to be encrypted. |
+| `cores` | `mixed` | A JSON value or file to be decrypted. |
 | `createdAt` | `int` | The exact time, in epoch milliseconds, when this custom domain was created. |
 | `customDomain` | `string` | The customer managed domain to which requests to be relayed to your domain should be sent. |
-| `destinationDomain` | `string` | The domain in front of which you would like to configure a Relay |
-| `encryptEmptyStrings` | `bool` | Whether or not empty strings should be encrypted. |
-| `evervaultDomain` | `string` | The Evervault managed domain to which requests to be relayed to the destination domain should be sent. |
+| `encryptedAt` | `int` | The date and time when the value was encrypted. |
+| `fingerprint` | `string` | A unique identifier for the encrypted value. |
 | `id` | `string` | The unique identifier for the custom domain. |
+| `metadata` | `mixed` | Further metadata about the encrypted value. |
 | `phoneNumber` | `string` |  |
 | `relay` | `string` | The ID of the Relay with which this custom domain is associated. |
-| `routes` | `array` | A collection of route configurations for the Relay. |
+| `role` | `string` | The data role of the encrypted value. |
 | `status` | `string` | The status of the domains DNS verification. |
 | `token` | `string` | The encrypted data to be inspected. |
+| `type` | `string` | The type of the encrypted value. |
 | `updatedAt` | `int` | The exact time, in epoch milliseconds, when this custom domain was last updated. |
 | `validationRecord` | `string` | Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain |
 
 #### Example: List
 
 ```php
-// list() returns an array of Core records (throws on error).
-$cores = $client->Core()->list();
+// list() returns an array of Core entities, one per record (throws on error).
+$cores = $client->Core()->list(["relay_id" => "example"]);
 ```
 
 #### Example: Create
 
 ```php
 $core = $client->Core()->create([
-    "destinationDomain" => null, // string
-    "routes" => null, // array
     "token" => null, // string
 ]);
 ```
@@ -846,6 +894,7 @@ Create an instance: `$merchant = $client->Merchant();`
 | Method | Description |
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
+| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 | `update(data)` | Update an existing entity. |
 
@@ -869,6 +918,13 @@ Create an instance: `$merchant = $client->Merchant();`
 ```php
 // load() returns the ENTITY — call data_get() for the Merchant record (throws on error).
 $merchant = $client->Merchant()->load(["id" => "merchant_id"]);
+```
+
+#### Example: List
+
+```php
+// list() returns an array of Merchant entities, one per record (throws on error).
+$merchants = $client->Merchant()->list();
 ```
 
 #### Example: Create
@@ -983,8 +1039,8 @@ Create an instance: `$payment = $client->Payment();`
 #### Example: List
 
 ```php
-// list() returns an array of Payment records (throws on error).
-$payments = $client->Payment()->list();
+// list() returns an array of Payment entities, one per record (throws on error).
+$payments = $client->Payment()->list(["3ds_session_id" => "example"]);
 ```
 
 
@@ -996,6 +1052,8 @@ Create an instance: `$relay = $client->Relay();`
 
 | Method | Description |
 | --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 | `update(data)` | Update an existing entity. |
 
@@ -1018,6 +1076,20 @@ Create an instance: `$relay = $client->Relay();`
 ```php
 // load() returns the ENTITY — call data_get() for the Relay record (throws on error).
 $relay = $client->Relay()->load(["id" => "relay_id"]);
+```
+
+#### Example: List
+
+```php
+// list() returns an array of Relay entities, one per record (throws on error).
+$relays = $client->Relay()->list();
+```
+
+#### Example: Create
+
+```php
+$relay = $client->Relay()->create([
+]);
 ```
 
 
@@ -1094,35 +1166,7 @@ Create an instance: `$webhook = $client->Webhook();`
 
 | Method | Description |
 | --- | --- |
-| `create(data)` | Create a new entity with the given data. |
-| `list(match)` | List entities matching the criteria. |
 | `remove(match)` | Remove the matching entity. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `createdAt` | `int` | The exact time, in epoch milliseconds, when this Webhook Endpoint was created. |
-| `events` | `array` | A list of Events that the Webhook Endpoint should subscribe to. |
-| `id` | `string` | A unique identifier representing a specific Webhook Endpoint. |
-| `updatedAt` | `mixed` | The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated. |
-| `url` | `string` | The URL of the Webhook Endpoint. |
-
-#### Example: List
-
-```php
-// list() returns an array of Webhook records (throws on error).
-$webhooks = $client->Webhook()->list();
-```
-
-#### Example: Create
-
-```php
-$webhook = $client->Webhook()->create([
-    "events" => null, // array
-    "url" => null, // string
-]);
-```
 
 
 ### WebhookEndpoint
@@ -1133,6 +1177,8 @@ Create an instance: `$webhook_endpoint = $client->WebhookEndpoint();`
 
 | Method | Description |
 | --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 | `update(data)` | Update an existing entity. |
 
@@ -1151,6 +1197,20 @@ Create an instance: `$webhook_endpoint = $client->WebhookEndpoint();`
 ```php
 // load() returns the ENTITY — call data_get() for the WebhookEndpoint record (throws on error).
 $webhook_endpoint = $client->WebhookEndpoint()->load(["id" => "webhook_endpoint_id"]);
+```
+
+#### Example: List
+
+```php
+// list() returns an array of WebhookEndpoint entities, one per record (throws on error).
+$webhook_endpoints = $client->WebhookEndpoint()->list();
+```
+
+#### Example: Create
+
+```php
+$webhook_endpoint = $client->WebhookEndpoint()->create([
+]);
 ```
 
 ## Features
@@ -1388,14 +1448,14 @@ when needed.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `load`, the entity
+Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```php
 $merchant = $client->Merchant();
-$merchant->load(["id" => "example_id"]);
+$merchant->list();
 
-// $merchant->data_get() now returns the merchant data from the last load
+// $merchant->data_get() now returns the merchant data from the last list
 // $merchant->match_get() returns the last match criteria
 ```
 

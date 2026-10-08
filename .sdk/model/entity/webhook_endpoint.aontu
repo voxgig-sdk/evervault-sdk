@@ -17,6 +17,10 @@ main: kit: entity: webhook_endpoint: {
       h: "Events"
       n: "events"
       op: {
+        create: {
+          req: true
+          type: "`$ARRAY`"
+        }
         update: {
           req: true
           type: "`$ARRAY`"
@@ -50,6 +54,12 @@ main: kit: entity: webhook_endpoint: {
     url: {
       h: "Url"
       n: "url"
+      op: {
+        create: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
       r: false
       sh: "The URL of the Webhook Endpoint."
       t: "`$STRING`"
@@ -63,6 +73,84 @@ main: kit: entity: webhook_endpoint: {
 
   name: "webhook_endpoint"
   op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          bf: [
+            "events"
+            "url"
+          ]
+          co: {
+            id: "POST /webhook-endpoints"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/webhook-endpoints"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "webhook-endpoints"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /webhook-endpoints"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                ex: 10
+                k: "query"
+                n: "limit"
+                or: "limit"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                ex: "webhook_endpoint_wd7c640d1daee"
+                k: "query"
+                n: "starting_after"
+                or: "startingAfter"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/webhook-endpoints"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "webhook-endpoints"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+      ]
+    }
     load: {
       name: "load"
       points: [
@@ -96,6 +184,10 @@ main: kit: entity: webhook_endpoint: {
               webhook_endpoint_id: "id"
             }
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "webhook-endpoints"
@@ -115,6 +207,9 @@ main: kit: entity: webhook_endpoint: {
       name: "update"
       points: [
         {
+          bf: [
+            "events"
+          ]
           co: {
             id: "PATCH /webhook-endpoints/{webhook_endpoint_id}"
             source: "openapi3"
@@ -143,6 +238,10 @@ main: kit: entity: webhook_endpoint: {
             param: {
               webhook_endpoint_id: "id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

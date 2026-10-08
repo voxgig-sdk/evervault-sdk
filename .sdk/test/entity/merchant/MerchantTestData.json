@@ -60,6 +60,11 @@
       "version": 2,
       "source": "openapi3"
     },
+    "GET /payments/merchants": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
     "GET /payments/merchants/{merchant_id}": {
       "provenance": "operation-contract",
       "version": 2,

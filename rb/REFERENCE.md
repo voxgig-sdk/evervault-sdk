@@ -162,19 +162,19 @@ acquirer = client.Acquirer
 
 ### Field Usage by Operation
 
-| Field | load | create | update |
-| --- | --- | --- | --- |
-| `configurations` | - | - | Yes |
-| `default` | - | Yes | Yes |
-| `description` | - | - | - |
-| `id` | - | - | - |
-| `name` | - | - | Yes |
+| Field | load | list | create | update |
+| --- | --- | --- | --- | --- |
+| `configurations` | - | - | - | Yes |
+| `default` | - | - | - | Yes |
+| `description` | - | - | - | - |
+| `id` | - | - | - | - |
+| `name` | - | - | - | Yes |
 
 ### Operations
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.Acquirer.create({
@@ -185,9 +185,18 @@ result = client.Acquirer.create({
 })
 ```
 
+#### `list(reqmatch = nil, ctrl = nil) -> Array`
+
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
+
+```ruby
+results = client.Acquirer.list
+results.each { |item| puts item.data_get }
+```
+
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.Acquirer.load({ "id" => "acquirer_id" })
@@ -195,7 +204,7 @@ result = client.Acquirer.load({ "id" => "acquirer_id" })
 
 #### `update(reqdata, ctrl = nil) -> result`
 
-Update an existing entity. The data must include the entity `id`. Raises on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
 
 ```ruby
 result = client.Acquirer.update({
@@ -250,7 +259,7 @@ bin_lookup = client.BinLookup
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.BinLookup.create({
@@ -299,35 +308,47 @@ card = client.Card
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `address` | `Hash` | Yes | Details about the cardholder's address that the address verification (AVS) is for. |
+| `automaticUpdates` | `String` | No | The status of Card Account Updater on this card. |
+| `bin` | `String` | Yes | The first 6 or 8 digits of the card number. |
+| `brand` | `String` | No | The card brand associated with the payment card. |
 | `card` | `Hash` | Yes | The card details. |
 | `cardholder` | `Hash` | No | Details about the cardholder that the name verification (ANI) is for. |
-| `expiry` | `Hash` | Yes |  |
+| `country` | `String` | No | The country where the card was issued. |
+| `createdAt` | `Integer` | Yes | The Unix timestamp of when the card was created. |
+| `currency` | `String` | No | The currency of the card. |
+| `expiry` | `Hash` | Yes | The expiry date of the card. |
 | `extensions` | `Array` | No | The extensions to the card insight request. |
-| `id` | `String` | No |  |
-| `month` | `String` | Yes | The card expiry month, in MM format (e.g. |
-| `number` | `String` | Yes | The card number. |
-| `year` | `String` | Yes | The card expiry year, in YY format (e.g. |
+| `funding` | `String` | No | The card funding type specifies the method by which transactions are financed. |
+| `id` | `String` | No | The unique identifier for the card. |
+| `issuer` | `String` | No | The name of the card issuer. |
+| `lastFour` | `String` | Yes | The last 4 digits of the card number. |
+| `number` | `String` | Yes | The Evervault encrypted card number. |
+| `replacement` | `Object` | No | The ID of the replacement card. |
+| `segment` | `String` | No | The card segment indicates the primary market or usage category of the card. |
+| `status` | `String` | No | The current status of the card. |
+| `updatedAt` | `Object` | No | The Unix timestamp of when the card was last updated. |
 
 ### Operations
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.Card.create({
   "address" => {}, # Hash
+  "bin" => "example_bin", # String
   "card" => {}, # Hash
+  "createdAt" => 1, # Integer
   "expiry" => {}, # Hash
-  "month" => "example_month", # String
+  "lastFour" => "example_lastFour", # String
   "number" => "example_number", # String
-  "year" => "example_year", # String
 })
 ```
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.Card.load({ "id" => "card_id" })
@@ -382,7 +403,7 @@ card_art = client.CardArt
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.CardArt.load({ "network_token_id" => "network_token_id" })
@@ -436,7 +457,7 @@ client_side_token = client.ClientSideToken
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.ClientSideToken.create({
@@ -484,67 +505,48 @@ core = client.Core
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app` | `String` | No | The unique identifier for the app to which the Relay belongs. |
-| `authentication` | `Object` | No | The type of authentication required for the Relay |
+| `category` | `String` | No | The category or specific nature of the encrypted value. |
+| `core_list` | `Object` | No | A JSON value or file to be encrypted. |
+| `cores` | `Object` | No | A JSON value or file to be decrypted. |
 | `createdAt` | `Integer` | No | The exact time, in epoch milliseconds, when this custom domain was created. |
 | `customDomain` | `String` | No | The customer managed domain to which requests to be relayed to your domain should be sent. |
-| `destinationDomain` | `String` | Yes | The domain in front of which you would like to configure a Relay |
-| `encryptEmptyStrings` | `Boolean` | No | Whether or not empty strings should be encrypted. |
-| `evervaultDomain` | `String` | No | The Evervault managed domain to which requests to be relayed to the destination domain should be sent. |
+| `encryptedAt` | `Integer` | No | The date and time when the value was encrypted. |
+| `fingerprint` | `String` | No | A unique identifier for the encrypted value. |
 | `id` | `String` | No | The unique identifier for the custom domain. |
+| `metadata` | `Object` | No | Further metadata about the encrypted value. |
 | `phoneNumber` | `String` | No |  |
 | `relay` | `String` | No | The ID of the Relay with which this custom domain is associated. |
-| `routes` | `Array` | Yes | A collection of route configurations for the Relay. |
+| `role` | `String` | No | The data role of the encrypted value. |
 | `status` | `String` | No | The status of the domains DNS verification. |
 | `token` | `String` | Yes | The encrypted data to be inspected. |
+| `type` | `String` | No | The type of the encrypted value. |
 | `updatedAt` | `Integer` | No | The exact time, in epoch milliseconds, when this custom domain was last updated. |
 | `validationRecord` | `String` | No | Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain |
-
-### Field Usage by Operation
-
-| Field | list | create | remove |
-| --- | --- | --- | --- |
-| `app` | - | - | - |
-| `authentication` | - | - | - |
-| `createdAt` | - | - | - |
-| `customDomain` | - | - | - |
-| `destinationDomain` | Yes | - | - |
-| `encryptEmptyStrings` | - | - | - |
-| `evervaultDomain` | - | - | - |
-| `id` | - | - | - |
-| `phoneNumber` | - | - | - |
-| `relay` | - | - | - |
-| `routes` | Yes | - | - |
-| `status` | - | - | - |
-| `token` | - | - | - |
-| `updatedAt` | - | - | - |
-| `validationRecord` | - | - | - |
 
 ### Operations
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.Core.create({
-  "destinationDomain" => "example_destinationDomain", # String
-  "routes" => [], # Array
   "token" => "example_token", # String
 })
 ```
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
-results = client.Core.list
+results = client.Core.list({ "relay_id" => "example" })
+results.each { |item| puts item.data_get }
 ```
 
 #### `remove(reqmatch, ctrl = nil) -> result`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```ruby
 result = client.Core.remove({ "id" => "id" })
@@ -614,7 +616,7 @@ custom_domain = client.CustomDomain
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.CustomDomain.create({
@@ -624,7 +626,7 @@ result = client.CustomDomain.create({
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.CustomDomain.load({ "id" => "custom_domain_id", "relay_id" => "relay_id" })
@@ -682,7 +684,7 @@ function_run = client.FunctionRun
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.FunctionRun.create({
@@ -742,26 +744,11 @@ merchant = client.Merchant
 | `updatedAt` | `Integer` | No | The exact time, in epoch milliseconds, when this Merchant was last updated. |
 | `website` | `String` | Yes | The official website URL of the Merchant. |
 
-### Field Usage by Operation
-
-| Field | load | create | update |
-| --- | --- | --- | --- |
-| `applePay` | - | - | - |
-| `business` | - | Yes | - |
-| `categoryCode` | - | Yes | - |
-| `createdAt` | - | - | - |
-| `id` | - | - | - |
-| `name` | - | - | - |
-| `networkTokens` | - | - | - |
-| `shortName` | - | - | - |
-| `updatedAt` | - | - | - |
-| `website` | - | - | - |
-
 ### Operations
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.Merchant.create({
@@ -772,9 +759,18 @@ result = client.Merchant.create({
 })
 ```
 
+#### `list(reqmatch = nil, ctrl = nil) -> Array`
+
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
+
+```ruby
+results = client.Merchant.list
+results.each { |item| puts item.data_get }
+```
+
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.Merchant.load({ "id" => "merchant_id" })
@@ -782,7 +778,7 @@ result = client.Merchant.load({ "id" => "merchant_id" })
 
 #### `update(reqdata, ctrl = nil) -> result`
 
-Update an existing entity. The data must include the entity `id`. Raises on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
 
 ```ruby
 result = client.Merchant.update({
@@ -847,7 +843,7 @@ network_token = client.NetworkToken
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.NetworkToken.create({
@@ -865,7 +861,7 @@ result = client.NetworkToken.create({
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.NetworkToken.load({ "id" => "network_token_id" })
@@ -919,7 +915,7 @@ network_token_cryptogram = client.NetworkTokenCryptogram
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.NetworkTokenCryptogram.create({
@@ -975,15 +971,16 @@ payment = client.Payment
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
-results = client.Payment.list
+results = client.Payment.list({ "3ds_session_id" => "example" })
+results.each { |item| puts item.data_get }
 ```
 
 #### `remove(reqmatch, ctrl = nil) -> result`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```ruby
 result = client.Payment.remove({ "acquirer_id" => "acquirer_id" })
@@ -1039,11 +1036,43 @@ relay = client.Relay
 | `routes` | `Array` | No | A collection of route configurations for the Relay. |
 | `updatedAt` | `Integer` | No | The exact time, in epoch milliseconds, when this Relay was updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create | update |
+| --- | --- | --- | --- | --- |
+| `app` | - | - | - | - |
+| `authentication` | - | - | - | - |
+| `createdAt` | - | - | - | - |
+| `destinationDomain` | - | - | Yes | - |
+| `encryptEmptyStrings` | - | - | - | - |
+| `evervaultDomain` | - | - | - | - |
+| `id` | - | - | - | - |
+| `routes` | - | - | Yes | - |
+| `updatedAt` | - | - | - | - |
+
 ### Operations
+
+#### `create(reqdata, ctrl = nil) -> result`
+
+Create a new entity with the given data. Returns the created entity and raises on error.
+
+```ruby
+result = client.Relay.create({
+})
+```
+
+#### `list(reqmatch = nil, ctrl = nil) -> Array`
+
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
+
+```ruby
+results = client.Relay.list
+results.each { |item| puts item.data_get }
+```
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.Relay.load({ "id" => "relay_id" })
@@ -1051,7 +1080,7 @@ result = client.Relay.load({ "id" => "relay_id" })
 
 #### `update(reqdata, ctrl = nil) -> result`
 
-Update an existing entity. The data must include the entity `id`. Raises on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
 
 ```ruby
 result = client.Relay.update({
@@ -1158,7 +1187,7 @@ three_ds_session = client.ThreeDsSession
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.ThreeDsSession.create({
@@ -1177,7 +1206,7 @@ result = client.ThreeDsSession.create({
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.ThreeDsSession.load({ "3ds_session_id" => "3ds_session_id" })
@@ -1219,50 +1248,11 @@ Return the entity name.
 webhook = client.Webhook
 ```
 
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `createdAt` | `Integer` | No | The exact time, in epoch milliseconds, when this Webhook Endpoint was created. |
-| `events` | `Array` | Yes | A list of Events that the Webhook Endpoint should subscribe to. |
-| `id` | `String` | No | A unique identifier representing a specific Webhook Endpoint. |
-| `updatedAt` | `Object` | No | The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated. |
-| `url` | `String` | Yes | The URL of the Webhook Endpoint. |
-
-### Field Usage by Operation
-
-| Field | list | create | remove |
-| --- | --- | --- | --- |
-| `createdAt` | - | - | - |
-| `events` | Yes | - | - |
-| `id` | - | - | - |
-| `updatedAt` | - | - | - |
-| `url` | Yes | - | - |
-
 ### Operations
-
-#### `create(reqdata, ctrl = nil) -> result`
-
-Create a new entity with the given data. Raises on error.
-
-```ruby
-result = client.Webhook.create({
-  "events" => [], # Array
-  "url" => "example_url", # String
-})
-```
-
-#### `list(reqmatch = nil, ctrl = nil) -> Array`
-
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
-
-```ruby
-results = client.Webhook.list
-```
 
 #### `remove(reqmatch, ctrl = nil) -> result`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```ruby
 result = client.Webhook.remove({ "webhook_endpoint_id" => "webhook_endpoint_id" })
@@ -1316,19 +1306,37 @@ webhook_endpoint = client.WebhookEndpoint
 
 ### Field Usage by Operation
 
-| Field | load | update |
-| --- | --- | --- |
-| `createdAt` | - | - |
-| `events` | - | Yes |
-| `id` | - | - |
-| `updatedAt` | - | - |
-| `url` | - | - |
+| Field | load | list | create | update |
+| --- | --- | --- | --- | --- |
+| `createdAt` | - | - | - | - |
+| `events` | - | - | Yes | Yes |
+| `id` | - | - | - | - |
+| `updatedAt` | - | - | - | - |
+| `url` | - | - | Yes | - |
 
 ### Operations
 
+#### `create(reqdata, ctrl = nil) -> result`
+
+Create a new entity with the given data. Returns the created entity and raises on error.
+
+```ruby
+result = client.WebhookEndpoint.create({
+})
+```
+
+#### `list(reqmatch = nil, ctrl = nil) -> Array`
+
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
+
+```ruby
+results = client.WebhookEndpoint.list
+results.each { |item| puts item.data_get }
+```
+
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.WebhookEndpoint.load({ "id" => "webhook_endpoint_id" })
@@ -1336,7 +1344,7 @@ result = client.WebhookEndpoint.load({ "id" => "webhook_endpoint_id" })
 
 #### `update(reqdata, ctrl = nil) -> result`
 
-Update an existing entity. The data must include the entity `id`. Raises on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
 
 ```ruby
 result = client.WebhookEndpoint.update({
@@ -1665,6 +1673,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

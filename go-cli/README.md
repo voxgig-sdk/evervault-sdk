@@ -19,16 +19,18 @@ make build
 export EVERVAULT_APIKEY=sk_live_xxx
 
 # 4. Each command line is ONE boru expression, run against the API:
+./evervault-cli list acquirer
 ./evervault-cli load 1 acquirer            # {id:1} shorthand
 ./evervault-cli load '{id:1}' acquirer       # explicit match map
 ./evervault-cli update '{name:"x"}' acquirer
+./evervault-cli list core
 
 # 5. Override the API base URL for a single call
-EVERVAULT_BASE=https://api.example.com ./evervault-cli load 1 acquirer
+EVERVAULT_BASE=https://api.example.com ./evervault-cli list acquirer
 
 # 6. No arguments -> interactive REPL
 ./evervault-cli
-evervault> load 1 acquirer
+evervault> list acquirer
 evervault> /quit
 ```
 
@@ -54,7 +56,7 @@ evervault> /quit
    arguments to open the REPL):
 
    ```sh
-   ./dist/*/evervault-cli load 1 acquirer
+   ./dist/*/evervault-cli list acquirer
    ```
 
 4. **Go interactive.** Run the binary with no arguments to open the REPL, then
@@ -63,6 +65,15 @@ evervault> /quit
 That is the whole loop: *build → set key → evaluate boru expressions*.
 
 ## How-to guides
+
+### List the records of an entity
+
+```sh
+./evervault-cli list acquirer
+```
+
+`list <entity>` returns the first page of records. `<entity>` is a bareword —
+it is auto-quoted as an boru atom, so no quotes are needed.
 
 ### Load a single record
 
@@ -90,7 +101,7 @@ Configuration is read from the environment — nothing is written to disk:
 ```sh
 export EVERVAULT_APIKEY=sk_live_xxx            # API key
 export EVERVAULT_BASE=https://api.example.com  # optional: override the API base URL
-./evervault-cli load 1 acquirer
+./evervault-cli list acquirer
 ```
 
 Both are injectable by a secrets vault, so the key never has to be typed inline.
@@ -102,7 +113,7 @@ evaluated as its own boru expression:
 
 ```text
 $ ./evervault-cli
-evervault> load 1 acquirer
+evervault> list acquirer
 evervault> /help
 evervault> /quit
 ```

@@ -34,6 +34,11 @@ main: kit: entity: client_side_token: {
       name: "create"
       points: [
         {
+          bf: [
+            "action"
+            "expiry"
+            "payload"
+          ]
           co: {
             id: "POST /client-side-tokens"
             source: "openapi3"
@@ -41,6 +46,10 @@ main: kit: entity: client_side_token: {
           }
           m: "POST"
           o: "/client-side-tokens"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "client-side-tokens"

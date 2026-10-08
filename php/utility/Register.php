@@ -37,6 +37,8 @@ require_once __DIR__ . '/TransformResponse.php';
 
 EvervaultUtility::setRegistrar(function (EvervaultUtility $u): void {
     $u->clean = [EvervaultClean::class, 'call'];
+    $u->clean_add = [EvervaultClean::class, 'add'];
+    $u->clean_explain = [EvervaultDone::class, 'clean_explain'];
     $u->done = [EvervaultDone::class, 'call'];
     $u->make_error = [EvervaultMakeError::class, 'call'];
     $u->feature_add = [EvervaultFeatureAdd::class, 'call'];

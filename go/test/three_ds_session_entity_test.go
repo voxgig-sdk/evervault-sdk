@@ -15,6 +15,13 @@ import (
 	vs "github.com/voxgig-sdk/evervault-sdk/go/utility/struct"
 )
 
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const three_ds_sessionEntityLiveStrict = true
+
+
 func TestThreeDsSessionEntity(t *testing.T) {
 	t.Run("instance", func(t *testing.T) {
 		testsdk := sdk.TestSDK(nil, nil)
@@ -24,7 +31,21 @@ func TestThreeDsSessionEntity(t *testing.T) {
 		}
 	})
 
-	t.Run("basic", func(t *testing.T) {
+	t.Run("validate", func(t *testing.T) {
+		if !fhHasFeature("validate") {
+			t.Skip("feature not present in this SDK: validate")
+		}
+		client := sdk.TestSDK(nil, map[string]any{
+			"feature": map[string]any{"validate": map[string]any{"active": true}},
+		})
+		_, err := client.ThreeDsSession(nil).Load(map[string]any{"3ds_session_id": 1}, nil)
+		if sdkerr, ok := err.(*core.EvervaultError); !ok || "validate_failed" != sdkerr.Code {
+			t.Fatalf("expected validate_failed, got %v", err)
+		}
+	})
+
+	t.Run("basic", func(tt *testing.T) {
+		var t testing.TB = tt
 		setup := three_ds_sessionBasicSetup(nil)
 		// Per-op sdk-test-control.json skip — basic test exercises a flow
 		// with multiple ops; skipping any op skips the whole flow.
@@ -32,7 +53,7 @@ func TestThreeDsSessionEntity(t *testing.T) {
 		if setup.live {
 			_mode = "live"
 		}
-		for _, _op := range []string{"create", "load"} {
+		for _, _op := range []string{"create"} {
 			if _shouldSkip, _reason := isControlSkipped("entityOp", "three_ds_session." + _op, _mode); _shouldSkip {
 				if _reason == "" {
 					_reason = "skipped via sdk-test-control.json"
@@ -40,12 +61,6 @@ func TestThreeDsSessionEntity(t *testing.T) {
 				t.Skip(_reason)
 				return
 			}
-		}
-		// The basic flow consumes synthetic IDs from the fixture. In live mode
-		// without an *_ENTID env override, those IDs hit the live API and 4xx.
-		if setup.syntheticOnly {
-			t.Skip("live entity test uses synthetic IDs from fixture — set EVERVAULT_TEST_THREE_DS_SESSION_ENTID JSON to run live")
-			return
 		}
 		client := setup.client
 
@@ -64,22 +79,6 @@ func TestThreeDsSessionEntity(t *testing.T) {
 		}
 		if threeDsSessionRef01Data["id"] == nil {
 			t.Fatal("expected created entity to have an id")
-		}
-
-		// LOAD
-		threeDsSessionRef01MatchDt0 := map[string]any{
-			"id": threeDsSessionRef01Data["id"],
-		}
-		threeDsSessionRef01DataDt0Loaded, err := threeDsSessionRef01Ent.Load(threeDsSessionRef01MatchDt0, nil)
-		if err != nil {
-			t.Fatalf("load failed: %v", err)
-		}
-		threeDsSessionRef01DataDt0LoadResult := core.ToMapAny(entityData(threeDsSessionRef01DataDt0Loaded))
-		if threeDsSessionRef01DataDt0LoadResult == nil {
-			t.Fatal("expected load result to be a map")
-		}
-		if threeDsSessionRef01DataDt0LoadResult["id"] != threeDsSessionRef01Data["id"] {
-			t.Fatal("expected load result id to match")
 		}
 
 	})
@@ -119,9 +118,8 @@ func three_ds_sessionBasicSetup(extra map[string]any) *entityTestSetup {
 		},
 	)
 
-	// Detect ENTID env override before envOverride consumes it. When live
-	// mode is on without a real override, the basic test runs against synthetic
-	// IDs from the fixture and 4xx's. Surface this so the test can skip.
+	// Whether *_ENTID supplied the idmap, read before envOverride consumes it:
+	// without it, the ids a live flow binds are the fixture's synthetic ones.
 	entidEnvRaw := os.Getenv("EVERVAULT_TEST_THREE_DS_SESSION_ENTID")
 	idmapOverridden := entidEnvRaw != "" && strings.HasPrefix(strings.TrimSpace(entidEnvRaw), "{")
 

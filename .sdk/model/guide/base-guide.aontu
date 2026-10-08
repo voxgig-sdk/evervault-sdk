@@ -10,7 +10,10 @@ guide: {
 
   entity: acquirer: {
     path: "/payments/acquirers": {
+      action: "acquirer": {}
       op: create: method: *POST
+      op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
     }
     path: "/payments/acquirers/{acquirer_id}": {
       rename: param: "acquirer_id": *"id"
@@ -28,22 +31,18 @@ guide: {
   entity: card: {
     path: "/insights/cards": {
       op: create: method: *POST
-      op: create: transform: req: "card": *("`reqdata`")|top
     }
     path: "/payments/cards": {
       op: create: method: *POST
-      op: create: transform: res: *("`body.expiry`")|top
     }
     path: "/payments/cards/{card_id}": {
       rename: param: "card_id": *"id"
       op: load: method: *GET
-      op: load: transform: res: *("`body.expiry`")|top
     }
     path: "/payments/cards/{card_id}/simulate": {
       action: "simulate": {}
       rename: param: "card_id": *"id"
       op: create: method: *POST
-      op: create: transform: res: *("`body.expiry`")|top
     }
   }
 
@@ -68,12 +67,6 @@ guide: {
     }
     path: "/inspect": {
       op: create: method: *POST
-      op: create: transform: res: *("`body.metadata`")|top
-    }
-    path: "/relays": {
-      op: create: method: *POST
-      op: list: method: *GET
-      op: list: transform: res: *("`body.data`")|top
     }
     path: "/relays/{id}": {
       op: remove: method: *DELETE
@@ -104,7 +97,10 @@ guide: {
 
   entity: merchant: {
     path: "/payments/merchants": {
+      action: "merchant": {}
       op: create: method: *POST
+      op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
     }
     path: "/payments/merchants/{merchant_id}": {
       rename: param: "merchant_id": *"id"
@@ -140,21 +136,11 @@ guide: {
       op: list: method: *GET
       op: list: transform: res: *("`body.messages`")|top
     }
-    path: "/payments/acquirers": {
-      action: "acquirer": {}
-      op: list: method: *GET
-      op: list: transform: res: *("`body.data`")|top
-    }
     path: "/payments/acquirers/{acquirer_id}": {
       op: remove: method: *DELETE
     }
     path: "/payments/cards/{card_id}": {
       op: remove: method: *DELETE
-    }
-    path: "/payments/merchants": {
-      action: "merchant": {}
-      op: list: method: *GET
-      op: list: transform: res: *("`body.data`")|top
     }
     path: "/payments/merchants/{merchant_id}": {
       op: remove: method: *DELETE
@@ -165,6 +151,11 @@ guide: {
   }
 
   entity: relay: {
+    path: "/relays": {
+      op: create: method: *POST
+      op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
+    }
     path: "/relays/{id}": {
       op: load: method: *GET
       op: patch: method: *PATCH
@@ -181,17 +172,17 @@ guide: {
   }
 
   entity: webhook: {
-    path: "/webhook-endpoints": {
-      op: create: method: *POST
-      op: list: method: *GET
-      op: list: transform: res: *("`body.data`")|top
-    }
     path: "/webhook-endpoints/{webhook_endpoint_id}": {
       op: remove: method: *DELETE
     }
   }
 
   entity: webhook_endpoint: {
+    path: "/webhook-endpoints": {
+      op: create: method: *POST
+      op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
+    }
     path: "/webhook-endpoints/{webhook_endpoint_id}": {
       rename: param: "webhook_endpoint_id": *"id"
       op: load: method: *GET

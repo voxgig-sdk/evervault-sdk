@@ -16,7 +16,7 @@ go get github.com/voxgig-sdk/evervault-sdk/go@latest
 ```
 
 The Go module proxy resolves the version from the `go/vX.Y.Z` GitHub
-release tag — see [Releases](https://github.com/voxgig-sdk/evervault-sdk/releases) for the available versions.
+release tag — see [Tags](https://github.com/voxgig-sdk/evervault-sdk/tags) for the available versions.
 
 To vendor from a local checkout instead, clone this repo alongside your
 project and add a `replace` directive pointing at the checked-out
@@ -35,9 +35,10 @@ loading a specific record.
 ### Quickstart
 
 A complete program: create a client, then call the entity operations.
-Each operation returns `(value, error)` — the value is the data itself
-(there is no `{ok, data}` wrapper), so check `err` and use the value
-directly.
+Each operation returns `(value, error)` — the value is the entity, and for
+`List` a `[]any` of entities, one per record (there is no `{ok, data}`
+wrapper), so check `err` and read a record through the entity's
+`Data()`.
 
 ```go
 package main
@@ -53,26 +54,35 @@ func main() {
         "apikey": os.Getenv("EVERVAULT_APIKEY"),
     })
 
-    // Load a single acquirer — the value is the loaded record.
+    // List acquirer records — the value is a []any of entities, one per record.
+    acquirers, err := client.Acquirer(nil).List(nil, nil)
+    if err != nil {
+        panic(err)
+    }
+    for _, item := range acquirers.([]any) {
+        fmt.Println(item.(sdk.Entity).Data())
+    }
+
+    // Load a single acquirer — the value is the entity; Data() reads its record.
     acquirer, err := client.Acquirer(nil).Load(map[string]any{"id": "example_id"}, nil)
     if err != nil {
         panic(err)
     }
-    fmt.Println(acquirer)
+    fmt.Println(acquirer.(sdk.Entity).Data())
 
     // Create a acquirer.
     created, err := client.Acquirer(nil).Create(map[string]any{"configurations": []any{}, "default": true, "id": "example_id", "name": "example_name"}, nil)
     if err != nil {
         panic(err)
     }
-    fmt.Println(created)
+    fmt.Println(created.(sdk.Entity).Data())
 
     // Update a acquirer.
     updated, err := client.Acquirer(nil).Update(map[string]any{"id": "example_id", "configurations": []any{}, "default": true}, nil)
     if err != nil {
         panic(err)
     }
-    fmt.Println(updated)
+    fmt.Println(updated.(sdk.Entity).Data())
 }
 ```
 
@@ -83,12 +93,12 @@ Every entity operation returns `(value, error)`. Check `err` before
 using the value — there is no exception to catch:
 
 ```go
-merchant, err := client.Merchant(nil).Load(map[string]any{"id": "example_id"}, nil)
+merchants, err := client.Merchant(nil).List(nil, nil)
 if err != nil {
     // handle err
     return
 }
-_ = merchant
+_ = merchants
 ```
 
 `Direct` follows the same `(value, error)` convention:
@@ -152,13 +162,16 @@ Create a mock client for unit testing — no server required:
 ```go
 client := sdk.Test()
 
-merchant, err := client.Merchant(nil).Load(
-    map[string]any{"id": "test01"}, nil,
+merchants, err := client.Merchant(nil).List(
+    nil, nil,
 )
 if err != nil {
     panic(err)
 }
-fmt.Println(merchant) // the returned mock data
+// A []any of entities, one per mock record.
+for _, item := range merchants.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 ### Use a custom fetch function
@@ -260,11 +273,11 @@ All entities implement the `EvervaultEntity` interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `Load` | `(reqmatch, ctrl map[string]any) (any, error)` | Load a single entity by match criteria. |
-| `List` | `(reqmatch, ctrl map[string]any) (any, error)` | List entities matching the criteria. |
-| `Create` | `(reqdata, ctrl map[string]any) (any, error)` | Create a new entity. |
-| `Update` | `(reqdata, ctrl map[string]any) (any, error)` | Update an existing entity. |
-| `Remove` | `(reqmatch, ctrl map[string]any) (any, error)` | Remove an entity. |
+| `Load` | `(reqmatch, ctrl map[string]any) (any, error)` | Load a single entity by match criteria, and return it. |
+| `List` | `(reqmatch, ctrl map[string]any) (any, error)` | List entities matching the criteria, one per record. |
+| `Create` | `(reqdata, ctrl map[string]any) (any, error)` | Create a new entity, and return it. |
+| `Update` | `(reqdata, ctrl map[string]any) (any, error)` | Update an existing entity, and return it. |
+| `Remove` | `(reqmatch, ctrl map[string]any) (any, error)` | Remove an entity, and return it marked as deleted. |
 | `Data` | `(args ...any) any` | Get or set entity data. |
 | `Match` | `(args ...any) any` | Get or set entity match criteria. |
 | `Make` | `() Entity` | Create a new instance with the same options. |
@@ -272,21 +285,21 @@ All entities implement the `EvervaultEntity` interface.
 
 ### Result shape
 
-Entity operations return `(value, error)`. The `value` is the
-operation's data **directly** — there is no wrapper:
+Entity operations return `(value, error)`. The `value` is the entity
+itself — there is no wrapper:
 
 | Operation | `value` |
 | --- | --- |
-| `Load` / `Create` / `Update` / `Remove` | the entity record (`map[string]any`) |
-| `List` | a `[]any` of entity records |
+| `Load` / `Create` / `Update` / `Remove` | the entity, whose `Data()` reads its record (`map[string]any`) |
+| `List` | a `[]any` of entities, one per record |
 
 Check `err` first, then use the value directly (or the typed
 `...Typed` variants, which return the entity's model struct and a typed
 slice):
 
-    acquirer, err := client.Acquirer(nil).Load(map[string]any{"id": "example_id"}, nil)
+    acquirer, err := client.Acquirer(nil).List(nil, nil)
     if err != nil { /* handle */ }
-    // acquirer is the returned record
+    // acquirer is a []any of entities, one per record
 
 Only `Direct()` returns a response envelope — a `map[string]any` with
 `"ok"`, `"status"`, `"headers"`, and `"data"` keys.
@@ -303,7 +316,7 @@ Only `Direct()` returns a response envelope — a `map[string]any` with
 | `"id"` | The unique identifier of the acquirer configuration. |
 | `"name"` | The name of the acquirer configuration. |
 
-Operations: Create, Load, Update.
+Operations: Create, List, Load, Update.
 
 API path: `/payments/acquirers`
 
@@ -322,14 +335,25 @@ API path: `/payments/bin-lookups`
 | Field | Description |
 | --- | --- |
 | `"address"` | Details about the cardholder's address that the address verification (AVS) is for. |
+| `"automaticUpdates"` | The status of Card Account Updater on this card. |
+| `"bin"` | The first 6 or 8 digits of the card number. |
+| `"brand"` | The card brand associated with the payment card. |
 | `"card"` | The card details. |
 | `"cardholder"` | Details about the cardholder that the name verification (ANI) is for. |
-| `"expiry"` |  |
+| `"country"` | The country where the card was issued. |
+| `"createdAt"` | The Unix timestamp of when the card was created. |
+| `"currency"` | The currency of the card. |
+| `"expiry"` | The expiry date of the card. |
 | `"extensions"` | The extensions to the card insight request. |
-| `"id"` |  |
-| `"month"` | The card expiry month, in MM format (e.g. |
-| `"number"` | The card number. |
-| `"year"` | The card expiry year, in YY format (e.g. |
+| `"funding"` | The card funding type specifies the method by which transactions are financed. |
+| `"id"` | The unique identifier for the card. |
+| `"issuer"` | The name of the card issuer. |
+| `"lastFour"` | The last 4 digits of the card number. |
+| `"number"` | The Evervault encrypted card number. |
+| `"replacement"` | The ID of the replacement card. |
+| `"segment"` | The card segment indicates the primary market or usage category of the card. |
+| `"status"` | The current status of the card. |
+| `"updatedAt"` | The Unix timestamp of when the card was last updated. |
 
 Operations: Create, Load.
 
@@ -364,19 +388,21 @@ API path: `/client-side-tokens`
 
 | Field | Description |
 | --- | --- |
-| `"app"` | The unique identifier for the app to which the Relay belongs. |
-| `"authentication"` | The type of authentication required for the Relay |
+| `"category"` | The category or specific nature of the encrypted value. |
+| `"core_list"` | A JSON value or file to be encrypted. |
+| `"cores"` | A JSON value or file to be decrypted. |
 | `"createdAt"` | The exact time, in epoch milliseconds, when this custom domain was created. |
 | `"customDomain"` | The customer managed domain to which requests to be relayed to your domain should be sent. |
-| `"destinationDomain"` | The domain in front of which you would like to configure a Relay |
-| `"encryptEmptyStrings"` | Whether or not empty strings should be encrypted. |
-| `"evervaultDomain"` | The Evervault managed domain to which requests to be relayed to the destination domain should be sent. |
+| `"encryptedAt"` | The date and time when the value was encrypted. |
+| `"fingerprint"` | A unique identifier for the encrypted value. |
 | `"id"` | The unique identifier for the custom domain. |
+| `"metadata"` | Further metadata about the encrypted value. |
 | `"phoneNumber"` |  |
 | `"relay"` | The ID of the Relay with which this custom domain is associated. |
-| `"routes"` | A collection of route configurations for the Relay. |
+| `"role"` | The data role of the encrypted value. |
 | `"status"` | The status of the domains DNS verification. |
 | `"token"` | The encrypted data to be inspected. |
+| `"type"` | The type of the encrypted value. |
 | `"updatedAt"` | The exact time, in epoch milliseconds, when this custom domain was last updated. |
 | `"validationRecord"` | Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain |
 
@@ -431,7 +457,7 @@ API path: `/functions/{function_name}/runs`
 | `"updatedAt"` | The exact time, in epoch milliseconds, when this Merchant was last updated. |
 | `"website"` | The official website URL of the Merchant. |
 
-Operations: Create, Load, Update.
+Operations: Create, List, Load, Update.
 
 API path: `/payments/merchants`
 
@@ -477,7 +503,7 @@ API path: `/payments/network-tokens/{network_token_id}/cryptograms`
 
 Operations: List, Remove.
 
-API path: `/payments/merchants`
+API path: `/payments/3ds-sessions/{3ds_session_id}/messages`
 
 #### Relay
 
@@ -493,9 +519,9 @@ API path: `/payments/merchants`
 | `"routes"` | A collection of route configurations for the Relay. |
 | `"updatedAt"` | The exact time, in epoch milliseconds, when this Relay was updated. |
 
-Operations: Load, Update.
+Operations: Create, List, Load, Update.
 
-API path: `/relays/{id}`
+API path: `/relays`
 
 #### ThreeDsSession
 
@@ -534,15 +560,10 @@ API path: `/payments/3ds-sessions`
 
 | Field | Description |
 | --- | --- |
-| `"createdAt"` | The exact time, in epoch milliseconds, when this Webhook Endpoint was created. |
-| `"events"` | A list of Events that the Webhook Endpoint should subscribe to. |
-| `"id"` | A unique identifier representing a specific Webhook Endpoint. |
-| `"updatedAt"` | The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated. |
-| `"url"` | The URL of the Webhook Endpoint. |
 
-Operations: Create, List, Remove.
+Operations: Remove.
 
-API path: `/webhook-endpoints`
+API path: `/webhook-endpoints/{webhook_endpoint_id}`
 
 #### WebhookEndpoint
 
@@ -554,9 +575,9 @@ API path: `/webhook-endpoints`
 | `"updatedAt"` | The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated. |
 | `"url"` | The URL of the Webhook Endpoint. |
 
-Operations: Load, Update.
+Operations: Create, List, Load, Update.
 
-API path: `/webhook-endpoints/{webhook_endpoint_id}`
+API path: `/webhook-endpoints`
 
 
 
@@ -571,6 +592,7 @@ Create an instance: `acquirer := client.Acquirer(nil)`
 
 | Method | Description |
 | --- | --- |
+| `List(match, ctrl)` | List entities matching the criteria. |
 | `Load(match, ctrl)` | Load a single entity by match criteria. |
 | `Create(data, ctrl)` | Create a new entity with the given data. |
 | `Update(data, ctrl)` | Update an existing entity. |
@@ -592,7 +614,20 @@ acquirer, err := client.Acquirer(nil).Load(map[string]any{"id": "acquirer_id"}, 
 if err != nil {
     panic(err)
 }
-fmt.Println(acquirer) // the loaded record
+fmt.Println(acquirer.(sdk.Entity).Data()) // the loaded entity's record
+```
+
+#### Example: List
+
+```go
+acquirers, err := client.Acquirer(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+// A []any of entities, one per record.
+for _, item := range acquirers.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 #### Example: Create
@@ -607,7 +642,7 @@ result, err := client.Acquirer(nil).Create(map[string]any{
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -636,7 +671,7 @@ result, err := client.BinLookup(nil).Create(map[string]any{
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -656,14 +691,25 @@ Create an instance: `card := client.Card(nil)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `address` | `map[string]any` | Details about the cardholder's address that the address verification (AVS) is for. |
+| `automaticUpdates` | `string` | The status of Card Account Updater on this card. |
+| `bin` | `string` | The first 6 or 8 digits of the card number. |
+| `brand` | `string` | The card brand associated with the payment card. |
 | `card` | `map[string]any` | The card details. |
 | `cardholder` | `map[string]any` | Details about the cardholder that the name verification (ANI) is for. |
-| `expiry` | `map[string]any` |  |
+| `country` | `string` | The country where the card was issued. |
+| `createdAt` | `int` | The Unix timestamp of when the card was created. |
+| `currency` | `string` | The currency of the card. |
+| `expiry` | `map[string]any` | The expiry date of the card. |
 | `extensions` | `[]any` | The extensions to the card insight request. |
-| `id` | `string` |  |
-| `month` | `string` | The card expiry month, in MM format (e.g. |
-| `number` | `string` | The card number. |
-| `year` | `string` | The card expiry year, in YY format (e.g. |
+| `funding` | `string` | The card funding type specifies the method by which transactions are financed. |
+| `id` | `string` | The unique identifier for the card. |
+| `issuer` | `string` | The name of the card issuer. |
+| `lastFour` | `string` | The last 4 digits of the card number. |
+| `number` | `string` | The Evervault encrypted card number. |
+| `replacement` | `any` | The ID of the replacement card. |
+| `segment` | `string` | The card segment indicates the primary market or usage category of the card. |
+| `status` | `string` | The current status of the card. |
+| `updatedAt` | `any` | The Unix timestamp of when the card was last updated. |
 
 #### Example: Load
 
@@ -672,7 +718,7 @@ card, err := client.Card(nil).Load(map[string]any{"id": "card_id"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(card) // the loaded record
+fmt.Println(card.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 #### Example: Create
@@ -680,16 +726,17 @@ fmt.Println(card) // the loaded record
 ```go
 result, err := client.Card(nil).Create(map[string]any{
     "address": map[string]any{},
+    "bin": "example_bin",
     "card": map[string]any{},
+    "createdAt": 1,
     "expiry": map[string]any{},
-    "month": "example_month",
+    "lastFour": "example_lastFour",
     "number": "example_number",
-    "year": "example_year",
 }, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -719,7 +766,7 @@ cardArt, err := client.CardArt(nil).Load(map[string]any{"network_token_id": "net
 if err != nil {
     panic(err)
 }
-fmt.Println(cardArt) // the loaded record
+fmt.Println(cardArt.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 
@@ -750,7 +797,7 @@ result, err := client.ClientSideToken(nil).Create(map[string]any{
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -770,44 +817,47 @@ Create an instance: `core := client.Core(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `app` | `string` | The unique identifier for the app to which the Relay belongs. |
-| `authentication` | `any` | The type of authentication required for the Relay |
+| `category` | `string` | The category or specific nature of the encrypted value. |
+| `core_list` | `any` | A JSON value or file to be encrypted. |
+| `cores` | `any` | A JSON value or file to be decrypted. |
 | `createdAt` | `int` | The exact time, in epoch milliseconds, when this custom domain was created. |
 | `customDomain` | `string` | The customer managed domain to which requests to be relayed to your domain should be sent. |
-| `destinationDomain` | `string` | The domain in front of which you would like to configure a Relay |
-| `encryptEmptyStrings` | `bool` | Whether or not empty strings should be encrypted. |
-| `evervaultDomain` | `string` | The Evervault managed domain to which requests to be relayed to the destination domain should be sent. |
+| `encryptedAt` | `int` | The date and time when the value was encrypted. |
+| `fingerprint` | `string` | A unique identifier for the encrypted value. |
 | `id` | `string` | The unique identifier for the custom domain. |
+| `metadata` | `any` | Further metadata about the encrypted value. |
 | `phoneNumber` | `string` |  |
 | `relay` | `string` | The ID of the Relay with which this custom domain is associated. |
-| `routes` | `[]any` | A collection of route configurations for the Relay. |
+| `role` | `string` | The data role of the encrypted value. |
 | `status` | `string` | The status of the domains DNS verification. |
 | `token` | `string` | The encrypted data to be inspected. |
+| `type` | `string` | The type of the encrypted value. |
 | `updatedAt` | `int` | The exact time, in epoch milliseconds, when this custom domain was last updated. |
 | `validationRecord` | `string` | Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain |
 
 #### Example: List
 
 ```go
-cores, err := client.Core(nil).List(nil, nil)
+cores, err := client.Core(nil).List(map[string]any{"relay_id": "example"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(cores) // the array of records
+// A []any of entities, one per record.
+for _, item := range cores.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 #### Example: Create
 
 ```go
 result, err := client.Core(nil).Create(map[string]any{
-    "destinationDomain": "example_destinationDomain",
-    "routes": []any{},
     "token": "example_token",
 }, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -841,7 +891,7 @@ customDomain, err := client.CustomDomain(nil).Load(map[string]any{"id": "custom_
 if err != nil {
     panic(err)
 }
-fmt.Println(customDomain) // the loaded record
+fmt.Println(customDomain.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 #### Example: Create
@@ -853,7 +903,7 @@ result, err := client.CustomDomain(nil).Create(map[string]any{
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -889,7 +939,7 @@ result, err := client.FunctionRun(nil).Create(map[string]any{
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -901,6 +951,7 @@ Create an instance: `merchant := client.Merchant(nil)`
 
 | Method | Description |
 | --- | --- |
+| `List(match, ctrl)` | List entities matching the criteria. |
 | `Load(match, ctrl)` | Load a single entity by match criteria. |
 | `Create(data, ctrl)` | Create a new entity with the given data. |
 | `Update(data, ctrl)` | Update an existing entity. |
@@ -927,7 +978,20 @@ merchant, err := client.Merchant(nil).Load(map[string]any{"id": "merchant_id"}, 
 if err != nil {
     panic(err)
 }
-fmt.Println(merchant) // the loaded record
+fmt.Println(merchant.(sdk.Entity).Data()) // the loaded entity's record
+```
+
+#### Example: List
+
+```go
+merchants, err := client.Merchant(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+// A []any of entities, one per record.
+for _, item := range merchants.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 #### Example: Create
@@ -942,7 +1006,7 @@ result, err := client.Merchant(nil).Create(map[string]any{
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -980,7 +1044,7 @@ networkToken, err := client.NetworkToken(nil).Load(map[string]any{"id": "network
 if err != nil {
     panic(err)
 }
-fmt.Println(networkToken) // the loaded record
+fmt.Println(networkToken.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 #### Example: Create
@@ -1000,7 +1064,7 @@ result, err := client.NetworkToken(nil).Create(map[string]any{
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -1031,7 +1095,7 @@ result, err := client.NetworkTokenCryptogram(nil).Create(map[string]any{
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -1057,11 +1121,14 @@ Create an instance: `payment := client.Payment(nil)`
 #### Example: List
 
 ```go
-payments, err := client.Payment(nil).List(nil, nil)
+payments, err := client.Payment(nil).List(map[string]any{"3ds_session_id": "example"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(payments) // the array of records
+// A []any of entities, one per record.
+for _, item := range payments.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 
@@ -1073,7 +1140,9 @@ Create an instance: `relay := client.Relay(nil)`
 
 | Method | Description |
 | --- | --- |
+| `List(match, ctrl)` | List entities matching the criteria. |
 | `Load(match, ctrl)` | Load a single entity by match criteria. |
+| `Create(data, ctrl)` | Create a new entity with the given data. |
 | `Update(data, ctrl)` | Update an existing entity. |
 
 #### Fields
@@ -1097,7 +1166,31 @@ relay, err := client.Relay(nil).Load(map[string]any{"id": "relay_id"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(relay) // the loaded record
+fmt.Println(relay.(sdk.Entity).Data()) // the loaded entity's record
+```
+
+#### Example: List
+
+```go
+relays, err := client.Relay(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+// A []any of entities, one per record.
+for _, item := range relays.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
+```
+
+#### Example: Create
+
+```go
+result, err := client.Relay(nil).Create(map[string]any{
+}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -1148,7 +1241,7 @@ threeDsSession, err := client.ThreeDsSession(nil).Load(map[string]any{"3ds_sessi
 if err != nil {
     panic(err)
 }
-fmt.Println(threeDsSession) // the loaded record
+fmt.Println(threeDsSession.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 #### Example: Create
@@ -1169,7 +1262,7 @@ result, err := client.ThreeDsSession(nil).Create(map[string]any{
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -1181,42 +1274,7 @@ Create an instance: `webhook := client.Webhook(nil)`
 
 | Method | Description |
 | --- | --- |
-| `List(match, ctrl)` | List entities matching the criteria. |
-| `Create(data, ctrl)` | Create a new entity with the given data. |
 | `Remove(match, ctrl)` | Remove the matching entity. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `createdAt` | `int` | The exact time, in epoch milliseconds, when this Webhook Endpoint was created. |
-| `events` | `[]any` | A list of Events that the Webhook Endpoint should subscribe to. |
-| `id` | `string` | A unique identifier representing a specific Webhook Endpoint. |
-| `updatedAt` | `any` | The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated. |
-| `url` | `string` | The URL of the Webhook Endpoint. |
-
-#### Example: List
-
-```go
-webhooks, err := client.Webhook(nil).List(nil, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(webhooks) // the array of records
-```
-
-#### Example: Create
-
-```go
-result, err := client.Webhook(nil).Create(map[string]any{
-    "events": []any{},
-    "url": "example_url",
-}, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(result)
-```
 
 
 ### WebhookEndpoint
@@ -1227,7 +1285,9 @@ Create an instance: `webhookEndpoint := client.WebhookEndpoint(nil)`
 
 | Method | Description |
 | --- | --- |
+| `List(match, ctrl)` | List entities matching the criteria. |
 | `Load(match, ctrl)` | Load a single entity by match criteria. |
+| `Create(data, ctrl)` | Create a new entity with the given data. |
 | `Update(data, ctrl)` | Update an existing entity. |
 
 #### Fields
@@ -1247,7 +1307,31 @@ webhookEndpoint, err := client.WebhookEndpoint(nil).Load(map[string]any{"id": "w
 if err != nil {
     panic(err)
 }
-fmt.Println(webhookEndpoint) // the loaded record
+fmt.Println(webhookEndpoint.(sdk.Entity).Data()) // the loaded entity's record
+```
+
+#### Example: List
+
+```go
+webhookEndpoints, err := client.WebhookEndpoint(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+// A []any of entities, one per record.
+for _, item := range webhookEndpoints.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
+```
+
+#### Example: Create
+
+```go
+result, err := client.WebhookEndpoint(nil).Create(map[string]any{
+}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 ## Features
@@ -1461,7 +1545,9 @@ The Go SDK uses `map[string]any` throughout rather than typed structs.
 This mirrors the dynamic nature of the API and keeps the SDK
 flexible — no code generation is needed when the API schema changes.
 
-Use `core.ToMapAny()` to safely cast results and nested data.
+An operation returns the entity, and its `Data()` returns the record. Use
+`core.ToMapAny()` to safely cast that record, or data nested in it, to
+`map[string]any`: it returns `nil` for anything else, an entity included.
 
 ### Package structure
 
@@ -1481,14 +1567,14 @@ like `core.ToMapAny`.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `Load`, the entity
+Entity instances are stateful. After a successful `List`, the entity
 stores the returned data and match criteria internally.
 
 ```go
 merchant := client.Merchant(nil)
-merchant.Load(map[string]any{"id": "example_id"}, nil)
+merchant.List(nil, nil)
 
-// merchant.Data() now returns the merchant data from the last load
+// merchant.Data() now returns the merchant data from the last list
 // merchant.Match() returns the last match criteria
 ```
 

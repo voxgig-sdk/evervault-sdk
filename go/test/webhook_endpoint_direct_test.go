@@ -10,7 +10,74 @@ import (
 	"github.com/voxgig-sdk/evervault-sdk/go/core"
 )
 
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const webhook_endpointDirectLiveStrict = true
+
 func TestWebhookEndpointDirect(t *testing.T) {
+	t.Run("direct-list-webhook_endpoint", func(t *testing.T) {
+		setup := webhook_endpointDirectSetup([]any{
+			map[string]any{"id": "direct01"},
+			map[string]any{"id": "direct02"},
+		})
+		_mode := "unit"
+		if setup.live {
+			_mode = "live"
+		}
+		if _shouldSkip, _reason := isControlSkipped("direct", "direct-list-webhook_endpoint", _mode); _shouldSkip {
+			if _reason == "" {
+				_reason = "skipped via sdk-test-control.json"
+			}
+			t.Skip(_reason)
+			return
+		}
+		client := setup.client
+
+
+		result, err := client.Direct(map[string]any{
+			"path":   "webhook-endpoints",
+			"method": "GET",
+			"params": map[string]any{},
+		})
+		if setup.live {
+			if err != nil {
+				liveMiss(t, webhook_endpointDirectLiveStrict, "Live list failed: %v", err)
+			}
+			if status := core.ToInt(result["status"]); result["ok"] != true || status < 200 || status >= 300 {
+				liveMiss(t, webhook_endpointDirectLiveStrict, "Live list failed: %s", liveDescribe(result))
+			}
+			if _, ok := liveList(result["data"]); !ok {
+				liveMiss(t, webhook_endpointDirectLiveStrict, "Live list returned no list: %s", liveDescribe(result))
+			}
+		} else {
+			if err != nil {
+				t.Fatalf("direct failed: %v", err)
+			}
+			if result["ok"] != true {
+				t.Fatalf("expected ok to be true, got %v", result["ok"])
+			}
+			if core.ToInt(result["status"]) != 200 {
+				t.Fatalf("expected status 200, got %v", result["status"])
+			}
+		}
+
+		if !setup.live {
+			if dataList, ok := result["data"].([]any); ok {
+				if len(dataList) != 2 {
+					t.Fatalf("expected 2 items, got %d", len(dataList))
+				}
+			} else {
+				t.Fatalf("expected data to be an array, got %T", result["data"])
+			}
+
+			if len(*setup.calls) != 1 {
+				t.Fatalf("expected 1 call, got %d", len(*setup.calls))
+			}
+		}
+	})
+
 	t.Run("direct-load-webhook_endpoint", func(t *testing.T) {
 		setup := webhook_endpointDirectSetup(map[string]any{"id": "direct01"})
 		_mode := "unit"
@@ -41,19 +108,14 @@ func TestWebhookEndpointDirect(t *testing.T) {
 			"query":  query,
 		})
 		if setup.live {
-			// Live mode is lenient: synthetic IDs frequently 4xx. Skip
-			// rather than fail when the load endpoint isn't reachable with
-			// the IDs we can construct from setup.idmap — unless the model
-			// sets main.kit.test.live.strict.
 			if err != nil {
-				t.Fatalf("load call failed (likely synthetic IDs against live API): %v", err)
+				liveMiss(t, webhook_endpointDirectLiveStrict, "Live load failed: %v", err)
 			}
-			if result["ok"] != true {
-				t.Fatalf("load call not ok (likely synthetic IDs against live API): %v", result)
+			if status := core.ToInt(result["status"]); result["ok"] != true || status < 200 || status >= 300 {
+				liveMiss(t, webhook_endpointDirectLiveStrict, "Live load failed: %s", liveDescribe(result))
 			}
-			status := core.ToInt(result["status"])
-			if status < 200 || status >= 300 {
-				t.Fatalf("expected 2xx status, got %v", result["status"])
+			if result["data"] == nil {
+				liveMiss(t, webhook_endpointDirectLiveStrict, "Live load returned no data: %s", liveDescribe(result))
 			}
 		} else {
 			if err != nil {

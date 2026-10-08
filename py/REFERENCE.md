@@ -156,19 +156,19 @@ acquirer = client.Acquirer()
 
 ### Field Usage by Operation
 
-| Field | load | create | update |
-| --- | --- | --- | --- |
-| `configurations` | - | - | Yes |
-| `default` | - | Yes | Yes |
-| `description` | - | - | - |
-| `id` | - | - | - |
-| `name` | - | - | Yes |
+| Field | load | list | create | update |
+| --- | --- | --- | --- | --- |
+| `configurations` | - | - | - | Yes |
+| `default` | - | - | - | Yes |
+| `description` | - | - | - | - |
+| `id` | - | - | - | - |
+| `name` | - | - | - | Yes |
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> AcquirerEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Acquirer().create({
@@ -179,17 +179,27 @@ result = client.Acquirer().create({
 })
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `list(reqmatch=None, ctrl=None) -> list[AcquirerEntity]`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
+
+```python
+results = client.Acquirer().list()
+for acquirer in results:
+    print(acquirer.data_get())
+```
+
+#### `load(reqmatch, ctrl=None) -> AcquirerEntity`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Acquirer().load({"id": "acquirer_id"})
 ```
 
-#### `update(reqdata, ctrl=None) -> dict`
+#### `update(reqdata, ctrl=None) -> AcquirerEntity`
 
-Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
 
 ```python
 result = client.Acquirer().update({
@@ -241,9 +251,9 @@ bin_lookup = client.BinLookup()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> BinLookupEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.BinLookup().create({
@@ -291,35 +301,47 @@ card = client.Card()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `address` | `dict` | Yes | Details about the cardholder's address that the address verification (AVS) is for. |
+| `automaticUpdates` | `str` | No | The status of Card Account Updater on this card. |
+| `bin` | `str` | Yes | The first 6 or 8 digits of the card number. |
+| `brand` | `str` | No | The card brand associated with the payment card. |
 | `card` | `dict` | Yes | The card details. |
 | `cardholder` | `dict` | No | Details about the cardholder that the name verification (ANI) is for. |
-| `expiry` | `dict` | Yes |  |
+| `country` | `str` | No | The country where the card was issued. |
+| `createdAt` | `int` | Yes | The Unix timestamp of when the card was created. |
+| `currency` | `str` | No | The currency of the card. |
+| `expiry` | `dict` | Yes | The expiry date of the card. |
 | `extensions` | `list` | No | The extensions to the card insight request. |
-| `id` | `str` | No |  |
-| `month` | `str` | Yes | The card expiry month, in MM format (e.g. |
-| `number` | `str` | Yes | The card number. |
-| `year` | `str` | Yes | The card expiry year, in YY format (e.g. |
+| `funding` | `str` | No | The card funding type specifies the method by which transactions are financed. |
+| `id` | `str` | No | The unique identifier for the card. |
+| `issuer` | `str` | No | The name of the card issuer. |
+| `lastFour` | `str` | Yes | The last 4 digits of the card number. |
+| `number` | `str` | Yes | The Evervault encrypted card number. |
+| `replacement` | `str | None` | No | The ID of the replacement card. |
+| `segment` | `str` | No | The card segment indicates the primary market or usage category of the card. |
+| `status` | `str` | No | The current status of the card. |
+| `updatedAt` | `int | None` | No | The Unix timestamp of when the card was last updated. |
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> CardEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Card().create({
     "address": {},  # dict
+    "bin": "example_bin",  # str
     "card": {},  # dict
+    "createdAt": 1,  # int
     "expiry": {},  # dict
-    "month": "example_month",  # str
+    "lastFour": "example_lastFour",  # str
     "number": "example_number",  # str
-    "year": "example_year",  # str
 })
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> CardEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Card().load({"id": "card_id"})
@@ -371,9 +393,9 @@ card_art = client.CardArt()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> CardArtEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.CardArt().load({"network_token_id": "network_token_id"})
@@ -424,9 +446,9 @@ client_side_token = client.ClientSideToken()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> ClientSideTokenEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.ClientSideToken().create({
@@ -473,69 +495,49 @@ core = client.Core()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app` | `str` | No | The unique identifier for the app to which the Relay belongs. |
-| `authentication` | `str | None` | No | The type of authentication required for the Relay |
+| `category` | `str` | No | The category or specific nature of the encrypted value. |
+| `core_list` | `dict | list | str | float | bool` | No | A JSON value or file to be encrypted. |
+| `cores` | `dict | list | str` | No | A JSON value or file to be decrypted. |
 | `createdAt` | `int` | No | The exact time, in epoch milliseconds, when this custom domain was created. |
 | `customDomain` | `str` | No | The customer managed domain to which requests to be relayed to your domain should be sent. |
-| `destinationDomain` | `str` | Yes | The domain in front of which you would like to configure a Relay |
-| `encryptEmptyStrings` | `bool` | No | Whether or not empty strings should be encrypted. |
-| `evervaultDomain` | `str` | No | The Evervault managed domain to which requests to be relayed to the destination domain should be sent. |
+| `encryptedAt` | `int` | No | The date and time when the value was encrypted. |
+| `fingerprint` | `str` | No | A unique identifier for the encrypted value. |
 | `id` | `str` | No | The unique identifier for the custom domain. |
+| `metadata` | `Any` | No | Further metadata about the encrypted value. |
 | `phoneNumber` | `str` | No |  |
 | `relay` | `str` | No | The ID of the Relay with which this custom domain is associated. |
-| `routes` | `list` | Yes | A collection of route configurations for the Relay. |
+| `role` | `str` | No | The data role of the encrypted value. |
 | `status` | `str` | No | The status of the domains DNS verification. |
 | `token` | `str` | Yes | The encrypted data to be inspected. |
+| `type` | `str` | No | The type of the encrypted value. |
 | `updatedAt` | `int` | No | The exact time, in epoch milliseconds, when this custom domain was last updated. |
 | `validationRecord` | `str` | No | Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain |
 
-### Field Usage by Operation
-
-| Field | list | create | remove |
-| --- | --- | --- | --- |
-| `app` | - | - | - |
-| `authentication` | - | - | - |
-| `createdAt` | - | - | - |
-| `customDomain` | - | - | - |
-| `destinationDomain` | Yes | - | - |
-| `encryptEmptyStrings` | - | - | - |
-| `evervaultDomain` | - | - | - |
-| `id` | - | - | - |
-| `phoneNumber` | - | - | - |
-| `relay` | - | - | - |
-| `routes` | Yes | - | - |
-| `status` | - | - | - |
-| `token` | - | - | - |
-| `updatedAt` | - | - | - |
-| `validationRecord` | - | - | - |
-
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> CoreEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Core().create({
-    "destinationDomain": "example_destinationDomain",  # str
-    "routes": [],  # list
     "token": "example_token",  # str
 })
 ```
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[CoreEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
-results = client.Core().list()
+results = client.Core().list({"relay_id": "example"})
 for core in results:
-    print(core)
+    print(core.data_get())
 ```
 
-#### `remove(reqmatch, ctrl=None) -> dict`
+#### `remove(reqmatch, ctrl=None) -> CoreEntity`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```python
 result = client.Core().remove({"id": "id"})
@@ -602,9 +604,9 @@ custom_domain = client.CustomDomain()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> CustomDomainEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.CustomDomain().create({
@@ -612,9 +614,9 @@ result = client.CustomDomain().create({
 })
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> CustomDomainEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.CustomDomain().load({"id": "custom_domain_id", "relay_id": "relay_id"})
@@ -669,9 +671,9 @@ function_run = client.FunctionRun()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> FunctionRunEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.FunctionRun().create({
@@ -730,26 +732,11 @@ merchant = client.Merchant()
 | `updatedAt` | `int` | No | The exact time, in epoch milliseconds, when this Merchant was last updated. |
 | `website` | `str` | Yes | The official website URL of the Merchant. |
 
-### Field Usage by Operation
-
-| Field | load | create | update |
-| --- | --- | --- | --- |
-| `applePay` | - | - | - |
-| `business` | - | Yes | - |
-| `categoryCode` | - | Yes | - |
-| `createdAt` | - | - | - |
-| `id` | - | - | - |
-| `name` | - | - | - |
-| `networkTokens` | - | - | - |
-| `shortName` | - | - | - |
-| `updatedAt` | - | - | - |
-| `website` | - | - | - |
-
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> MerchantEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Merchant().create({
@@ -760,17 +747,27 @@ result = client.Merchant().create({
 })
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `list(reqmatch=None, ctrl=None) -> list[MerchantEntity]`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
+
+```python
+results = client.Merchant().list()
+for merchant in results:
+    print(merchant.data_get())
+```
+
+#### `load(reqmatch, ctrl=None) -> MerchantEntity`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Merchant().load({"id": "merchant_id"})
 ```
 
-#### `update(reqdata, ctrl=None) -> dict`
+#### `update(reqdata, ctrl=None) -> MerchantEntity`
 
-Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
 
 ```python
 result = client.Merchant().update({
@@ -832,9 +829,9 @@ network_token = client.NetworkToken()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> NetworkTokenEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.NetworkToken().create({
@@ -850,9 +847,9 @@ result = client.NetworkToken().create({
 })
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> NetworkTokenEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.NetworkToken().load({"id": "network_token_id"})
@@ -903,9 +900,9 @@ network_token_cryptogram = client.NetworkTokenCryptogram()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> NetworkTokenCryptogramEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.NetworkTokenCryptogram().create({
@@ -958,19 +955,19 @@ payment = client.Payment()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[PaymentEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.Payment().list({"3ds_session_id": "example"})
 for payment in results:
-    print(payment)
+    print(payment.data_get())
 ```
 
-#### `remove(reqmatch, ctrl=None) -> dict`
+#### `remove(reqmatch, ctrl=None) -> PaymentEntity`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```python
 result = client.Payment().remove({"acquirer_id": "acquirer_id"})
@@ -1025,19 +1022,52 @@ relay = client.Relay()
 | `routes` | `list` | No | A collection of route configurations for the Relay. |
 | `updatedAt` | `int` | No | The exact time, in epoch milliseconds, when this Relay was updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create | update |
+| --- | --- | --- | --- | --- |
+| `app` | - | - | - | - |
+| `authentication` | - | - | - | - |
+| `createdAt` | - | - | - | - |
+| `destinationDomain` | - | - | Yes | - |
+| `encryptEmptyStrings` | - | - | - | - |
+| `evervaultDomain` | - | - | - | - |
+| `id` | - | - | - | - |
+| `routes` | - | - | Yes | - |
+| `updatedAt` | - | - | - | - |
+
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> RelayEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
+
+```python
+result = client.Relay().create({
+})
+```
+
+#### `list(reqmatch=None, ctrl=None) -> list[RelayEntity]`
+
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
+
+```python
+results = client.Relay().list()
+for relay in results:
+    print(relay.data_get())
+```
+
+#### `load(reqmatch, ctrl=None) -> RelayEntity`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Relay().load({"id": "relay_id"})
 ```
 
-#### `update(reqdata, ctrl=None) -> dict`
+#### `update(reqdata, ctrl=None) -> RelayEntity`
 
-Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
 
 ```python
 result = client.Relay().update({
@@ -1141,9 +1171,9 @@ three_ds_session = client.ThreeDsSession()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> ThreeDsSessionEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.ThreeDsSession().create({
@@ -1160,9 +1190,9 @@ result = client.ThreeDsSession().create({
 })
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> ThreeDsSessionEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.ThreeDsSession().load({"3ds_session_id": "3ds_session_id"})
@@ -1203,52 +1233,11 @@ Return the entity name.
 webhook = client.Webhook()
 ```
 
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `createdAt` | `int` | No | The exact time, in epoch milliseconds, when this Webhook Endpoint was created. |
-| `events` | `list` | Yes | A list of Events that the Webhook Endpoint should subscribe to. |
-| `id` | `str` | No | A unique identifier representing a specific Webhook Endpoint. |
-| `updatedAt` | `int | None` | No | The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated. |
-| `url` | `str` | Yes | The URL of the Webhook Endpoint. |
-
-### Field Usage by Operation
-
-| Field | list | create | remove |
-| --- | --- | --- | --- |
-| `createdAt` | - | - | - |
-| `events` | Yes | - | - |
-| `id` | - | - | - |
-| `updatedAt` | - | - | - |
-| `url` | Yes | - | - |
-
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `remove(reqmatch, ctrl=None) -> WebhookEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
-
-```python
-result = client.Webhook().create({
-    "events": [],  # list
-    "url": "example_url",  # str
-})
-```
-
-#### `list(reqmatch=None, ctrl=None) -> list`
-
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
-
-```python
-results = client.Webhook().list()
-for webhook in results:
-    print(webhook)
-```
-
-#### `remove(reqmatch, ctrl=None) -> dict`
-
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```python
 result = client.Webhook().remove({"webhook_endpoint_id": "webhook_endpoint_id"})
@@ -1301,27 +1290,46 @@ webhook_endpoint = client.WebhookEndpoint()
 
 ### Field Usage by Operation
 
-| Field | load | update |
-| --- | --- | --- |
-| `createdAt` | - | - |
-| `events` | - | Yes |
-| `id` | - | - |
-| `updatedAt` | - | - |
-| `url` | - | - |
+| Field | load | list | create | update |
+| --- | --- | --- | --- | --- |
+| `createdAt` | - | - | - | - |
+| `events` | - | - | Yes | Yes |
+| `id` | - | - | - | - |
+| `updatedAt` | - | - | - | - |
+| `url` | - | - | Yes | - |
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> WebhookEndpointEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
+
+```python
+result = client.WebhookEndpoint().create({
+})
+```
+
+#### `list(reqmatch=None, ctrl=None) -> list[WebhookEndpointEntity]`
+
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
+
+```python
+results = client.WebhookEndpoint().list()
+for webhook_endpoint in results:
+    print(webhook_endpoint.data_get())
+```
+
+#### `load(reqmatch, ctrl=None) -> WebhookEndpointEntity`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.WebhookEndpoint().load({"id": "webhook_endpoint_id"})
 ```
 
-#### `update(reqdata, ctrl=None) -> dict`
+#### `update(reqdata, ctrl=None) -> WebhookEndpointEntity`
 
-Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
 
 ```python
 result = client.WebhookEndpoint().update({
@@ -1649,6 +1657,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

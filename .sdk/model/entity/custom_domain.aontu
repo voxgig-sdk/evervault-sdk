@@ -76,6 +76,9 @@ main: kit: entity: custom_domain: {
       name: "create"
       points: [
         {
+          bf: [
+            "customDomain"
+          ]
           co: {
             id: "POST /relays/{relay_id}/custom-domains"
             source: "openapi3"
@@ -98,6 +101,10 @@ main: kit: entity: custom_domain: {
             exist: [
               "relay_id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -151,6 +158,10 @@ main: kit: entity: custom_domain: {
               "id"
               "relay_id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

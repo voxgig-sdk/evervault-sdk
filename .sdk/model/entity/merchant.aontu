@@ -15,12 +15,6 @@ main: kit: entity: merchant: {
     business: {
       h: "Business"
       n: "business"
-      op: {
-        create: {
-          req: true
-          type: "`$OBJECT`"
-        }
-      }
       r: false
       sh: "The business details of the Merchant."
       t: "`$OBJECT`"
@@ -28,12 +22,6 @@ main: kit: entity: merchant: {
     categoryCode: {
       h: "Category Code"
       n: "categoryCode"
-      op: {
-        create: {
-          req: true
-          type: "`$STRING`"
-        }
-      }
       r: false
       sh: "The 4-digit Merchant Category Code (MCC)."
       t: "`$STRING`"
@@ -102,6 +90,15 @@ main: kit: entity: merchant: {
       name: "create"
       points: [
         {
+          bf: [
+            "applePay"
+            "business"
+            "categoryCode"
+            "name"
+            "networkTokens"
+            "shortName"
+            "website"
+          ]
           co: {
             id: "POST /payments/merchants"
             source: "openapi3"
@@ -109,6 +106,13 @@ main: kit: entity: merchant: {
           }
           m: "POST"
           o: "/payments/merchants"
+          q: {
+            "$action": "merchant"
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "payments"
@@ -120,6 +124,66 @@ main: kit: entity: merchant: {
           t: {
             req: "`reqdata`"
             res: "`body`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /payments/merchants"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                ex: 0
+                k: "query"
+                n: "page"
+                or: "page"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                ex: 50
+                k: "query"
+                n: "page_size"
+                or: "pageSize"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                k: "query"
+                n: "q"
+                or: "q"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/payments/merchants"
+          q: {
+            "$action": "merchant"
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "payments"
+            }
+            {
+              lit: "merchants"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.data`"
           }
         }
       ]
@@ -156,6 +220,10 @@ main: kit: entity: merchant: {
               merchant_id: "id"
             }
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "payments"
@@ -178,6 +246,10 @@ main: kit: entity: merchant: {
       name: "update"
       points: [
         {
+          bf: [
+            "applePay"
+            "shortName"
+          ]
           co: {
             id: "PATCH /payments/merchants/{merchant_id}"
             source: "openapi3"
@@ -205,6 +277,10 @@ main: kit: entity: merchant: {
             param: {
               merchant_id: "id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

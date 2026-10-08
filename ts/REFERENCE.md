@@ -269,8 +269,10 @@ Make a direct HTTP request to any API endpoint.
 | `fetchargs.headers` | `object` | Request headers (merged with defaults). |
 | `fetchargs.body` | `any` | Request body (objects are JSON-serialized). |
 | `fetchargs.ctrl` | `object` | Control options (e.g. `{ explain: true }`). |
+| `fetchargs.ctrl.signal` | `AbortSignal` | Aborts the request in flight: `ok` is then `false` and `err.code` is `request_aborted`. |
 
-**Returns:** `Promise<{ ok, status, headers, data } | Error>`
+**Returns:** `Promise<{ ok, status, headers, data }>`. On a failure
+`ok` is `false` and `err` holds the error.
 
 #### `prepare(fetchargs?: object)`
 
@@ -284,6 +286,15 @@ same parameters as `direct()`.
 Alias for `EvervaultSDK.test()`.
 
 **Returns:** `EvervaultSDK` instance in test mode.
+
+#### Cancelling a call
+
+Every entity operation takes an optional `ctrl` object after its match or
+data, and an `AbortSignal` in `ctrl.signal` cancels the request in flight.
+The operation then rejects with an error whose `code` is
+`request_aborted` and whose `cause` is the signal's reason. A request
+whose signal has already aborted is not sent. `stream()` takes the signal
+as `callopts.signal`, and ends when it aborts.
 
 
 ---
@@ -306,19 +317,40 @@ const acquirer = client.Acquirer()
 
 ### Field Usage by Operation
 
-| Field | load | create | update |
-| --- | --- | --- | --- |
-| `configurations` | - | - | Yes |
-| `default` | - | Yes | Yes |
-| `description` | - | - | - |
-| `id` | - | - | - |
-| `name` | - | - | Yes |
+| Field | load | list | create | update |
+| --- | --- | --- | --- | --- |
+| `configurations` | - | - | - | Yes |
+| `default` | - | - | - | Yes |
+| `description` | - | - | - | - |
+| `id` | - | - | - | - |
+| `name` | - | - | - | Yes |
+
+### Actions
+
+This entity exposes custom API actions in addition to the standard
+operations. Select one with `$action` in the call's argument; the
+remaining keys are sent as that action's payload.
+
+| Action | Route | Call |
+| --- | --- | --- |
+| `acquirer` | `/payments/acquirers` | `client.Acquirer().create({ $action: 'acquirer', ... })` |
+| `acquirer` | `/payments/acquirers` | `client.Acquirer().list({ $action: 'acquirer', ... })` |
+
+An action returns that action's OWN response, which is not necessarily a
+Acquirer record — check the API definition for its shape.
+
+```ts
+const result = await client.Acquirer().create({
+  $action: 'acquirer',
+  /* ...the action's own arguments */
+})
+```
 
 ### Operations
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.Acquirer().create({
@@ -329,9 +361,17 @@ const result = await client.Acquirer().create({
 })
 ```
 
+#### `list(match: object, ctrl?: object)`
+
+List entities matching the given criteria. Resolves to an array of entities, one per record.
+
+```ts
+const results = await client.Acquirer().list()
+```
+
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Acquirer().load({ id: 'acquirer_id' })
@@ -339,7 +379,7 @@ const result = await client.Acquirer().load({ id: 'acquirer_id' })
 
 #### `update(data: object, ctrl?: object)`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Resolves to the updated entity.
 
 ```ts
 const result = await client.Acquirer().update({
@@ -392,7 +432,7 @@ const bin_lookup = client.BinLookup()
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.BinLookup().create({
@@ -439,14 +479,25 @@ const card = client.Card()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `address` | `Record<string, any>` | Yes | Details about the cardholder's address that the address verification (AVS) is for. |
+| `automaticUpdates` | `string` | No | The status of Card Account Updater on this card. |
+| `bin` | `string` | Yes | The first 6 or 8 digits of the card number. |
+| `brand` | `string` | No | The card brand associated with the payment card. |
 | `card` | `Record<string, any>` | Yes | The card details. |
 | `cardholder` | `Record<string, any>` | No | Details about the cardholder that the name verification (ANI) is for. |
-| `expiry` | `Record<string, any>` | Yes |  |
+| `country` | `string` | No | The country where the card was issued. |
+| `createdAt` | `number` | Yes | The Unix timestamp of when the card was created. |
+| `currency` | `string` | No | The currency of the card. |
+| `expiry` | `Record<string, any>` | Yes | The expiry date of the card. |
 | `extensions` | `any[]` | No | The extensions to the card insight request. |
-| `id` | `string` | No |  |
-| `month` | `string` | Yes | The card expiry month, in MM format (e.g. |
-| `number` | `string` | Yes | The card number. |
-| `year` | `string` | Yes | The card expiry year, in YY format (e.g. |
+| `funding` | `string` | No | The card funding type specifies the method by which transactions are financed. |
+| `id` | `string` | No | The unique identifier for the card. |
+| `issuer` | `string` | No | The name of the card issuer. |
+| `lastFour` | `string` | Yes | The last 4 digits of the card number. |
+| `number` | `string` | Yes | The Evervault encrypted card number. |
+| `replacement` | `string | null` | No | The ID of the replacement card. |
+| `segment` | `string` | No | The card segment indicates the primary market or usage category of the card. |
+| `status` | `string` | No | The current status of the card. |
+| `updatedAt` | `number | null` | No | The Unix timestamp of when the card was last updated. |
 
 ### Actions
 
@@ -472,22 +523,23 @@ const result = await client.Card().create({
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.Card().create({
   address: {},
+  bin: 'example_bin',
   card: {},
+  createdAt: 1,
   expiry: {},
-  month: 'example_month',
+  lastFour: 'example_lastFour',
   number: 'example_number',
-  year: 'example_year',
 })
 ```
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Card().load({ id: 'card_id' })
@@ -540,7 +592,7 @@ const card_art = client.CardArt()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.CardArt().load({ network_token_id: 'network_token_id' })
@@ -592,7 +644,7 @@ const client_side_token = client.ClientSideToken()
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.ClientSideToken().create({
@@ -638,67 +690,47 @@ const core = client.Core()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app` | `string` | No | The unique identifier for the app to which the Relay belongs. |
-| `authentication` | `string | null` | No | The type of authentication required for the Relay |
+| `category` | `string` | No | The category or specific nature of the encrypted value. |
+| `core_list` | `Record<string, any> | any[] | string | number | boolean` | No | A JSON value or file to be encrypted. |
+| `cores` | `Record<string, any> | any[] | string` | No | A JSON value or file to be decrypted. |
 | `createdAt` | `number` | No | The exact time, in epoch milliseconds, when this custom domain was created. |
 | `customDomain` | `string` | No | The customer managed domain to which requests to be relayed to your domain should be sent. |
-| `destinationDomain` | `string` | Yes | The domain in front of which you would like to configure a Relay |
-| `encryptEmptyStrings` | `boolean` | No | Whether or not empty strings should be encrypted. |
-| `evervaultDomain` | `string` | No | The Evervault managed domain to which requests to be relayed to the destination domain should be sent. |
+| `encryptedAt` | `number` | No | The date and time when the value was encrypted. |
+| `fingerprint` | `string` | No | A unique identifier for the encrypted value. |
 | `id` | `string` | No | The unique identifier for the custom domain. |
+| `metadata` | `any` | No | Further metadata about the encrypted value. |
 | `phoneNumber` | `string` | No |  |
 | `relay` | `string` | No | The ID of the Relay with which this custom domain is associated. |
-| `routes` | `any[]` | Yes | A collection of route configurations for the Relay. |
+| `role` | `string` | No | The data role of the encrypted value. |
 | `status` | `string` | No | The status of the domains DNS verification. |
 | `token` | `string` | Yes | The encrypted data to be inspected. |
+| `type` | `string` | No | The type of the encrypted value. |
 | `updatedAt` | `number` | No | The exact time, in epoch milliseconds, when this custom domain was last updated. |
 | `validationRecord` | `string` | No | Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain |
-
-### Field Usage by Operation
-
-| Field | list | create | remove |
-| --- | --- | --- | --- |
-| `app` | - | - | - |
-| `authentication` | - | - | - |
-| `createdAt` | - | - | - |
-| `customDomain` | - | - | - |
-| `destinationDomain` | Yes | - | - |
-| `encryptEmptyStrings` | - | - | - |
-| `evervaultDomain` | - | - | - |
-| `id` | - | - | - |
-| `phoneNumber` | - | - | - |
-| `relay` | - | - | - |
-| `routes` | Yes | - | - |
-| `status` | - | - | - |
-| `token` | - | - | - |
-| `updatedAt` | - | - | - |
-| `validationRecord` | - | - | - |
 
 ### Operations
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.Core().create({
-  destinationDomain: 'example_destinationDomain',
-  routes: [],
   token: 'example_token',
 })
 ```
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
-const results = await client.Core().list()
+const results = await client.Core().list({ relay_id: "example" })
 ```
 
 #### `remove(match: object, ctrl?: object)`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
 
 ```ts
 const result = await client.Core().remove({ id: 'id' })
@@ -766,7 +798,7 @@ const custom_domain = client.CustomDomain()
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.CustomDomain().create({
@@ -776,7 +808,7 @@ const result = await client.CustomDomain().create({
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.CustomDomain().load({ id: 'custom_domain_id', relay_id: 'relay_id' })
@@ -832,7 +864,7 @@ const function_run = client.FunctionRun()
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.FunctionRun().create({
@@ -890,26 +922,32 @@ const merchant = client.Merchant()
 | `updatedAt` | `number` | No | The exact time, in epoch milliseconds, when this Merchant was last updated. |
 | `website` | `string` | Yes | The official website URL of the Merchant. |
 
-### Field Usage by Operation
+### Actions
 
-| Field | load | create | update |
-| --- | --- | --- | --- |
-| `applePay` | - | - | - |
-| `business` | - | Yes | - |
-| `categoryCode` | - | Yes | - |
-| `createdAt` | - | - | - |
-| `id` | - | - | - |
-| `name` | - | - | - |
-| `networkTokens` | - | - | - |
-| `shortName` | - | - | - |
-| `updatedAt` | - | - | - |
-| `website` | - | - | - |
+This entity exposes custom API actions in addition to the standard
+operations. Select one with `$action` in the call's argument; the
+remaining keys are sent as that action's payload.
+
+| Action | Route | Call |
+| --- | --- | --- |
+| `merchant` | `/payments/merchants` | `client.Merchant().create({ $action: 'merchant', ... })` |
+| `merchant` | `/payments/merchants` | `client.Merchant().list({ $action: 'merchant', ... })` |
+
+An action returns that action's OWN response, which is not necessarily a
+Merchant record — check the API definition for its shape.
+
+```ts
+const result = await client.Merchant().create({
+  $action: 'merchant',
+  /* ...the action's own arguments */
+})
+```
 
 ### Operations
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.Merchant().create({
@@ -920,9 +958,17 @@ const result = await client.Merchant().create({
 })
 ```
 
+#### `list(match: object, ctrl?: object)`
+
+List entities matching the given criteria. Resolves to an array of entities, one per record.
+
+```ts
+const results = await client.Merchant().list()
+```
+
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Merchant().load({ id: 'merchant_id' })
@@ -930,7 +976,7 @@ const result = await client.Merchant().load({ id: 'merchant_id' })
 
 #### `update(data: object, ctrl?: object)`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Resolves to the updated entity.
 
 ```ts
 const result = await client.Merchant().update({
@@ -1013,7 +1059,7 @@ const result = await client.NetworkToken().create({
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.NetworkToken().create({
@@ -1031,7 +1077,7 @@ const result = await client.NetworkToken().create({
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.NetworkToken().load({ id: 'network_token_id' })
@@ -1083,7 +1129,7 @@ const network_token_cryptogram = client.NetworkTokenCryptogram()
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.NetworkTokenCryptogram().create({
@@ -1133,32 +1179,11 @@ const payment = client.Payment()
 | `data` | `Record<string, any>` | No | The message data payload |
 | `type` | `string` | No | The type of 3DS message (e.g., AReq, ARes, CReq, CRes, RReq, RRes) |
 
-### Actions
-
-This entity exposes custom API actions in addition to the standard
-operations. Select one with `$action` in the call's argument; the
-remaining keys are sent as that action's payload.
-
-| Action | Route | Call |
-| --- | --- | --- |
-| `acquirer` | `/payments/acquirers` | `client.Payment().list({ $action: 'acquirer', ... })` |
-| `merchant` | `/payments/merchants` | `client.Payment().list({ $action: 'merchant', ... })` |
-
-An action returns that action's OWN response, which is not necessarily a
-Payment record — check the API definition for its shape.
-
-```ts
-const result = await client.Payment().list({
-  $action: 'acquirer',
-  /* ...the action's own arguments */
-})
-```
-
 ### Operations
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.Payment().list({ '3ds_session_id': "example" })
@@ -1166,7 +1191,7 @@ const results = await client.Payment().list({ '3ds_session_id': "example" })
 
 #### `remove(match: object, ctrl?: object)`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
 
 ```ts
 const result = await client.Payment().remove({ acquirer_id: 'acquirer_id' })
@@ -1220,11 +1245,42 @@ const relay = client.Relay()
 | `routes` | `any[]` | No | A collection of route configurations for the Relay. |
 | `updatedAt` | `number` | No | The exact time, in epoch milliseconds, when this Relay was updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create | update |
+| --- | --- | --- | --- | --- |
+| `app` | - | - | - | - |
+| `authentication` | - | - | - | - |
+| `createdAt` | - | - | - | - |
+| `destinationDomain` | - | - | Yes | - |
+| `encryptEmptyStrings` | - | - | - | - |
+| `evervaultDomain` | - | - | - | - |
+| `id` | - | - | - | - |
+| `routes` | - | - | Yes | - |
+| `updatedAt` | - | - | - | - |
+
 ### Operations
+
+#### `create(data: object, ctrl?: object)`
+
+Create a new entity with the given data. Resolves to the created entity.
+
+```ts
+const result = await client.Relay().create({
+})
+```
+
+#### `list(match: object, ctrl?: object)`
+
+List entities matching the given criteria. Resolves to an array of entities, one per record.
+
+```ts
+const results = await client.Relay().list()
+```
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Relay().load({ id: 'relay_id' })
@@ -1232,7 +1288,7 @@ const result = await client.Relay().load({ id: 'relay_id' })
 
 #### `update(data: object, ctrl?: object)`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Resolves to the updated entity.
 
 ```ts
 const result = await client.Relay().update({
@@ -1337,7 +1393,7 @@ const three_ds_session = client.ThreeDsSession()
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.ThreeDsSession().create({
@@ -1356,7 +1412,7 @@ const result = await client.ThreeDsSession().create({
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.ThreeDsSession().load({ '3ds_session_id': '3ds_session_id' })
@@ -1396,50 +1452,11 @@ Return a copy of the entity options.
 const webhook = client.Webhook()
 ```
 
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `createdAt` | `number` | No | The exact time, in epoch milliseconds, when this Webhook Endpoint was created. |
-| `events` | `any[]` | Yes | A list of Events that the Webhook Endpoint should subscribe to. |
-| `id` | `string` | No | A unique identifier representing a specific Webhook Endpoint. |
-| `updatedAt` | `number | null` | No | The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated. |
-| `url` | `string` | Yes | The URL of the Webhook Endpoint. |
-
-### Field Usage by Operation
-
-| Field | list | create | remove |
-| --- | --- | --- | --- |
-| `createdAt` | - | - | - |
-| `events` | Yes | - | - |
-| `id` | - | - | - |
-| `updatedAt` | - | - | - |
-| `url` | Yes | - | - |
-
 ### Operations
-
-#### `create(data: object, ctrl?: object)`
-
-Create a new entity with the given data.
-
-```ts
-const result = await client.Webhook().create({
-  events: [],
-  url: 'example_url',
-})
-```
-
-#### `list(match: object, ctrl?: object)`
-
-List entities matching the given criteria. Returns an array.
-
-```ts
-const results = await client.Webhook().list()
-```
 
 #### `remove(match: object, ctrl?: object)`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
 
 ```ts
 const result = await client.Webhook().remove({ webhook_endpoint_id: 'webhook_endpoint_id' })
@@ -1491,19 +1508,36 @@ const webhook_endpoint = client.WebhookEndpoint()
 
 ### Field Usage by Operation
 
-| Field | load | update |
-| --- | --- | --- |
-| `createdAt` | - | - |
-| `events` | - | Yes |
-| `id` | - | - |
-| `updatedAt` | - | - |
-| `url` | - | - |
+| Field | load | list | create | update |
+| --- | --- | --- | --- | --- |
+| `createdAt` | - | - | - | - |
+| `events` | - | - | Yes | Yes |
+| `id` | - | - | - | - |
+| `updatedAt` | - | - | - | - |
+| `url` | - | - | Yes | - |
 
 ### Operations
 
+#### `create(data: object, ctrl?: object)`
+
+Create a new entity with the given data. Resolves to the created entity.
+
+```ts
+const result = await client.WebhookEndpoint().create({
+})
+```
+
+#### `list(match: object, ctrl?: object)`
+
+List entities matching the given criteria. Resolves to an array of entities, one per record.
+
+```ts
+const results = await client.WebhookEndpoint().list()
+```
+
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.WebhookEndpoint().load({ id: 'webhook_endpoint_id' })
@@ -1511,7 +1545,7 @@ const result = await client.WebhookEndpoint().load({ id: 'webhook_endpoint_id' }
 
 #### `update(data: object, ctrl?: object)`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Resolves to the updated entity.
 
 ```ts
 const result = await client.WebhookEndpoint().update({
@@ -1838,6 +1872,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

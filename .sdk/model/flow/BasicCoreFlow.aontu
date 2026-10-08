@@ -19,6 +19,10 @@ main: kit: flow: BasicCoreFlow:
     }
 
     {
+      m: {
+        relay_id: "relay01"
+      }
+
       o: "list",
       v: [
         {
@@ -46,6 +50,10 @@ main: kit: flow: BasicCoreFlow:
     {
       i: {
         suffix: "_rt0"
+      }
+
+      m: {
+        relay_id: "relay01"
       }
 
       o: "list",

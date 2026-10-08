@@ -15,6 +15,13 @@ import (
 	vs "github.com/voxgig-sdk/evervault-sdk/go/utility/struct"
 )
 
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const network_token_cryptogramEntityLiveStrict = true
+
+
 func TestNetworkTokenCryptogramEntity(t *testing.T) {
 	t.Run("instance", func(t *testing.T) {
 		testsdk := sdk.TestSDK(nil, nil)
@@ -24,7 +31,21 @@ func TestNetworkTokenCryptogramEntity(t *testing.T) {
 		}
 	})
 
-	t.Run("basic", func(t *testing.T) {
+	t.Run("validate", func(t *testing.T) {
+		if !fhHasFeature("validate") {
+			t.Skip("feature not present in this SDK: validate")
+		}
+		client := sdk.TestSDK(nil, map[string]any{
+			"feature": map[string]any{"validate": map[string]any{"active": true}},
+		})
+		_, err := client.NetworkTokenCryptogram(nil).Create(map[string]any{"id": 1}, nil)
+		if sdkerr, ok := err.(*core.EvervaultError); !ok || "validate_failed" != sdkerr.Code {
+			t.Fatalf("expected validate_failed, got %v", err)
+		}
+	})
+
+	t.Run("basic", func(tt *testing.T) {
+		var t testing.TB = tt
 		setup := network_token_cryptogramBasicSetup(nil)
 		// Per-op sdk-test-control.json skip — basic test exercises a flow
 		// with multiple ops; skipping any op skips the whole flow.
@@ -32,7 +53,7 @@ func TestNetworkTokenCryptogramEntity(t *testing.T) {
 		if setup.live {
 			_mode = "live"
 		}
-		for _, _op := range []string{"create"} {
+		for _, _op := range []string{} {
 			if _shouldSkip, _reason := isControlSkipped("entityOp", "network_token_cryptogram." + _op, _mode); _shouldSkip {
 				if _reason == "" {
 					_reason = "skipped via sdk-test-control.json"
@@ -41,31 +62,15 @@ func TestNetworkTokenCryptogramEntity(t *testing.T) {
 				return
 			}
 		}
-		// The basic flow consumes synthetic IDs from the fixture. In live mode
-		// without an *_ENTID env override, those IDs hit the live API and 4xx.
-		if setup.syntheticOnly {
-			t.Skip("live entity test uses synthetic IDs from fixture — set EVERVAULT_TEST_NETWORK_TOKEN_CRYPTOGRAM_ENTID JSON to run live")
-			return
+		// Bootstrap entity data from existing test data (no create step in flow).
+		networkTokenCryptogramRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath(setup.data, "existing.network_token_cryptogram")))
+		var networkTokenCryptogramRef01Data map[string]any
+		if len(networkTokenCryptogramRef01DataRaw) > 0 {
+			networkTokenCryptogramRef01Data = core.ToMapAny(networkTokenCryptogramRef01DataRaw[0][1])
 		}
-		client := setup.client
-
-		// CREATE
-		networkTokenCryptogramRef01Ent := client.NetworkTokenCryptogram(nil)
-		networkTokenCryptogramRef01Data := core.ToMapAny(vs.GetProp(
-			vs.GetPath(setup.data, []any{"new", "network_token_cryptogram"}), "network_token_cryptogram_ref01"))
-		networkTokenCryptogramRef01Data["network_token_id"] = setup.idmap["network_token01"]
-
-		networkTokenCryptogramRef01DataResult, err := networkTokenCryptogramRef01Ent.Create(networkTokenCryptogramRef01Data, nil)
-		if err != nil {
-			t.Fatalf("create failed: %v", err)
-		}
-		networkTokenCryptogramRef01Data = core.ToMapAny(entityData(networkTokenCryptogramRef01DataResult))
-		if networkTokenCryptogramRef01Data == nil {
-			t.Fatal("expected create result to be a map")
-		}
-		if networkTokenCryptogramRef01Data["id"] == nil {
-			t.Fatal("expected created entity to have an id")
-		}
+		// Discard guards against Go's unused-var check when the flow's steps
+		// happen not to consume the bootstrap data (e.g. list-only flows).
+		_ = networkTokenCryptogramRef01Data
 
 	})
 }
@@ -95,7 +100,7 @@ func network_token_cryptogramBasicSetup(extra map[string]any) *entityTestSetup {
 
 	// Generate idmap via transform, matching TS pattern.
 	idmap, _ := vs.Transform(
-		[]any{"network_token_cryptogram01", "network_token_cryptogram02", "network_token_cryptogram03", "network_token01"},
+		[]any{"network_token_cryptogram01", "network_token_cryptogram02", "network_token_cryptogram03"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
 				"`$KEY`": "`$COPY`",
@@ -104,9 +109,8 @@ func network_token_cryptogramBasicSetup(extra map[string]any) *entityTestSetup {
 		},
 	)
 
-	// Detect ENTID env override before envOverride consumes it. When live
-	// mode is on without a real override, the basic test runs against synthetic
-	// IDs from the fixture and 4xx's. Surface this so the test can skip.
+	// Whether *_ENTID supplied the idmap, read before envOverride consumes it:
+	// without it, the ids a live flow binds are the fixture's synthetic ones.
 	entidEnvRaw := os.Getenv("EVERVAULT_TEST_NETWORK_TOKEN_CRYPTOGRAM_ENTID")
 	idmapOverridden := entidEnvRaw != "" && strings.HasPrefix(strings.TrimSpace(entidEnvRaw), "{")
 

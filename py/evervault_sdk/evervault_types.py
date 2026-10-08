@@ -31,6 +31,11 @@ class AcquirerLoadMatch(TypedDict):
     id: str
 
 
+class AcquirerListMatch(TypedDict, total=False):
+    page: int
+    page_size: int
+
+
 class AcquirerCreateDataRequired(TypedDict):
     configurations: list
     default: bool
@@ -63,17 +68,28 @@ class BinLookupCreateData(TypedDict):
 
 class CardRequired(TypedDict):
     address: dict
+    bin: str
     card: dict
+    createdAt: int
     expiry: dict
-    month: str
+    lastFour: str
     number: str
-    year: str
 
 
 class Card(CardRequired, total=False):
+    automaticUpdates: str
+    brand: str
     cardholder: dict
+    country: str
+    currency: str
     extensions: list
+    funding: str
     id: str
+    issuer: str
+    replacement: str | None
+    segment: str
+    status: str
+    updatedAt: int | None
 
 
 class CardLoadMatch(TypedDict):
@@ -82,17 +98,28 @@ class CardLoadMatch(TypedDict):
 
 class CardCreateDataRequired(TypedDict):
     address: dict
+    bin: str
     card: dict
+    createdAt: int
     expiry: dict
-    month: str
+    lastFour: str
     number: str
-    year: str
 
 
 class CardCreateData(CardCreateDataRequired, total=False):
+    automaticUpdates: str
+    brand: str
     cardholder: dict
+    country: str
+    currency: str
     extensions: list
+    funding: str
     id: str
+    issuer: str
+    replacement: str | None
+    segment: str
+    status: str
+    updatedAt: int | None
 
 
 class CardArt(TypedDict):
@@ -125,61 +152,51 @@ class ClientSideTokenCreateData(ClientSideTokenCreateDataRequired, total=False):
 
 
 class CoreRequired(TypedDict):
-    destinationDomain: str
-    routes: list
     token: str
 
 
 class Core(CoreRequired, total=False):
-    app: str
-    authentication: str | None
+    category: str
+    core_list: dict | list | str | float | bool
+    cores: dict | list | str
     createdAt: int
     customDomain: str
-    encryptEmptyStrings: bool
-    evervaultDomain: str
+    encryptedAt: int
+    fingerprint: str
     id: str
+    metadata: Any
     phoneNumber: str
     relay: str
+    role: str
     status: str
+    type: str
     updatedAt: int
     validationRecord: str
 
 
-class CoreListMatch(TypedDict, total=False):
-    app: str
-    authentication: str | None
-    createdAt: int
-    customDomain: str
-    destinationDomain: str
-    encryptEmptyStrings: bool
-    evervaultDomain: str
-    id: str
-    phoneNumber: str
-    relay: str
-    routes: list
-    status: str
-    token: str
-    updatedAt: int
-    validationRecord: str
+class CoreListMatch(TypedDict):
+    relay_id: str
 
 
 class CoreCreateDataRequired(TypedDict):
-    destinationDomain: str
-    routes: list
     token: str
 
 
 class CoreCreateData(CoreCreateDataRequired, total=False):
-    app: str
-    authentication: str | None
+    category: str
+    core_list: dict | list | str | float | bool
+    cores: dict | list | str
     createdAt: int
     customDomain: str
-    encryptEmptyStrings: bool
-    evervaultDomain: str
+    encryptedAt: int
+    fingerprint: str
     id: str
+    metadata: Any
     phoneNumber: str
     relay: str
+    role: str
     status: str
+    type: str
     updatedAt: int
     validationRecord: str
 
@@ -264,6 +281,12 @@ class Merchant(MerchantRequired, total=False):
 
 class MerchantLoadMatch(TypedDict):
     id: str
+
+
+class MerchantListMatch(TypedDict, total=False):
+    page: int
+    page_size: int
+    q: str
 
 
 class MerchantCreateDataRequired(TypedDict):
@@ -381,6 +404,30 @@ class RelayLoadMatch(TypedDict):
     id: str
 
 
+class RelayListMatch(TypedDict, total=False):
+    app: str
+    authentication: str | None
+    createdAt: int
+    destinationDomain: str
+    encryptEmptyStrings: bool
+    evervaultDomain: str
+    id: str
+    routes: list
+    updatedAt: int
+
+
+class RelayCreateData(TypedDict, total=False):
+    app: str
+    authentication: str | None
+    createdAt: int
+    destinationDomain: str
+    encryptEmptyStrings: bool
+    evervaultDomain: str
+    id: str
+    routes: list
+    updatedAt: int
+
+
 class RelayUpdateDataRequired(TypedDict):
     id: str
 
@@ -460,31 +507,8 @@ class ThreeDsSessionCreateData(ThreeDsSessionCreateDataRequired, total=False):
     updatedAt: int
 
 
-class WebhookRequired(TypedDict):
-    events: list
-    url: str
-
-
-class Webhook(WebhookRequired, total=False):
-    createdAt: int
-    id: str
-    updatedAt: int | None
-
-
-class WebhookListMatch(TypedDict, total=False):
-    limit: int
-    starting_after: str
-
-
-class WebhookCreateDataRequired(TypedDict):
-    events: list
-    url: str
-
-
-class WebhookCreateData(WebhookCreateDataRequired, total=False):
-    createdAt: int
-    id: str
-    updatedAt: int | None
+class Webhook(TypedDict):
+    pass
 
 
 class WebhookRemoveMatch(TypedDict):
@@ -501,6 +525,19 @@ class WebhookEndpoint(TypedDict, total=False):
 
 class WebhookEndpointLoadMatch(TypedDict):
     id: str
+
+
+class WebhookEndpointListMatch(TypedDict, total=False):
+    limit: int
+    starting_after: str
+
+
+class WebhookEndpointCreateData(TypedDict, total=False):
+    createdAt: int
+    events: list
+    id: str
+    updatedAt: int | None
+    url: str
 
 
 class WebhookEndpointUpdateDataRequired(TypedDict):

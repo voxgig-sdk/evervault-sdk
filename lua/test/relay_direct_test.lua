@@ -6,7 +6,58 @@ local sdk = require("evervault_sdk")
 local helpers = require("core.helpers")
 local runner = require("test.runner")
 
+-- main.kit.test.live.strict is true (the default is true): a live
+-- request that fails, or a live test missing an input it needs,
+-- fails the test.
+-- An account with no record for a test to read skips it either way.
+local LIVE_STRICT = true
+
+local function live_ok(result, err)
+  if err ~= nil or type(result) ~= "table" or result["err"] ~= nil or not result["ok"] then
+    return false
+  end
+  local status = helpers.to_int(result["status"])
+  return status >= 200 and status < 300
+end
+
 describe("RelayDirect", function()
+  it("should direct-list-relay", function()
+    local setup = relay_direct_setup({
+      { id = "direct01" },
+      { id = "direct02" },
+    })
+    local _should_skip, _reason = runner.is_control_skipped("direct", "direct-list-relay", setup.live and "live" or "unit")
+    if _should_skip then
+      pending(_reason or "skipped via sdk-test-control.json")
+      return
+    end
+    local client = setup.client
+
+    local params = {}
+
+    local result, err = client:direct({
+      path = "relays",
+      method = "GET",
+      params = params,
+    })
+    if setup.live then
+      if not live_ok(result, err) then
+        runner.live_miss(pending, LIVE_STRICT, "Live list failed: " .. runner.live_describe(result, err))
+      end
+      if runner.live_list(result["data"]) == nil then
+        runner.live_miss(pending, LIVE_STRICT, "Live list returned no list: " .. runner.live_describe(result, err))
+      end
+      assert.is_table(runner.live_list(result["data"]))
+    else
+      assert.is_nil(err)
+      assert.is_true(result["ok"])
+      assert.are.equal(200, helpers.to_int(result["status"]))
+      assert.is_table(result["data"])
+      assert.are.equal(2, #result["data"])
+      assert.are.equal(1, #setup.calls)
+    end
+  end)
+
   it("should direct-load-relay", function()
     local setup = relay_direct_setup({ id = "direct01" })
     local _should_skip, _reason = runner.is_control_skipped("direct", "direct-load-relay", setup.live and "live" or "unit")
@@ -14,15 +65,33 @@ describe("RelayDirect", function()
       pending(_reason or "skipped via sdk-test-control.json")
       return
     end
-    if setup.live then
-      pending("live direct-load needs real ID — set *_ENTID env var with real IDs to run")
-      return
-    end
     local client = setup.client
 
     local params = {}
     local query = {}
-    if not setup.live then
+    if setup.live then
+      local list_result, list_err = client:direct({
+        path = "relays",
+        method = "GET",
+        params = {},
+      })
+      if not live_ok(list_result, list_err) then
+        runner.live_miss(pending, LIVE_STRICT, "Live list discovery failed: " .. runner.live_describe(list_result, list_err))
+      end
+      local records = runner.live_list(list_result["data"])
+      if records == nil then
+        runner.live_miss(pending, LIVE_STRICT, "Live list discovery returned no list: " .. runner.live_describe(list_result, list_err))
+      end
+      if records[1] == nil then
+        runner.live_empty(pending, "The account has no relay record to load")
+      end
+      local first = type(records[1]) == "table" and records[1] or {}
+      local found = first["id"] or first["id"]
+      if found == nil then
+        runner.live_miss(pending, LIVE_STRICT, "Live load blocked: discovery returned no usable identity")
+      end
+      params["id"] = found
+    else
       params["id"] = "direct01"
     end
 
@@ -33,22 +102,13 @@ describe("RelayDirect", function()
       query = query,
     })
     if setup.live then
-      -- Live mode is lenient: synthetic IDs frequently 4xx. Skip rather
-      -- than fail when the load endpoint isn't reachable with the IDs we
-      -- can construct from setup.idmap.
-      if err ~= nil then
-        pending("load call failed (likely synthetic IDs against live API): " .. tostring(err))
-        return
+      if not live_ok(result, err) then
+        runner.live_miss(pending, LIVE_STRICT, "Live load failed: " .. runner.live_describe(result, err))
       end
-      if not result["ok"] then
-        pending("load call not ok (likely synthetic IDs against live API)")
-        return
+      if result["data"] == nil then
+        runner.live_miss(pending, LIVE_STRICT, "Live load returned no data: " .. runner.live_describe(result, err))
       end
-      local status = helpers.to_int(result["status"])
-      if status < 200 or status >= 300 then
-        pending("expected 2xx status, got " .. tostring(status))
-        return
-      end
+      assert.is_not_nil(result["data"])
     else
       assert.is_nil(err)
       assert.is_true(result["ok"])
@@ -89,11 +149,12 @@ function relay_direct_setup(mockres)
       end
     end
     local client = sdk.new(merged_opts)
+    local idmap = env["EVERVAULT_TEST_RELAY_ENTID"]
     return {
       client = client,
       calls = calls,
       live = true,
-      idmap = {},
+      idmap = type(idmap) == "table" and idmap or {},
     }
   end
 

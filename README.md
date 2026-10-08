@@ -12,7 +12,7 @@ Learn more about Voxgig SDKs at [voxgig.com/sdk](https://voxgig.com/sdk/).
 
 > TypeScript, Python, PHP, Golang, Ruby, Lua SDKs, a CLI with an interactive REPL, and an MCP server for AI agents — all generated from one OpenAPI spec by [@voxgig/sdkgen](https://github.com/voxgig/sdkgen).
 
-> **Features:** `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined` — opt-in,
+> **Features:** `debug`, `idempotency`, `metrics`, `paging`, `ratelimit`, `retry`, `test`, `timeout` — opt-in,
 > inactive until switched on, and configured per client. See the Features
 > section of any SDK README below for what each one does.
 
@@ -25,7 +25,7 @@ support (`list`, `load`, `create`, `update`, `remove`):
 
 ```ts
 const client = new EvervaultSDK()
-const acquirer = await client.Acquirer().load({ id: "example_id" })
+const items = await client.Acquirer().list()
 ```
 
 Thinking in entities keeps the mental model small — for people and AI agents alike —
@@ -49,18 +49,17 @@ const client = EvervaultSDK.test({
     },
   },
 })
-const merchant = await client.Merchant().load({ id: 'test01' })
-// merchant is the Merchant entity, populated with mock data
-// — call merchant.data() for the record itself
-console.log(merchant)
+const merchants = await client.Merchant().list()
+// merchants is an array of Merchant entities, one per mock record
+console.log(merchants.map((merchant) => merchant.data()))
 ```
 
 ### Python
 
 ```python
 client = EvervaultSDK.test()
-merchant = client.Merchant().load({"id": "test01"})
-print(merchant)
+merchants = client.Merchant().list()
+print([item.data_get() for item in merchants])
 ```
 
 ### PHP
@@ -70,15 +69,15 @@ print(merchant)
 $client = EvervaultSDK::test([
     "entity" => ["merchant" => ["test01" => ["id" => "test01"]]],
 ]);
-$merchant = $client->Merchant()->load(["id" => "test01"]);
+$merchants = $client->Merchant()->list();
 ```
 
 ### Golang
 
 ```go
 client := sdk.Test()
-result, err := client.Merchant(nil).Load(
-    map[string]any{"id": "test01"}, nil,
+result, err := client.Merchant(nil).List(
+    nil, nil,
 )
 ```
 
@@ -89,28 +88,28 @@ result, err := client.Merchant(nil).Load(
 client = EvervaultSDK.test({
   "entity" => { "merchant" => { "test01" => { "id" => "test01" } } },
 })
-merchant = client.Merchant.load({ "id" => "test01" })
+merchants = client.Merchant.list()
 ```
 
 ### Lua
 
 ```lua
 local client = sdk.test()
-local result, err = client:Merchant():load({ id = "test01" })
+local results, err = client:Merchant():list()
 ```
 
 ## Packages
 
 | Language | Package | Install |
 | --- | --- | --- |
-| TypeScript | `@voxgig-sdk/evervault-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/evervault-sdk/tags) |
-| Python | `voxgig-sdk-evervault-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/evervault-sdk/tags) |
-| PHP | `voxgig-sdk/evervault-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/evervault-sdk/tags) |
+| TypeScript | `@voxgig-sdk/evervault-sdk` | publish pending — [install from source](ts/README.md#install) |
+| Python | `voxgig-sdk-evervault-sdk` | publish pending — [install from source](py/README.md#install) |
+| PHP | `voxgig-sdk/evervault-sdk` | publish pending — [install from source](php/README.md#install) |
 | Golang | `github.com/voxgig-sdk/evervault-sdk/go` | `go get github.com/voxgig-sdk/evervault-sdk/go@latest` |
-| Ruby | `voxgig-sdk-evervault-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/evervault-sdk/tags) |
-| Lua | `voxgig-sdk-evervault-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/evervault-sdk/tags) |
-| Go CLI | `github.com/voxgig-sdk/evervault-sdk/go-cli` | `go install github.com/voxgig-sdk/evervault-sdk/go-cli/cmd/evervault@latest` |
-| Go MCP server | `github.com/voxgig-sdk/evervault-sdk/go-mcp` | `go get github.com/voxgig-sdk/evervault-sdk/go-mcp@latest` |
+| Ruby | `voxgig-sdk-evervault-sdk` | publish pending — [install from source](rb/README.md#install) |
+| Lua | `voxgig-sdk-evervault-sdk` | publish pending — [install from source](lua/README.md#install) |
+| Go CLI | `github.com/voxgig-sdk/evervault-sdk/go-cli` | build from source — [go-cli/README.md](go-cli/README.md) |
+| Go MCP server | `github.com/voxgig-sdk/evervault-sdk/go-mcp` | build from source — [go-mcp/README.md](go-mcp/README.md) |
 
 ## Quickstart
 
@@ -124,12 +123,17 @@ const client = new EvervaultSDK({
   secret: process.env.EVERVAULT_SECRET,
 })
 
+// List all acquirers (returns AcquirerEntity[], one entity per record)
+const acquirers = await client.Acquirer().list()
+for (const acquirer of acquirers) {
+  console.log(acquirer.data())
+}
 
-// Load a specific cardart (returns a CardArt)
+// Load a specific cardart (returns the entity, a CardArtEntity)
 const cardart = await client.CardArt().load({
   network_token_id: 'example_network_token_id',
 })
-console.log(cardart)
+console.log(cardart.data())
 ```
 
 See the [TypeScript README](ts/README.md) for the full guide.
@@ -144,9 +148,10 @@ See the [TypeScript README](ts/README.md) for the full guide.
 
 ## Use it from an AI agent (MCP)
 
-The generated MCP server exposes every operation in this SDK as an
-[MCP](https://modelcontextprotocol.io) tool that Claude, Cursor or Cline
-can call directly. Build and register it:
+The generated MCP server exposes this SDK's list and load operations as
+[MCP](https://modelcontextprotocol.io) tools that Claude, Cursor or Cline
+can call directly. It only reads: create, update, patch and remove become tools when the SDK's model sets
+`main: kit: target: 'go-mcp': tool: write: true`. Build and register it:
 
 ```bash
 cd go-mcp && go build -o evervault-mcp .
@@ -170,7 +175,7 @@ The API exposes 16 entities:
 
 | Entity | Description | API path |
 | --- | --- | --- |
-| **Acquirer** | The Acquirer entity (create, load, update). | `/payments/acquirers/{acquirer_id}` |
+| **Acquirer** | The Acquirer entity (create, list, load, update). | `/payments/acquirers` |
 | **BinLookup** | The BinLookup entity (create). | `/payments/bin-lookups` |
 | **Card** | The Card entity (create, load). | `/payments/cards/{card_id}` |
 | **CardArt** | The CardArt entity (load). | `/payments/network-tokens/{network_token_id}/card-art` |
@@ -178,14 +183,14 @@ The API exposes 16 entities:
 | **Core** | The Core entity (create, list, remove). | `/relays/{relay_id}/custom-domains` |
 | **CustomDomain** | The CustomDomain entity (create, load). | `/relays/{relay_id}/custom-domains/{id}` |
 | **FunctionRun** | The FunctionRun entity (create). | `/functions/{function_name}/runs` |
-| **Merchant** | The Merchant entity (create, load, update). | `/payments/merchants/{merchant_id}` |
+| **Merchant** | The Merchant entity (create, list, load, update). | `/payments/merchants` |
 | **NetworkToken** | The NetworkToken entity (create, load). | `/payments/network-tokens/{network_token_id}` |
 | **NetworkTokenCryptogram** | The NetworkTokenCryptogram entity (create). | `/payments/network-tokens/{network_token_id}/cryptograms` |
 | **Payment** | The Payment entity (list, remove). | `/payments/3ds-sessions/{3ds_session_id}/messages` |
-| **Relay** | The Relay entity (load, update). | `/relays/{id}` |
+| **Relay** | The Relay entity (create, list, load, update). | `/relays` |
 | **ThreeDsSession** | The ThreeDsSession entity (create, load). | `/payments/3ds-sessions/{3ds_session_id}` |
-| **Webhook** | The Webhook entity (create, list, remove). | `/webhook-endpoints` |
-| **WebhookEndpoint** | The WebhookEndpoint entity (load, update). | `/webhook-endpoints/{webhook_endpoint_id}` |
+| **Webhook** | The Webhook entity (remove). | `/webhook-endpoints/{webhook_endpoint_id}` |
+| **WebhookEndpoint** | The WebhookEndpoint entity (create, list, load, update). | `/webhook-endpoints` |
 
 The operations available across these entities are **load**, **list**, **create**, **update**, **remove** — see each entity's
 own list above for exactly which it supports.
@@ -202,10 +207,14 @@ client = EvervaultSDK({
     "apikey": os.environ.get("EVERVAULT_APIKEY"),
 })
 
+# List all acquirers (a list of entities, one per record; raises on error)
+acquirers = client.Acquirer().list()
+for acquirer in acquirers:
+    print(acquirer.data_get())
 
-# Load a specific acquirer (returns the record, raises on error)
+# Load a specific acquirer (returns the entity, raises on error)
 acquirer = client.Acquirer().load({"id": "example_id"})
-print(acquirer)
+print(acquirer.data_get())
 ```
 
 ### PHP
@@ -218,8 +227,11 @@ $client = new EvervaultSDK([
     "apikey" => getenv("EVERVAULT_APIKEY"),
 ]);
 
+// List all acquirers (an array of entities, one per record; throws on error)
+$acquirers = $client->Acquirer()->list();
+print_r(array_map(fn($item) => $item->data_get(), $acquirers));
 
-// Load a specific acquirer (returns the ENTITY; call data_get() for the record; throws on error)
+// Load a specific acquirer (returns the entity; data_get() reads its record; throws on error)
 $acquirer = $client->Acquirer()->load(["id" => "example_id"]);
 print_r($acquirer->data_get());
 ```
@@ -233,15 +245,23 @@ client := sdk.NewEvervaultSDK(map[string]any{
     "apikey": os.Getenv("EVERVAULT_APIKEY"),
 })
 
+// List all acquirers (one entity per record; err is non-nil on failure)
+acquirers, err := client.Acquirer(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+for _, acquirer := range acquirers.([]any) {
+    fmt.Println(acquirer.(sdk.Entity).Data())
+}
 
-// Load a specific cardart
+// Load a specific cardart (returns the entity; err is non-nil on failure)
 cardArt, err := client.CardArt(nil).Load(
     map[string]any{"network_token_id": "example_network_token_id"}, nil,
 )
 if err != nil {
     panic(err)
 }
-fmt.Println(cardArt)
+fmt.Println(cardArt.(sdk.Entity).Data())
 ```
 
 ### Ruby
@@ -253,25 +273,36 @@ client = EvervaultSDK.new({
   "apikey" => ENV["EVERVAULT_APIKEY"],
 })
 
+# List all acquirers (an Array of entities, one per record; raises on error)
+acquirers = client.Acquirer.list
+acquirers.each { |item| puts item.data_get }
 
-# Load a specific acquirer (returns the ENTITY; call data_get for the record)
+# Load a specific acquirer (returns the entity; data_get reads its record; raises on error)
 acquirer = client.Acquirer.load({ "id" => "example_id" })
-puts acquirer
+puts acquirer.data_get
 ```
 
 ### Lua
 
 ```lua
 local sdk = require("evervault_sdk")
+local json = require("dkjson")
 
 local client = sdk.new({
   apikey = os.getenv("EVERVAULT_APIKEY"),
 })
 
+-- List all acquirers (an array of entities, one per record; err on failure)
+local acquirers, err = client:Acquirer():list()
+if err then error(err) end
+for _, acquirer in ipairs(acquirers) do
+  print(json.encode(acquirer:data_get()))
+end
 
--- Load a specific acquirer
+-- Load a specific acquirer (returns the entity; err on failure)
 local acquirer, err = client:Acquirer():load({ id = "example_id" })
-print(acquirer)
+if err then error(err) end
+print(json.encode(acquirer:data_get()))
 ```
 
 ## Direct and prepare
@@ -297,10 +328,9 @@ const result = await client.direct({
   method: 'GET',
   params: { id: 'example' },
 })
-if (result instanceof Error) {
-  throw result
+if (result.ok) {
+  console.log(result.data)
 }
-console.log(result.data)
 ```
 
 **Python:**
@@ -398,10 +428,12 @@ customizable without forking any upstream tool:
 - **Templates** (`.sdk/tm/`) and **components** (`.sdk/src/cmp/`) are
   the two layers of generation, copied into this repo: templates are the
   literal per-language source, components generate the API-shaped parts.
-- **Regeneration merges.** By default, newly generated content is
-  three-way merged into existing files, so generator updates and local
-  edits usually converge without manual conflict handling. A project can
-  opt for plain overwrite instead.
+- **Regeneration overwrites.** Each run rewrites every generated file from
+  the model, the templates and the components, so an edit made to
+  generated output is lost. Say what this project needs in its own model
+  (`.sdk/model/sdk.aontu`), or extend a target with a component of its
+  own in `.sdk/src/cmp/<target>/`, registered with `registerComponent`,
+  which `voxgig-sdkgen doctor` reports as an addition rather than drift.
 - **Custom features and entire custom targets** arrive through sdkgen
   packages (`voxgig-sdkgen package add`), on the same rails as the
   bundled languages, and `voxgig-sdkgen doctor` reports any drift from

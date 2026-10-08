@@ -35,6 +35,16 @@
     }
   },
   "requests": {
+    "POST /webhook-endpoints": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /webhook-endpoints": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
     "GET /webhook-endpoints/{webhook_endpoint_id}": {
       "provenance": "operation-contract",
       "version": 2,

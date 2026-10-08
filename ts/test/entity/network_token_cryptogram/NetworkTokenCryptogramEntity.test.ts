@@ -9,7 +9,7 @@ import { createLiveTransport } from '../../live-runner'
 import { runLiveEntity } from '../../live-entity'
 
 
-import { EvervaultSDK, BaseFeature, stdutil } from '../../..'
+import { EvervaultSDK, BaseFeature, config, stdutil } from '../../..'
 
 import {
   envOverride,
@@ -41,17 +41,29 @@ describe('NetworkTokenCryptogramEntity', async () => {
   })
 
 
+  test('validate', async (t) => {
+    if (null == (config as any).feature?.validate) {
+      t.skip('feature not present in this SDK: validate')
+      return
+    }
+    const client = EvervaultSDK.test(undefined, { feature: { validate: { active: true } } })
+    await assert.rejects(client.NetworkTokenCryptogram().create({"id":1} as any),
+      (err: any) => 'validate_failed' === err.code)
+  })
+
+
+
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.EVERVAULT_TEST_LIVE
-    for (const op of ['create']) {
+    for (const op of []) {
       if (!live && maybeSkipControl(t, 'entityOp', 'network_token_cryptogram.' + op, live)) return
     }
 
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"createdAt":{"a":true,"h":"Created At","n":"createdAt","r":false,"t":"`$INTEGER`","key$":"createdAt","index$":0},"cryptogram":{"a":true,"h":"Cryptogram","n":"cryptogram","r":false,"t":"`$STRING`","key$":"cryptogram","index$":1},"id":{"a":true,"h":"Id","n":"id","r":false,"t":"`$STRING`","key$":"id","index$":2}},"id":{"field":"id","name":"id"},"name":"network_token_cryptogram","op":{"create":{"input":"data","name":"create","points":[{"a":true,"co":{"id":"POST /payments/network-tokens/{network_token_id}/cryptograms","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"network_token_id","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"POST","o":"/payments/network-tokens/{network_token_id}/cryptograms","q":{"exist":["id"]},"r":{"param":{"network_token_id":"id"}},"s":[{"lit":"payments"},{"lit":"network-tokens"},{"var":"id"},{"lit":"cryptograms"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"create"}},"relations":{"ancestors":[]},"key$":"network_token_cryptogram","name__orig":"network_token_cryptogram","Name":"NetworkTokenCryptogram","name_":"network_token_cryptogram","name-":"network-token-cryptogram","NAME":"NETWORK_TOKEN_CRYPTOGRAM","index$":10}, {"active":true,"entity":"network_token_cryptogram","key$":"BasicNetworkTokenCryptogramFlow","kind":"basic","name":"BasicNetworkTokenCryptogramFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"network_token_cryptogram_ref01"},"m":{"network_token_id":"network_token01"},"o":"create","s":[],"v":[],"index$":0}]}, 'NetworkTokenCryptogram', {"POST /payments/network-tokens/{network_token_id}/cryptograms":{"protocol":"http","parameters":[{"name":"network_token_id","in":"path","description":"The unique identifier of the Network Token.","required":true,"schema":{"type":"string"},"index$":0}]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"createdAt":{"a":true,"h":"Created At","n":"createdAt","r":false,"t":"`$INTEGER`","key$":"createdAt","index$":0},"cryptogram":{"a":true,"h":"Cryptogram","n":"cryptogram","r":false,"t":"`$STRING`","key$":"cryptogram","index$":1},"id":{"a":true,"h":"Id","n":"id","r":false,"t":"`$STRING`","key$":"id","index$":2}},"id":{"field":"id","name":"id"},"name":"network_token_cryptogram","op":{"create":{"input":"data","name":"create","points":[{"a":true,"co":{"id":"POST /payments/network-tokens/{network_token_id}/cryptograms","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"network_token_id","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"POST","o":"/payments/network-tokens/{network_token_id}/cryptograms","q":{"exist":["id"]},"r":{"param":{"network_token_id":"id"}},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"payments"},{"lit":"network-tokens"},{"var":"id"},{"lit":"cryptograms"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"create"}},"relations":{"ancestors":[]},"key$":"network_token_cryptogram","name__orig":"network_token_cryptogram","Name":"NetworkTokenCryptogram","name_":"network_token_cryptogram","name-":"network-token-cryptogram","NAME":"NETWORK_TOKEN_CRYPTOGRAM","index$":10}, {"active":true,"entity":"network_token_cryptogram","key$":"BasicNetworkTokenCryptogramFlow","kind":"basic","name":"BasicNetworkTokenCryptogramFlow","param":{},"step":[{"a":false,"d":{},"i":{"ref":"network_token_cryptogram_ref01"},"m":{"network_token_id":"network_token01"},"o":"create","s":[],"v":[],"unreachable":true}]}, 'NetworkTokenCryptogram', {"POST /payments/network-tokens/{network_token_id}/cryptograms":{"protocol":"http","parameters":[{"name":"network_token_id","in":"path","description":"The unique identifier of the Network Token.","required":true,"schema":{"type":"string"},"index$":0}]}}, { strict: LIVE_STRICT, t })
     }
     const client = setup.client
     const struct = setup.struct
@@ -59,20 +71,18 @@ describe('NetworkTokenCryptogramEntity', async () => {
     const isempty = struct.isempty
     const select = struct.select
 
-
-    // CREATE
-    const network_token_cryptogram_ref01_ent = client.NetworkTokenCryptogram()
-    let network_token_cryptogram_ref01_data = setup.data.new.network_token_cryptogram['network_token_cryptogram_ref01']
-    network_token_cryptogram_ref01_data['network_token_id'] = setup.idmap['network_token01']
-
-    network_token_cryptogram_ref01_data = (await network_token_cryptogram_ref01_ent.create(network_token_cryptogram_ref01_data)).data()
-    assert(null != network_token_cryptogram_ref01_data.id)
-
+    let network_token_cryptogram_ref01_data = Object.values(setup.data.existing.network_token_cryptogram)[0] as any
 
   })
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function basicSetup(extra?: any) {
   // TODO: fix test def options
@@ -97,7 +107,7 @@ function basicSetup(extra?: any) {
   const transform = struct.transform
 
   let idmap = transform(
-    ['network_token_cryptogram01','network_token_cryptogram02','network_token_cryptogram03','network_token01'],
+    ['network_token_cryptogram01','network_token_cryptogram02','network_token_cryptogram03'],
     {
       '`$PACK`': ['', {
         '`$KEY`': '`$COPY`',

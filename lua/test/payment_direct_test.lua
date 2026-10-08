@@ -6,6 +6,20 @@ local sdk = require("evervault_sdk")
 local helpers = require("core.helpers")
 local runner = require("test.runner")
 
+-- main.kit.test.live.strict is true (the default is true): a live
+-- request that fails, or a live test missing an input it needs,
+-- fails the test.
+-- An account with no record for a test to read skips it either way.
+local LIVE_STRICT = true
+
+local function live_ok(result, err)
+  if err ~= nil or type(result) ~= "table" or result["err"] ~= nil or not result["ok"] then
+    return false
+  end
+  local status = helpers.to_int(result["status"])
+  return status >= 200 and status < 300
+end
+
 describe("PaymentDirect", function()
   it("should direct-list-payment", function()
     local setup = payment_direct_setup({
@@ -17,31 +31,35 @@ describe("PaymentDirect", function()
       pending(_reason or "skipped via sdk-test-control.json")
       return
     end
+    if setup.live then
+      for _, _live_key in ipairs({"3ds_session01"}) do
+        if setup.idmap[_live_key] == nil then
+          runner.live_miss(pending, LIVE_STRICT, "Live test blocked: needs " .. _live_key .. " via EVERVAULT_TEST_PAYMENT_ENTID")
+        end
+      end
+    end
     local client = setup.client
 
+    local params = {}
+    if setup.live then
+      params["3ds_session_id"] = setup.idmap["3ds_session01"]
+    else
+      params["3ds_session_id"] = "direct01"
+    end
 
     local result, err = client:direct({
-      path = "payments/merchants",
+      path = "payments/3ds-sessions/{3ds_session_id}/messages",
       method = "GET",
-      params = {},
+      params = params,
     })
     if setup.live then
-      -- Live mode is lenient: synthetic IDs frequently 4xx and the list-
-      -- response shape varies wildly across public APIs. Skip rather than
-      -- fail when the call doesn't return a usable list.
-      if err ~= nil then
-        pending("list call failed (likely synthetic IDs against live API): " .. tostring(err))
-        return
+      if not live_ok(result, err) then
+        runner.live_miss(pending, LIVE_STRICT, "Live list failed: " .. runner.live_describe(result, err))
       end
-      if not result["ok"] then
-        pending("list call not ok (likely synthetic IDs against live API)")
-        return
+      if runner.live_list(result["data"]) == nil then
+        runner.live_miss(pending, LIVE_STRICT, "Live list returned no list: " .. runner.live_describe(result, err))
       end
-      local status = helpers.to_int(result["status"])
-      if status < 200 or status >= 300 then
-        pending("expected 2xx status, got " .. tostring(status))
-        return
-      end
+      assert.is_table(runner.live_list(result["data"]))
     else
       assert.is_nil(err)
       assert.is_true(result["ok"])
@@ -80,11 +98,12 @@ function payment_direct_setup(mockres)
       end
     end
     local client = sdk.new(merged_opts)
+    local idmap = env["EVERVAULT_TEST_PAYMENT_ENTID"]
     return {
       client = client,
       calls = calls,
       live = true,
-      idmap = {},
+      idmap = type(idmap) == "table" and idmap or {},
     }
   end
 

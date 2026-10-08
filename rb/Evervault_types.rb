@@ -42,6 +42,19 @@ AcquirerLoadMatch = Struct.new(
   keyword_init: true
 )
 
+# Request payload for Acquirer#list.
+#
+# @!attribute [rw] page
+#   @return [Integer, nil]
+#
+# @!attribute [rw] page_size
+#   @return [Integer, nil]
+AcquirerListMatch = Struct.new(
+  :page,
+  :page_size,
+  keyword_init: true
+)
+
 # Request payload for Acquirer#create.
 #
 # @!attribute [rw] configurations
@@ -115,11 +128,29 @@ BinLookupCreateData = Struct.new(
 # @!attribute [rw] address
 #   @return [Hash]
 #
+# @!attribute [rw] automaticUpdates
+#   @return [String, nil]
+#
+# @!attribute [rw] bin
+#   @return [String]
+#
+# @!attribute [rw] brand
+#   @return [String, nil]
+#
 # @!attribute [rw] card
 #   @return [Hash]
 #
 # @!attribute [rw] cardholder
 #   @return [Hash, nil]
+#
+# @!attribute [rw] country
+#   @return [String, nil]
+#
+# @!attribute [rw] createdAt
+#   @return [Integer]
+#
+# @!attribute [rw] currency
+#   @return [String, nil]
 #
 # @!attribute [rw] expiry
 #   @return [Hash]
@@ -127,27 +158,53 @@ BinLookupCreateData = Struct.new(
 # @!attribute [rw] extensions
 #   @return [Array, nil]
 #
+# @!attribute [rw] funding
+#   @return [String, nil]
+#
 # @!attribute [rw] id
 #   @return [String, nil]
 #
-# @!attribute [rw] month
+# @!attribute [rw] issuer
+#   @return [String, nil]
+#
+# @!attribute [rw] lastFour
 #   @return [String]
 #
 # @!attribute [rw] number
 #   @return [String]
 #
-# @!attribute [rw] year
-#   @return [String]
+# @!attribute [rw] replacement
+#   @return [Object, nil]
+#
+# @!attribute [rw] segment
+#   @return [String, nil]
+#
+# @!attribute [rw] status
+#   @return [String, nil]
+#
+# @!attribute [rw] updatedAt
+#   @return [Object, nil]
 Card = Struct.new(
   :address,
+  :automaticUpdates,
+  :bin,
+  :brand,
   :card,
   :cardholder,
+  :country,
+  :createdAt,
+  :currency,
   :expiry,
   :extensions,
+  :funding,
   :id,
-  :month,
+  :issuer,
+  :lastFour,
   :number,
-  :year,
+  :replacement,
+  :segment,
+  :status,
+  :updatedAt,
   keyword_init: true
 )
 
@@ -165,11 +222,29 @@ CardLoadMatch = Struct.new(
 # @!attribute [rw] address
 #   @return [Hash]
 #
+# @!attribute [rw] automaticUpdates
+#   @return [String, nil]
+#
+# @!attribute [rw] bin
+#   @return [String]
+#
+# @!attribute [rw] brand
+#   @return [String, nil]
+#
 # @!attribute [rw] card
 #   @return [Hash]
 #
 # @!attribute [rw] cardholder
 #   @return [Hash, nil]
+#
+# @!attribute [rw] country
+#   @return [String, nil]
+#
+# @!attribute [rw] createdAt
+#   @return [Integer]
+#
+# @!attribute [rw] currency
+#   @return [String, nil]
 #
 # @!attribute [rw] expiry
 #   @return [Hash]
@@ -177,27 +252,53 @@ CardLoadMatch = Struct.new(
 # @!attribute [rw] extensions
 #   @return [Array, nil]
 #
+# @!attribute [rw] funding
+#   @return [String, nil]
+#
 # @!attribute [rw] id
 #   @return [String, nil]
 #
-# @!attribute [rw] month
+# @!attribute [rw] issuer
+#   @return [String, nil]
+#
+# @!attribute [rw] lastFour
 #   @return [String]
 #
 # @!attribute [rw] number
 #   @return [String]
 #
-# @!attribute [rw] year
-#   @return [String]
+# @!attribute [rw] replacement
+#   @return [Object, nil]
+#
+# @!attribute [rw] segment
+#   @return [String, nil]
+#
+# @!attribute [rw] status
+#   @return [String, nil]
+#
+# @!attribute [rw] updatedAt
+#   @return [Object, nil]
 CardCreateData = Struct.new(
   :address,
+  :automaticUpdates,
+  :bin,
+  :brand,
   :card,
   :cardholder,
+  :country,
+  :createdAt,
+  :currency,
   :expiry,
   :extensions,
+  :funding,
   :id,
-  :month,
+  :issuer,
+  :lastFour,
   :number,
-  :year,
+  :replacement,
+  :segment,
+  :status,
+  :updatedAt,
   keyword_init: true
 )
 
@@ -267,10 +368,13 @@ ClientSideTokenCreateData = Struct.new(
 
 # Core entity data model.
 #
-# @!attribute [rw] app
+# @!attribute [rw] category
 #   @return [String, nil]
 #
-# @!attribute [rw] authentication
+# @!attribute [rw] core_list
+#   @return [Object, nil]
+#
+# @!attribute [rw] cores
 #   @return [Object, nil]
 #
 # @!attribute [rw] createdAt
@@ -279,17 +383,17 @@ ClientSideTokenCreateData = Struct.new(
 # @!attribute [rw] customDomain
 #   @return [String, nil]
 #
-# @!attribute [rw] destinationDomain
-#   @return [String]
+# @!attribute [rw] encryptedAt
+#   @return [Integer, nil]
 #
-# @!attribute [rw] encryptEmptyStrings
-#   @return [Boolean, nil]
-#
-# @!attribute [rw] evervaultDomain
+# @!attribute [rw] fingerprint
 #   @return [String, nil]
 #
 # @!attribute [rw] id
 #   @return [String, nil]
+#
+# @!attribute [rw] metadata
+#   @return [Object, nil]
 #
 # @!attribute [rw] phoneNumber
 #   @return [String, nil]
@@ -297,14 +401,17 @@ ClientSideTokenCreateData = Struct.new(
 # @!attribute [rw] relay
 #   @return [String, nil]
 #
-# @!attribute [rw] routes
-#   @return [Array]
+# @!attribute [rw] role
+#   @return [String, nil]
 #
 # @!attribute [rw] status
 #   @return [String, nil]
 #
 # @!attribute [rw] token
 #   @return [String]
+#
+# @!attribute [rw] type
+#   @return [String, nil]
 #
 # @!attribute [rw] updatedAt
 #   @return [Integer, nil]
@@ -312,19 +419,21 @@ ClientSideTokenCreateData = Struct.new(
 # @!attribute [rw] validationRecord
 #   @return [String, nil]
 Core = Struct.new(
-  :app,
-  :authentication,
+  :category,
+  :core_list,
+  :cores,
   :createdAt,
   :customDomain,
-  :destinationDomain,
-  :encryptEmptyStrings,
-  :evervaultDomain,
+  :encryptedAt,
+  :fingerprint,
   :id,
+  :metadata,
   :phoneNumber,
   :relay,
-  :routes,
+  :role,
   :status,
   :token,
+  :type,
   :updatedAt,
   :validationRecord,
   keyword_init: true
@@ -332,75 +441,22 @@ Core = Struct.new(
 
 # Request payload for Core#list.
 #
-# @!attribute [rw] app
-#   @return [String, nil]
-#
-# @!attribute [rw] authentication
-#   @return [Object, nil]
-#
-# @!attribute [rw] createdAt
-#   @return [Integer, nil]
-#
-# @!attribute [rw] customDomain
-#   @return [String, nil]
-#
-# @!attribute [rw] destinationDomain
-#   @return [String, nil]
-#
-# @!attribute [rw] encryptEmptyStrings
-#   @return [Boolean, nil]
-#
-# @!attribute [rw] evervaultDomain
-#   @return [String, nil]
-#
-# @!attribute [rw] id
-#   @return [String, nil]
-#
-# @!attribute [rw] phoneNumber
-#   @return [String, nil]
-#
-# @!attribute [rw] relay
-#   @return [String, nil]
-#
-# @!attribute [rw] routes
-#   @return [Array, nil]
-#
-# @!attribute [rw] status
-#   @return [String, nil]
-#
-# @!attribute [rw] token
-#   @return [String, nil]
-#
-# @!attribute [rw] updatedAt
-#   @return [Integer, nil]
-#
-# @!attribute [rw] validationRecord
-#   @return [String, nil]
+# @!attribute [rw] relay_id
+#   @return [String]
 CoreListMatch = Struct.new(
-  :app,
-  :authentication,
-  :createdAt,
-  :customDomain,
-  :destinationDomain,
-  :encryptEmptyStrings,
-  :evervaultDomain,
-  :id,
-  :phoneNumber,
-  :relay,
-  :routes,
-  :status,
-  :token,
-  :updatedAt,
-  :validationRecord,
+  :relay_id,
   keyword_init: true
 )
 
 # Request payload for Core#create.
 #
-# @!attribute [rw] app
+# @!attribute [rw] category
 #   @return [String, nil]
 #
-# @!attribute [rw] authentication
+# @!attribute [rw] core_list
+#   @return [Object, nil]
+#
+# @!attribute [rw] cores
 #   @return [Object, nil]
 #
 # @!attribute [rw] createdAt
@@ -409,17 +465,17 @@ CoreListMatch = Struct.new(
 # @!attribute [rw] customDomain
 #   @return [String, nil]
 #
-# @!attribute [rw] destinationDomain
-#   @return [String]
+# @!attribute [rw] encryptedAt
+#   @return [Integer, nil]
 #
-# @!attribute [rw] encryptEmptyStrings
-#   @return [Boolean, nil]
-#
-# @!attribute [rw] evervaultDomain
+# @!attribute [rw] fingerprint
 #   @return [String, nil]
 #
 # @!attribute [rw] id
 #   @return [String, nil]
+#
+# @!attribute [rw] metadata
+#   @return [Object, nil]
 #
 # @!attribute [rw] phoneNumber
 #   @return [String, nil]
@@ -427,14 +483,17 @@ CoreListMatch = Struct.new(
 # @!attribute [rw] relay
 #   @return [String, nil]
 #
-# @!attribute [rw] routes
-#   @return [Array]
+# @!attribute [rw] role
+#   @return [String, nil]
 #
 # @!attribute [rw] status
 #   @return [String, nil]
 #
 # @!attribute [rw] token
 #   @return [String]
+#
+# @!attribute [rw] type
+#   @return [String, nil]
 #
 # @!attribute [rw] updatedAt
 #   @return [Integer, nil]
@@ -442,19 +501,21 @@ CoreListMatch = Struct.new(
 # @!attribute [rw] validationRecord
 #   @return [String, nil]
 CoreCreateData = Struct.new(
-  :app,
-  :authentication,
+  :category,
+  :core_list,
+  :cores,
   :createdAt,
   :customDomain,
-  :destinationDomain,
-  :encryptEmptyStrings,
-  :evervaultDomain,
+  :encryptedAt,
+  :fingerprint,
   :id,
+  :metadata,
   :phoneNumber,
   :relay,
-  :routes,
+  :role,
   :status,
   :token,
+  :type,
   :updatedAt,
   :validationRecord,
   keyword_init: true
@@ -677,6 +738,23 @@ Merchant = Struct.new(
 #   @return [String]
 MerchantLoadMatch = Struct.new(
   :id,
+  keyword_init: true
+)
+
+# Request payload for Merchant#list.
+#
+# @!attribute [rw] page
+#   @return [Integer, nil]
+#
+# @!attribute [rw] page_size
+#   @return [Integer, nil]
+#
+# @!attribute [rw] q
+#   @return [String, nil]
+MerchantListMatch = Struct.new(
+  :page,
+  :page_size,
+  :q,
   keyword_init: true
 )
 
@@ -996,6 +1074,88 @@ RelayLoadMatch = Struct.new(
   keyword_init: true
 )
 
+# Request payload for Relay#list.
+#
+# @!attribute [rw] app
+#   @return [String, nil]
+#
+# @!attribute [rw] authentication
+#   @return [Object, nil]
+#
+# @!attribute [rw] createdAt
+#   @return [Integer, nil]
+#
+# @!attribute [rw] destinationDomain
+#   @return [String, nil]
+#
+# @!attribute [rw] encryptEmptyStrings
+#   @return [Boolean, nil]
+#
+# @!attribute [rw] evervaultDomain
+#   @return [String, nil]
+#
+# @!attribute [rw] id
+#   @return [String, nil]
+#
+# @!attribute [rw] routes
+#   @return [Array, nil]
+#
+# @!attribute [rw] updatedAt
+#   @return [Integer, nil]
+RelayListMatch = Struct.new(
+  :app,
+  :authentication,
+  :createdAt,
+  :destinationDomain,
+  :encryptEmptyStrings,
+  :evervaultDomain,
+  :id,
+  :routes,
+  :updatedAt,
+  keyword_init: true
+)
+
+# Request payload for Relay#create.
+#
+# @!attribute [rw] app
+#   @return [String, nil]
+#
+# @!attribute [rw] authentication
+#   @return [Object, nil]
+#
+# @!attribute [rw] createdAt
+#   @return [Integer, nil]
+#
+# @!attribute [rw] destinationDomain
+#   @return [String, nil]
+#
+# @!attribute [rw] encryptEmptyStrings
+#   @return [Boolean, nil]
+#
+# @!attribute [rw] evervaultDomain
+#   @return [String, nil]
+#
+# @!attribute [rw] id
+#   @return [String, nil]
+#
+# @!attribute [rw] routes
+#   @return [Array, nil]
+#
+# @!attribute [rw] updatedAt
+#   @return [Integer, nil]
+RelayCreateData = Struct.new(
+  :app,
+  :authentication,
+  :createdAt,
+  :destinationDomain,
+  :encryptEmptyStrings,
+  :evervaultDomain,
+  :id,
+  :routes,
+  :updatedAt,
+  keyword_init: true
+)
+
 # Request payload for Relay#update.
 #
 # @!attribute [rw] id
@@ -1249,67 +1409,8 @@ ThreeDsSessionCreateData = Struct.new(
 )
 
 # Webhook entity data model.
-#
-# @!attribute [rw] createdAt
-#   @return [Integer, nil]
-#
-# @!attribute [rw] events
-#   @return [Array]
-#
-# @!attribute [rw] id
-#   @return [String, nil]
-#
-# @!attribute [rw] updatedAt
-#   @return [Object, nil]
-#
-# @!attribute [rw] url
-#   @return [String]
-Webhook = Struct.new(
-  :createdAt,
-  :events,
-  :id,
-  :updatedAt,
-  :url,
-  keyword_init: true
-)
-
-# Request payload for Webhook#list.
-#
-# @!attribute [rw] limit
-#   @return [Integer, nil]
-#
-# @!attribute [rw] starting_after
-#   @return [String, nil]
-WebhookListMatch = Struct.new(
-  :limit,
-  :starting_after,
-  keyword_init: true
-)
-
-# Request payload for Webhook#create.
-#
-# @!attribute [rw] createdAt
-#   @return [Integer, nil]
-#
-# @!attribute [rw] events
-#   @return [Array]
-#
-# @!attribute [rw] id
-#   @return [String, nil]
-#
-# @!attribute [rw] updatedAt
-#   @return [Object, nil]
-#
-# @!attribute [rw] url
-#   @return [String]
-WebhookCreateData = Struct.new(
-  :createdAt,
-  :events,
-  :id,
-  :updatedAt,
-  :url,
-  keyword_init: true
-)
+class Webhook
+end
 
 # Request payload for Webhook#remove.
 #
@@ -1351,6 +1452,44 @@ WebhookEndpoint = Struct.new(
 #   @return [String]
 WebhookEndpointLoadMatch = Struct.new(
   :id,
+  keyword_init: true
+)
+
+# Request payload for WebhookEndpoint#list.
+#
+# @!attribute [rw] limit
+#   @return [Integer, nil]
+#
+# @!attribute [rw] starting_after
+#   @return [String, nil]
+WebhookEndpointListMatch = Struct.new(
+  :limit,
+  :starting_after,
+  keyword_init: true
+)
+
+# Request payload for WebhookEndpoint#create.
+#
+# @!attribute [rw] createdAt
+#   @return [Integer, nil]
+#
+# @!attribute [rw] events
+#   @return [Array, nil]
+#
+# @!attribute [rw] id
+#   @return [String, nil]
+#
+# @!attribute [rw] updatedAt
+#   @return [Object, nil]
+#
+# @!attribute [rw] url
+#   @return [String, nil]
+WebhookEndpointCreateData = Struct.new(
+  :createdAt,
+  :events,
+  :id,
+  :updatedAt,
+  :url,
   keyword_init: true
 )
 

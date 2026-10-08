@@ -1,0 +1,25 @@
+{
+  point: "warning"
+  note: "Points POST /insights/cards and POST /payments/cards on entity=card op=create have the same selector (exist: none), so only POST /insights/cards is ever chosen. An action or another entity in guide.aontu tells them apart."
+  entity: "card"
+  op: "create"
+  points: [
+    "POST /insights/cards"
+    "POST /payments/cards"
+  ]
+
+}
+
+
+{
+  point: "warning"
+  note: "Points POST /decrypt, POST /encrypt and POST /inspect on entity=core op=create have the same selector (exist: none), so only POST /decrypt is ever chosen. An action or another entity in guide.aontu tells them apart."
+  entity: "core"
+  op: "create"
+  points: [
+    "POST /decrypt"
+    "POST /encrypt"
+    "POST /inspect"
+  ]
+
+}

@@ -53,7 +53,7 @@
         },
         "edition": {
           "github-pages": {
-            "active": true,
+            "active": false,
             "base": "node_modules/@voxgig/docgen/project/.sdk",
             "brand": {},
             "filter": {
@@ -148,10 +148,6 @@
               "h": "Default",
               "n": "default",
               "op": {
-                "create": {
-                  "req": false,
-                  "type": "`$BOOLEAN`"
-                },
                 "update": {
                   "req": false,
                   "type": "`$BOOLEAN`"
@@ -204,6 +200,12 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "configurations",
+                    "default",
+                    "description",
+                    "name"
+                  ],
                   "co": {
                     "id": "POST /payments/acquirers",
                     "source": "openapi3",
@@ -213,8 +215,14 @@
                   "k": "http",
                   "m": "POST",
                   "o": "/payments/acquirers",
-                  "q": {},
+                  "q": {
+                    "$action": "acquirer"
+                  },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "payments"
@@ -226,6 +234,65 @@
                   "t": {
                     "req": "`reqdata`",
                     "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /payments/acquirers",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "query": [
+                      {
+                        "a": true,
+                        "ex": 0,
+                        "k": "query",
+                        "n": "page",
+                        "or": "page",
+                        "r": false,
+                        "t": "`$INTEGER`"
+                      },
+                      {
+                        "a": true,
+                        "ex": 50,
+                        "k": "query",
+                        "n": "page_size",
+                        "or": "pageSize",
+                        "r": false,
+                        "t": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/payments/acquirers",
+                  "q": {
+                    "$action": "acquirer"
+                  },
+                  "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
+                  "s": [
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "acquirers"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body.data`"
                   }
                 }
               ]
@@ -266,6 +333,10 @@
                       "acquirer_id": "id"
                     }
                   },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "payments"
@@ -290,6 +361,12 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "configurations",
+                    "default",
+                    "description",
+                    "name"
+                  ],
                   "co": {
                     "id": "PATCH /payments/acquirers/{acquirer_id}",
                     "source": "openapi3",
@@ -319,6 +396,10 @@
                     "param": {
                       "acquirer_id": "id"
                     }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
                     {
@@ -366,6 +447,9 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "number"
+                  ],
                   "co": {
                     "id": "POST /payments/bin-lookups",
                     "source": "openapi3",
@@ -377,6 +461,10 @@
                   "o": "/payments/bin-lookups",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "payments"
@@ -411,6 +499,30 @@
               "sh": "Details about the cardholder's address that the address verification (AVS) is for.",
               "t": "`$OBJECT`"
             },
+            "automaticUpdates": {
+              "a": true,
+              "h": "Automatic Updates",
+              "n": "automaticUpdates",
+              "r": false,
+              "sh": "The status of Card Account Updater on this card.",
+              "t": "`$STRING`"
+            },
+            "bin": {
+              "a": true,
+              "h": "Bin",
+              "n": "bin",
+              "r": true,
+              "sh": "The first 6 or 8 digits of the card number.",
+              "t": "`$STRING`"
+            },
+            "brand": {
+              "a": true,
+              "h": "Brand",
+              "n": "brand",
+              "r": false,
+              "sh": "The card brand associated with the payment card.",
+              "t": "`$STRING`"
+            },
             "card": {
               "a": true,
               "h": "Card",
@@ -427,11 +539,38 @@
               "sh": "Details about the cardholder that the name verification (ANI) is for.",
               "t": "`$OBJECT`"
             },
+            "country": {
+              "a": true,
+              "fo": "iso-3166-1-alpha-2",
+              "h": "Country",
+              "n": "country",
+              "r": false,
+              "sh": "The country where the card was issued.",
+              "t": "`$STRING`"
+            },
+            "createdAt": {
+              "a": true,
+              "h": "Created At",
+              "n": "createdAt",
+              "r": true,
+              "sh": "The Unix timestamp of when the card was created.",
+              "t": "`$INTEGER`"
+            },
+            "currency": {
+              "a": true,
+              "fo": "iso-4217-alphabetic",
+              "h": "Currency",
+              "n": "currency",
+              "r": false,
+              "sh": "The currency of the card.",
+              "t": "`$STRING`"
+            },
             "expiry": {
               "a": true,
               "h": "Expiry",
               "n": "expiry",
               "r": true,
+              "sh": "The expiry date of the card.",
               "t": "`$OBJECT`"
             },
             "extensions": {
@@ -442,19 +581,36 @@
               "sh": "The extensions to the card insight request.",
               "t": "`$ARRAY`"
             },
+            "funding": {
+              "a": true,
+              "h": "Funding",
+              "n": "funding",
+              "r": false,
+              "sh": "The card funding type specifies the method by which transactions are financed.",
+              "t": "`$STRING`"
+            },
             "id": {
               "a": true,
               "h": "Id",
               "n": "id",
               "r": false,
+              "sh": "The unique identifier for the card.",
               "t": "`$STRING`"
             },
-            "month": {
+            "issuer": {
               "a": true,
-              "h": "Month",
-              "n": "month",
+              "h": "Issuer",
+              "n": "issuer",
+              "r": false,
+              "sh": "The name of the card issuer.",
+              "t": "`$STRING`"
+            },
+            "lastFour": {
+              "a": true,
+              "h": "Last Four",
+              "n": "lastFour",
               "r": true,
-              "sh": "The card expiry month, in MM format (e.g.",
+              "sh": "The last 4 digits of the card number.",
               "t": "`$STRING`"
             },
             "number": {
@@ -462,16 +618,52 @@
               "h": "Number",
               "n": "number",
               "r": true,
-              "sh": "The card number.",
+              "sh": "The Evervault encrypted card number.",
               "t": "`$STRING`"
             },
-            "year": {
+            "replacement": {
               "a": true,
-              "h": "Year",
-              "n": "year",
-              "r": true,
-              "sh": "The card expiry year, in YY format (e.g.",
+              "h": "Replacement",
+              "n": "replacement",
+              "r": false,
+              "sh": "The ID of the replacement card.",
+              "t": [
+                "`$ONE`",
+                [
+                  "`$STRING`",
+                  "`$NULL`"
+                ]
+              ]
+            },
+            "segment": {
+              "a": true,
+              "h": "Segment",
+              "n": "segment",
+              "r": false,
+              "sh": "The card segment indicates the primary market or usage category of the card.",
               "t": "`$STRING`"
+            },
+            "status": {
+              "a": true,
+              "h": "Status",
+              "n": "status",
+              "r": false,
+              "sh": "The current status of the card.",
+              "t": "`$STRING`"
+            },
+            "updatedAt": {
+              "a": true,
+              "h": "Updated At",
+              "n": "updatedAt",
+              "r": false,
+              "sh": "The Unix timestamp of when the card was last updated.",
+              "t": [
+                "`$ONE`",
+                [
+                  "`$INTEGER`",
+                  "`$NULL`"
+                ]
+              ]
             }
           },
           "id": {
@@ -486,6 +678,11 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "expiry",
+                    "number",
+                    "updateType"
+                  ],
                   "co": {
                     "id": "POST /payments/cards/{card_id}/simulate",
                     "source": "openapi3",
@@ -517,6 +714,10 @@
                       "card_id": "id"
                     }
                   },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "payments"
@@ -533,11 +734,17 @@
                   ],
                   "t": {
                     "req": "`reqdata`",
-                    "res": "`body.expiry`"
+                    "res": "`body`"
                   }
                 },
                 {
                   "a": true,
+                  "bf": [
+                    "address",
+                    "card",
+                    "cardholder",
+                    "extensions"
+                  ],
                   "co": {
                     "id": "POST /insights/cards",
                     "source": "openapi3",
@@ -549,6 +756,10 @@
                   "o": "/insights/cards",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "insights"
@@ -558,14 +769,16 @@
                     }
                   ],
                   "t": {
-                    "req": {
-                      "card": "`reqdata`"
-                    },
+                    "req": "`reqdata`",
                     "res": "`body`"
                   }
                 },
                 {
                   "a": true,
+                  "bf": [
+                    "expiry",
+                    "number"
+                  ],
                   "co": {
                     "id": "POST /payments/cards",
                     "source": "openapi3",
@@ -577,6 +790,10 @@
                   "o": "/payments/cards",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "payments"
@@ -587,7 +804,7 @@
                   ],
                   "t": {
                     "req": "`reqdata`",
-                    "res": "`body.expiry`"
+                    "res": "`body`"
                   }
                 }
               ]
@@ -628,6 +845,10 @@
                       "card_id": "id"
                     }
                   },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "payments"
@@ -641,7 +862,7 @@
                   ],
                   "t": {
                     "req": "`reqdata`",
-                    "res": "`body.expiry`"
+                    "res": "`body`"
                   }
                 }
               ]
@@ -724,6 +945,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "payments"
@@ -793,6 +1018,11 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "action",
+                    "expiry",
+                    "payload"
+                  ],
                   "co": {
                     "id": "POST /client-side-tokens",
                     "source": "openapi3",
@@ -804,6 +1034,10 @@
                   "o": "/client-side-tokens",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "client-side-tokens"
@@ -827,25 +1061,43 @@
             "field": {}
           },
           "fields": {
-            "app": {
+            "category": {
               "a": true,
-              "h": "App",
-              "n": "app",
+              "h": "Category",
+              "n": "category",
               "r": false,
-              "sh": "The unique identifier for the app to which the Relay belongs.",
+              "sh": "The category or specific nature of the encrypted value.",
               "t": "`$STRING`"
             },
-            "authentication": {
+            "core_list": {
               "a": true,
-              "h": "Authentication",
-              "n": "authentication",
+              "h": "Core List",
+              "n": "core_list",
               "r": false,
-              "sh": "The type of authentication required for the Relay",
+              "sh": "A JSON value or file to be encrypted.",
               "t": [
                 "`$ONE`",
                 [
+                  "`$OBJECT`",
+                  "`$ARRAY`",
                   "`$STRING`",
-                  "`$NULL`"
+                  "`$NUMBER`",
+                  "`$BOOLEAN`"
+                ]
+              ]
+            },
+            "cores": {
+              "a": true,
+              "h": "Cores",
+              "n": "cores",
+              "r": false,
+              "sh": "A JSON value or file to be decrypted.",
+              "t": [
+                "`$ONE`",
+                [
+                  "`$OBJECT`",
+                  "`$ARRAY`",
+                  "`$STRING`"
                 ]
               ]
             },
@@ -866,34 +1118,20 @@
               "sh": "The customer managed domain to which requests to be relayed to your domain should be sent.",
               "t": "`$STRING`"
             },
-            "destinationDomain": {
+            "encryptedAt": {
               "a": true,
-              "h": "Destination Domain",
-              "n": "destinationDomain",
-              "op": {
-                "list": {
-                  "req": false,
-                  "type": "`$STRING`"
-                }
-              },
-              "r": true,
-              "sh": "The domain in front of which you would like to configure a Relay",
-              "t": "`$STRING`"
-            },
-            "encryptEmptyStrings": {
-              "a": true,
-              "h": "Encrypt Empty Strings",
-              "n": "encryptEmptyStrings",
+              "h": "Encrypted At",
+              "n": "encryptedAt",
               "r": false,
-              "sh": "Whether or not empty strings should be encrypted.",
-              "t": "`$BOOLEAN`"
+              "sh": "The date and time when the value was encrypted.",
+              "t": "`$INTEGER`"
             },
-            "evervaultDomain": {
+            "fingerprint": {
               "a": true,
-              "h": "Evervault Domain",
-              "n": "evervaultDomain",
+              "h": "Fingerprint",
+              "n": "fingerprint",
               "r": false,
-              "sh": "The Evervault managed domain to which requests to be relayed to the destination domain should be sent.",
+              "sh": "A unique identifier for the encrypted value.",
               "t": "`$STRING`"
             },
             "id": {
@@ -903,6 +1141,14 @@
               "r": false,
               "sh": "The unique identifier for the custom domain.",
               "t": "`$STRING`"
+            },
+            "metadata": {
+              "a": true,
+              "h": "Metadata",
+              "n": "metadata",
+              "r": false,
+              "sh": "Further metadata about the encrypted value.",
+              "t": "`$ANY`"
             },
             "phoneNumber": {
               "a": true,
@@ -919,19 +1165,13 @@
               "sh": "The ID of the Relay with which this custom domain is associated.",
               "t": "`$STRING`"
             },
-            "routes": {
+            "role": {
               "a": true,
-              "h": "Routes",
-              "n": "routes",
-              "op": {
-                "list": {
-                  "req": false,
-                  "type": "`$ARRAY`"
-                }
-              },
-              "r": true,
-              "sh": "A collection of route configurations for the Relay.",
-              "t": "`$ARRAY`"
+              "h": "Role",
+              "n": "role",
+              "r": false,
+              "sh": "The data role of the encrypted value.",
+              "t": "`$STRING`"
             },
             "status": {
               "a": true,
@@ -947,6 +1187,14 @@
               "n": "token",
               "r": true,
               "sh": "The encrypted data to be inspected.",
+              "t": "`$STRING`"
+            },
+            "type": {
+              "a": true,
+              "h": "Type",
+              "n": "type",
+              "r": false,
+              "sh": "The type of the encrypted value.",
               "t": "`$STRING`"
             },
             "updatedAt": {
@@ -980,6 +1228,9 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "cores"
+                  ],
                   "co": {
                     "id": "POST /decrypt",
                     "source": "openapi3",
@@ -991,18 +1242,43 @@
                   "o": "/decrypt",
                   "q": {},
                   "r": {},
+                  "rb": {
+                    "alternatives": [
+                      {
+                        "binary": true,
+                        "kind": "raw",
+                        "media": "application/octet-stream"
+                      }
+                    ],
+                    "kind": "json",
+                    "media": "application/json"
+                  },
+                  "rs": {
+                    "alternatives": [
+                      {
+                        "binary": true,
+                        "kind": "raw",
+                        "media": "application/octet-stream"
+                      }
+                    ],
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "decrypt"
                     }
                   ],
                   "t": {
-                    "req": "`reqdata`",
+                    "req": "`reqdata.cores`",
                     "res": "`body`"
                   }
                 },
                 {
                   "a": true,
+                  "bf": [
+                    "core_list"
+                  ],
                   "co": {
                     "id": "POST /encrypt",
                     "source": "openapi3",
@@ -1014,18 +1290,43 @@
                   "o": "/encrypt",
                   "q": {},
                   "r": {},
+                  "rb": {
+                    "alternatives": [
+                      {
+                        "binary": true,
+                        "kind": "raw",
+                        "media": "application/octet-stream"
+                      }
+                    ],
+                    "kind": "json",
+                    "media": "application/json"
+                  },
+                  "rs": {
+                    "alternatives": [
+                      {
+                        "binary": true,
+                        "kind": "raw",
+                        "media": "application/octet-stream"
+                      }
+                    ],
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "encrypt"
                     }
                   ],
                   "t": {
-                    "req": "`reqdata`",
+                    "req": "`reqdata.core_list`",
                     "res": "`body`"
                   }
                 },
                 {
                   "a": true,
+                  "bf": [
+                    "token"
+                  ],
                   "co": {
                     "id": "POST /inspect",
                     "source": "openapi3",
@@ -1037,32 +1338,13 @@
                   "o": "/inspect",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "inspect"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body.metadata`"
-                  }
-                },
-                {
-                  "a": true,
-                  "co": {
-                    "id": "POST /relays",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {},
-                  "k": "http",
-                  "m": "POST",
-                  "o": "/relays",
-                  "q": {},
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "relays"
                     }
                   ],
                   "t": {
@@ -1104,6 +1386,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "relays"
@@ -1113,29 +1399,6 @@
                     },
                     {
                       "lit": "custom-domains"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body.data`"
-                  }
-                },
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /relays",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {},
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/relays",
-                  "q": {},
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "relays"
                     }
                   ],
                   "t": {
@@ -1341,6 +1604,9 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "customDomain"
+                  ],
                   "co": {
                     "id": "POST /relays/{relay_id}/custom-domains",
                     "source": "openapi3",
@@ -1367,6 +1633,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "relays"
@@ -1426,6 +1696,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "relays"
@@ -1538,6 +1812,10 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "async",
+                    "payload"
+                  ],
                   "co": {
                     "id": "POST /functions/{function_name}/runs",
                     "source": "openapi3",
@@ -1564,6 +1842,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "functions"
@@ -1605,12 +1887,6 @@
               "a": true,
               "h": "Business",
               "n": "business",
-              "op": {
-                "create": {
-                  "req": true,
-                  "type": "`$OBJECT`"
-                }
-              },
               "r": false,
               "sh": "The business details of the Merchant.",
               "t": "`$OBJECT`"
@@ -1619,12 +1895,6 @@
               "a": true,
               "h": "Category Code",
               "n": "categoryCode",
-              "op": {
-                "create": {
-                  "req": true,
-                  "type": "`$STRING`"
-                }
-              },
               "r": false,
               "sh": "The 4-digit Merchant Category Code (MCC).",
               "t": "`$STRING`"
@@ -1700,6 +1970,15 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "applePay",
+                    "business",
+                    "categoryCode",
+                    "name",
+                    "networkTokens",
+                    "shortName",
+                    "website"
+                  ],
                   "co": {
                     "id": "POST /payments/merchants",
                     "source": "openapi3",
@@ -1709,8 +1988,14 @@
                   "k": "http",
                   "m": "POST",
                   "o": "/payments/merchants",
-                  "q": {},
+                  "q": {
+                    "$action": "merchant"
+                  },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "payments"
@@ -1722,6 +2007,73 @@
                   "t": {
                     "req": "`reqdata`",
                     "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /payments/merchants",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "query": [
+                      {
+                        "a": true,
+                        "ex": 0,
+                        "k": "query",
+                        "n": "page",
+                        "or": "page",
+                        "r": false,
+                        "t": "`$INTEGER`"
+                      },
+                      {
+                        "a": true,
+                        "ex": 50,
+                        "k": "query",
+                        "n": "page_size",
+                        "or": "pageSize",
+                        "r": false,
+                        "t": "`$INTEGER`"
+                      },
+                      {
+                        "a": true,
+                        "k": "query",
+                        "n": "q",
+                        "or": "q",
+                        "r": false,
+                        "t": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/payments/merchants",
+                  "q": {
+                    "$action": "merchant"
+                  },
+                  "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
+                  "s": [
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "merchants"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body.data`"
                   }
                 }
               ]
@@ -1762,6 +2114,10 @@
                       "merchant_id": "id"
                     }
                   },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "payments"
@@ -1786,6 +2142,10 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "applePay",
+                    "shortName"
+                  ],
                   "co": {
                     "id": "PATCH /payments/merchants/{merchant_id}",
                     "source": "openapi3",
@@ -1815,6 +2175,10 @@
                     "param": {
                       "merchant_id": "id"
                     }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
                     {
@@ -1948,6 +2312,9 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "updateType"
+                  ],
                   "co": {
                     "id": "POST /payments/network-tokens/{network_token_id}/simulate",
                     "source": "openapi3",
@@ -1979,6 +2346,10 @@
                       "network_token_id": "id"
                     }
                   },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "payments"
@@ -2000,6 +2371,10 @@
                 },
                 {
                   "a": true,
+                  "bf": [
+                    "card",
+                    "merchant"
+                  ],
                   "co": {
                     "id": "POST /payments/network-tokens",
                     "source": "openapi3",
@@ -2011,6 +2386,10 @@
                   "o": "/payments/network-tokens",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "payments"
@@ -2061,6 +2440,10 @@
                     "param": {
                       "network_token_id": "id"
                     }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
                     {
@@ -2155,6 +2538,10 @@
                       "network_token_id": "id"
                     }
                   },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "payments"
@@ -2221,121 +2608,6 @@
                 {
                   "a": true,
                   "co": {
-                    "id": "GET /payments/merchants",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "query": [
-                      {
-                        "a": true,
-                        "ex": 0,
-                        "k": "query",
-                        "n": "page",
-                        "or": "page",
-                        "r": false,
-                        "t": "`$INTEGER`"
-                      },
-                      {
-                        "a": true,
-                        "ex": 50,
-                        "k": "query",
-                        "n": "page_size",
-                        "or": "page_size",
-                        "r": false,
-                        "t": "`$INTEGER`"
-                      },
-                      {
-                        "a": true,
-                        "k": "query",
-                        "n": "q",
-                        "or": "q",
-                        "r": false,
-                        "t": "`$STRING`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/payments/merchants",
-                  "q": {
-                    "$action": "merchant",
-                    "exist": [
-                      "page",
-                      "page_size",
-                      "q"
-                    ]
-                  },
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "payments"
-                    },
-                    {
-                      "lit": "merchants"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body.data`"
-                  }
-                },
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /payments/acquirers",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "query": [
-                      {
-                        "a": true,
-                        "ex": 0,
-                        "k": "query",
-                        "n": "page",
-                        "or": "page",
-                        "r": false,
-                        "t": "`$INTEGER`"
-                      },
-                      {
-                        "a": true,
-                        "ex": 50,
-                        "k": "query",
-                        "n": "page_size",
-                        "or": "page_size",
-                        "r": false,
-                        "t": "`$INTEGER`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/payments/acquirers",
-                  "q": {
-                    "$action": "acquirer",
-                    "exist": [
-                      "page",
-                      "page_size"
-                    ]
-                  },
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "payments"
-                    },
-                    {
-                      "lit": "acquirers"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body.data`"
-                  }
-                },
-                {
-                  "a": true,
-                  "co": {
                     "id": "GET /payments/3ds-sessions/{3ds_session_id}/messages",
                     "source": "openapi3",
                     "version": 2
@@ -2361,6 +2633,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "payments"
@@ -2458,6 +2734,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "payments"
@@ -2546,6 +2826,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "payments"
@@ -2623,6 +2907,12 @@
               "a": true,
               "h": "Destination Domain",
               "n": "destinationDomain",
+              "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$STRING`"
+                }
+              },
               "r": false,
               "sh": "The domain in front of which the Relay should be configured.",
               "t": "`$STRING`"
@@ -2655,6 +2945,12 @@
               "a": true,
               "h": "Routes",
               "n": "routes",
+              "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$ARRAY`"
+                }
+              },
               "r": false,
               "sh": "A collection of route configurations for the Relay.",
               "t": "`$ARRAY`"
@@ -2675,6 +2971,78 @@
           },
           "name": "relay",
           "op": {
+            "create": {
+              "input": "data",
+              "name": "create",
+              "points": [
+                {
+                  "a": true,
+                  "bf": [
+                    "authentication",
+                    "destinationDomain",
+                    "encryptEmptyStrings",
+                    "routes"
+                  ],
+                  "co": {
+                    "id": "POST /relays",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {},
+                  "k": "http",
+                  "m": "POST",
+                  "o": "/relays",
+                  "q": {},
+                  "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
+                  "s": [
+                    {
+                      "lit": "relays"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /relays",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {},
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/relays",
+                  "q": {},
+                  "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
+                  "s": [
+                    {
+                      "lit": "relays"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body.data`"
+                  }
+                }
+              ]
+            },
             "load": {
               "input": "data",
               "name": "load",
@@ -2707,6 +3075,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "relays"
@@ -2728,6 +3100,11 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "authentication",
+                    "encryptEmptyStrings",
+                    "routes"
+                  ],
                   "co": {
                     "id": "PATCH /relays/{id}",
                     "source": "openapi3",
@@ -2754,6 +3131,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "relays"
@@ -3015,6 +3396,16 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "acquirer",
+                    "card",
+                    "challenge",
+                    "customer",
+                    "initiator",
+                    "merchant",
+                    "payment",
+                    "preferredVersions"
+                  ],
                   "co": {
                     "id": "POST /payments/3ds-sessions",
                     "source": "openapi3",
@@ -3026,6 +3417,10 @@
                   "o": "/payments/3ds-sessions",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "payments"
@@ -3073,6 +3468,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "payments"
@@ -3101,158 +3500,9 @@
           "alias": {
             "field": {}
           },
-          "fields": {
-            "createdAt": {
-              "a": true,
-              "fo": "int64",
-              "h": "Created At",
-              "n": "createdAt",
-              "r": false,
-              "sh": "The exact time, in epoch milliseconds, when this Webhook Endpoint was created.",
-              "t": "`$INTEGER`"
-            },
-            "events": {
-              "a": true,
-              "h": "Events",
-              "n": "events",
-              "op": {
-                "list": {
-                  "req": false,
-                  "type": "`$ARRAY`"
-                }
-              },
-              "r": true,
-              "sh": "A list of Events that the Webhook Endpoint should subscribe to.",
-              "t": "`$ARRAY`"
-            },
-            "id": {
-              "a": true,
-              "h": "Id",
-              "n": "id",
-              "r": false,
-              "sh": "A unique identifier representing a specific Webhook Endpoint.",
-              "t": "`$STRING`"
-            },
-            "updatedAt": {
-              "a": true,
-              "fo": "int64",
-              "h": "Updated At",
-              "n": "updatedAt",
-              "r": false,
-              "sh": "The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated.",
-              "t": [
-                "`$ONE`",
-                [
-                  "`$INTEGER`",
-                  "`$NULL`"
-                ]
-              ]
-            },
-            "url": {
-              "a": true,
-              "h": "Url",
-              "n": "url",
-              "op": {
-                "list": {
-                  "req": false,
-                  "type": "`$STRING`"
-                }
-              },
-              "r": true,
-              "sh": "The URL of the Webhook Endpoint.",
-              "t": "`$STRING`"
-            }
-          },
-          "id": {
-            "field": "id",
-            "name": "id"
-          },
+          "fields": {},
           "name": "webhook",
           "op": {
-            "create": {
-              "input": "data",
-              "name": "create",
-              "points": [
-                {
-                  "a": true,
-                  "co": {
-                    "id": "POST /webhook-endpoints",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {},
-                  "k": "http",
-                  "m": "POST",
-                  "o": "/webhook-endpoints",
-                  "q": {},
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "webhook-endpoints"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                }
-              ]
-            },
-            "list": {
-              "input": "data",
-              "name": "list",
-              "points": [
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /webhook-endpoints",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "query": [
-                      {
-                        "a": true,
-                        "ex": 10,
-                        "k": "query",
-                        "n": "limit",
-                        "or": "limit",
-                        "r": false,
-                        "t": "`$INTEGER`"
-                      },
-                      {
-                        "a": true,
-                        "ex": "webhook_endpoint_wd7c640d1daee",
-                        "k": "query",
-                        "n": "starting_after",
-                        "or": "starting_after",
-                        "r": false,
-                        "t": "`$STRING`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/webhook-endpoints",
-                  "q": {
-                    "exist": [
-                      "limit",
-                      "starting_after"
-                    ]
-                  },
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "webhook-endpoints"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body.data`"
-                  }
-                }
-              ]
-            },
             "remove": {
               "input": "data",
               "name": "remove",
@@ -3330,6 +3580,10 @@
               "h": "Events",
               "n": "events",
               "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$ARRAY`"
+                },
                 "update": {
                   "req": true,
                   "type": "`$ARRAY`"
@@ -3366,6 +3620,12 @@
               "a": true,
               "h": "Url",
               "n": "url",
+              "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$STRING`"
+                }
+              },
               "r": false,
               "sh": "The URL of the Webhook Endpoint.",
               "t": "`$STRING`"
@@ -3377,6 +3637,97 @@
           },
           "name": "webhook_endpoint",
           "op": {
+            "create": {
+              "input": "data",
+              "name": "create",
+              "points": [
+                {
+                  "a": true,
+                  "bf": [
+                    "events",
+                    "url"
+                  ],
+                  "co": {
+                    "id": "POST /webhook-endpoints",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {},
+                  "k": "http",
+                  "m": "POST",
+                  "o": "/webhook-endpoints",
+                  "q": {},
+                  "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
+                  "s": [
+                    {
+                      "lit": "webhook-endpoints"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /webhook-endpoints",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "query": [
+                      {
+                        "a": true,
+                        "ex": 10,
+                        "k": "query",
+                        "n": "limit",
+                        "or": "limit",
+                        "r": false,
+                        "t": "`$INTEGER`"
+                      },
+                      {
+                        "a": true,
+                        "ex": "webhook_endpoint_wd7c640d1daee",
+                        "k": "query",
+                        "n": "starting_after",
+                        "or": "startingAfter",
+                        "r": false,
+                        "t": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/webhook-endpoints",
+                  "q": {},
+                  "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
+                  "s": [
+                    {
+                      "lit": "webhook-endpoints"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body.data`"
+                  }
+                }
+              ]
+            },
             "load": {
               "input": "data",
               "name": "load",
@@ -3414,6 +3765,10 @@
                       "webhook_endpoint_id": "id"
                     }
                   },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "webhook-endpoints"
@@ -3435,6 +3790,9 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "events"
+                  ],
                   "co": {
                     "id": "PATCH /webhook-endpoints/{webhook_endpoint_id}",
                     "source": "openapi3",
@@ -3465,6 +3823,10 @@
                     "param": {
                       "webhook_endpoint_id": "id"
                     }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
                     {
@@ -4239,6 +4601,7 @@
             },
             "optspec": {
               "clearTimer": "`$FUNCTION`",
+              "now": "`$FUNCTION`",
               "setTimer": "`$FUNCTION`"
             },
             "strict": false
@@ -4346,6 +4709,22 @@
               "o": "create",
               "s": [],
               "v": []
+            },
+            {
+              "a": true,
+              "d": {},
+              "i": {},
+              "m": {},
+              "o": "list",
+              "s": [],
+              "v": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "acquirer_ref01"
+                  }
+                }
+              ]
             },
             {
               "a": true,
@@ -4534,7 +4913,9 @@
               "a": true,
               "d": {},
               "i": {},
-              "m": {},
+              "m": {
+                "relay_id": "relay01"
+              },
               "o": "list",
               "s": [],
               "v": [
@@ -4566,7 +4947,9 @@
               "i": {
                 "suffix": "_rt0"
               },
-              "m": {},
+              "m": {
+                "relay_id": "relay01"
+              },
               "o": "list",
               "s": [],
               "v": [
@@ -4667,6 +5050,22 @@
               "o": "create",
               "s": [],
               "v": []
+            },
+            {
+              "a": true,
+              "d": {},
+              "i": {},
+              "m": {},
+              "o": "list",
+              "s": [],
+              "v": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "merchant_ref01"
+                  }
+                }
+              ]
             },
             {
               "a": true,
@@ -4819,6 +5218,33 @@
               "a": true,
               "d": {},
               "i": {
+                "ref": "relay_ref01"
+              },
+              "m": {},
+              "o": "create",
+              "s": [],
+              "v": []
+            },
+            {
+              "a": true,
+              "d": {},
+              "i": {},
+              "m": {},
+              "o": "list",
+              "s": [],
+              "v": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "relay_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "a": true,
+              "d": {},
+              "i": {
                 "ref": "relay_ref01",
                 "srcdatavar": "relay_ref01_data",
                 "suffix": "_up0",
@@ -4915,6 +5341,33 @@
               "a": true,
               "d": {},
               "i": {
+                "ref": "webhook_endpoint_ref01"
+              },
+              "m": {},
+              "o": "create",
+              "s": [],
+              "v": []
+            },
+            {
+              "a": true,
+              "d": {},
+              "i": {},
+              "m": {},
+              "o": "list",
+              "s": [],
+              "v": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "webhook_endpoint_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "a": true,
+              "d": {},
+              "i": {
                 "ref": "webhook_endpoint_ref01",
                 "srcdatavar": "webhook_endpoint_ref01_data",
                 "suffix": "_up0",
@@ -4963,67 +5416,7 @@
           "kind": "basic",
           "name": "BasicWebhookFlow",
           "param": {},
-          "step": [
-            {
-              "a": true,
-              "d": {},
-              "i": {
-                "ref": "webhook_ref01"
-              },
-              "m": {},
-              "o": "create",
-              "s": [],
-              "v": []
-            },
-            {
-              "a": true,
-              "d": {},
-              "i": {},
-              "m": {},
-              "o": "list",
-              "s": [],
-              "v": [
-                {
-                  "apply": "ItemExists",
-                  "def": {
-                    "ref": "webhook_ref01"
-                  }
-                }
-              ]
-            },
-            {
-              "a": true,
-              "d": {},
-              "i": {
-                "ref": "webhook_ref01",
-                "suffix": "_rm0"
-              },
-              "m": {
-                "id": "webhook01"
-              },
-              "o": "remove",
-              "s": [],
-              "v": []
-            },
-            {
-              "a": true,
-              "d": {},
-              "i": {
-                "suffix": "_rt0"
-              },
-              "m": {},
-              "o": "list",
-              "s": [],
-              "v": [
-                {
-                  "apply": "ItemNotExists",
-                  "def": {
-                    "ref": "webhook_ref01"
-                  }
-                }
-              ]
-            }
-          ]
+          "step": []
         }
       },
       "info": {
@@ -5034,6 +5427,26 @@
         },
         "description": "The Evervault API allows developers to interact programmatically with their Evervault apps using HTTP requests.",
         "security": {
+          "alternatives": [
+            [
+              {
+                "in": "header",
+                "name": "Authorization",
+                "prefix": "Bearer",
+                "scheme": "ClientSideToken",
+                "type": "http"
+              }
+            ],
+            [
+              {
+                "in": "header",
+                "name": "Authorization",
+                "prefix": "Bearer",
+                "scheme": "TokenAuth",
+                "type": "http"
+              }
+            ]
+          ],
           "in": "header",
           "name": "Authorization",
           "prefix": "Basic",
@@ -5055,7 +5468,7 @@
       "optspec": {
         "allow": {
           "method": "GET,PUT,POST,PATCH,DELETE,OPTIONS",
-          "op": "create,update,load,list,remove,command,direct,graphql"
+          "op": "create,update,patch,load,list,remove,command,direct,graphql"
         },
         "apikey": "",
         "auth": {
@@ -5066,7 +5479,12 @@
         },
         "base": "http://localhost:8000",
         "clean": {
-          "keys": "key,token,id"
+          "active": true,
+          "hint": "0",
+          "keys": "key,secret,token,password,passwd,authorization,cookie,credential,signature",
+          "mask": "[redacted]",
+          "min": "4",
+          "values": ""
         },
         "entity": {
           "`$CHILD`": {
@@ -5103,6 +5521,11 @@
         "top": {
           "active": true
         }
+      },
+      "publisher": {
+        "name": "",
+        "security": "",
+        "url": ""
       },
       "repo": {
         "host": "github.com",
@@ -5333,7 +5756,10 @@
             "version": "0.1.1"
           },
           "superseded": [],
-          "title": "Go MCP server"
+          "title": "Go MCP server",
+          "tool": {
+            "write": false
+          }
         },
         "lua": {
           "active": true,
@@ -5710,6 +6136,17 @@
           "base": "",
           "strict": true
         }
+      },
+      "text": {
+        "about_md": "",
+        "docs_url": "",
+        "entity_desc": {},
+        "homepage": "",
+        "meta_source": "",
+        "summary": "",
+        "tagline": "",
+        "title": "",
+        "website": ""
       }
     }
   },

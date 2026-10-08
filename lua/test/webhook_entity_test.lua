@@ -8,6 +8,13 @@ local runner = require("test.runner")
 
 local _test_dir = debug.getinfo(1, "S").source:match("^@(.+/)")  or "./"
 
+-- main.kit.test.live.strict is true (the default is true): a live
+-- request that fails, or a live test missing an input it needs,
+-- fails the test.
+-- An account with no record for a test to read skips it either way.
+local LIVE_STRICT = true
+
+
 describe("WebhookEntity", function()
   it("should create instance", function()
     local testsdk = sdk.test(nil, nil)
@@ -15,107 +22,37 @@ describe("WebhookEntity", function()
     assert.is_not_nil(ent)
   end)
 
-  -- Feature #4: the entity stream(action, ...) method runs the op pipeline and
-  -- returns an iterator over result items. With the streaming feature active it
-  -- yields the feature's incremental output; otherwise it falls back to the
-  -- materialised list so stream always yields.
-  it("should stream", function()
-    local seed = {
-      entity = {
-        ["webhook"] = {
-          s1 = { id = "s1" },
-          s2 = { id = "s2" },
-          s3 = { id = "s3" },
-        },
-      },
-    }
-
-    -- Fallback: streaming inactive -> yields the materialised list items.
-    local base = sdk.test(seed, nil)
-    local seen = {}
-    for item in base:Webhook(nil):stream("list", nil, nil) do
-      table.insert(seen, item)
-    end
-    assert.are.equal(3, #seen)
-
-    -- Inbound: streaming active -> yields each item from the feature.
+  it("should refuse an invalid request", function()
     local config = require("config_shared")()
-    if type(config.feature) == "table" and config.feature.streaming ~= nil then
-      local streamsdk = sdk.test(seed, { feature = { streaming = { active = true } } })
-      local got = {}
-      for item in streamsdk:Webhook(nil):stream("list", nil, nil) do
-        if vs.islist(item) then
-          for _, sub in ipairs(item) do
-            table.insert(got, sub)
-          end
-        else
-          table.insert(got, item)
-        end
-      end
-      assert.are.equal(3, #got)
+    if type(config.feature) ~= "table" or config.feature.validate == nil then
+      pending("feature not present in this SDK: validate")
+      return
     end
+    local client = sdk.test(nil, { feature = { validate = { active = true } } })
+    local _, err = client:Webhook(nil):remove({ ["webhook_endpoint_id"] = 1 }, nil)
+    assert.are.equal("validate_failed", type(err) == "table" and err.code or nil)
   end)
 
   it("should run basic flow", function()
     local setup = webhook_basic_setup(nil)
     -- Per-op sdk-test-control.json skip.
     local _live = setup.live or false
-    for _, _op in ipairs({"create", "list", "remove"}) do
+    for _, _op in ipairs({}) do
       local _should_skip, _reason = runner.is_control_skipped("entityOp", "webhook." .. _op, _live and "live" or "unit")
       if _should_skip then
         pending(_reason or "skipped via sdk-test-control.json")
         return
       end
     end
-    -- The basic flow consumes synthetic IDs from the fixture. In live mode
-    -- without an *_ENTID env override, those IDs hit the live API and 4xx.
-    if setup.synthetic_only then
-      pending("live entity test uses synthetic IDs from fixture — set EVERVAULT_TEST_WEBHOOK_ENTID JSON to run live")
-      return
-    end
     local client = setup.client
 
-    -- CREATE
-    local webhook_ref01_ent = client:Webhook(nil)
-    local webhook_ref01_data = helpers.to_map(vs.getprop(
-      vs.getpath(setup.data, "new.webhook"), "webhook_ref01"))
-
-    local webhook_ref01_data_result, err = webhook_ref01_ent:create(webhook_ref01_data, nil)
-    assert.is_nil(err)
-    webhook_ref01_data = helpers.to_map(type(webhook_ref01_data_result) == 'table' and webhook_ref01_data_result.data_get and webhook_ref01_data_result:data_get() or webhook_ref01_data_result)
-    assert.is_not_nil(webhook_ref01_data)
-    assert.is_not_nil(webhook_ref01_data["id"])
-
-    -- LIST
-    local webhook_ref01_match = {}
-
-    local webhook_ref01_list_result, err = webhook_ref01_ent:list(webhook_ref01_match, nil)
-    assert.is_nil(err)
-    assert.is_table(webhook_ref01_list_result)
-
-    local found_item = vs.select(
-      runner.entity_list_to_data(webhook_ref01_list_result),
-      { id = webhook_ref01_data["id"] })
-    assert.is_false(vs.isempty(found_item))
-
-    -- REMOVE
-    local webhook_ref01_match_rm0 = {
-      id = webhook_ref01_data["id"],
-    }
-    local _, err = webhook_ref01_ent:remove(webhook_ref01_match_rm0, nil)
-    assert.is_nil(err)
-
-    -- LIST
-    local webhook_ref01_match_rt0 = {}
-
-    local webhook_ref01_list_rt0_result, err = webhook_ref01_ent:list(webhook_ref01_match_rt0, nil)
-    assert.is_nil(err)
-    assert.is_table(webhook_ref01_list_rt0_result)
-
-    local not_found_item = vs.select(
-      runner.entity_list_to_data(webhook_ref01_list_rt0_result),
-      { id = webhook_ref01_data["id"] })
-    assert.is_true(vs.isempty(not_found_item))
+    -- Bootstrap entity data from existing test data.
+    local webhook_ref01_data_raw = vs.items(helpers.to_map(
+      vs.getpath(setup.data, "existing.webhook")))
+    local webhook_ref01_data = nil
+    if #webhook_ref01_data_raw > 0 then
+      webhook_ref01_data = helpers.to_map(webhook_ref01_data_raw[1][2])
+    end
 
   end)
 end)
@@ -149,9 +86,8 @@ function webhook_basic_setup(extra)
     }
   )
 
-  -- Detect ENTID env override before envOverride consumes it. When live
-  -- mode is on without a real override, the basic test runs against synthetic
-  -- IDs from the fixture and 4xx's. Surface this so the test can skip.
+  -- Whether *_ENTID supplied the idmap, read before env_override consumes
+  -- it: without it, the ids a live flow binds are the fixture's synthetic ones.
   local entid_env_raw = os.getenv("EVERVAULT_TEST_WEBHOOK_ENTID")
   local idmap_overridden = entid_env_raw ~= nil and entid_env_raw:match("^%s*{") ~= nil
 

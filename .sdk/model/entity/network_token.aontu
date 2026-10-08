@@ -97,6 +97,9 @@ main: kit: entity: network_token: {
       name: "create"
       points: [
         {
+          bf: [
+            "updateType"
+          ]
           co: {
             id: "POST /payments/network-tokens/{network_token_id}/simulate"
             source: "openapi3"
@@ -126,6 +129,10 @@ main: kit: entity: network_token: {
               network_token_id: "id"
             }
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "payments"
@@ -146,6 +153,10 @@ main: kit: entity: network_token: {
           }
         }
         {
+          bf: [
+            "card"
+            "merchant"
+          ]
           co: {
             id: "POST /payments/network-tokens"
             source: "openapi3"
@@ -153,6 +164,10 @@ main: kit: entity: network_token: {
           }
           m: "POST"
           o: "/payments/network-tokens"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "payments"
@@ -199,6 +214,10 @@ main: kit: entity: network_token: {
             param: {
               network_token_id: "id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

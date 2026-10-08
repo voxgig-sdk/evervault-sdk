@@ -12,6 +12,27 @@ main: kit: entity: card: {
       sh: "Details about the cardholder's address that the address verification (AVS) is for."
       t: "`$OBJECT`"
     }
+    automaticUpdates: {
+      h: "Automatic Updates"
+      n: "automaticUpdates"
+      r: false
+      sh: "The status of Card Account Updater on this card."
+      t: "`$STRING`"
+    }
+    bin: {
+      h: "Bin"
+      n: "bin"
+      r: true
+      sh: "The first 6 or 8 digits of the card number."
+      t: "`$STRING`"
+    }
+    brand: {
+      h: "Brand"
+      n: "brand"
+      r: false
+      sh: "The card brand associated with the payment card."
+      t: "`$STRING`"
+    }
     card: {
       h: "Card"
       n: "card"
@@ -26,10 +47,34 @@ main: kit: entity: card: {
       sh: "Details about the cardholder that the name verification (ANI) is for."
       t: "`$OBJECT`"
     }
+    country: {
+      fo: "iso-3166-1-alpha-2"
+      h: "Country"
+      n: "country"
+      r: false
+      sh: "The country where the card was issued."
+      t: "`$STRING`"
+    }
+    createdAt: {
+      h: "Created At"
+      n: "createdAt"
+      r: true
+      sh: "The Unix timestamp of when the card was created."
+      t: "`$INTEGER`"
+    }
+    currency: {
+      fo: "iso-4217-alphabetic"
+      h: "Currency"
+      n: "currency"
+      r: false
+      sh: "The currency of the card."
+      t: "`$STRING`"
+    }
     expiry: {
       h: "Expiry"
       n: "expiry"
       r: true
+      sh: "The expiry date of the card."
       t: "`$OBJECT`"
     }
     extensions: {
@@ -39,32 +84,80 @@ main: kit: entity: card: {
       sh: "The extensions to the card insight request."
       t: "`$ARRAY`"
     }
+    funding: {
+      h: "Funding"
+      n: "funding"
+      r: false
+      sh: "The card funding type specifies the method by which transactions are financed."
+      t: "`$STRING`"
+    }
     id: {
       h: "Id"
       n: "id"
       r: false
+      sh: "The unique identifier for the card."
       t: "`$STRING`"
     }
-    month: {
-      h: "Month"
-      n: "month"
+    issuer: {
+      h: "Issuer"
+      n: "issuer"
+      r: false
+      sh: "The name of the card issuer."
+      t: "`$STRING`"
+    }
+    lastFour: {
+      h: "Last Four"
+      n: "lastFour"
       r: true
-      sh: "The card expiry month, in MM format (e.g."
+      sh: "The last 4 digits of the card number."
       t: "`$STRING`"
     }
     number: {
       h: "Number"
       n: "number"
       r: true
-      sh: "The card number."
+      sh: "The Evervault encrypted card number."
       t: "`$STRING`"
     }
-    year: {
-      h: "Year"
-      n: "year"
-      r: true
-      sh: "The card expiry year, in YY format (e.g."
+    replacement: {
+      h: "Replacement"
+      n: "replacement"
+      r: false
+      sh: "The ID of the replacement card."
+      t: [
+        "`$ONE`"
+        [
+          "`$STRING`"
+          "`$NULL`"
+        ]
+      ]
+    }
+    segment: {
+      h: "Segment"
+      n: "segment"
+      r: false
+      sh: "The card segment indicates the primary market or usage category of the card."
       t: "`$STRING`"
+    }
+    status: {
+      h: "Status"
+      n: "status"
+      r: false
+      sh: "The current status of the card."
+      t: "`$STRING`"
+    }
+    updatedAt: {
+      h: "Updated At"
+      n: "updatedAt"
+      r: false
+      sh: "The Unix timestamp of when the card was last updated."
+      t: [
+        "`$ONE`"
+        [
+          "`$INTEGER`"
+          "`$NULL`"
+        ]
+      ]
     }
   }
 
@@ -79,6 +172,11 @@ main: kit: entity: card: {
       name: "create"
       points: [
         {
+          bf: [
+            "expiry"
+            "number"
+            "updateType"
+          ]
           co: {
             id: "POST /payments/cards/{card_id}/simulate"
             source: "openapi3"
@@ -108,6 +206,10 @@ main: kit: entity: card: {
               card_id: "id"
             }
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "payments"
@@ -124,10 +226,16 @@ main: kit: entity: card: {
           ]
           t: {
             req: "`reqdata`"
-            res: "`body.expiry`"
+            res: "`body`"
           }
         }
         {
+          bf: [
+            "address"
+            "card"
+            "cardholder"
+            "extensions"
+          ]
           co: {
             id: "POST /insights/cards"
             source: "openapi3"
@@ -135,6 +243,10 @@ main: kit: entity: card: {
           }
           m: "POST"
           o: "/insights/cards"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "insights"
@@ -144,13 +256,15 @@ main: kit: entity: card: {
             }
           ]
           t: {
-            req: {
-              card: "`reqdata`"
-            }
+            req: "`reqdata`"
             res: "`body`"
           }
         }
         {
+          bf: [
+            "expiry"
+            "number"
+          ]
           co: {
             id: "POST /payments/cards"
             source: "openapi3"
@@ -158,6 +272,10 @@ main: kit: entity: card: {
           }
           m: "POST"
           o: "/payments/cards"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "payments"
@@ -168,7 +286,7 @@ main: kit: entity: card: {
           ]
           t: {
             req: "`reqdata`"
-            res: "`body.expiry`"
+            res: "`body`"
           }
         }
       ]
@@ -205,6 +323,10 @@ main: kit: entity: card: {
               card_id: "id"
             }
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "payments"
@@ -218,7 +340,7 @@ main: kit: entity: card: {
           ]
           t: {
             req: "`reqdata`"
-            res: "`body.expiry`"
+            res: "`body`"
           }
         }
       ]

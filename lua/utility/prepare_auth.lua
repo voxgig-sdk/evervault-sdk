@@ -7,6 +7,17 @@ local OPTION_APIKEY = "apikey"
 local OPTION_SECRET = "secret"
 local NOT_FOUND = "__NOTFOUND__"
 
+
+-- The client's auth.name option, when set, replaces the name the API declares.
+local function auth_name(options)
+  local name = vs.getpath(options, "auth.name")
+  if type(name) == "string" and name ~= "" then
+    -- ASCII rules, as a field name is ASCII: lower-casing in the string library follows the C locale.
+    return (string.gsub(name, "[A-Z]", function(c) return string.char(c:byte() + 32) end))
+  end
+  return HEADER_AUTH
+end
+
 local B64_ALPHABET =
   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 
@@ -62,19 +73,30 @@ local function prepare_auth_util(ctx)
     return spec, nil
   end
 
+  local name = auth_name(options)
+
+  -- A credential left under the declared name would travel beside the renamed one.
+  if name ~= HEADER_AUTH then
+    headers[HEADER_AUTH] = nil
+  end
+
   local apikey = vs.getprop(options, OPTION_APIKEY, NOT_FOUND)
 
-  -- True HTTP Basic Auth needs TWO credentials, base64-joined - a single
+  -- True HTTP Basic Auth joins the two credentials, base64-encoded - a single
   -- token in the header (the branch below) can never authenticate against
   -- an API that actually checks "Authorization: Basic base64(user:pass)".
+  -- The password may be empty (RFC 7617): Lob, for one, documents the key as
+  -- the user with a blank password ("curl -u key:").
   if vs.getpath(options, "auth.basic") == true then
     local secret = vs.getprop(options, OPTION_SECRET, NOT_FOUND)
+    if secret == nil or secret == NOT_FOUND then
+      secret = ""
+    end
 
-    if apikey == nil or secret == nil
+    if apikey == nil
       or (type(apikey) == "string" and (apikey == NOT_FOUND or apikey == ""))
-      or (type(secret) == "string" and (secret == NOT_FOUND or secret == ""))
     then
-      headers[HEADER_AUTH] = nil
+      headers[name] = nil
     else
       local auth_prefix = ""
       local ap = vs.getpath(options, "auth.prefix")
@@ -82,10 +104,13 @@ local function prepare_auth_util(ctx)
         auth_prefix = ap
       end
       local joined = base64(tostring(apikey) .. ":" .. tostring(secret))
+      -- The joined, encoded pair is a wire form neither credential's own
+      -- registration covers.
+      ctx.utility.clean_add(ctx, joined)
       if auth_prefix == "" then
-        headers[HEADER_AUTH] = joined
+        headers[name] = joined
       else
-        headers[HEADER_AUTH] = auth_prefix .. " " .. joined
+        headers[name] = auth_prefix .. " " .. joined
       end
     end
 
@@ -95,7 +120,7 @@ local function prepare_auth_util(ctx)
   if apikey == nil
     or (type(apikey) == "string" and (apikey == NOT_FOUND or apikey == ""))
   then
-    headers[HEADER_AUTH] = nil
+    headers[name] = nil
   else
     local auth_prefix = ""
     local ap = vs.getpath(options, "auth.prefix")
@@ -108,9 +133,9 @@ local function prepare_auth_util(ctx)
     end
     -- Empty prefix (raw apiKey credential) must not add a leading space.
     if auth_prefix == "" then
-      headers[HEADER_AUTH] = apikey_val
+      headers[name] = apikey_val
     else
-      headers[HEADER_AUTH] = auth_prefix .. " " .. apikey_val
+      headers[name] = auth_prefix .. " " .. apikey_val
     end
   end
 

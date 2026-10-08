@@ -15,9 +15,13 @@ predictable and low-friction for both humans and AI agents.
 
 ## Install
 This package is not yet published to npm. Install it from the GitHub
-release tag (`ts/vX.Y.Z`):
+release tag (`ts/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/evervault-sdk/tags)), or from a
+clone, which carries the compiled `dist/`:
 
-- Releases: [https://github.com/voxgig-sdk/evervault-sdk/releases](https://github.com/voxgig-sdk/evervault-sdk/releases)
+```bash
+git clone https://github.com/voxgig-sdk/evervault-sdk
+npm install ./evervault-sdk/ts
+```
 
 
 ## Tutorial: your first API call
@@ -36,17 +40,31 @@ const client = new EvervaultSDK({
 })
 ```
 
+### 2. List acquirer records
+
+`list()` resolves to an array of Acquirer ENTITIES — every operation
+resolves to entities, not raw records. Iterate them directly, and call
+`.data()` on one for the record it holds:
+
+```ts
+const acquirers = await client.Acquirer().list()
+
+for (const acquirer of acquirers) {
+  console.log(acquirer.data())
+}
+```
+
 ### 3. Load a cardart
 
 CardArt is nested under network_token, so provide the `network_token_id`.
-`load()` returns the entity directly and throws on failure:
+`load()` returns the entity and throws on failure; `.data()` reads its record:
 
 ```ts
 try {
   const cardart = await client.CardArt().load({
     network_token_id: 'example_network_token_id',
   })
-  console.log(cardart)
+  console.log(cardart.data())
 } catch (err) {
   console.error('load failed:', err)
 }
@@ -79,15 +97,16 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const merchant = await client.Merchant().load({ id: "example_id" })
-  console.log(merchant)
+  const merchants = await client.Merchant().list()
+  console.log(merchants.map((item) => item.data()))
 } catch (err) {
-  console.error('load failed:', err)
+  console.error('list failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -96,8 +115,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -115,9 +134,6 @@ const result = await client.direct({
   params: { id: 'example' },
 })
 
-if (result instanceof Error) {
-  throw result
-}
 if (result.ok) {
   console.log(result.status)  // 200
   console.log(result.data)    // response body
@@ -146,10 +162,9 @@ Create a mock client for unit testing — no server required:
 ```ts
 const client = EvervaultSDK.test()
 
-const merchant = await client.Merchant().load({ id: 'test01' })
-// merchant is the entity, populated with mock response data
-// — call merchant.data() for the record itself
-console.log(merchant)
+const merchants = await client.Merchant().list()
+// merchants is an array of Merchant entities, one per mock record
+console.log(merchants.map((merchant) => merchant.data()))
 ```
 
 You can also use the instance method:
@@ -167,7 +182,7 @@ Entity instances remember their last match and data:
 const entity = client.Merchant()
 
 // First call runs the operation and stores its result
-await entity.load({ id: 'example' })
+await entity.list()
 
 // Subsequent calls reuse the stored state
 const data = entity.data()
@@ -287,11 +302,11 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `load(reqmatch?, ctrl?): Promise<Entity>` | Load a single entity by match criteria. |
-| `list` | `list(reqmatch?, ctrl?): Promise<Entity[]>` | List entities matching the criteria. |
-| `create` | `create(reqdata?, ctrl?): Promise<Entity>` | Create a new entity. |
-| `update` | `update(reqdata?, ctrl?): Promise<Entity>` | Update an existing entity. |
-| `remove` | `remove(reqmatch?, ctrl?): Promise<void>` | Remove an entity. |
+| `load` | `load(reqmatch?, ctrl?): Promise<Entity>` | Load a single entity by match criteria, and return it. |
+| `list` | `list(reqmatch?, ctrl?): Promise<Entity[]>` | List entities matching the criteria, one per record. |
+| `create` | `create(reqdata?, ctrl?): Promise<Entity>` | Create a new entity, and return it. |
+| `update` | `update(reqdata?, ctrl?): Promise<Entity>` | Update an existing entity, and return it. |
+| `remove` | `remove(reqmatch?, ctrl?): Promise<Entity>` | Remove an entity, and return it marked as deleted. |
 | `data` | `data(data?: Partial<Entity>): Entity` | Get or set entity data. |
 | `match` | `match(match?: Partial<Entity>): Partial<Entity>` | Get or set entity match criteria. |
 | `make` | `make(): Entity` | Create a new instance with the same options. |
@@ -300,13 +315,13 @@ All entities share the same interface.
 
 #### Return values
 
-Entity operations resolve to the entity data directly — there is no
-result envelope:
+Entity operations resolve to the entity itself — there is no result
+envelope, and an entity's `data()` reads its record:
 
 - `load`, `create` and `update` resolve to a single entity object.
 - `list` resolves to an **array** of entity objects (iterate it directly;
   there is no `.data` and no `.ok`).
-- `remove` resolves to `void`.
+- `remove` resolves to the entity, marked as deleted.
 
 On a failed request these methods **throw**, so wrap calls in
 `try`/`catch` to handle errors. Only `direct()` returns the result
@@ -352,7 +367,7 @@ The `prepare()` method returns:
 | `id` | The unique identifier of the acquirer configuration. |
 | `name` | The name of the acquirer configuration. |
 
-Operations: create, load, update.
+Operations: create, list, load, update.
 
 API path: `/payments/acquirers`
 
@@ -371,14 +386,25 @@ API path: `/payments/bin-lookups`
 | Field | Description |
 | --- | --- |
 | `address` | Details about the cardholder's address that the address verification (AVS) is for. |
+| `automaticUpdates` | The status of Card Account Updater on this card. |
+| `bin` | The first 6 or 8 digits of the card number. |
+| `brand` | The card brand associated with the payment card. |
 | `card` | The card details. |
 | `cardholder` | Details about the cardholder that the name verification (ANI) is for. |
-| `expiry` |  |
+| `country` | The country where the card was issued. |
+| `createdAt` | The Unix timestamp of when the card was created. |
+| `currency` | The currency of the card. |
+| `expiry` | The expiry date of the card. |
 | `extensions` | The extensions to the card insight request. |
-| `id` |  |
-| `month` | The card expiry month, in MM format (e.g. |
-| `number` | The card number. |
-| `year` | The card expiry year, in YY format (e.g. |
+| `funding` | The card funding type specifies the method by which transactions are financed. |
+| `id` | The unique identifier for the card. |
+| `issuer` | The name of the card issuer. |
+| `lastFour` | The last 4 digits of the card number. |
+| `number` | The Evervault encrypted card number. |
+| `replacement` | The ID of the replacement card. |
+| `segment` | The card segment indicates the primary market or usage category of the card. |
+| `status` | The current status of the card. |
+| `updatedAt` | The Unix timestamp of when the card was last updated. |
 
 Operations: create, load.
 
@@ -413,19 +439,21 @@ API path: `/client-side-tokens`
 
 | Field | Description |
 | --- | --- |
-| `app` | The unique identifier for the app to which the Relay belongs. |
-| `authentication` | The type of authentication required for the Relay |
+| `category` | The category or specific nature of the encrypted value. |
+| `core_list` | A JSON value or file to be encrypted. |
+| `cores` | A JSON value or file to be decrypted. |
 | `createdAt` | The exact time, in epoch milliseconds, when this custom domain was created. |
 | `customDomain` | The customer managed domain to which requests to be relayed to your domain should be sent. |
-| `destinationDomain` | The domain in front of which you would like to configure a Relay |
-| `encryptEmptyStrings` | Whether or not empty strings should be encrypted. |
-| `evervaultDomain` | The Evervault managed domain to which requests to be relayed to the destination domain should be sent. |
+| `encryptedAt` | The date and time when the value was encrypted. |
+| `fingerprint` | A unique identifier for the encrypted value. |
 | `id` | The unique identifier for the custom domain. |
+| `metadata` | Further metadata about the encrypted value. |
 | `phoneNumber` |  |
 | `relay` | The ID of the Relay with which this custom domain is associated. |
-| `routes` | A collection of route configurations for the Relay. |
+| `role` | The data role of the encrypted value. |
 | `status` | The status of the domains DNS verification. |
 | `token` | The encrypted data to be inspected. |
+| `type` | The type of the encrypted value. |
 | `updatedAt` | The exact time, in epoch milliseconds, when this custom domain was last updated. |
 | `validationRecord` | Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain |
 
@@ -480,7 +508,7 @@ API path: `/functions/{function_name}/runs`
 | `updatedAt` | The exact time, in epoch milliseconds, when this Merchant was last updated. |
 | `website` | The official website URL of the Merchant. |
 
-Operations: create, load, update.
+Operations: create, list, load, update.
 
 API path: `/payments/merchants`
 
@@ -526,7 +554,7 @@ API path: `/payments/network-tokens/{network_token_id}/cryptograms`
 
 Operations: list, remove.
 
-API path: `/payments/merchants`
+API path: `/payments/3ds-sessions/{3ds_session_id}/messages`
 
 #### Relay
 
@@ -542,9 +570,9 @@ API path: `/payments/merchants`
 | `routes` | A collection of route configurations for the Relay. |
 | `updatedAt` | The exact time, in epoch milliseconds, when this Relay was updated. |
 
-Operations: load, update.
+Operations: create, list, load, update.
 
-API path: `/relays/{id}`
+API path: `/relays`
 
 #### ThreeDsSession
 
@@ -583,15 +611,10 @@ API path: `/payments/3ds-sessions`
 
 | Field | Description |
 | --- | --- |
-| `createdAt` | The exact time, in epoch milliseconds, when this Webhook Endpoint was created. |
-| `events` | A list of Events that the Webhook Endpoint should subscribe to. |
-| `id` | A unique identifier representing a specific Webhook Endpoint. |
-| `updatedAt` | The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated. |
-| `url` | The URL of the Webhook Endpoint. |
 
-Operations: create, list, remove.
+Operations: remove.
 
-API path: `/webhook-endpoints`
+API path: `/webhook-endpoints/{webhook_endpoint_id}`
 
 #### WebhookEndpoint
 
@@ -603,9 +626,9 @@ API path: `/webhook-endpoints`
 | `updatedAt` | The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated. |
 | `url` | The URL of the Webhook Endpoint. |
 
-Operations: load, update.
+Operations: create, list, load, update.
 
-API path: `/webhook-endpoints/{webhook_endpoint_id}`
+API path: `/webhook-endpoints`
 
 
 
@@ -621,6 +644,7 @@ Create an instance: `const acquirer = client.Acquirer()`
 | Method | Description |
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
+| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 | `update(data)` | Update an existing entity. |
 
@@ -638,6 +662,12 @@ Create an instance: `const acquirer = client.Acquirer()`
 
 ```ts
 const acquirer = await client.Acquirer().load({ id: 'acquirer_id' })
+```
+
+#### Example: List
+
+```ts
+const acquirers = await client.Acquirer().list()
 ```
 
 #### Example: Create
@@ -693,14 +723,25 @@ Create an instance: `const card = client.Card()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `address` | `Record<string, any>` | Details about the cardholder's address that the address verification (AVS) is for. |
+| `automaticUpdates` | `string` | The status of Card Account Updater on this card. |
+| `bin` | `string` | The first 6 or 8 digits of the card number. |
+| `brand` | `string` | The card brand associated with the payment card. |
 | `card` | `Record<string, any>` | The card details. |
 | `cardholder` | `Record<string, any>` | Details about the cardholder that the name verification (ANI) is for. |
-| `expiry` | `Record<string, any>` |  |
+| `country` | `string` | The country where the card was issued. |
+| `createdAt` | `number` | The Unix timestamp of when the card was created. |
+| `currency` | `string` | The currency of the card. |
+| `expiry` | `Record<string, any>` | The expiry date of the card. |
 | `extensions` | `any[]` | The extensions to the card insight request. |
-| `id` | `string` |  |
-| `month` | `string` | The card expiry month, in MM format (e.g. |
-| `number` | `string` | The card number. |
-| `year` | `string` | The card expiry year, in YY format (e.g. |
+| `funding` | `string` | The card funding type specifies the method by which transactions are financed. |
+| `id` | `string` | The unique identifier for the card. |
+| `issuer` | `string` | The name of the card issuer. |
+| `lastFour` | `string` | The last 4 digits of the card number. |
+| `number` | `string` | The Evervault encrypted card number. |
+| `replacement` | `string | null` | The ID of the replacement card. |
+| `segment` | `string` | The card segment indicates the primary market or usage category of the card. |
+| `status` | `string` | The current status of the card. |
+| `updatedAt` | `number | null` | The Unix timestamp of when the card was last updated. |
 
 #### Example: Load
 
@@ -713,11 +754,12 @@ const card = await client.Card().load({ id: 'card_id' })
 ```ts
 const card = await client.Card().create({
   address: {},
+  bin: 'example_bin',
   card: {},
+  createdAt: 1,
   expiry: {},
-  month: 'example_month',
+  lastFour: 'example_lastFour',
   number: 'example_number',
-  year: 'example_year',
 })
 ```
 
@@ -791,34 +833,34 @@ Create an instance: `const core = client.Core()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `app` | `string` | The unique identifier for the app to which the Relay belongs. |
-| `authentication` | `string | null` | The type of authentication required for the Relay |
+| `category` | `string` | The category or specific nature of the encrypted value. |
+| `core_list` | `Record<string, any> | any[] | string | number | boolean` | A JSON value or file to be encrypted. |
+| `cores` | `Record<string, any> | any[] | string` | A JSON value or file to be decrypted. |
 | `createdAt` | `number` | The exact time, in epoch milliseconds, when this custom domain was created. |
 | `customDomain` | `string` | The customer managed domain to which requests to be relayed to your domain should be sent. |
-| `destinationDomain` | `string` | The domain in front of which you would like to configure a Relay |
-| `encryptEmptyStrings` | `boolean` | Whether or not empty strings should be encrypted. |
-| `evervaultDomain` | `string` | The Evervault managed domain to which requests to be relayed to the destination domain should be sent. |
+| `encryptedAt` | `number` | The date and time when the value was encrypted. |
+| `fingerprint` | `string` | A unique identifier for the encrypted value. |
 | `id` | `string` | The unique identifier for the custom domain. |
+| `metadata` | `any` | Further metadata about the encrypted value. |
 | `phoneNumber` | `string` |  |
 | `relay` | `string` | The ID of the Relay with which this custom domain is associated. |
-| `routes` | `any[]` | A collection of route configurations for the Relay. |
+| `role` | `string` | The data role of the encrypted value. |
 | `status` | `string` | The status of the domains DNS verification. |
 | `token` | `string` | The encrypted data to be inspected. |
+| `type` | `string` | The type of the encrypted value. |
 | `updatedAt` | `number` | The exact time, in epoch milliseconds, when this custom domain was last updated. |
 | `validationRecord` | `string` | Validation TXT record to be added on the `_ev-custom-relay` subdomain of your custom domain |
 
 #### Example: List
 
 ```ts
-const cores = await client.Core().list()
+const cores = await client.Core().list({ relay_id: "example" })
 ```
 
 #### Example: Create
 
 ```ts
 const core = await client.Core().create({
-  destinationDomain: 'example_destinationDomain',
-  routes: [],
   token: 'example_token',
 })
 ```
@@ -903,6 +945,7 @@ Create an instance: `const merchant = client.Merchant()`
 | Method | Description |
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
+| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 | `update(data)` | Update an existing entity. |
 
@@ -925,6 +968,12 @@ Create an instance: `const merchant = client.Merchant()`
 
 ```ts
 const merchant = await client.Merchant().load({ id: 'merchant_id' })
+```
+
+#### Example: List
+
+```ts
+const merchants = await client.Merchant().list()
 ```
 
 #### Example: Create
@@ -1050,6 +1099,8 @@ Create an instance: `const relay = client.Relay()`
 
 | Method | Description |
 | --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 | `update(data)` | Update an existing entity. |
 
@@ -1071,6 +1122,19 @@ Create an instance: `const relay = client.Relay()`
 
 ```ts
 const relay = await client.Relay().load({ id: 'relay_id' })
+```
+
+#### Example: List
+
+```ts
+const relays = await client.Relay().list()
+```
+
+#### Example: Create
+
+```ts
+const relay = await client.Relay().create({
+})
 ```
 
 
@@ -1146,34 +1210,7 @@ Create an instance: `const webhook = client.Webhook()`
 
 | Method | Description |
 | --- | --- |
-| `create(data)` | Create a new entity with the given data. |
-| `list(match)` | List entities matching the criteria. |
 | `remove(match)` | Remove the matching entity. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `createdAt` | `number` | The exact time, in epoch milliseconds, when this Webhook Endpoint was created. |
-| `events` | `any[]` | A list of Events that the Webhook Endpoint should subscribe to. |
-| `id` | `string` | A unique identifier representing a specific Webhook Endpoint. |
-| `updatedAt` | `number | null` | The exact time, in epoch milliseconds, when this Webhook Endpoint was last updated. |
-| `url` | `string` | The URL of the Webhook Endpoint. |
-
-#### Example: List
-
-```ts
-const webhooks = await client.Webhook().list()
-```
-
-#### Example: Create
-
-```ts
-const webhook = await client.Webhook().create({
-  events: [],
-  url: 'example_url',
-})
-```
 
 
 ### WebhookEndpoint
@@ -1184,6 +1221,8 @@ Create an instance: `const webhook_endpoint = client.WebhookEndpoint()`
 
 | Method | Description |
 | --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 | `update(data)` | Update an existing entity. |
 
@@ -1201,6 +1240,19 @@ Create an instance: `const webhook_endpoint = client.WebhookEndpoint()`
 
 ```ts
 const webhook_endpoint = await client.WebhookEndpoint().load({ id: 'webhook_endpoint_id' })
+```
+
+#### Example: List
+
+```ts
+const webhook_endpoints = await client.WebhookEndpoint().list()
+```
+
+#### Example: Create
+
+```ts
+const webhook_endpoint = await client.WebhookEndpoint().create({
+})
 ```
 
 ## Features
@@ -1429,16 +1481,16 @@ import { EvervaultSDK } from '@voxgig-sdk/evervault-sdk'
 
 ### Entity state
 
-Entity instances are stateful. After a successful `load`, the entity
+Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
 const merchant = client.Merchant()
-await merchant.load({ id: "example_id" })
+await merchant.list()
 
-// merchant.data() now returns the merchant data from the last `load`
-// merchant.match() returns { id: "example_id" }
+// merchant.data() now returns the merchant data from the last `list`
+// merchant.match() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

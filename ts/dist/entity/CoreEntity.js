@@ -78,9 +78,15 @@ class CoreEntity extends EvervaultEntityBase_1.EvervaultEntityBase {
             return done(ctx);
         }
         catch (err) {
-            fres = featureHook(ctx, 'PreUnexpected');
-            if (fres instanceof Promise) {
-                await fres;
+            // What a hook throws here must not escape the cleaning below.
+            try {
+                fres = featureHook(ctx, 'PreUnexpected');
+                if (fres instanceof Promise) {
+                    await fres;
+                }
+            }
+            catch (hookerr) {
+                err = hookerr;
             }
             err = this._unexpected(ctx, err);
             if (err) {
@@ -88,7 +94,7 @@ class CoreEntity extends EvervaultEntityBase_1.EvervaultEntityBase {
             }
             else {
                 // Off-happy-path (throw disabled): typed as any so the method's
-                // Promise<Core[]> return stays clean under strict null checks.
+                // Promise<CoreEntity[]> return stays clean under strict null checks.
                 return undefined;
             }
         }
@@ -160,9 +166,15 @@ class CoreEntity extends EvervaultEntityBase_1.EvervaultEntityBase {
             return (ctx.result && ctx.result.ok) ? this : out;
         }
         catch (err) {
-            fres = featureHook(ctx, 'PreUnexpected');
-            if (fres instanceof Promise) {
-                await fres;
+            // What a hook throws here must not escape the cleaning below.
+            try {
+                fres = featureHook(ctx, 'PreUnexpected');
+                if (fres instanceof Promise) {
+                    await fres;
+                }
+            }
+            catch (hookerr) {
+                err = hookerr;
             }
             err = this._unexpected(ctx, err);
             if (err) {
@@ -170,7 +182,7 @@ class CoreEntity extends EvervaultEntityBase_1.EvervaultEntityBase {
             }
             else {
                 // Off-happy-path (throw disabled): typed as any so the method's
-                // Promise<Core> return stays clean under strict null checks.
+                // Promise<CoreEntity> return stays clean under strict null checks.
                 return undefined;
             }
         }
@@ -249,9 +261,15 @@ class CoreEntity extends EvervaultEntityBase_1.EvervaultEntityBase {
             return out;
         }
         catch (err) {
-            fres = featureHook(ctx, 'PreUnexpected');
-            if (fres instanceof Promise) {
-                await fres;
+            // What a hook throws here must not escape the cleaning below.
+            try {
+                fres = featureHook(ctx, 'PreUnexpected');
+                if (fres instanceof Promise) {
+                    await fres;
+                }
+            }
+            catch (hookerr) {
+                err = hookerr;
             }
             err = this._unexpected(ctx, err);
             if (err) {

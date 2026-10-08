@@ -5,23 +5,40 @@ main: kit: entity: core: {
   alias: field: {}
 
   fields: {
-    app: {
-      h: "App"
-      n: "app"
+    category: {
+      h: "Category"
+      n: "category"
       r: false
-      sh: "The unique identifier for the app to which the Relay belongs."
+      sh: "The category or specific nature of the encrypted value."
       t: "`$STRING`"
     }
-    authentication: {
-      h: "Authentication"
-      n: "authentication"
+    core_list: {
+      h: "Core List"
+      n: "core_list"
       r: false
-      sh: "The type of authentication required for the Relay"
+      sh: "A JSON value or file to be encrypted."
       t: [
         "`$ONE`"
         [
+          "`$OBJECT`"
+          "`$ARRAY`"
           "`$STRING`"
-          "`$NULL`"
+          "`$NUMBER`"
+          "`$BOOLEAN`"
+        ]
+      ]
+    }
+    cores: {
+      h: "Cores"
+      n: "cores"
+      r: false
+      sh: "A JSON value or file to be decrypted."
+      t: [
+        "`$ONE`"
+        [
+          "`$OBJECT`"
+          "`$ARRAY`"
+          "`$STRING`"
         ]
       ]
     }
@@ -40,31 +57,18 @@ main: kit: entity: core: {
       sh: "The customer managed domain to which requests to be relayed to your domain should be sent."
       t: "`$STRING`"
     }
-    destinationDomain: {
-      h: "Destination Domain"
-      n: "destinationDomain"
-      op: {
-        list: {
-          req: false
-          type: "`$STRING`"
-        }
-      }
-      r: true
-      sh: "The domain in front of which you would like to configure a Relay"
-      t: "`$STRING`"
-    }
-    encryptEmptyStrings: {
-      h: "Encrypt Empty Strings"
-      n: "encryptEmptyStrings"
+    encryptedAt: {
+      h: "Encrypted At"
+      n: "encryptedAt"
       r: false
-      sh: "Whether or not empty strings should be encrypted."
-      t: "`$BOOLEAN`"
+      sh: "The date and time when the value was encrypted."
+      t: "`$INTEGER`"
     }
-    evervaultDomain: {
-      h: "Evervault Domain"
-      n: "evervaultDomain"
+    fingerprint: {
+      h: "Fingerprint"
+      n: "fingerprint"
       r: false
-      sh: "The Evervault managed domain to which requests to be relayed to the destination domain should be sent."
+      sh: "A unique identifier for the encrypted value."
       t: "`$STRING`"
     }
     id: {
@@ -73,6 +77,13 @@ main: kit: entity: core: {
       r: false
       sh: "The unique identifier for the custom domain."
       t: "`$STRING`"
+    }
+    metadata: {
+      h: "Metadata"
+      n: "metadata"
+      r: false
+      sh: "Further metadata about the encrypted value."
+      t: "`$ANY`"
     }
     phoneNumber: {
       h: "Phone Number"
@@ -87,18 +98,12 @@ main: kit: entity: core: {
       sh: "The ID of the Relay with which this custom domain is associated."
       t: "`$STRING`"
     }
-    routes: {
-      h: "Routes"
-      n: "routes"
-      op: {
-        list: {
-          req: false
-          type: "`$ARRAY`"
-        }
-      }
-      r: true
-      sh: "A collection of route configurations for the Relay."
-      t: "`$ARRAY`"
+    role: {
+      h: "Role"
+      n: "role"
+      r: false
+      sh: "The data role of the encrypted value."
+      t: "`$STRING`"
     }
     status: {
       h: "Status"
@@ -112,6 +117,13 @@ main: kit: entity: core: {
       n: "token"
       r: true
       sh: "The encrypted data to be inspected."
+      t: "`$STRING`"
+    }
+    type: {
+      h: "Type"
+      n: "type"
+      r: false
+      sh: "The type of the encrypted value."
       t: "`$STRING`"
     }
     updatedAt: {
@@ -143,6 +155,9 @@ main: kit: entity: core: {
       name: "create"
       points: [
         {
+          bf: [
+            "cores"
+          ]
           co: {
             id: "POST /decrypt"
             source: "openapi3"
@@ -150,17 +165,42 @@ main: kit: entity: core: {
           }
           m: "POST"
           o: "/decrypt"
+          rb: {
+            alternatives: [
+              {
+                binary: true
+                kind: "raw"
+                media: "application/octet-stream"
+              }
+            ]
+            kind: "json"
+            media: "application/json"
+          }
+          rs: {
+            alternatives: [
+              {
+                binary: true
+                kind: "raw"
+                media: "application/octet-stream"
+              }
+            ]
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "decrypt"
             }
           ]
           t: {
-            req: "`reqdata`"
+            req: "`reqdata.cores`"
             res: "`body`"
           }
         }
         {
+          bf: [
+            "core_list"
+          ]
           co: {
             id: "POST /encrypt"
             source: "openapi3"
@@ -168,17 +208,42 @@ main: kit: entity: core: {
           }
           m: "POST"
           o: "/encrypt"
+          rb: {
+            alternatives: [
+              {
+                binary: true
+                kind: "raw"
+                media: "application/octet-stream"
+              }
+            ]
+            kind: "json"
+            media: "application/json"
+          }
+          rs: {
+            alternatives: [
+              {
+                binary: true
+                kind: "raw"
+                media: "application/octet-stream"
+              }
+            ]
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "encrypt"
             }
           ]
           t: {
-            req: "`reqdata`"
+            req: "`reqdata.core_list`"
             res: "`body`"
           }
         }
         {
+          bf: [
+            "token"
+          ]
           co: {
             id: "POST /inspect"
             source: "openapi3"
@@ -186,27 +251,13 @@ main: kit: entity: core: {
           }
           m: "POST"
           o: "/inspect"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "inspect"
-            }
-          ]
-          t: {
-            req: "`reqdata`"
-            res: "`body.metadata`"
-          }
-        }
-        {
-          co: {
-            id: "POST /relays"
-            source: "openapi3"
-            version: 2
-          }
-          m: "POST"
-          o: "/relays"
-          s: [
-            {
-              lit: "relays"
             }
           ]
           t: {
@@ -243,6 +294,10 @@ main: kit: entity: core: {
               "relay_id"
             ]
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "relays"
@@ -252,24 +307,6 @@ main: kit: entity: core: {
             }
             {
               lit: "custom-domains"
-            }
-          ]
-          t: {
-            req: "`reqdata`"
-            res: "`body.data`"
-          }
-        }
-        {
-          co: {
-            id: "GET /relays"
-            source: "openapi3"
-            version: 2
-          }
-          m: "GET"
-          o: "/relays"
-          s: [
-            {
-              lit: "relays"
             }
           ]
           t: {
